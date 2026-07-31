@@ -307,8 +307,8 @@ def cobblestone(name="cobble", size=1024, seed=0, wetness=0.0):
     # noise at the stone frequency gives per-region variance with no rings.
     per_stone = normalize01(fbm(s, 26, seed + 48, octaves=2))
     per_stone = np.floor(per_stone * 7.0) / 7.0
-    m.darken(per_stone * 0.9, 0.34)
-    m.lighten(smoothstep(0.62, 1.0, per_stone), 0.20)
+    m.darken(per_stone * 0.9, 0.20)
+    m.lighten(smoothstep(0.42, 1.0, per_stone), 0.34)
     m.tint(P.FOUNDATION, smoothstep(0.30, 0.75, per_stone) * 0.50)
     m.tint("#6B6358", smoothstep(0.28, 0.0, per_stone) * 0.45)
 
@@ -317,7 +317,7 @@ def cobblestone(name="cobble", size=1024, seed=0, wetness=0.0):
     gy = np.linspace(-1, 1, size)[:, None].repeat(size, 1)
     path = 1.0 - smoothstep(0.0, 0.55, np.abs(gx * 0.7 + gy * 0.7))
     path *= (0.7 + 0.3 * normalize01(fbm(s, 4, seed + 44)))
-    m.darken(path, 0.16)
+    m.darken(path, 0.10)
 
     m.rough(0.72, 0.12, 0.07, seed + 45)
     m.roughness = np.clip(m.roughness - path * 0.30, 0.03, 1.0)   # polished by boots
@@ -331,7 +331,13 @@ def cobblestone(name="cobble", size=1024, seed=0, wetness=0.0):
         m.roughness = np.clip(m.roughness - pud * 0.55, 0.03, 1.0)
         m.darken(pud, 0.3)
 
-    m.cavity_dirt(edges * 0.8, 0.45)
+    m.cavity_dirt(edges * 0.8, 0.30)
+    # Pull the finished mean back onto the locked COBBLE value. The
+    # cumulative darken/cavity passes had drifted it a full dE 37 to
+    # COBBLE_WORN, so the town's paving shipped as its own gutter tone.
+    target = P.rgb(P.COBBLE)
+    cur = m.albedo.reshape(-1, 3).mean(0)
+    m.albedo = np.clip(m.albedo * (target / np.maximum(cur, 1e-5)), 0, 1)
     return m
 
 

@@ -72,9 +72,15 @@ def _ribbon(path, width, mat, asset_id, trough=0.0, uv=0.5):
             for k in range(LANES):
                 u0 = -0.5 + k / LANES
                 u1 = -0.5 + (k + 1) / LANES
-                # Dish: deepest at the centreline, flat at the kerbs.
-                y0 = -trough * (1.0 - abs(u0 * 2.0) ** 1.6)
-                y1 = -trough * (1.0 - abs(u1 * 2.0) ** 1.6)
+                # Dish: deepest at the centreline, flat at the kerbs — but the
+                # WHOLE carriageway sits proud of the surrounding earth, which
+                # is both correct (a made road is built up) and necessary: the
+                # trough previously dished to -0.075 while the ground plane sits
+                # at -0.01, so the centre of Ford Road was buried underneath the
+                # ground and the road read as bare earth between two kerbs.
+                ROAD_LIFT = 0.10
+                y0 = ROAD_LIFT - trough * (1.0 - abs(u0 * 2.0) ** 1.6)
+                y1 = ROAD_LIFT - trough * (1.0 - abs(u1 * 2.0) ** 1.6)
                 j = rng.uniform(-0.008, 0.008)
 
                 c0 = p0 + n * (u0 * width); c0[1] = y0 + j
@@ -111,7 +117,7 @@ def _kerb(path, width, asset_id):
                 c = a + d * (ln * t) + n * (side * width * 0.5)
                 k = M.box(0.70, 0.16, 0.22, 0.02, "stone", uv_scale=1.0)
                 k.rotate_y(float(np.arctan2(d[0], d[2])) + rng.uniform(-0.02, 0.02))
-                k.translate(c[0], 0.055 + rng.uniform(-0.012, 0.006), c[2])
+                k.translate(c[0], 0.145 + rng.uniform(-0.012, 0.006), c[2])
                 out.add(k)
     return out
 
