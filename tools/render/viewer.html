@@ -1,0 +1,311 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Hearthmere Review Viewer</title>
+<style>html,body{margin:0;overflow:hidden;background:#000}canvas{display:block}</style></head>
+<body>
+<script type="importmap">
+{"imports":{
+  "three":"/vendor/three.module.js",
+  "three/addons/":"/vendor/addons/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { SSAOPass } from 'three/addons/postprocessing/SSAOPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+// --- Locked review setup, docs/ART_BIBLE.md §4 -----------------------------
+// Time of day is fixed at 09:30 so that every review screenshot across every
+// venue and every iteration is directly comparable. Do not parameterise this.
+const SUN_ELEV = 38.0, SUN_AZI = 125.0;
+const C = {
+  sun:'#FFF2D8', skyFill:'#93BEE8', groundBounce:'#7A6A52', rim:'#8FB8E8',
+};
+
+const q = new URLSearchParams(location.search);
+const W = +(q.get('w') || 1600), H = +(q.get('h') || 900);
+
+const renderer = new THREE.WebGLRenderer({ antialias:true, preserveDrawingBuffer:true });
+renderer.setSize(W, H);
+renderer.setPixelRatio(1);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;   // Art Bible §5 chain
+renderer.toneMappingExposure = 1.05;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+
+// --- Sky ------------------------------------------------------------------
+// Gradient dome doubles as the IBL source. Without image-based lighting,
+// metals read as flat grey and the whole scene loses its material truth.
+const skyGeo = new THREE.SphereGeometry(500, 32, 16);
+const skyMat = new THREE.ShaderMaterial({
+  side: THREE.BackSide,
+  uniforms: {
+    top:    { value: new THREE.Color('#5B9BD9') },
+    mid:    { value: new THREE.Color('#A8CDEC') },
+    bottom: { value: new THREE.Color('#E5DCC8') },
+  },
+  vertexShader: `varying vec3 vP; void main(){ vP = position; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0);} `,
+  fragmentShader: `
+    varying vec3 vP; uniform vec3 top, mid, bottom;
+    void main(){
+      float h = normalize(vP).y;
+      vec3 c = h > 0.0 ? mix(mid, top, pow(h,0.65)) : mix(mid, bottom, pow(-h,0.5));
+      gl_FragColor = vec4(c,1.0);
+    }`
+});
+scene.add(new THREE.Mesh(skyGeo, skyMat));
+
+const pmrem = new THREE.PMREMGenerator(renderer);
+const envScene = new THREE.Scene();
+envScene.add(new THREE.Mesh(skyGeo.clone(), skyMat.clone()));
+scene.environment = pmrem.fromScene(envScene, 0.04).texture;
+
+// --- Lighting -------------------------------------------------------------
+const el = SUN_ELEV * Math.PI/180, az = SUN_AZI * Math.PI/180;
+const sun = new THREE.DirectionalLight(new THREE.Color(C.sun), 3.2);
+sun.position.set(Math.cos(el)*Math.sin(az)*60, Math.sin(el)*60, Math.cos(el)*Math.cos(az)*60);
+sun.castShadow = true;
+sun.shadow.mapSize.set(4096, 4096);
+sun.shadow.bias = -0.0004;
+sun.shadow.normalBias = 0.02;
+const sc = sun.shadow.camera;
+sc.near = 0.5; sc.far = 220; sc.left = -45; sc.right = 45; sc.top = 45; sc.bottom = -45;
+scene.add(sun, sun.target);
+
+// Ambient floor. Art Bible §1: shadows are warm and LIFTED — never crushed,
+// never neutral grey. Cast-shadow regions (under eaves, jetties, awnings) see
+// no sun at all, so their entire look comes from these three fills. Getting
+// this wrong reads either as blue-grey plastic or as black holes in the frame.
+//
+// Desaturated sky tint, because the PMREM environment already supplies the
+// saturated blue; stacking both turns every shadowed facade cyan.
+scene.add(new THREE.HemisphereLight(new THREE.Color('#AFC9E0'), new THREE.Color('#8A7352'), 1.35));
+
+// Warm ambient floor so nothing bottoms out to black.
+scene.add(new THREE.AmbientLight(new THREE.Color('#6B5A46'), 0.55));
+
+// Warm bounce from the shadow side, standing in for sunlight reflecting off
+// the paving and the building opposite.
+const bounce = new THREE.DirectionalLight(new THREE.Color('#C9A87E'), 0.55);
+bounce.position.set(-Math.cos(el)*Math.sin(az)*30, 8, -Math.cos(el)*Math.cos(az)*30);
+scene.add(bounce);
+
+// The anime separation signature (Art Bible §1): a cool rim from behind.
+const rim = new THREE.DirectionalLight(new THREE.Color(C.rim), 1.15);
+rim.position.set(-Math.sin(az)*40, 14, -Math.cos(az)*40);
+scene.add(rim);
+
+// --- Ground ---------------------------------------------------------------
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(400, 400).rotateX(-Math.PI/2),
+  new THREE.MeshStandardMaterial({ color: 0x6E6A5E, roughness: 0.95 }));
+ground.receiveShadow = true;
+ground.position.y = -0.002;
+if (q.get('ground') !== '0') scene.add(ground);
+
+// --- Scale reference ------------------------------------------------------
+// CLAUDE.md requires a 1.75m human reference in review renders. Scale error is
+// the most common and most immersion-breaking defect, and it is invisible
+// without something known in frame.
+function scaleFigure(){
+  const g = new THREE.Group();
+  const skin = new THREE.MeshStandardMaterial({ color:0xB05C3A, roughness:0.85 });
+  const mk = (geo,y)=>{ const m=new THREE.Mesh(geo,skin); m.position.y=y; m.castShadow=true; g.add(m); return m; };
+  mk(new THREE.CapsuleGeometry(0.17,0.44,4,12), 1.16);        // torso
+  mk(new THREE.SphereGeometry(0.115,16,12), 1.62);            // head -> eye height
+  mk(new THREE.CapsuleGeometry(0.075,0.62,4,8), 0.47).position.x = -0.10;
+  mk(new THREE.CapsuleGeometry(0.075,0.62,4,8), 0.47).position.x =  0.10;
+  const la=mk(new THREE.CapsuleGeometry(0.055,0.52,4,8), 1.18); la.position.x=-0.26; la.rotation.z=0.12;
+  const ra=mk(new THREE.CapsuleGeometry(0.055,0.52,4,8), 1.18); ra.position.x= 0.26; ra.rotation.z=-0.12;
+  return g;
+}
+
+// --- Load asset -----------------------------------------------------------
+const loader = new GLTFLoader();
+const url = q.get('asset');
+let bbox = new THREE.Box3(new THREE.Vector3(-1,0,-1), new THREE.Vector3(1,2,1));
+
+// AUTHORING CONVENTION: every venue's principal facade faces -Z (north).
+// The player arrives from the north gate (docs/WORLD_BIBLE.md), and the locked
+// 09:30 sun at azimuth 125° lights exactly those -Z faces. So the review camera
+// lives on the -Z side; viewing from +Z would judge every asset on its
+// shadowed back, which is how the first pass got a warm cream wall to read
+// blue-grey.
+const FRONT = -1;   // facade normal direction along Z
+
+// Distance needed to fit a subject of given width/height in frame.
+function fitDist(w, h, fovDeg, aspect, margin = 1.18){
+  const vfov = fovDeg * Math.PI / 180;
+  const dv = (h * 0.5) / Math.tan(vfov * 0.5);
+  const hfov = 2 * Math.atan(Math.tan(vfov * 0.5) * aspect);
+  const dh = (w * 0.5) / Math.tan(hfov * 0.5);
+  return Math.max(dv, dh) * margin;
+}
+
+// Where the player character stands for third-person views: in front of the
+// facade, at a natural approach distance.
+function playerStand(box){
+  const c = box.getCenter(new THREE.Vector3());
+  return new THREE.Vector3(c.x, 0, box.min.z - 2.2);
+}
+
+function frameFor(view, box){
+  const c = box.getCenter(new THREE.Vector3());
+  const s = box.getSize(new THREE.Vector3());
+  const r = Math.max(s.x, s.y, s.z);
+  const stand = playerStand(box);
+  const aspect = W / H;
+  switch(view){
+    // THE view that matters. The game is always default third-person, so this
+    // is the camera the player actually has: behind and above the character,
+    // pitched down slightly, character in frame at lower centre.
+    // Rig: 3.6m back, 2.05m high, aiming past the character's head at the
+    // subject. Assets are judged here, not from a hero close-up.
+    // Standing at the door. Close third-person — reads the ground-floor
+    // detail the player is actually near, at the scale they see it.
+    case 'gameplay':
+    case 'thirdperson': {
+      const height = 2.05;
+      return {
+        pos:  new THREE.Vector3(stand.x, height, stand.z - 3.6),
+        look: new THREE.Vector3(c.x, Math.min(2.2, Math.max(1.3, s.y * 0.42)), c.z),
+        fov: 55, player: stand,
+      };
+    }
+    // Third-person from an off-axis angle — checks the asset holds up from the
+    // directions players actually orbit to, not just dead-on.
+    case 'orbit': {
+      const a = Math.PI * 0.30;
+      const d = fitDist(Math.max(s.x, s.z) * 1.25, s.y, 55, aspect);
+      const px = c.x - Math.sin(a) * d, pz = c.z - Math.cos(a) * d;
+      return {
+        pos:  new THREE.Vector3(px, Math.max(2.05, s.y * 0.42), pz),
+        look: new THREE.Vector3(c.x, s.y * 0.40, c.z),
+        fov: 55,
+        player: new THREE.Vector3(px + Math.sin(a) * 3.6, 0, pz + Math.cos(a) * 3.6),
+      };
+    }
+    // Approach from down the street — how the venue first reads at distance.
+    // Whole silhouette must fit; this is the "does it anchor the block" shot.
+    case 'approach': {
+      const d = fitDist(s.x * 1.15, s.y * 1.15, 55, aspect) + 2.0;
+      return {
+        pos:  new THREE.Vector3(c.x + s.x * 0.22, 2.05, c.z - d),
+        look: new THREE.Vector3(c.x, s.y * 0.45, c.z),
+        fov: 55,
+        player: new THREE.Vector3(c.x + s.x * 0.20, 0, c.z - d + 3.6),
+      };
+    }
+    case 'hero': {
+      const d = fitDist(s.x, s.y, 45, aspect);
+      return { pos:new THREE.Vector3(c.x + d*0.55, s.y*0.72, c.z - d*0.85), look:new THREE.Vector3(c.x, s.y*0.42, c.z), fov:45 };
+    }
+    case 'front': {
+      const d = fitDist(s.x, s.y, 42, aspect);
+      return { pos:new THREE.Vector3(c.x, s.y*0.45, c.z - d), look:new THREE.Vector3(c.x, s.y*0.45, c.z), fov:42 };
+    }
+    case 'side': {
+      const d = fitDist(s.z, s.y, 42, aspect);
+      return { pos:new THREE.Vector3(c.x + d, s.y*0.45, c.z), look:new THREE.Vector3(c.x, s.y*0.45, c.z), fov:42 };
+    }
+    // Tight on the entrance — where residue and hero-class detail must hold up.
+    case 'detail': return {
+      pos:  new THREE.Vector3(c.x + s.x*0.16, 1.55, box.min.z - 2.4),
+      look: new THREE.Vector3(c.x, 1.35, box.min.z + 0.3), fov:40,
+    };
+    case 'silhouette': {
+      const d = fitDist(s.x*1.1, s.y*1.1, 42, aspect);
+      return { pos:new THREE.Vector3(c.x, s.y*0.45, c.z - d), look:new THREE.Vector3(c.x, s.y*0.45, c.z), fov:42 };
+    }
+    case 'top':      return { pos:new THREE.Vector3(c.x, s.y + r*1.5, c.z + 0.01), look:c, fov:50 };
+    default: {
+      const d = fitDist(s.x, s.y, 45, aspect);
+      return { pos:new THREE.Vector3(c.x + d*0.5, s.y*0.8, c.z - d*0.8), look:new THREE.Vector3(c.x, s.y*0.4, c.z), fov:45 };
+    }
+  }
+}
+
+const camera = new THREE.PerspectiveCamera(45, W/H, 0.1, 1000);
+
+// --- Post chain, Art Bible §5 order ---------------------------------------
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+if (q.get('ssao') !== '0'){
+  const ssao = new SSAOPass(scene, camera, W, H);
+  ssao.kernelRadius = 0.35; ssao.minDistance = 0.0008; ssao.maxDistance = 0.08;
+  composer.addPass(ssao);
+}
+const bloom = new UnrealBloomPass(new THREE.Vector2(W,H), 0.34, 0.55, 1.0);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+let playerFig = null;
+
+window.__setView = (view, silhouette) => {
+  const f = frameFor(view, bbox);
+  camera.fov = f.fov; camera.position.copy(f.pos); camera.lookAt(f.look);
+  camera.updateProjectionMatrix();
+
+  // The 1.75m figure IS the player character in third-person views, so it must
+  // sit on the camera's axis rather than off to one side. Anywhere else and
+  // the shot stops being the view the player actually has.
+  if (playerFig){
+    if (f.player){
+      playerFig.visible = true;
+      playerFig.position.copy(f.player);
+      // Face the way the camera is looking, so we see the character's back.
+      const away = new THREE.Vector3(f.look.x - f.player.x, 0, f.look.z - f.player.z);
+      if (away.lengthSq() > 1e-6) playerFig.rotation.y = Math.atan2(away.x, away.z);
+    } else {
+      // Non-gameplay views keep the reference beside the asset for scale.
+      playerFig.visible = !silhouette;
+      playerFig.position.set(bbox.max.x + 0.75, 0, bbox.max.z + 0.35);
+      playerFig.rotation.y = 0;
+    }
+  }
+  // Keep the shadow frustum tight on the subject or shadows go soft and wrong.
+  const c = bbox.getCenter(new THREE.Vector3());
+  sun.target.position.copy(c); sun.target.updateMatrixWorld();
+  sun.position.set(c.x + Math.cos(el)*Math.sin(az)*60, c.y + Math.sin(el)*60, c.z + Math.cos(el)*Math.cos(az)*60);
+  scene.overrideMaterial = silhouette
+    ? new THREE.MeshBasicMaterial({ color:0x000000 }) : null;
+  if (silhouette) { scene.background = new THREE.Color(0xffffff); }
+  else { scene.background = null; }
+  composer.render();
+};
+
+function finish(){
+  if (q.get('figure') !== '0'){
+    playerFig = scaleFigure();
+    scene.add(playerFig);
+  }
+  window.__setView(q.get('view') || 'gameplay', false);
+  window.__ready = true;
+}
+
+if (url){
+  loader.load(url, (g) => {
+    g.scene.traverse(o => {
+      if (o.isMesh){
+        o.castShadow = true; o.receiveShadow = true;
+        if (o.material){ o.material.envMapIntensity = 1.0; }
+      }
+    });
+    scene.add(g.scene);
+    bbox = new THREE.Box3().setFromObject(g.scene);
+    finish();
+  }, undefined, (e) => { window.__error = String(e); window.__ready = true; });
+} else {
+  finish();
+}
+</script>
+</body>
+</html>
