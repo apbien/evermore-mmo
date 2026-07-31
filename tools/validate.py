@@ -30,6 +30,10 @@ ID_RE = re.compile(r"^hm\.[a-z_]+(\.[a-z_0-9]+)*$")
 # Art Bible §3. Checked against the whole-venue bounding box, so these are
 # sanity bounds rather than exact dimensions.
 MAX_VENUE_SPAN = 60.0     # m; a single venue larger than this is a layout bug
+# Venues that legitimately span the whole town rather than occupying one site.
+# Townsfolk are placed in world coordinates across every venue, so their
+# bounding box is the town, not a building footprint.
+TOWN_WIDE = {"townsfolk.gltf"}
 MAX_VENUE_HEIGHT = 22.0   # m; the guild tower is the tallest thing in town
 MIN_VENUE_HEIGHT = 0.25
 
@@ -65,7 +69,7 @@ def check_gltf(path):
         return
 
     span_x, span_y, span_z = (hi[i] - lo[i] for i in range(3))
-    if max(span_x, span_z) > MAX_VENUE_SPAN:
+    if max(span_x, span_z) > MAX_VENUE_SPAN and name not in TOWN_WIDE:
         warn(f"{name}: footprint {span_x:.1f}x{span_z:.1f}m exceeds {MAX_VENUE_SPAN}m")
     if span_y > MAX_VENUE_HEIGHT:
         err(f"{name}: height {span_y:.1f}m exceeds {MAX_VENUE_HEIGHT}m — scale error?")
@@ -155,7 +159,8 @@ def check_town():
     # Venue overlap. Some venues legitimately occupy the same footprint —
     # the market stalls stand inside the market square — so only flag pairs
     # that are not a known nesting.
-    NESTED = {("market_square", "stalls")}
+    NESTED = {("market_square", "stalls"), ("market_square", "townsfolk"),
+              ("stalls", "townsfolk")}
     seen = {}
     for v in town.get("venues", []):
         key = tuple(round(c, 1) for c in v["origin"])
