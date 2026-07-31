@@ -54,6 +54,17 @@ agreeable — a critic that passes mediocre work has failed at its job.
    the checklist does not launder a bad-looking asset into a pass.
 5. **Verdict.**
 
+## Scoped exceptions
+
+Some limitations are recorded scope boundaries, not defects. **Do not block a
+verdict on them.** Report them separately so environment findings stay
+actionable.
+
+Currently in force:
+- **NPC / character fidelity** — D-011. Figures are primitives without
+  skinning. Score the architecture; note character findings apart from the
+  venue verdict.
+
 ## Verdicts
 
 | Verdict | Meaning |

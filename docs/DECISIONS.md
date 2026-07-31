@@ -248,3 +248,33 @@ change and is not done.
 That fix (arc-length UVs) was correct on its own terms and is kept, but it was
 not the cause: the terracotta turret cap is also a lathe and measures 0.477.
 The lathe is exonerated; the rim was always the culprit.
+
+
+---
+
+## D-011 — NPC fidelity is a scoped exception
+
+**Decision.** Character fidelity is explicitly OUT OF SCOPE for this build.
+Reviews must not block acceptance on it.
+
+**What ships.** `core/npc.py` builds posed figures from primitives: capsule
+limbs, lathed torsos, sphere heads. No skeletal mesh, no skinning, no faces, no
+animation beyond a player walk cycle. They read as people at arrival and
+gameplay distance and as mannequins close up.
+
+**Why this is a scope boundary and not a defect.** Fixing it does not mean
+better procedural geometry — it means a different discipline: authored
+skeletal meshes, skin weights, an animation set, and a retargeting pipeline.
+None of that is procedural environment generation, which is what this
+repository is. Grinding the primitive figures further would spend effort on
+the axis with the lowest ceiling.
+
+**Cost, stated honestly.** Both round-03 reviewers independently flagged
+characters as the most conspicuous single element in the arrival frame and as
+one of five blind-comparison tells. It costs roughly one point on Life &
+residue and depresses the town-level AAA read. Both also concluded it is *not*
+what is holding the build back.
+
+**For reviewers.** Score the environment. Report character findings separately
+and do not count them against a venue verdict. When the project takes on a
+character pipeline, this entry should be reopened rather than deleted.
