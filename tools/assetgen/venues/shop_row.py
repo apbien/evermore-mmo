@@ -228,6 +228,7 @@ def build(ctx: VenueContext, asset_id="hm.shop"):
 
         for i in range(2):
             win = K.leaded_window(f"{sid}.uw{i}", width=0.80, height=0.95,
+                                  mat="glass_lit" if srng.random() < 0.5 else "glass",
                                   shutters=srng.random() < 0.5,
                                   shutter_mat="painted")
             win.translate(x + w * (0.28 + i * 0.42), y1 + up_h * 0.5, -ud * 0.5 - 0.06)

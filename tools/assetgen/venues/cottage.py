@@ -110,7 +110,8 @@ def build(ctx: VenueContext, variant=0, asset_id="hm.cottage.01"):
                (door_x, 0.42, zf), verbs=["open"],
                collider={"shape": "box", "half": [K.DOOR_W * 0.5, K.DOOR_H * 0.5, 0.05]})
 
-    win = K.leaded_window(f"{asset_id}.win1", shutters=True, shutter_mat=shutter)
+    win = K.leaded_window(f"{asset_id}.win1", mat="glass_lit" if variant % 2 else "glass",
+                          shutters=True, shutter_mat=shutter)
     win.translate(win_x, 0.42 + 1.55, zf + 0.04)
     ctx.emit(win)
 

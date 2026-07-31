@@ -126,7 +126,7 @@ def build(ctx: VenueContext, asset_id="hm.inn"):
 
     for (wx, wy, _, _) in win_g:
         win = K.leaded_window(f"{asset_id}.gw{wx:.1f}", width=0.95, height=1.15,
-                              shutters=True, shutter_mat="painted")
+                              mat="glass_lit", shutters=True, shutter_mat="painted")
         win.translate(wx, y0 + wy, zf + 0.06)
         ctx.emit(win)
 
@@ -143,7 +143,10 @@ def build(ctx: VenueContext, asset_id="hm.inn"):
              (1.2, 1.35, 1.2, 1.3), (3.6, 1.35, 1.2, 1.3)]
     _storey(ctx, f"{asset_id}.f1", W1, D1, F1_H, y1, "close", win_1)
     for (wx, wy, _, _) in win_1:
+        # Not every room is occupied — a uniformly lit facade reads as a
+        # lightbox rather than as a building with people in some of the rooms.
         win = K.leaded_window(f"{asset_id}.w1{wx:.1f}", width=0.88, height=1.05,
+                              mat="glass_lit" if rng.random() < 0.7 else "glass",
                               shutters=rng.random() < 0.5, shutter_mat="painted")
         win.translate(wx, y1 + wy, -D1 * 0.5 - 0.06)
         ctx.emit(win)
@@ -158,6 +161,7 @@ def build(ctx: VenueContext, asset_id="hm.inn"):
     _storey(ctx, f"{asset_id}.f2", W2, D2, F2_H, y2, "close", win_2)
     for (wx, wy, _, _) in win_2:
         win = K.leaded_window(f"{asset_id}.w2{wx:.1f}", width=0.82, height=0.98,
+                              mat="glass_lit" if rng.random() < 0.55 else "glass",
                               shutters=False)
         win.translate(wx, y2 + wy, -D2 * 0.5 - 0.06)
         ctx.emit(win)
@@ -210,7 +214,8 @@ def build(ctx: VenueContext, asset_id="hm.inn"):
         droof = K.gable_roof(1.9, 1.5, f"{asset_id}.dorm{dx}", pitch=0.95, overhang=0.22)
         droof.translate(0, 1.32, 0.2)
         dm.add(droof)
-        w = K.leaded_window(f"{asset_id}.dw{dx}", width=0.72, height=0.82)
+        w = K.leaded_window(f"{asset_id}.dw{dx}", width=0.72, height=0.82,
+                            mat="glass_lit")
         w.translate(0, 0.72, -0.14)
         dm.add(w)
         dm.translate(dx, y3 + 0.55, -D2 * 0.5 + 1.15)

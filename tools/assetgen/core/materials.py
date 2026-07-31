@@ -487,7 +487,7 @@ def painted_wood(name="painted", size=1024, seed=0, colour=P.INN_GREEN):
     return m
 
 
-def leaded_glass(name="glass", size=512, seed=0):
+def leaded_glass(name="glass", size=512, seed=0, lit=False):
     """Hand-blown crown glass in leaded cames — small panes only per §2.
 
     Rendered with an emissive interior spill rather than true transmission:
@@ -510,10 +510,21 @@ def leaded_glass(name="glass", size=512, seed=0):
     m.roughness = np.clip(m.roughness + lead * 0.6, 0.03, 1.0)
     # Per-pane brightness variance: real leaded lights are never uniform.
     pane = 0.55 + 0.45 * ((np.floor(gx) * 13.0 + np.floor(gy) * 7.0) * 0.6180339887 % 1.0)
-    # Subtle: daylight windows are dark glass with a hint of interior warmth.
-    # A strong emissive here reads as backlit paper, not glass.
-    m.emissive = (P.rgb(P.WINDOW_SPILL)[None, None, :]
-                  * ((1.0 - lead) * pane)[..., None] * 0.28)
+    # Daylight windows are dark glass with a hint of interior warmth; a strong
+    # emissive reads as backlit paper, not glass. A LIT window is a different
+    # thing entirely — there is a hearth behind it, and it should read warm and
+    # occupied from across the square.
+    if lit:
+        m.set_base("#4A3A28")
+        m.tint(P.IRON, lead)
+        m.emissive = (P.rgb(P.WINDOW_SPILL)[None, None, :]
+                      * ((1.0 - lead) * pane)[..., None] * 2.4)
+        # Uneven glow: firelight is not a lightbox.
+        flick = 0.65 + 0.35 * normalize01(fbm(s, 4, seed + 114, octaves=3))
+        m.emissive = m.emissive * flick[..., None]
+    else:
+        m.emissive = (P.rgb(P.WINDOW_SPILL)[None, None, :]
+                      * ((1.0 - lead) * pane)[..., None] * 0.28)
     return m
 
 
@@ -745,6 +756,10 @@ LIBRARY = {
     "hair_dark":    lambda **k: hair(colour="#3A2A1E", **k),
     "hair_fair":    lambda **k: hair(colour="#9C7B4A", **k),
     "parchment":    lambda **k: parchment(**k),
+    # Lit glass. The inn's brief calls it "the most inviting thing in the
+    # frame", and warm light behind glass is what actually delivers that —
+    # daylight-neutral windows read as a building nobody is home in.
+    "glass_lit":    lambda **k: leaded_glass(lit=True, **k),
     "wax":          lambda **k: sealing_wax(**k),
     "leather":      lambda **k: canvas_awning(stripe=False, base="#6B4A2E",
                                               accent="#6B4A2E", **k),

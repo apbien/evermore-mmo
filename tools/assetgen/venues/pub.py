@@ -101,7 +101,9 @@ def build(ctx: VenueContext, asset_id="hm.pub"):
         ctx.emit(st)
 
     for (wx, wy, _, _) in wins:
+        # The pub's whole character is firelight rather than daylight.
         win = K.leaded_window(f"{asset_id}.w{wx:.1f}", width=0.72, height=0.80,
+                              mat="glass_lit",
                               shutters=rng.random() < 0.4, shutter_mat="oak_weathered")
         win.translate(wx, y0 + 0.55 + wy, zf + 0.06)
         ctx.emit(win)

@@ -30,9 +30,9 @@ MESH_DIR = os.path.join(REPO, "assets/meshes")
 ENT_DIR = os.path.join(REPO, "content/entities")
 
 # Materials that need an emissive channel wired up in glTF.
-EMISSIVE = {"coal", "glass"}
+EMISSIVE = {"coal", "glass", "glass_lit"}
 # Materials rendered from both sides (thin sheets: canvas, cloth, leaves).
-DOUBLE_SIDED = {"canvas", "glass", "foliage", "foliage_flower", "banner"}
+DOUBLE_SIDED = {"canvas", "glass", "glass_lit", "foliage", "foliage_flower", "banner"}
 
 
 class VenueContext:
