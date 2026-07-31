@@ -1,3 +1,22 @@
+# Python
 __pycache__/
 *.pyc
+*.pyo
+.venv/
+
+# Node
 node_modules/
+npm-debug.log*
+
+# Playwright browser cache. shoot.mjs drives chromium; the binaries land either
+# in the user cache (ms-playwright) or, when PLAYWRIGHT_BROWSERS_PATH=0, inside
+# node_modules. Hundreds of megabytes either way — never committed.
+.local-browsers/
+ms-playwright/
+.playwright/
+playwright-report/
+test-results/
+
+# OS
+.DS_Store
+Thumbs.db
