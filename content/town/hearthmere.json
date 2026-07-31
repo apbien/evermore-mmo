@@ -26,7 +26,7 @@
     "comment": "World origin (0,0,0) is the market square fountain, on the C/D-3/4 corner. Cell C1 spans world x[-48,-32] z[-48,-32]."
   },
   "lighting": {
-    "comment": "Locked 09:30 rig, Art Bible section 4. THE authoritative copy - both tools/render/viewer.html and client/src/main.js read this file. Previously each rig hardcoded its own values and the authored ones here had no consumer, so section 8's 'reviewed at the locked lighting' was never actually true. See D-009.",
+    "comment": "Locked 09:30 rig, Art Bible section 4. THE authoritative copy - both tools/render/viewer.html and client/src/main.js read this file. Rim is a directional light standing in for a true grazing-angle rim, so it lights whole faces; on curved geometry the limb dominates the projected face and a strongly saturated rim drains colour from every lathed object. Desaturated and reduced accordingly. See D-009 and D-010.",
     "timeOfDay": "09:30",
     "sunElevationDeg": 38.0,
     "sunAzimuthDeg": 125.0,
@@ -48,8 +48,8 @@
       "intensity": 0.55
     },
     "rim": {
-      "color": "#8FB8E8",
-      "intensity": 1.15
+      "color": "#A9C6E2",
+      "intensity": 0.85
     },
     "exposure": 1.05
   },

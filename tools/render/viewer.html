@@ -264,7 +264,7 @@ const bloom = new UnrealBloomPass(new THREE.Vector2(W,H), 0.34, 0.55, 1.0);
 composer.addPass(bloom);
 composer.addPass(new OutputPass());
 
-let playerFig = null;
+let playerFig = null, refFig = null;
 
 window.__setView = (view, silhouette) => {
   const f = frameFor(view, bbox);
@@ -278,10 +278,21 @@ window.__setView = (view, silhouette) => {
     if (f.player){
       playerFig.visible = true;
       playerFig.position.copy(f.player);
+      // Second reference standing AT the facade. The on-axis figure sits 3.6m
+      // from the lens and is cropped by the frame bottom in every approach and
+      // gameplay shot, so Art Bible §8's "verified with a 1.75m reference" box
+      // could not be ticked from any submitted render.
+      if (refFig){
+        refFig.visible = true;
+        const s = bbox.getSize(new THREE.Vector3());
+        refFig.position.set(bbox.max.x + 0.9, 0, bbox.min.z - 0.6);
+        refFig.rotation.y = Math.PI;
+      }
       // Face the way the camera is looking, so we see the character's back.
       const away = new THREE.Vector3(f.look.x - f.player.x, 0, f.look.z - f.player.z);
       if (away.lengthSq() > 1e-6) playerFig.rotation.y = Math.atan2(away.x, away.z);
     } else {
+      if (refFig) refFig.visible = false;
       // Non-gameplay views keep the reference beside the asset for scale.
       playerFig.visible = !silhouette;
       playerFig.position.set(bbox.max.x + 0.75, 0, bbox.max.z + 0.35);
@@ -314,6 +325,9 @@ function finish(){
   if (q.get('figure') !== '0'){
     playerFig = scaleFigure();
     scene.add(playerFig);
+    refFig = scaleFigure();
+    refFig.visible = false;
+    scene.add(refFig);
   }
   window.__setView(q.get('view') || 'gameplay', false);
   window.__ready = true;

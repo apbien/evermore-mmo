@@ -35,8 +35,14 @@ Nothing here is threatening.
 What separates this from straight realism, in order of impact:
 
 1. **Rim light is always present.** Every hero object gets a cool rim
-   (`#8FB8E8`) separating it from the background. This is the single strongest
+   (`#A9C6E2`) separating it from the background. This is the single strongest
    anime-3D signature.
+
+   Implemented as a directional light, which is an approximation: a real rim
+   affects only grazing angles, while a directional light lights every face
+   turned toward it. On curved geometry that drains saturation — see D-010.
+   Until a Fresnel term exists, the rim is deliberately desaturated and
+   reduced to limit the damage.
 2. **Ambient occlusion is warm, not grey.** Contact shadows tint toward
    `#4A3828`, never neutral black.
 3. **Sky bounce is exaggerated.** Upward-facing surfaces pick up noticeably
@@ -172,7 +178,7 @@ read it. Do not hardcode these anywhere — see D-009 for why.
 | Ground bounce (hemisphere bottom) | `#8A7352` | 1.35 |
 | Warm ambient floor | `#6B5A46` | 0.55 |
 | Warm bounce (shadow side) | `#C9A87E` | 0.55 |
-| Rim / separation | `#8FB8E8` | 1.15 |
+| Rim / separation | `#A9C6E2` | 0.85 |
 | Forge fire | `#FF8C42` | 4.0, flickering |
 | Candle / lamp | `#FFB35C` | 1.8, gentle flicker |
 | Window interior spill | `#FFD9A0` | 2.2 |

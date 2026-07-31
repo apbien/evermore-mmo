@@ -206,3 +206,45 @@ and should be re-tested on its merits rather than grandfathered by this entry.
 authored in `content/`, no consumer, and nothing detects it. Both were found by
 review rather than by tooling. A check that flags authored blocks in
 `content/` with no reader would have caught both.
+
+
+---
+
+## D-010 — The rim light, and a governance correction
+
+**The governance point first, because it matters more than the value.**
+
+Commit `2cb6b67` changed `ART_BIBLE.md` §4's rim from 1.4 to 1.15 as part of
+reconciling the spec to the shipped rig. D-009 justified that reconciliation
+with two measured defects — blue-grey shadowed facades and crushed cast
+shadows. **Neither of those arguments reaches the rim light at all.**
+
+So the Art Bible — a document whose own header says it is law and that changes
+require a recorded decision — had a number altered to close a review finding,
+under a rationale that did not cover it. That is the wrong way round: the
+finding should have forced an argument about the rim on its merits, or been
+left open. Recording it here rather than quietly leaving it.
+
+**The value, argued on its merits.** §1 calls rim "the single strongest
+anime-3D signature", and it is. But the implementation is a *directional
+light*, which lights every surface facing it, whereas a true rim affects only
+grazing angles. On curved geometry the limb is most of the projected face, so a
+strongly saturated blue rim drains colour from every lathed object in the town.
+
+Measured on the guild turret against the ashlar wall beside it:
+
+| | saturation | curve/flat ratio |
+| --- | --- | --- |
+| `#8FB8E8` @ 1.15 | 0.228 vs 0.447 | 0.51 |
+| `#A9C6E2` @ 0.85 | 0.260 vs 0.447 | 0.58 |
+
+Desaturating and reducing the rim recovers curved-surface colour without
+touching flat surfaces. **Partial, not solved** — the ratio should be near
+1.0, and it is 0.58. The real fix is a shader-side Fresnel term so the rim only
+appears at grazing angles, which is a renderer change rather than a value
+change and is not done.
+
+**Note on provenance.** This was originally diagnosed as a `M.lathe` UV bug.
+That fix (arc-length UVs) was correct on its own terms and is kept, but it was
+not the cause: the terracotta turret cap is also a lathe and measures 0.477.
+The lathe is exonerated; the rim was always the culprit.

@@ -68,12 +68,21 @@ def timber_frame_wall(width, height, asset_id, style="square", depth=0.22,
                 return True
         return False
 
-    # Plaster infill panel, set back from the frame face so the timber stands
-    # proud and casts a real shadow line. That shadow is what makes a
-    # timber-framed wall read at distance.
-    infill = M.box(width, height, depth * 0.55, CHAMFER_ARCH, plaster_mat, uv_scale=0.5)
-    infill.translate(0, sill_y + height * 0.5, 0)
-    out.add(infill)
+    # Plaster infill, set back from the frame face so the timber stands proud
+    # and casts a real shadow line — that shadow is what makes a timber-framed
+    # wall read at distance.
+    #
+    # The infill is SEGMENTED around the openings. Previously it was one solid
+    # box and `openings` was consumed only by blocked(), which suppresses studs
+    # — so no window or door in any timber-framed building in Hearthmere had an
+    # aperture behind it. Every pane showed sunlit plaster through glass, which
+    # is why the inn's windows measured -1.4 luminance against the wall across
+    # three review rounds. Adding interior shells could never have helped;
+    # there was nothing for them to be seen through.
+    for (rx, ry, rw, rh) in _subtract_rects(width, height, openings):
+        panel = M.box(rw, rh, depth * 0.55, CHAMFER_ARCH, plaster_mat, uv_scale=0.5)
+        panel.translate(rx, sill_y + ry, 0)
+        out.add(panel)
 
     zf = depth * 0.5 - POST * 0.5 + 0.02   # frame sits proud on the -Z face
     tm = timber_mat
@@ -88,12 +97,32 @@ def timber_frame_wall(width, height, asset_id, style="square", depth=0.22,
         out.add(p)
 
     def rail_at(y, x0, x1, h=POST):
-        w = x1 - x0
-        if w <= 0.02:
-            return
-        r = M.plank(w, POST, h, CHAMFER_ARCH, tm, grain_axis=0)
-        r.translate(x0 + w * 0.5, sill_y + y, -zf)
-        out.add(r)
+        """Horizontal member, broken where it would cross an opening.
+
+        An unbroken rail running straight through a window is the same defect
+        as the solid infill, one layer out.
+        """
+        spans = [(x0, x1)]
+        for (ox, oy, ow, oh) in openings:
+            if not (oy - oh * 0.5 <= y <= oy + oh * 0.5):
+                continue
+            nxt = []
+            for (s0, s1) in spans:
+                a, b = ox - ow * 0.5, ox + ow * 0.5
+                if b <= s0 or a >= s1:
+                    nxt.append((s0, s1)); continue
+                if a - s0 > 0.02:
+                    nxt.append((s0, a))
+                if s1 - b > 0.02:
+                    nxt.append((b, s1))
+            spans = nxt
+        for (s0, s1) in spans:
+            w = s1 - s0
+            if w <= 0.02:
+                continue
+            r = M.plank(w, POST, h, CHAMFER_ARCH, tm, grain_axis=0)
+            r.translate(s0 + w * 0.5, sill_y + y, -zf)
+            out.add(r)
 
     hw = width * 0.5
     # Sill and head plates run the full width — the primary horizontals.
@@ -149,6 +178,50 @@ def timber_frame_wall(width, height, asset_id, style="square", depth=0.22,
                 b.translate(cx, sill_y + y, -zf + 0.03)
                 out.add(b)
 
+    return out
+
+
+def _subtract_rects(width, height, openings):
+    """Split a wall rect into panels that avoid the opening rects.
+
+    Guillotine subtraction: carve the wall into horizontal bands at every
+    opening's top and bottom edge, then split each band into spans that skip
+    the openings crossing it. Axis-aligned and conservative, which is all a
+    timber-framed wall needs — the openings are always rectangles between studs.
+
+    Coordinates are wall-local: x centred on the wall, y from the sill.
+    """
+    if not openings:
+        return [(0.0, height * 0.5, width, height)]
+
+    hw = width * 0.5
+    # Band edges from every opening's vertical extent, clamped to the wall.
+    ys = {0.0, height}
+    for (_, oy, _, oh) in openings:
+        ys.add(max(0.0, oy - oh * 0.5))
+        ys.add(min(height, oy + oh * 0.5))
+    ys = sorted(ys)
+
+    out = []
+    for i in range(len(ys) - 1):
+        y0, y1 = ys[i], ys[i + 1]
+        if y1 - y0 < 0.02:
+            continue
+        ymid = (y0 + y1) * 0.5
+        # Openings crossing this band, as x-spans.
+        cuts = []
+        for (ox, oy, ow, oh) in openings:
+            if oy - oh * 0.5 <= ymid <= oy + oh * 0.5:
+                cuts.append((max(-hw, ox - ow * 0.5), min(hw, ox + ow * 0.5)))
+        cuts.sort()
+
+        x = -hw
+        for (c0, c1) in cuts:
+            if c0 - x > 0.02:
+                out.append(((x + c0) * 0.5, ymid, c0 - x, y1 - y0))
+            x = max(x, c1)
+        if hw - x > 0.02:
+            out.append(((x + hw) * 0.5, ymid, hw - x, y1 - y0))
     return out
 
 
@@ -506,7 +579,7 @@ def crate(asset_id, size=0.55, mat="oak"):
     return out
 
 
-def sack(asset_id, height=0.55, mat="canvas"):
+def sack(asset_id, height=0.55, mat="cloth_cream"):
     """Grain sack — slumped, never a neat cylinder."""
     rng = rng_for(asset_id, "sack")
     h = jitter(rng, height, 0.08)
