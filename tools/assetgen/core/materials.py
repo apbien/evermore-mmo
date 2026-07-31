@@ -638,6 +638,32 @@ def beaten_earth(name="dirt", size=1024, seed=0):
     return m
 
 
+def skin_tone(name="skin", size=256, seed=0, colour="#C08A62"):
+    """Skin. Kept deliberately simple and matte — at gameplay distance the
+    silhouette and clothing do the work, and a glossy or heavily-detailed skin
+    reads worse, not better."""
+    m = MaterialSet(name, size)
+    s = (size, size)
+    m.set_base(colour)
+    m.add_height(fbm(s, 40, seed + 161) * 0.05)
+    m.darken(normalize01(fbm(s, 9, seed + 162)) * 0.5, 0.06)
+    m.rough(0.72, 0.07, 0.04, seed + 163)
+    return m
+
+
+def hair(name="hair", size=256, seed=0, colour="#3A2A1E"):
+    """Hair — directional strand detail and a gloss band."""
+    m = MaterialSet(name, size)
+    s = (size, size)
+    m.set_base(colour)
+    strands = ridged(s, 70, seed + 171, octaves=2)
+    m.add_height(strands * 0.30)
+    m.darken(strands * 0.7, 0.25)
+    m.lighten(smoothstep(0.55, 0.9, normalize01(fbm(s, 14, seed + 172))), 0.16)
+    m.rough(0.42, 0.14, 0.08, seed + 173)
+    return m
+
+
 # Registry so venue modules and the build script agree on names.
 LIBRARY = {
     "plaster":      lambda **k: lime_plaster(**k),
@@ -659,6 +685,16 @@ LIBRARY = {
     "ashlar":       lambda **k: ashlar(**k),
     "banner":       lambda **k: banner_cloth(**k),
     "dirt":         lambda **k: beaten_earth(**k),
+    # Clothing. Townsfolk need several distinct dyes or a crowd reads as
+    # uniformed. All palette-compliant per Art Bible section 4.
+    "cloth_blue":   lambda **k: banner_cloth(colour="#4A5C7A", **k),
+    "cloth_green":  lambda **k: banner_cloth(colour=P.INN_GREEN, **k),
+    "cloth_rust":   lambda **k: banner_cloth(colour="#9C5A3C", **k),
+    "cloth_cream":  lambda **k: banner_cloth(colour=P.CANVAS_CREAM, **k),
+    "cloth_brown":  lambda **k: banner_cloth(colour="#6B5638", **k),
+    "skin":         lambda **k: skin_tone(**k),
+    "hair_dark":    lambda **k: hair(colour="#3A2A1E", **k),
+    "hair_fair":    lambda **k: hair(colour="#9C7B4A", **k),
     "leather":      lambda **k: canvas_awning(stripe=False, base="#6B4A2E",
                                               accent="#6B4A2E", **k),
 }

@@ -245,6 +245,28 @@
       "rotationDeg": 200,
       "role": "residential",
       "variant": 2
+    },
+    {
+      "id": "townsfolk",
+      "name": "Townsfolk",
+      "cells": [
+        "C2",
+        "C3",
+        "D3",
+        "C4",
+        "D4",
+        "C5",
+        "B5",
+        "E3"
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotationDeg": 0,
+      "role": "population",
+      "comment": "Posed NPCs in world coordinates. Placement is composition: clustered where trade is, a pair mid-conversation, one on the fountain lip."
     }
   ],
   "streets": [

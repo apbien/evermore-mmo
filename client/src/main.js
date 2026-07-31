@@ -15,6 +15,7 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
 import { ThirdPersonController } from './player.js';
 import { LocalTransport } from './net.js';
+import { Ambient } from './ambient.js';
 import { Sim } from '../../server/src/sim.js';
 
 const $ = s => document.querySelector(s);
@@ -146,6 +147,7 @@ async function loadVenue(v) {
   // Venues are bucketed into 16m cells so culling — and later network interest
   // management — operates on the same partition (docs/ARCHITECTURE.md §3).
   cellGroup(v.origin[0], v.origin[2]).add(root);
+  if (ambient) ambient.harvest(root);
 
   const box = new THREE.Box3().setFromObject(root);
   // Only block at body height; roof overhangs must not become walls.
@@ -192,7 +194,7 @@ function buildGround(townTex) {
 // Boot
 // ---------------------------------------------------------------------------
 
-let player, net, sim, interactables = [];
+let player, net, sim, ambient, interactables = [];
 
 async function boot() {
   status('loading town…');
@@ -203,12 +205,16 @@ async function boot() {
   const cobble = await texLoader.loadAsync('/assets/textures/cobble_albedo.png').catch(() => null);
   buildGround(cobble);
 
-  status('loading venues…');
-  const ids = [...new Set(town.venues.map(v => v.id))];
-  for (const v of town.venues) await loadVenue(v);
-
   status('loading entities…');
+  const ids = [...new Set(town.venues.map(v => v.id))];
+  // Entities load FIRST: ambient effects (chimney smoke, forge flicker) are
+  // declared on entity components, and cloth sway is registered per venue as
+  // it loads, so Ambient has to exist before the venue loop runs.
   const entities = await loadEntities(ids);
+  ambient = new Ambient(scene, town, entities);
+
+  status('loading venues…');
+  for (const v of town.venues) await loadVenue(v);
   sim = new Sim(town, entities);
   net = new LocalTransport(sim);
   interactables = entities.filter(e => e.components?.interactable);
@@ -265,6 +271,7 @@ function tick(now) {
 
   if (player) {
     player.update(dt, colliders);
+    if (ambient) ambient.update(dt, player.position);
 
     // Keep the shadow frustum tight on the player, or a town-sized frustum
     // makes shadows mushy and unusable.
