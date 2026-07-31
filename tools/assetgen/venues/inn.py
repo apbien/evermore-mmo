@@ -104,7 +104,7 @@ def build(ctx: VenueContext, asset_id="hm.inn"):
     shell = M.box(W - 0.5, G_H + F1_H + F2_H, D - 0.5, 0.02, "oak_dark", uv_scale=0.5)
     shell.scale(-1.0, 1.0, 1.0)      # inward-facing
     shell.translate(0, y0 + (G_H + F1_H + F2_H) * 0.5, 0)
-    ctx.emit(shell)
+    ctx.emit(shell, shell=True)
 
     # --- ground floor ----------------------------------------------------
     door_x = -W * 0.5 + 3.1
@@ -191,7 +191,7 @@ def build(ctx: VenueContext, asset_id="hm.inn"):
     roof = K.gable_roof(D2, W2, f"{asset_id}.roof", pitch=pitch, overhang=0.50)
     roof.rotate_y(np.pi * 0.5)
     roof.translate(0, y3, 0)
-    ctx.emit(roof)
+    ctx.emit(roof, container="inn roof")
     for sx in (-1, 1):
         g = K.gable_end(D2, y3, pitch, mat="plaster", depth=0.24)
         g.rotate_y(np.pi * 0.5)
@@ -217,16 +217,18 @@ def build(ctx: VenueContext, asset_id="hm.inn"):
         ctx.emit(dm)
 
     # --- chimneys, both smoking -----------------------------------------
-    # Stacks must clear the ridge. A 0.92 pitch over a 13m span puts the ridge
-    # ~6m above the eave, so eave-relative heights buried both chimneys.
-    ridge_h = (D2 * 0.5) * pitch
+    # Stacks must clear the RIDGE, and the ridge sits higher than a naive
+    # D2/2*pitch suggests because gable_roof adds the overhang to the span.
+    # Caught by the build-time occlusion check after a first fix that still
+    # left both stacks 0.3m short.
+    ridge_h = ((D2 + 1.0) * 0.5) * pitch
     for i, cx in enumerate((-W2 * 0.32, W2 * 0.34)):
-        # Off-ridge stacks need less height; scale by distance from centre.
-        frac = 1.0 - abs(cx) / (W2 * 0.5) * 0.35
-        ch_h = ridge_h * frac + 1.0 + i * 0.35
+        # A stack further down the slope needs to be TALLER to clear the
+        # ridge, not shorter — the first attempt had this backwards.
+        ch_h = ridge_h + 1.6 + i * 0.35
         ch = K.chimney(f"{asset_id}.ch{i}", height=ch_h, section=0.72)
         ch.translate(cx, y3 - 0.2, rng.uniform(-0.6, 0.6))
-        ctx.emit(ch)
+        ctx.emit(ch, label=f"inn chimney {i}")
         ctx.entity(f"{asset_id}.chimney.{i+1:02d}", "prop.chimney",
                    (cx, y3 - 0.2 + ch_h, 0), cell="E3",
                    smoke={"rate": 0.6, "drift": [0.8, 0, 0.5]})

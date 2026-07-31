@@ -204,7 +204,7 @@ def build(ctx: VenueContext, asset_id="hm.guild"):
                   uv_scale=0.5)
     inner.scale(-1.0, 1.0, 1.0)      # flip inward so we see its inside faces
     inner.translate(0, 0.55 + (HALL_H - 0.2) * 0.5, 0)
-    ctx.emit(inner)
+    ctx.emit(inner, shell=True)
     for sx in (-1, 1):
         w = M.box(0.55, HALL_H, HALL_D - 1.1, 0.02, "ashlar", uv_scale=0.55)
         w.translate(sx * (HALL_W * 0.5 - 0.275), 0.55 + HALL_H * 0.5, 0)
@@ -308,6 +308,90 @@ def build(ctx: VenueContext, asset_id="hm.guild"):
             sl.translate(tx, y, tz + szz * (TOWER_W * 0.5 - 0.20))
             ctx.emit(sl)
 
+    # --- secondary silhouette tier ---------------------------------------
+    # The massing reviewed as "two rectangles and a triangle": one hall box,
+    # one tower slab, one roof, with half-height merlons as the only break in
+    # the outline. Art Bible §6 requires a secondary tier that reads at 30m.
+    # These are the elements that break it.
+
+    # Octagonal stair turret clasping the tower corner and oversailing it.
+    # A turret is the single most effective silhouette-breaker on any tower:
+    # it reads as a different mass, it is round against square, and it rises
+    # past the parapet so the outline steps twice.
+    # Front-facing corner: on the rear corner the turret was fully occluded
+    # by the tower from the approach, which is the view that matters.
+    turr_x = tx - TOWER_W * 0.5
+    turr_z = tz - TOWER_W * 0.5
+    turret = M.lathe([(1.05, 0.0), (1.05, TOWER_H + 1.5),
+                      (1.22, TOWER_H + 1.75), (1.18, TOWER_H + 2.05)],
+                     8, "ashlar")
+    ctx.emit(turret.translate(turr_x, 0, turr_z))
+    # Conical cap — the only cone in Hearthmere, so it reads instantly.
+    cap = M.lathe([(1.22, TOWER_H + 2.05), (0.92, TOWER_H + 3.10),
+                   (0.42, TOWER_H + 3.95), (0.0, TOWER_H + 4.35)], 8, "terracotta")
+    ctx.emit(cap.translate(turr_x, 0, turr_z))
+    # Finial.
+    fin = M.lathe([(0.10, 0), (0.14, 0.14), (0.05, 0.30), (0.03, 0.62)], 8, "iron")
+    ctx.emit(fin.translate(turr_x, TOWER_H + 4.30, turr_z))
+    # Slit windows spiralling up the turret, following the stair inside.
+    for i in range(6):
+        a = 0.9 + i * 0.85
+        sl = M.box(0.26, 0.68, 0.30, 0.010, "glass")
+        sl.rotate_y(a)
+        sl.translate(turr_x + np.sin(a) * 1.02, 3.0 + i * 2.05,
+                     turr_z + np.cos(a) * 1.02)
+        ctx.emit(sl)
+
+    # Projecting entrance bay with its own gable, stepping the hall front
+    # forward. Without it the facade is a single unbroken plane.
+    BAY_W, BAY_D, BAY_H = 6.4, 1.25, 5.4
+    for sx in (-1, 1):
+        w = M.box(0.5, BAY_H, BAY_D, 0.02, "ashlar", uv_scale=0.6)
+        w.translate(sx * (BAY_W * 0.5 - 0.25), 0.55 + BAY_H * 0.5,
+                    -HALL_D * 0.5 - BAY_D * 0.5)
+        ctx.emit(w)
+    bay_face = M.box(BAY_W, BAY_H - PORCH_H - 0.62, 0.5, 0.02, "ashlar", uv_scale=0.6)
+    bay_face.translate(0, 0.55 + PORCH_H + 0.62 + (BAY_H - PORCH_H - 0.62) * 0.5,
+                       -HALL_D * 0.5 - BAY_D + 0.25)
+    ctx.emit(bay_face)
+    bay_roof = K.gable_roof(BAY_D + 0.9, BAY_W + 0.5, f"{asset_id}.bayroof",
+                            pitch=1.05, overhang=0.35)
+    bay_roof.rotate_y(np.pi * 0.5)
+    bay_roof.translate(0, 0.55 + BAY_H, -HALL_D * 0.5 - BAY_D * 0.5)
+    ctx.emit(bay_roof)
+    bay_gable = K.gable_end(BAY_D + 0.9, 0.55 + BAY_H, 1.05, mat="ashlar", depth=0.4)
+    bay_gable.rotate_y(np.pi * 0.5)
+    bay_gable.translate(0, 0, -HALL_D * 0.5 - BAY_D * 0.5)
+    ctx.emit(bay_gable)
+
+    # Stepped buttresses down the hall flanks — vertical rhythm against a long
+    # blank wall, and they cast the shadow bars that give the wall depth.
+    for sx in (-1, 1):
+        for i in range(3):
+            bz = -HALL_D * 0.28 + i * HALL_D * 0.28
+            for k, (bw, bh, bd) in enumerate([(0.75, HALL_H * 0.62, 0.95),
+                                              (0.62, HALL_H * 0.30, 0.72)]):
+                b = M.box(bw, bh, bd, 0.022, "ashlar", uv_scale=0.6)
+                b.translate(sx * (HALL_W * 0.5 + bd * 0.5 - 0.22 - k * 0.12),
+                            0.55 + (0 if k == 0 else HALL_H * 0.62) + bh * 0.5, bz)
+                ctx.emit(b)
+            # Weathered slope on top of each buttress.
+            cap_ = M.prism([(-0.31, 0), (0.31, 0), (0.31, 0.10), (0, 0.34), (-0.31, 0.10)],
+                           0.62, chamfer=0.01)
+            cap_.rotate_y(np.pi * 0.5)
+            cap_.translate(sx * (HALL_W * 0.5 + 0.24), 0.55 + HALL_H * 0.92, bz)
+            ctx.emit(cap_.with_material("ashlar"))
+
+    # A chimney on the hall — the guild has hearths, and a roofline with no
+    # stack reads as a model kit.
+    hch = K.chimney(f"{asset_id}.hallchimney",
+                    height=(HALL_D * 0.5) * 0.72 + 1.3, section=0.78)
+    hch.translate(-HALL_W * 0.26, 0.55 + HALL_H - 0.2, 0.7)
+    ctx.emit(hch, label="guild hall chimney")
+    ctx.entity(f"{asset_id}.chimney.01", "prop.chimney",
+               (-HALL_W * 0.26, 0.55 + HALL_H + 4.2, 0.7), cell="C2",
+               smoke={"rate": 0.5, "drift": [0.8, 0, 0.5]})
+
     # --- banners ---------------------------------------------------------
     # The only strong saturated colour on the building.
     # _banner builds in the XY plane, so an unrotated banner faces -Z. Each one
@@ -327,11 +411,14 @@ def build(ctx: VenueContext, asset_id="hm.guild"):
     b.translate(tx - TOWER_W * 0.5 - 0.10, TOWER_H - 1.1, tz)
     ctx.emit(b)
 
-    # Banners flanking the entrance, at street level.
+    # Banners flanking the entrance, hung on the projecting bay's face rather
+    # than on the wall behind it — on the old flat facade they sat where the
+    # bay now stands and read as pale slabs clipping through it.
     for sx in (-1, 1):
-        b = _banner(f"{asset_id}.ebanner{sx}", width=1.05, height=2.9,
+        b = _banner(f"{asset_id}.ebanner{sx}", width=0.85, height=2.4,
                     sway=rng.uniform(-0.04, 0.04))
-        b.translate(sx * (PORCH_W * 0.5 + 0.55), 0.55 + PORCH_H - 0.15, zf - 0.12)
+        b.translate(sx * (BAY_W * 0.5 - 0.55), 0.55 + BAY_H - 0.85,
+                    -HALL_D * 0.5 - BAY_D - 0.10)
         ctx.emit(b)
 
     # --- hall roof -------------------------------------------------------
@@ -395,6 +482,6 @@ def build(ctx: VenueContext, asset_id="hm.guild"):
     # Reception counter visible through the open doors.
     counter = M.box(2.6, 1.05, 0.62, 0.012, "oak_dark", uv_scale=1.2)
     counter.translate(0.6, 0.55 + 0.525, zf + 3.6)
-    ctx.emit(counter)
+    ctx.emit(counter, label="guild counter")
     ctx.entity(f"{asset_id}.counter.01", "vendor.guild", (0.6, 1.08, zf + 3.6),
                cell="C2", verbs=["talk"])

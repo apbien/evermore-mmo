@@ -106,6 +106,8 @@ def main():
         print(f"  {name:16s} {info['tris']:7,d} tris  "
               f"{info['entities']:3d} entities  {time.time()-t0:5.2f}s  "
               f"[{', '.join(info['materials'])}]")
+        for h in info.get("occlusion", []):
+            print(f"      OCCLUDED: {h}")
     print(f"\ntotal {total:,} tris")
 
 

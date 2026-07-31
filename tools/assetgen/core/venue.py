@@ -47,6 +47,11 @@ class VenueContext:
         self._prims = []
         self._entities = []
         self._tri_total = 0
+        # Per-object bounds captured at emit time, for the occlusion check.
+        # This information only exists HERE: by export time everything has been
+        # merged per material, so a "skin" primitive is every NPC in the venue
+        # at once and containment tests become meaningless.
+        self._emitted = []
 
     # -- materials ----------------------------------------------------------
 
@@ -77,7 +82,58 @@ class VenueContext:
 
     # -- geometry -----------------------------------------------------------
 
-    def emit(self, geom, material_key=None):
+    OCCLUSION_MIN_VOL = 0.35     # m^3; ignore trim and small fittings
+
+    def check_occlusion(self):
+        """Flag objects generated wholly inside another object.
+
+        Three separate instances shipped before this check existed: the guild's
+        tower lancets sat inside walls spanning past them, its reception counter
+        was entombed behind a solid front wall, and the inn's chimneys sat
+        2.4-2.9m down inside the roof. Each cost triangles and rendered nothing,
+        while the build reported success and the tri count looked healthy.
+
+        What makes this class of bug worth a tripwire is that it silently
+        deletes exactly the elements the World Bible briefs call for — a smoking
+        chimney, a visible counter — rather than failing loudly.
+
+        OPT-IN by design. An untargeted AABB sweep is useless here: every wall
+        of a building legitimately sits inside that building's own bounds, so a
+        blanket check produced ~40 false positives per build — and a check that
+        cries wolf is worse than no check, because it trains everyone to ignore
+        the output.
+
+        So only elements emitted with an explicit `label=` are tested, and only
+        against containers emitted with `container=`. That is precise where it
+        matters (a chimney against its roof, a counter against its wall) and
+        silent everywhere else.
+        """
+        hits = []
+        labelled = [e for e in self._emitted if e[2] is not None]
+        containers = [e for e in self._emitted if e[3]]
+        for lo, hi, label, _c, _s in labelled:
+            for olo, ohi, olabel, ocontainer, oshell in containers:
+                if oshell or ocontainer == label:
+                    continue
+                # Overlap in PLAN, then test whether the element clears the
+                # container's top.
+                #
+                # "Wholly inside the container's box" is the wrong test and was
+                # verified not to fire: a buried chimney starts at the eave,
+                # which is BELOW the roof's bounding box, so it never satisfied
+                # containment even while being completely swallowed. What
+                # actually defines burial for a vertical element is failing to
+                # clear the thing it must poke through.
+                overlaps_plan = (lo[0] < ohi[0] and hi[0] > olo[0] and
+                                 lo[2] < ohi[2] and hi[2] > olo[2])
+                if overlaps_plan and hi[1] <= ohi[1] + 0.02:
+                    hits.append(f"'{label}' top y={hi[1]:.2f} does not clear "
+                                f"'{ocontainer}' top y={ohi[1]:.2f} — buried")
+                    break
+        return hits
+
+    def emit(self, geom, material_key=None, label=None, container=None,
+             shell=False):
         """Add a Mesh or a multi-material Group to the venue.
 
         A Group keeps its per-material split, which is both correct (a
@@ -86,6 +142,9 @@ class VenueContext:
         """
         if geom is None or geom.tri_count == 0:
             return
+        lo, hi = geom.bounds()
+        self._emitted.append((np.asarray(lo, float), np.asarray(hi, float),
+                              label, container, shell))
         if isinstance(geom, Group):
             for key, m in geom.items():
                 self._prims.append((m, self.material(key)))
@@ -137,6 +196,7 @@ class VenueContext:
                            "entities": self._entities}, f, indent=2)
         return {
             "venue": self.name,
+            "occlusion": self.check_occlusion(),
             "path": path,
             "tris": self._tri_total,
             "materials": sorted(self._mats),

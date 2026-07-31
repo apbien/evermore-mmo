@@ -72,6 +72,35 @@
       }
     },
     {
+      "id": "hm.guild.chimney.01",
+      "archetype": "prop.chimney",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          -3.64,
+          10.95,
+          0.7
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "smoke": {
+          "rate": 0.5,
+          "drift": [
+            0.8,
+            0,
+            0.5
+          ]
+        }
+      }
+    },
+    {
       "id": "hm.guild.lantern.01",
       "archetype": "prop.lantern",
       "cell": "C2",

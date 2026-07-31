@@ -198,7 +198,7 @@ def build(ctx: VenueContext, asset_id="hm.blacksmith"):
     # the venue's anchor silhouette, visible across town.
     stack = K.chimney(f"{asset_id}.stack", height=3.4, section=0.92)
     stack.translate(-1.5, POST_H + 1.5, YARD_D * 0.5 - 1.5)
-    ctx.emit(stack)
+    ctx.emit(stack, label="forge stack")
     ctx.entity(f"{asset_id}.chimney.01", "prop.chimney",
                (-1.5, POST_H + 1.5 + 3.6, YARD_D * 0.5 - 1.5), cell="B5",
                smoke={"rate": 1.0, "drift": [0.8, 0, 0.5]})

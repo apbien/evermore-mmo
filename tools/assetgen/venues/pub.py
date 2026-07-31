@@ -48,7 +48,7 @@ def build(ctx: VenueContext, asset_id="hm.pub"):
     shell = M.box(W - 0.5, EAVES, D - 0.5, 0.02, "oak_dark", uv_scale=0.5)
     shell.scale(-1.0, 1.0, 1.0)
     shell.translate(0, y0 + 0.55 + EAVES * 0.5, 0)
-    ctx.emit(shell)
+    ctx.emit(shell, shell=True)
 
     # Raised ground apron around the building, with a sunken well at the door.
     apron = M.Group()
@@ -119,7 +119,7 @@ def build(ctx: VenueContext, asset_id="hm.pub"):
     roof.scale(1.0, 0.94, 1.0)
     roof.rotate_z(0.012)
     roof.translate(0, 0.10, 0)
-    ctx.emit(roof)
+    ctx.emit(roof, container="pub roof")
     for sx in (-1, 1):
         g = K.gable_end(D, y_e, pitch * 0.94, mat="plaster", depth=0.22)
         g.rotate_y(np.pi * 0.5)
@@ -131,7 +131,7 @@ def build(ctx: VenueContext, asset_id="hm.pub"):
     ridge_h = ((D + 1.1) * 0.5) * pitch * 0.94
     ch = K.chimney(f"{asset_id}.chimney", height=ridge_h + 1.15, section=0.78)
     ch.translate(-W * 0.30, y_e - 0.25, rng.uniform(-0.4, 0.4))
-    ctx.emit(ch)
+    ctx.emit(ch, label="pub chimney")
     ctx.entity(f"{asset_id}.chimney.01", "prop.chimney",
                (-W * 0.30, y_e - 0.25 + ridge_h + 1.15, 0), cell="B3",
                smoke={"rate": 0.8, "drift": [0.8, 0, 0.5]})
