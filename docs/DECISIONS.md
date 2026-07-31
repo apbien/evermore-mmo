@@ -130,7 +130,7 @@ the reference targets in `docs/REFERENCES.md`.
 
 ## D-008 — Hearthmere is Haven I; design bible updated to match
 
-**Context.** `docs/GAME_DESIGN.md` (v0.5) defines the game as **Evermore**, the
+**Context.** The design bible defines the game as **Evermore**, the
 world as **Arkadion**, and settlements as **Havens** with a numerical
 designation plus a historical name. Its example register listed
 `Haven I: Hearth`. This branch had already been built naming the first town
@@ -146,6 +146,14 @@ satisfies the canonical naming structure once paired with its numeral, and
 `docs/ARCHITECTURE.md` §2 commits to entity IDs never being recycled, so
 preserving `hm.*` avoids a rewrite for no functional gain.
 
-**Cost.** `docs/GAME_DESIGN.md` is edited on this branch. If that document is
-maintained elsewhere, this change needs to be reconciled with its owner rather
-than silently diverging.
+**Cost.** The design bible is edited on this branch, so if it is maintained
+elsewhere the change needs reconciling with its owner rather than silently
+diverging.
+
+**Follow-up.** This is exactly what happened. `main` subsequently restructured
+`docs/GAME_DESIGN.md` into a `docs/world/` + `docs/systems/` tree, and because
+the restructure was a delete-and-rewrite rather than an edit, git merged both
+sides cleanly and the Haven register silently reverted to the placeholder
+`Haven I: Hearth`. Re-applied to `docs/world/arkadion.md`, which is now the
+canonical location. Worth noting the failure mode: a clean merge is not
+evidence that a semantic change survived.

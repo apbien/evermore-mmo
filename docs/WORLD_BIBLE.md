@@ -1,6 +1,6 @@
 # World Bible — Hearthmere (Haven I)
 
-Hearthmere is **Haven I** in the settlement register of `docs/GAME_DESIGN.md`.
+Hearthmere is **Haven I** in the settlement register of `docs/world/arkadion.md`.
 Canon pairs a numerical designation with a historical name; players may use
 either. This document covers the historical settlement in detail.
 
