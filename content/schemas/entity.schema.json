@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "entity.schema.json",
+  "title": "Entity",
+  "description": "An interactable thing in the world. Scenery (cobbles, roof tiles, wall panels) is NOT an entity - it is anonymous batched geometry with no server presence. See docs/ARCHITECTURE.md §2.",
+  "type": "object",
+  "required": ["id", "archetype", "transform"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^hm\\.[a-z_]+(\\.[a-z_0-9]+)*$",
+      "description": "Stable hierarchical ID: hm.<venue>.<kind>.<nn>. Never recycled - this is the key for replication, persistence and save state."
+    },
+    "archetype": { "type": "string", "description": "e.g. prop.anvil, door.inn, vendor.stall" },
+    "cell": { "type": ["string", "null"], "pattern": "^[A-F][1-6]$",
+              "description": "16m spatial cell. Drives culling now, network interest management later." },
+    "transform": {
+      "type": "object",
+      "required": ["pos"],
+      "properties": {
+        "pos":   { "type": "array", "items": { "type": "number" }, "minItems": 3, "maxItems": 3 },
+        "rot":   { "type": "array", "items": { "type": "number" }, "minItems": 4, "maxItems": 4 },
+        "scale": { "type": ["number", "array"] }
+      }
+    },
+    "components": {
+      "type": "object",
+      "description": "Components are how a renderable prop later gains network behaviour without being rewritten.",
+      "properties": {
+        "renderable":   { "type": "object" },
+        "interactable": {
+          "type": "object",
+          "properties": {
+            "verbs": { "type": "array", "items": { "type": "string" } },
+            "range": { "type": "number", "default": 2.0 }
+          }
+        },
+        "collider": { "type": "object" },
+        "vendor": {
+          "type": "object",
+          "description": "Authoritative stock. The server owns this; the client only renders it.",
+          "properties": {
+            "stock": { "type": "array", "items": {
+              "type": "object",
+              "required": ["item", "price"],
+              "properties": {
+                "item":  { "type": "string" },
+                "price": { "type": "integer", "minimum": 0 },
+                "qty":   { "type": "integer", "minimum": -1, "description": "-1 = unlimited" }
+              }
+            }},
+            "currency": { "type": "string", "default": "copper" },
+            "restockSeconds": { "type": "integer" }
+          }
+        },
+        "crafting_station": { "type": "object" },
+        "quest_board":      { "type": "object" },
+        "light":            { "type": "object" },
+        "rest_point":       { "type": "object" }
+      }
+    }
+  }
+}
