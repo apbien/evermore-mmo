@@ -74,15 +74,20 @@ def build(ctx: VenueContext, asset_id="hm.folk"):
     rng = rng_for(asset_id, "townsfolk")
 
     for i, (x, z, facing, pose, kind, y) in enumerate(PEOPLE):
+        yaw = facing + rng.uniform(-0.10, 0.10)
         f = N.figure(f"{asset_id}.{i:02d}", pose=pose, child=(kind == "child"))
-        f.rotate_y(facing + rng.uniform(-0.10, 0.10))
+        f.rotate_y(yaw)
         f.translate(x, y, z)
         ctx.emit(f)
 
         # Every person is an entity: they are the things a player will want to
         # talk to, and they are the unit that later carries a schedule and gets
         # replicated. Art §2 — anything that can be interacted with gets an ID.
+        # Record the facing. The mesh was rotated but the entity carried an
+        # identity quaternion, so anything reading the DATA — a server, a
+        # replication layer, an Unreal import — would face every NPC north.
         ctx.entity(f"{asset_id}.{i:02d}", f"npc.{pose}", (x, y, z),
+                   rot=[0.0, float(np.sin(yaw * 0.5)), 0.0, float(np.cos(yaw * 0.5))],
                    verbs=["talk"],
                    npc={"pose": pose, "kind": kind,
                         "schedule": "static_v0"})

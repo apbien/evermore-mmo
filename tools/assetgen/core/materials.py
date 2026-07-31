@@ -664,6 +664,55 @@ def hair(name="hair", size=256, seed=0, colour="#3A2A1E"):
     return m
 
 
+def parchment(name="parchment", size=512, seed=0):
+    """Parchment for notices, maps and posted bills.
+
+    There was no parchment in the registry, so the quest board — the single
+    most important interactable in Hearthmere — requested "canvas" and got the
+    STRIPED MARKET AWNING. Seventeen candy-striped cards on a rack of poles
+    read as laundry, not as posted work.
+
+    Real parchment: warm off-white, blotchy from the skin it came from, with
+    fibre grain, foxing spots, and darkened handled edges.
+    """
+    m = MaterialSet(name, size)
+    s = (size, size)
+    m.set_base("#DCCFAE")
+
+    # Skin blotching — parchment is never even.
+    blotch = normalize01(fbm(s, 6, seed + 181, octaves=4))
+    m.darken(blotch * 0.8, 0.16)
+    m.lighten(smoothstep(0.6, 1.0, blotch), 0.12)
+
+    # Fibre grain and surface tooth.
+    m.add_height(ridged(s, 45, seed + 182, octaves=2) * 0.14 +
+                 fbm(s, 90, seed + 183) * 0.06)
+
+    # Foxing — the brown age spots that make old paper read as old.
+    fox = smoothstep(0.80, 0.94, normalize01(worley(s, 20, seed + 184, metric="f2f1")))
+    m.tint("#9C7B4A", fox * 0.55)
+
+    # Handled edges darken and soften.
+    gx = np.abs(np.linspace(-1, 1, size))[None, :].repeat(size, 0)
+    gy = np.abs(np.linspace(-1, 1, size))[:, None].repeat(size, 1)
+    edge = smoothstep(0.72, 1.0, np.maximum(gx, gy))
+    m.darken(edge, 0.28)
+
+    m.rough(0.86, 0.09, 0.05, seed + 185)
+    return m
+
+
+def sealing_wax(name="wax", size=256, seed=0, colour="#8E2B2B"):
+    """Sealing wax — glossy, deep, and the only high-spec thing on a notice."""
+    m = MaterialSet(name, size)
+    s = (size, size)
+    m.set_base(colour)
+    m.add_height(fbm(s, 18, seed + 191) * 0.25)
+    m.darken(normalize01(fbm(s, 10, seed + 192)) * 0.7, 0.20)
+    m.rough(0.22, 0.10, 0.06, seed + 193)
+    return m
+
+
 # Registry so venue modules and the build script agree on names.
 LIBRARY = {
     "plaster":      lambda **k: lime_plaster(**k),
@@ -695,6 +744,8 @@ LIBRARY = {
     "skin":         lambda **k: skin_tone(**k),
     "hair_dark":    lambda **k: hair(colour="#3A2A1E", **k),
     "hair_fair":    lambda **k: hair(colour="#9C7B4A", **k),
+    "parchment":    lambda **k: parchment(**k),
+    "wax":          lambda **k: sealing_wax(**k),
     "leather":      lambda **k: canvas_awning(stripe=False, base="#6B4A2E",
                                               accent="#6B4A2E", **k),
 }

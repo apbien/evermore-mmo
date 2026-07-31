@@ -98,6 +98,14 @@ def build(ctx: VenueContext, asset_id="hm.inn"):
     y0 = 0.45
     ctx.emit(K.stone_plinth(W + 0.3, D + 0.3, y0), "stone")
 
+    # Interior shell. Without it, sky and sunlit exterior plaster show through
+    # every window and the open front door, which is the single strongest
+    # "facade, not a building" tell.
+    shell = M.box(W - 0.5, G_H + F1_H + F2_H, D - 0.5, 0.02, "oak_dark", uv_scale=0.5)
+    shell.scale(-1.0, 1.0, 1.0)      # inward-facing
+    shell.translate(0, y0 + (G_H + F1_H + F2_H) * 0.5, 0)
+    ctx.emit(shell)
+
     # --- ground floor ----------------------------------------------------
     door_x = -W * 0.5 + 3.1
     win_g = [(door_x + 2.5, 1.55, 1.3, 1.4), (door_x + 4.9, 1.55, 1.3, 1.4),
@@ -209,12 +217,18 @@ def build(ctx: VenueContext, asset_id="hm.inn"):
         ctx.emit(dm)
 
     # --- chimneys, both smoking -----------------------------------------
+    # Stacks must clear the ridge. A 0.92 pitch over a 13m span puts the ridge
+    # ~6m above the eave, so eave-relative heights buried both chimneys.
+    ridge_h = (D2 * 0.5) * pitch
     for i, cx in enumerate((-W2 * 0.32, W2 * 0.34)):
-        ch = K.chimney(f"{asset_id}.ch{i}", height=2.6 + i * 0.4, section=0.72)
+        # Off-ridge stacks need less height; scale by distance from centre.
+        frac = 1.0 - abs(cx) / (W2 * 0.5) * 0.35
+        ch_h = ridge_h * frac + 1.0 + i * 0.35
+        ch = K.chimney(f"{asset_id}.ch{i}", height=ch_h, section=0.72)
         ch.translate(cx, y3 - 0.2, rng.uniform(-0.6, 0.6))
         ctx.emit(ch)
         ctx.entity(f"{asset_id}.chimney.{i+1:02d}", "prop.chimney",
-                   (cx, y3 + 2.4, 0), cell="E3",
+                   (cx, y3 - 0.2 + ch_h, 0), cell="E3",
                    smoke={"rate": 0.6, "drift": [0.8, 0, 0.5]})
 
     # --- sign -------------------------------------------------------------

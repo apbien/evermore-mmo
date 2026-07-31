@@ -104,8 +104,13 @@ down the Ford Road at the square.
 
 This single frame is the most important composition in the build. It must show,
 in one view: the gate arch framing the shot, the Ford Road leading the eye, the
-fountain as the focal point at centre, the guild tower rising on the LEFT, the
-inn's roofline on the right, stall awnings adding colour, and NPCs moving.
+fountain as the focal point at centre, the guild tower rising on the RIGHT, the
+inn's roofline on the left, stall awnings adding colour, and NPCs moving.
+
+Note the handedness, because it is easy to get backwards: the player faces +Z,
+and in this right-handed Y-up system screen-right is therefore **-X**. The
+guild sits west (x = -12.5) and so appears on the RIGHT of the frame; the inn
+sits east and appears on the LEFT.
 
 **Nothing may stand on the road's centreline.** The guild originally spanned
 C2+D2, which put it squarely across Ford Road and blocked the view through to

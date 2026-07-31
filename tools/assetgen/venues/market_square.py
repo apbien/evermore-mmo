@@ -209,12 +209,12 @@ def _notice_post(asset_id):
     out.add(cap.with_material("oak_dark"))
     for i in range(5):
         n = M.box(rng.uniform(0.16, 0.24), rng.uniform(0.20, 0.30), 0.006, 0.002,
-                  "canvas")
+                  "parchment")
         n.rotate_z(rng.uniform(-0.14, 0.14))
         n.translate(rng.uniform(-0.04, 0.04),
                     1.35 + i * 0.19 + rng.uniform(-0.03, 0.03), -0.105)
         out.add(n)
-        seal = M.lathe([(0.0, 0), (0.021, 0.004), (0.018, 0.008)], 8, "painted")
+        seal = M.lathe([(0.0, 0), (0.021, 0.004), (0.018, 0.008)], 8, "wax")
         seal.rotate_x(-np.pi * 0.5)
         seal.translate(rng.uniform(-0.05, 0.05), 1.35 + i * 0.19 + 0.07, -0.112)
         out.add(seal)

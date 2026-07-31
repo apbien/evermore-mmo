@@ -93,7 +93,7 @@ def _quest_board(ctx, asset_id):
         age = rng.uniform(0.0, 1.0)
         w = rng.uniform(0.17, 0.29)
         h = rng.uniform(0.20, 0.32)
-        n = M.box(w, h, 0.004, 0.001, "canvas")
+        n = M.box(w, h, 0.004, 0.001, "parchment")
         # Old notices curl off the board and hang crooked.
         n.rotate_z(rng.uniform(-0.06, 0.06) - age * rng.uniform(0.0, 0.22))
         n.rotate_x(-age * rng.uniform(0.0, 0.28))
@@ -108,7 +108,7 @@ def _quest_board(ctx, asset_id):
         pin.translate(n.bounds()[0][0] + w * 0.5, n.bounds()[1][1] - 0.03, -0.042)
         out.add(pin)
         if rng.random() < 0.5:
-            seal = M.lathe([(0.0, 0), (0.020, 0.004), (0.017, 0.009)], 8, "painted")
+            seal = M.lathe([(0.0, 0), (0.020, 0.004), (0.017, 0.009)], 8, "wax")
             seal.rotate_x(-np.pi * 0.5)
             seal.translate(n.bounds()[0][0] + w * 0.5,
                            n.bounds()[0][1] + 0.05, -0.040)
@@ -171,10 +171,40 @@ def build(ctx: VenueContext, asset_id="hm.guild"):
 
     # --- hall walls ------------------------------------------------------
     # Solid ashlar, unlike every other building in town.
-    for sz, d in ((-1, HALL_D), (1, HALL_D)):
-        w = M.box(HALL_W, HALL_H, 0.55, 0.02, "ashlar", uv_scale=0.55)
-        w.translate(0, 0.55 + HALL_H * 0.5, sz * (HALL_D * 0.5 - 0.275))
-        ctx.emit(w)
+    #
+    # The FRONT wall is built in segments around a real door aperture. Built as
+    # one solid box, the "always open" double doors hung against unbroken stone
+    # and the reception counter behind them was entombed — the classic
+    # "it's a facade, not a building" tell.
+    DOOR_W_OPEN, DOOR_H_OPEN = 3.4, 3.30
+    for sz in (-1, 1):
+        if sz == -1:
+            side_w = (HALL_W - DOOR_W_OPEN) * 0.5
+            for sx in (-1, 1):
+                w = M.box(side_w, HALL_H, 0.55, 0.02, "ashlar", uv_scale=0.55)
+                w.translate(sx * (DOOR_W_OPEN * 0.5 + side_w * 0.5),
+                            0.55 + HALL_H * 0.5, sz * (HALL_D * 0.5 - 0.275))
+                ctx.emit(w)
+            # Wall over the opening.
+            over_h = HALL_H - DOOR_H_OPEN
+            w = M.box(DOOR_W_OPEN, over_h, 0.55, 0.02, "ashlar", uv_scale=0.55)
+            w.translate(0, 0.55 + DOOR_H_OPEN + over_h * 0.5,
+                        sz * (HALL_D * 0.5 - 0.275))
+            ctx.emit(w)
+        else:
+            w = M.box(HALL_W, HALL_H, 0.55, 0.02, "ashlar", uv_scale=0.55)
+            w.translate(0, 0.55 + HALL_H * 0.5, sz * (HALL_D * 0.5 - 0.275))
+            ctx.emit(w)
+
+    # Interior shell: a dark box inside the hall. Without it the open door and
+    # every opening look straight through to sunlit exterior plaster and sky,
+    # which reads as an empty stage set. In Gridania every opening is lit,
+    # dark, or shuttered — never wall, and never daylight from the far side.
+    inner = M.box(HALL_W - 1.2, HALL_H - 0.2, HALL_D - 1.2, 0.02, "oak_dark",
+                  uv_scale=0.5)
+    inner.scale(-1.0, 1.0, 1.0)      # flip inward so we see its inside faces
+    inner.translate(0, 0.55 + (HALL_H - 0.2) * 0.5, 0)
+    ctx.emit(inner)
     for sx in (-1, 1):
         w = M.box(0.55, HALL_H, HALL_D - 1.1, 0.02, "ashlar", uv_scale=0.55)
         w.translate(sx * (HALL_W * 0.5 - 0.275), 0.55 + HALL_H * 0.5, 0)

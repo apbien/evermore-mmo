@@ -47,6 +47,26 @@
   },
   "venues": [
     {
+      "id": "streets",
+      "name": "Streets and Gate",
+      "cells": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6"
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotationDeg": 0,
+      "role": "infrastructure",
+      "comment": "Consumer for streets[] below. Ford Road, Mere Street, Smith's Lane, the north gate and the south waymarkers."
+    },
+    {
       "id": "market_square",
       "name": "Market Square",
       "cells": [
@@ -371,7 +391,7 @@
         0,
         -46
       ],
-      "comment": "The player's arrival frame. Must show: gate arch framing, road leading the eye, fountain focal point, guild tower right, inn roofline left."
+      "comment": "The player's arrival frame. Must show: the gate arch framing the shot, Ford Road leading the eye, the fountain as focal point at centre, the guild tower rising on the RIGHT (facing +Z, screen-right is -X, and the guild sits west at x=-12.5), the inn's roofline on the left, stall colour, and NPCs moving."
     },
     {
       "id": "hm.fountain",

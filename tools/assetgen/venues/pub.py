@@ -43,6 +43,13 @@ def build(ctx: VenueContext, asset_id="hm.pub"):
     plinth.translate(0, y0 + 0.275, 0)
     ctx.emit(plinth)
 
+    # Interior shell so the low windows and open door read as a dark, warm
+    # room rather than showing sunlit plaster from the far wall.
+    shell = M.box(W - 0.5, EAVES, D - 0.5, 0.02, "oak_dark", uv_scale=0.5)
+    shell.scale(-1.0, 1.0, 1.0)
+    shell.translate(0, y0 + 0.55 + EAVES * 0.5, 0)
+    ctx.emit(shell)
+
     # Raised ground apron around the building, with a sunken well at the door.
     apron = M.Group()
     for (ax, az, aw, ad) in [(0, -D * 0.5 - 1.9, W + 4.0, 2.4),
@@ -119,11 +126,14 @@ def build(ctx: VenueContext, asset_id="hm.pub"):
         g.translate(sx * W * 0.5, 0, 0)
         ctx.emit(g)
 
-    ch = K.chimney(f"{asset_id}.chimney", height=2.9, section=0.78)
+    # Height must clear the RIDGE, not the eave. Derived from the eave, this
+    # stack finished 0.31m below its own ridge and was buried in the roof.
+    ridge_h = ((D + 1.1) * 0.5) * pitch * 0.94
+    ch = K.chimney(f"{asset_id}.chimney", height=ridge_h + 1.15, section=0.78)
     ch.translate(-W * 0.30, y_e - 0.25, rng.uniform(-0.4, 0.4))
     ctx.emit(ch)
     ctx.entity(f"{asset_id}.chimney.01", "prop.chimney",
-               (-W * 0.30, y_e + 2.6, 0), cell="B3",
+               (-W * 0.30, y_e - 0.25 + ridge_h + 1.15, 0), cell="B3",
                smoke={"rate": 0.8, "drift": [0.8, 0, 0.5]})
 
     # --- the sign: an actual iron lamp, not a painted board ---------------

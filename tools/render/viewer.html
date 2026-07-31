@@ -104,9 +104,19 @@ rim.position.set(-Math.sin(az)*40, 14, -Math.cos(az)*40);
 scene.add(rim);
 
 // --- Ground ---------------------------------------------------------------
+// Textured, not a constant colour. A flat-colour ground plane is on the
+// anti-reference list in docs/REFERENCES.md, and it also makes ground-contact
+// wear impossible to judge in any review render.
+const _gtex = new THREE.TextureLoader().load('/assets/textures/cobble_albedo.png');
+_gtex.wrapS = _gtex.wrapT = THREE.RepeatWrapping;
+_gtex.repeat.set(200, 200);
+_gtex.colorSpace = THREE.SRGBColorSpace;
+const _gnrm = new THREE.TextureLoader().load('/assets/textures/cobble_normal.png');
+_gnrm.wrapS = _gnrm.wrapT = THREE.RepeatWrapping;
+_gnrm.repeat.set(200, 200);
 const ground = new THREE.Mesh(
   new THREE.PlaneGeometry(400, 400).rotateX(-Math.PI/2),
-  new THREE.MeshStandardMaterial({ color: 0x6E6A5E, roughness: 0.95 }));
+  new THREE.MeshStandardMaterial({ map: _gtex, normalMap: _gnrm, roughness: 0.95 }));
 ground.receiveShadow = true;
 ground.position.y = -0.002;
 if (q.get('ground') !== '0') scene.add(ground);

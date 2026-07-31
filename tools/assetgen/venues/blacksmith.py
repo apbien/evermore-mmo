@@ -193,8 +193,14 @@ def build(ctx: VenueContext, asset_id="hm.blacksmith"):
     forge = _forge(ctx, f"{asset_id}.forge.01")
     forge.translate(-1.5, 0, YARD_D * 0.5 - 1.5)
     ctx.emit(forge)
+    # The forge flue stopped inside the shed: a smoke entity was declared with
+    # no stack above the roofline for it to leave from. The forge chimney is
+    # the venue's anchor silhouette, visible across town.
+    stack = K.chimney(f"{asset_id}.stack", height=3.4, section=0.92)
+    stack.translate(-1.5, POST_H + 1.5, YARD_D * 0.5 - 1.5)
+    ctx.emit(stack)
     ctx.entity(f"{asset_id}.chimney.01", "prop.chimney",
-               (-1.5, 5.4, YARD_D * 0.5 - 1.5), cell="B5",
+               (-1.5, POST_H + 1.5 + 3.6, YARD_D * 0.5 - 1.5), cell="B5",
                smoke={"rate": 1.0, "drift": [0.8, 0, 0.5]})
 
     bel = _bellows(f"{asset_id}.bellows")

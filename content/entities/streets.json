@@ -1,75 +1,26 @@
 {
-  "venue": "pub",
+  "venue": "streets",
   "cells": [
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C5",
+    "C6",
     "B3",
-    "B4"
+    "D3",
+    "E3"
   ],
   "entities": [
     {
-      "id": "hm.pub.door.01",
-      "archetype": "door.pub",
-      "cell": "B3",
+      "id": "hm.streets.waymarker.w",
+      "archetype": "prop.waymarker",
+      "cell": "C6",
       "transform": {
         "pos": [
-          -1.6,
-          0.25,
-          -4.12
-        ],
-        "rot": [
-          0,
-          0,
-          0,
-          1
-        ],
-        "scale": 1.0
-      },
-      "components": {
-        "interactable": {
-          "verbs": [
-            "enter"
-          ],
-          "range": 2.0
-        }
-      }
-    },
-    {
-      "id": "hm.pub.chimney.01",
-      "archetype": "prop.chimney",
-      "cell": "B3",
-      "transform": {
-        "pos": [
-          -3.0,
-          7.4638,
-          0.0
-        ],
-        "rot": [
-          0,
-          0,
-          0,
-          1
-        ],
-        "scale": 1.0
-      },
-      "components": {
-        "smoke": {
-          "rate": 0.8,
-          "drift": [
-            0.8,
-            0,
-            0.5
-          ]
-        }
-      }
-    },
-    {
-      "id": "hm.pub.sign.01",
-      "archetype": "prop.sign",
-      "cell": "B3",
-      "transform": {
-        "pos": [
-          -2.31,
-          1.7,
-          -4.12
+          -4.6,
+          0.0,
+          44.0
         ],
         "rot": [
           0,
@@ -85,23 +36,18 @@
             "inspect"
           ],
           "range": 2.0
-        },
-        "light": {
-          "color": "#FFB35C",
-          "intensity": 2.0,
-          "range": 6.5
         }
       }
     },
     {
-      "id": "hm.pub.table.01",
-      "archetype": "prop.table",
-      "cell": "B3",
+      "id": "hm.streets.waymarker.e",
+      "archetype": "prop.waymarker",
+      "cell": "C6",
       "transform": {
         "pos": [
-          2.6,
-          0.3,
-          -6.3
+          4.6,
+          0.0,
+          44.0
         ],
         "rot": [
           0,
@@ -114,21 +60,73 @@
       "components": {
         "interactable": {
           "verbs": [
-            "sit"
+            "inspect"
           ],
           "range": 2.0
         }
       }
     },
     {
-      "id": "hm.pub.table.02",
-      "archetype": "prop.table",
-      "cell": "B3",
+      "id": "hm.streets.gatelamp.w",
+      "archetype": "prop.lantern",
+      "cell": "C1",
       "transform": {
         "pos": [
-          -3.4,
-          0.3,
-          -6.5
+          -3.75,
+          3.3,
+          -46.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.6,
+          "range": 7.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.gatelamp.e",
+      "archetype": "prop.lantern",
+      "cell": "C1",
+      "transform": {
+        "pos": [
+          3.75,
+          3.3,
+          -46.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.6,
+          "range": 7.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.gate.north",
+      "archetype": "landmark.gate",
+      "cell": "C1",
+      "transform": {
+        "pos": [
+          0.0,
+          0.0,
+          -46.0
         ],
         "rot": [
           0,
@@ -141,7 +139,7 @@
       "components": {
         "interactable": {
           "verbs": [
-            "sit"
+            "inspect"
           ],
           "range": 2.0
         }
