@@ -1,7 +1,8 @@
-# Evermore
-> Game Design Bible
-> Version: 0.1
-> Status: Foundational Design
+# EVERMORE_GAME_DESIGN.md
+
+> Game Design Bible  
+> Version: 0.2  
+> Status: Foundational Design  
 > World: Arkadion
 
 ---
@@ -10,245 +11,92 @@
 
 This document establishes the foundational philosophy of Evermore.
 
-It is **not** intended to document every mechanic. Instead, it defines the core principles that every future system should support.
+It defines the principles that guide future systems, mechanics, worldbuilding, and content creation.
 
-Whenever a new feature, profession, skill, region, quest, monster, or mechanic is introduced, it should reinforce the design philosophy contained within this document.
+This document should remain stable while individual systems expand through dedicated documentation.
 
-If a mechanic conflicts with these principles, the mechanic should be reconsidered.
+Every future feature should support the identity of Evermore.
 
 ---
 
 # High Concept
 
-Evermore is a persistent MMORPG centered around **discovery, curiosity, and player-driven knowledge**.
+Evermore is a persistent MMORPG centered around discovery, curiosity, and personal expression.
 
-Progression is not defined solely by combat strength.
+Players grow by understanding the world.
 
-Players become stronger by understanding the world.
+Progression is not defined only by levels, equipment, or numerical power.
 
-The world is designed to reward observation, experimentation, exploration, and interaction.
+A player's identity is shaped by:
 
-There should always be something left to discover.
+- what they discover
+- what they learn
+- how they specialize
+- how they choose to express their abilities
 
----
-
-# Design Pillars
-
-## 1. Knowledge is Progression
-
-Knowledge is one of the primary forms of character progression.
-
-Learning something new should be as valuable as obtaining stronger equipment.
-
-Examples include:
-
-- discovering hidden locations
-- uncovering new skills
-- understanding creatures
-- learning world mechanics
-- finding alternate paths
-- revealing forgotten history
-
-Players should feel rewarded for curiosity.
+The world should always contain something left to discover.
 
 ---
 
-## 2. Discovery is Gameplay
+# Core Philosophy
+
+## Understanding is Progression
+
+Evermore rewards understanding rather than simple information accumulation.
+
+Knowing that something exists is different from mastering it.
+
+A guide can reveal possibilities.
+
+It cannot replace experience, experimentation, and personal mastery.
+
+---
+
+## The World Should Be Discoverable, Not Solvable
+
+The world should contain mysteries, but those mysteries should not rely on permanent secrecy.
+
+Information will spread.
+
+Discoveries will be documented.
+
+The goal is not to prevent knowledge sharing.
+
+The goal is to create systems where knowledge creates possibilities rather than removing discovery.
+
+---
+
+## Discovery Is Gameplay
 
 Discovery is an active gameplay system.
 
-The world should contain meaningful content that is not immediately visible.
+Players should be rewarded for:
 
-Players should be encouraged to ask:
+- exploration
+- observation
+- experimentation
+- interaction
+- investigation
+
+Players should frequently ask:
 
 > "What happens if I try this?"
 
-The game should reward experimentation whenever possible.
-
 ---
 
-## 3. The World Exists Independent of the Player
-
-The world does not exist solely to serve progression.
-
-Hidden places exist whether players find them or not.
-
-Skills exist whether players unlock them or not.
-
-Mysteries exist whether players solve them or not.
-
-Players are explorers—not the creators—of Arkadion.
-
----
-
-## 4. Prestige Over Exclusivity
+## Prestige Over Exclusivity
 
 Being the first to discover something is valuable.
 
-Being the only person allowed to possess it forever is not.
+Permanent ownership of knowledge is not.
 
-Early discoverers receive prestige.
+Discoveries may spread throughout the community while the original discoverers retain recognition.
 
-Knowledge may eventually spread.
-
-Discovery should remain rewarding without permanently locking future players out of content.
+The history of Arkadion should remember those who uncovered its secrets.
 
 ---
 
-## 5. Curiosity Should Always Be Rewarded
-
-The game should reward players who:
-
-- observe carefully
-- explore thoroughly
-- test unusual ideas
-- interact with the environment
-- connect unrelated information
-
-Grinding alone should not replace curiosity.
-
----
-
-# Character Progression
-
-Character growth is intentionally open-ended.
-
-Players are not expected to follow identical progression paths.
-
-Two players with similar playtime should be capable of having vastly different capabilities.
-
-Character identity comes from accumulated experiences rather than predefined builds.
-
----
-
-# Skills
-
-Skills represent learned knowledge.
-
-Not all skills are obtained the same way.
-
----
-
-## Common Skills
-
-Skills that form the foundation of gameplay.
-
-Examples:
-
-- Slash
-- Stab
-- Sprint
-- Dodge
-- Mining
-- Woodcutting
-
-These are intended to be broadly accessible.
-
----
-
-## Hidden Skills
-
-Skills discovered through interaction with the world.
-
-They are earned through observation, experimentation, or fulfilling specific conditions.
-
-Hidden skills encourage exploration.
-
----
-
-## Mythic Skills
-
-Extremely rare discoveries.
-
-Mythic skills require exceptional understanding of the world.
-
-Their acquisition should feel legendary.
-
-They are intended to become part of the world's history.
-
----
-
-# Discovery
-
-Discovery is a permanent gameplay pillar.
-
-Players should regularly encounter things they have never seen before.
-
-Examples include:
-
-- hidden locations
-- forgotten ruins
-- secret paths
-- unusual NPCs
-- unique monsters
-- environmental interactions
-- hidden skills
-
-Discovery should exist across the entire lifespan of the game.
-
----
-
-# Knowledge
-
-Knowledge has value.
-
-Players may choose to:
-
-- keep discoveries secret
-- share discoveries
-- teach discoveries
-- trade discoveries
-
-Information is intended to become its own economy.
-
----
-
-# Prestige
-
-Evermore rewards discovery through recognition.
-
-Examples include:
-
-- First Discoverer
-- First Cartographer
-- First Slayer
-- First Explorer
-
-Recognition should become part of the world's history.
-
-Prestige should encourage exploration without permanently restricting future players.
-
----
-
-# Exploration
-
-Exploration is one of the primary gameplay loops.
-
-Players are expected to leave established civilization.
-
-The unknown should always feel meaningful.
-
----
-
-## Fog of War
-
-The world map is not fully revealed.
-
-Regions become fully documented through exploration.
-
-Completing regional discovery requires locating significant landmarks rather than simply walking across terrain.
-
-Exploration represents understanding, not visibility.
-
----
-
-# The World
-
-## World Name
-
-Arkadion
-
----
+# World
 
 ## Game Name
 
@@ -256,11 +104,29 @@ Evermore
 
 ---
 
+## World Name
+
+Arkadion
+
+---
+
+# World Philosophy
+
+Arkadion is an ancient world larger than any individual player.
+
+Players uncover its history rather than create it.
+
+Unknown locations, forgotten knowledge, and hidden abilities exist independently of player discovery.
+
+The world should feel like it existed before the player arrived.
+
+---
+
 # Civilization
 
 Major settlements are designated as Havens.
 
-Each Haven has both:
+Each Haven has:
 
 - a numerical designation
 - a historical name
@@ -271,7 +137,11 @@ Examples:
 - Haven II: Brookmere
 - Haven X: Everlight
 
-Players may naturally use either naming convention.
+Players may use either designation.
+
+The numerical system provides practical communication.
+
+The historical name provides world identity.
 
 ---
 
@@ -279,86 +149,354 @@ Players may naturally use either naming convention.
 
 Everlight is the Grand Capital of Arkadion.
 
-It represents the center of civilization.
+It represents the center of civilization and the primary connection point between established society and unexplored regions.
 
 ---
 
-# World Philosophy
+# Character Progression
 
-The world should feel ancient.
+Character growth is intentionally open-ended.
 
-It should feel larger than the player.
+Players should not be forced into identical progression paths.
 
-Players uncover history.
+Two players with similar experience should be capable of becoming fundamentally different.
 
-They do not create it.
+Identity comes from accumulated choices.
+
+---
+
+# Skill System
+
+Skills represent knowledge gained from the world.
+
+A skill answers:
+
+> "What can this character do?"
+
+Skills are not simply unlocked abilities.
+
+They represent learned understanding.
+
+---
+
+# Skill Structure
+
+Every skill contains:
+
+```
+Skill
+ |
+ |-- Rarity
+ |
+ |-- Rank
+ |
+ |-- Art
+ |
+ |-- Mastery
+```
+
+---
+
+# Skill Rarity
+
+Rarity represents uniqueness, discovery difficulty, and significance.
+
+Rarity does not directly determine usefulness.
+
+A Common skill mastered through the correct Art may compete with a Rare or Mystic skill in the right situation.
+
+---
+
+## Common
+
+Widely available foundational skills.
+
+Examples:
+
+- Slash
+- Block
+- Mining
+- Cooking
+
+Purpose:
+
+Provide basic capabilities.
+
+---
+
+## Uncommon
+
+Require effort, training, or specialization.
+
+Examples:
+
+- Advanced Tracking
+- Shield Techniques
+- Specialized Crafting
+
+Purpose:
+
+Create early character identity.
+
+---
+
+## Rare
+
+Require unusual circumstances or dedicated discovery.
+
+Examples:
+
+- Advanced movement skills
+- Unique crafting knowledge
+- Specialized combat techniques
+
+Purpose:
+
+Create distinct playstyles.
+
+---
+
+## Epic
+
+Significant discoveries tied to unique experiences.
+
+Examples:
+
+- Stormtouched
+- Moon Jumper
+
+Purpose:
+
+Create memorable player stories.
+
+---
+
+## Mystic
+
+Skills connected to deeper mysteries of Arkadion.
+
+Mystic skills should feel like discoveries that reveal something about the world.
+
+They represent exceptional understanding.
+
+---
+
+# Skill Arts
+
+Arts are universal disciplines that modify how skills are expressed.
+
+A Skill defines capability.
+
+An Art defines expression.
+
+Arts are not unique to individual skills.
+
+A player develops their own identity by combining skills with Arts.
+
+---
+
+# Example
+
+Skill:
+
+Stormtouched
+
+Possible Arts:
+
+## Conduit Art
+
+Focus:
+
+Channeling and directing power.
+
+---
+
+## Tempest Art
+
+Focus:
+
+Movement and storm embodiment.
+
+---
+
+## Vitality Art
+
+Focus:
+
+Endurance and physical adaptation.
+
+---
+
+## Oracle Art
+
+Focus:
+
+Understanding and predicting storms.
+
+---
+
+The same skill can produce different character identities.
+
+---
+
+# Base Skill Expression
+
+Skills may exist without an Art.
+
+The base form represents fundamental understanding.
+
+Arts represent deeper specialization.
+
+---
+
+# Skill Mastery
+
+Skills develop through use and understanding.
+
+Mastery represents familiarity and refinement.
+
+Mastery should reward meaningful interaction rather than simple repetition.
+
+---
+
+# Exploration
+
+Exploration is a primary gameplay pillar.
+
+The world map should not reveal everything immediately.
+
+Players discover Arkadion through exploration.
+
+---
+
+# Fog of War
+
+Regions begin partially unknown.
+
+Discovery requires identifying significant locations and understanding the region.
+
+Completion represents knowledge of the area, not simply walking through it.
+
+---
+
+# Cartography
+
+Cartography represents the documentation and understanding of the world.
+
+Cartographers are not simply map makers.
+
+They are historians, explorers, and researchers.
+
+Cartography may include:
+
+- maps
+- discovered locations
+- exploration records
+- regional knowledge
+- expedition documentation
 
 ---
 
 # Information Economy
 
-Knowledge is intended to become a tradable resource.
+Knowledge has value.
 
-The value lies in understanding the world rather than simply possessing items.
+Players may:
 
-Knowledge may be documented, exchanged, taught, or sold.
+- share discoveries
+- trade discoveries
+- teach discoveries
+- preserve discoveries
+
+The community will naturally create guides and documentation.
+
+Evermore embraces this.
+
+The goal is not secrecy.
+
+The goal is creating a world where knowledge expands possibilities.
 
 ---
 
 # Social Philosophy
 
-Players should naturally create:
+Evermore should encourage players to become known for different contributions.
+
+Examples:
 
 - explorers
 - researchers
-- mentors
-- merchants
+- artisans
 - historians
+- combat specialists
 - collectors
 
-Social interaction should emerge from information asymmetry rather than artificial restrictions.
+A player's reputation should come from what they accomplish and discover.
+
+---
+
+# First Discoveries
+
+The first player to discover something receives recognition.
+
+Examples:
+
+- First Discoverer
+- First Cartographer
+- First Awakening
+- Historical titles
+
+Prestige preserves the importance of discovery even after knowledge spreads.
 
 ---
 
 # Design Principles
 
-When designing new systems, prefer mechanics that encourage:
+Future systems should encourage:
 
-- exploration
+- curiosity
 - experimentation
-- observation
 - mastery
-- discovery
-- cooperation
+- exploration
+- specialization
 - player stories
-
-Avoid mechanics that reduce gameplay to repetitive optimization.
 
 ---
 
-# Things to Avoid
+# Avoid
 
-Avoid systems that:
+Avoid systems where:
 
-- reveal everything immediately
-- reward only time investment
-- eliminate mystery
-- invalidate exploration
-- force identical character progression
-- encourage solved gameplay
+- every player follows one optimal path
+- mystery disappears immediately
+- only numerical power matters
+- discoveries become meaningless after publication
+- players are punished for playing differently
 
-Unknowns are valuable.
+---
 
-Mystery is content.
+# Core Identity
+
+Evermore is a world where:
+
+> The game can be documented, but it cannot be exhausted.
+
+Players may learn what exists.
+
+They should never stop wondering what is possible.
 
 ---
 
 # Canon
 
-This document defines Evermore's foundational design philosophy.
+This document defines the foundation of Evermore.
 
-Future documentation should build upon these principles rather than replace them.
+Individual mechanics should expand from this philosophy.
 
-Systems should evolve.
+The world may grow.
 
-The philosophy should remain consistent.
+The systems may change.
+
+The purpose remains:
+
+**A world where curiosity becomes power.**
