@@ -1,4 +1,8 @@
-# World Bible — Hearthmere
+# World Bible — Hearthmere (Haven I)
+
+Hearthmere is **Haven I** in the settlement register of `docs/GAME_DESIGN.md`.
+Canon pairs a numerical designation with a historical name; players may use
+either. This document covers the historical settlement in detail.
 
 ## The place
 
@@ -6,7 +10,7 @@ Hearthmere sits where the mere meets the old road — a lake town that grew up
 around a ford, then a bridge, then a market. It is prosperous but not rich,
 old but well-kept. Three hundred people live here. Everyone knows everyone.
 
-It is the **first town**. The player arrives through the north gate having
+It is the **first town** of Arkadion. The player arrives through the north gate having
 just entered the world, and everything they see must say: *you are safe here,
 this place is real, and there is somewhere to go next.*
 
@@ -212,7 +216,7 @@ the mere), bread, cloth, pottery, charms/trinkets, herbs, roast meat.
 
 ## Naming
 
-- **Town:** Hearthmere
+- **Town:** Hearthmere (Haven I)
 - **Lake:** the Mere
 - **River:** the Emberflow
 - **Inn:** The Grey Heron

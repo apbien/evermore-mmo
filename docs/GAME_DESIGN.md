@@ -235,11 +235,41 @@ The historical name provides identity and cultural meaning.
 
 Examples:
 
-- Haven I: Hearth
+- Haven I: Hearthmere
 - Haven II: Brookmere
 - Haven X: Everlight
 
 Players may refer to settlements using either designation.
+
+---
+
+## Haven I: Hearthmere
+
+Hearthmere is the **first town** — where a player enters Arkadion.
+
+It is a lake town grown up around the old ford: prosperous but not rich, old
+but well-kept, and pre-industrial in every material. Roughly three hundred
+people live there.
+
+Its design job is *arrival*. The player has just entered the world, and
+everything they see must say: you are safe here, this place is real, and there
+is somewhere to go next. Hearthmere is not in danger and is not hiding
+anything — the danger is out past the gate, which is exactly why the town must
+read as shelter.
+
+This supports the world philosophy above: the player is an explorer of a world
+that already existed. Hearthmere has a history that predates them — the ford
+came first, the market grew at the crossing, the guild arrived when the roads
+got dangerous — and that history is legible in the town's shape without being
+explained to them.
+
+Venues: market square, adventurer's guild, inn, pub, blacksmith, shop row
+(general store, apothecary, tailor), and market stalls. The blacksmith,
+apothecary and tailor correspond to the Blacksmith, Alchemist and Tailor
+professions defined later in this document.
+
+Full layout, lore and venue briefs: `docs/WORLD_BIBLE.md`.
+Visual standards that govern how it is built: `docs/ART_BIBLE.md`.
 
 ---
 

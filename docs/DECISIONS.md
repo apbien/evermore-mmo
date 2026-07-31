@@ -125,3 +125,27 @@ a blur across stones.
 
 **Status.** Improves the near and mid field. The far field is still weaker than
 the reference targets in `docs/REFERENCES.md`.
+
+---
+
+## D-008 — Hearthmere is Haven I; design bible updated to match
+
+**Context.** `docs/GAME_DESIGN.md` (v0.5) defines the game as **Evermore**, the
+world as **Arkadion**, and settlements as **Havens** with a numerical
+designation plus a historical name. Its example register listed
+`Haven I: Hearth`. This branch had already been built naming the first town
+**Hearthmere**, with entity IDs prefixed `hm.*`.
+
+**Decision.** Keep **Hearthmere** and register it as **Haven I** in the design
+bible, replacing the placeholder `Hearth`. Entity IDs stay `hm.*`.
+
+**Why.** The conflict was naming only — the design bible specifies no art
+direction, engine, or starting-town detail, so the Art Bible and World Bible
+fill a genuine gap rather than contradicting canon. Hearthmere also already
+satisfies the canonical naming structure once paired with its numeral, and
+`docs/ARCHITECTURE.md` §2 commits to entity IDs never being recycled, so
+preserving `hm.*` avoids a rewrite for no functional gain.
+
+**Cost.** `docs/GAME_DESIGN.md` is edited on this branch. If that document is
+maintained elsewhere, this change needs to be reconciled with its owner rather
+than silently diverging.
