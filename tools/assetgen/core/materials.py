@@ -296,10 +296,17 @@ def cobblestone(name="cobble", size=1024, seed=0, wetness=0.0):
     edges = 1.0 - smoothstep(0.0, 0.22, worley(s, 12, seed + 41, metric="f2f1"))
     m.add_height((1.0 - cells) * 0.5 - edges * 0.6)
 
-    # Per-stone colour: granite is never one colour.
-    stone_var = normalize01(fbm(s, 20, seed + 42, octaves=2))
-    m.darken(stone_var * 0.7, 0.18)
-    m.tint(P.FOUNDATION, normalize01(fbm(s, 14, seed + 43)) * 0.35)
+    # Per-stone colour. Granite paving is never one colour, and weak stone-to-
+    # stone variance is why a cobbled street reads as flat grey mud at any
+    # distance past a few metres — the normal map alone mips away, so the
+    # ALBEDO has to carry the read. Keyed off the cell id so variance is
+    # per-stone rather than a smooth blur across stones.
+    cell_id = np.floor(worley(s, 12, seed + 41) * 9.0)
+    per_stone = ((cell_id * 0.6180339887 + normalize01(fbm(s, 30, seed + 48)) * 0.35) % 1.0)
+    m.darken(per_stone * 0.9, 0.34)
+    m.lighten(smoothstep(0.62, 1.0, per_stone), 0.20)
+    m.tint(P.FOUNDATION, smoothstep(0.30, 0.75, per_stone) * 0.50)
+    m.tint("#6B6358", smoothstep(0.28, 0.0, per_stone) * 0.45)
 
     # Desire path: a diagonal band of polished, darker stone.
     gx = np.linspace(-1, 1, size)[None, :].repeat(size, 0)

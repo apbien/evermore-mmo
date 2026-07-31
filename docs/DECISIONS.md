@@ -84,3 +84,44 @@ splash and streaking are applied per-vertex at assembly time.
 **Status.** The helpers still exist on `MaterialSet` for non-tiling use, but
 per-vertex application is **not yet wired through glTF export** (no vertex
 colour channel). Listed as a known gap in `docs/ASSET_PIPELINE.md`.
+
+---
+
+## D-006 — Plaza paving is a tiling surface plus scattered proud stones
+
+**Context.** `docs/ART_BIBLE.md` and the market-square brief called for real
+per-stone cobble geometry, on the reasoning that a flat textured plane reads as
+wallpaper at grazing angles. That is true, but it does not survive contact with
+the budget: a 34x32 m plaza at 0.17 m spacing is ~40,000 stones, and at 44 tris
+per chamfered stone that is **1.35 M triangles for the paving alone** — against
+a 3.5 M budget for the entire frame (Art Bible §6). The first market-square
+build did exactly this and consumed the whole frame budget with one venue.
+
+**Decision.** Carry the cobble read in the tiling material, and scatter a few
+hundred *proud* stones — tilted, frost-heaved, sunken — where they matter for
+silhouette: the fountain surround, kerb edges, and desire paths. ~20 k tris.
+
+**Why.** This is what shipped titles do; nobody models every cobble. The proud
+stones supply the grazing-angle silhouette that a bare plane lacks, which was
+the legitimate part of the original concern.
+
+**Cost, stated honestly.** At distance the paving still reads flatter than the
+Art Bible wants — the normal map mips away and the albedo variance is doing
+most of the work (strengthened in D-007). The real fixes are a detail/decal
+layer near the camera and per-vertex wear, neither of which is built. This is
+a known shortfall, not a solved problem.
+
+---
+
+## D-007 — Cobble albedo carries per-stone variance
+
+**Context.** With paving reduced to a tiling surface, the street read as flat
+grey mud past a few metres. Normal-map detail mips away with distance, so it
+cannot be what makes a cobbled street legible.
+
+**Decision.** Drive stone-to-stone colour variance from the Worley cell id
+rather than smooth noise, so each stone gets its own value and hue rather than
+a blur across stones.
+
+**Status.** Improves the near and mid field. The far field is still weaker than
+the reference targets in `docs/REFERENCES.md`.
