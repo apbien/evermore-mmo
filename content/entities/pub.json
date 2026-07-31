@@ -1,0 +1,151 @@
+{
+  "venue": "pub",
+  "cells": [
+    "B3",
+    "B4"
+  ],
+  "entities": [
+    {
+      "id": "hm.pub.door.01",
+      "archetype": "door.pub",
+      "cell": "B3",
+      "transform": {
+        "pos": [
+          -1.6,
+          0.25,
+          -4.12
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "enter"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.pub.chimney.01",
+      "archetype": "prop.chimney",
+      "cell": "B3",
+      "transform": {
+        "pos": [
+          -3.0,
+          5.4,
+          0.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "smoke": {
+          "rate": 0.8,
+          "drift": [
+            0.8,
+            0,
+            0.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.pub.sign.01",
+      "archetype": "prop.sign",
+      "cell": "B3",
+      "transform": {
+        "pos": [
+          -2.31,
+          1.7,
+          -4.12
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        },
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 2.0,
+          "range": 6.5
+        }
+      }
+    },
+    {
+      "id": "hm.pub.table.01",
+      "archetype": "prop.table",
+      "cell": "B3",
+      "transform": {
+        "pos": [
+          2.6,
+          0.3,
+          -6.3
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "sit"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.pub.table.02",
+      "archetype": "prop.table",
+      "cell": "B3",
+      "transform": {
+        "pos": [
+          -3.4,
+          0.3,
+          -6.5
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "sit"
+          ],
+          "range": 2.0
+        }
+      }
+    }
+  ]
+}

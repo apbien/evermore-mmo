@@ -1,0 +1,237 @@
+{
+  "venue": "shop_row",
+  "cells": [
+    "C5",
+    "D5",
+    "E5"
+  ],
+  "entities": [
+    {
+      "id": "hm.shop.general.door.01",
+      "archetype": "door.general",
+      "cell": "D5",
+      "transform": {
+        "pos": [
+          -8.72,
+          0.35,
+          -4.15
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "enter"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.shop.general.counter.01",
+      "archetype": "vendor.general",
+      "cell": "D5",
+      "transform": {
+        "pos": [
+          -5.908,
+          1.155,
+          -4.48
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "buy"
+          ],
+          "range": 2.0
+        },
+        "vendor": {
+          "currency": "copper",
+          "stock": [
+            {
+              "item": "rope_coil",
+              "price": 18,
+              "qty": -1
+            },
+            {
+              "item": "lamp_oil",
+              "price": 12,
+              "qty": 20
+            },
+            {
+              "item": "travel_rations",
+              "price": 9,
+              "qty": -1
+            },
+            {
+              "item": "iron_nails",
+              "price": 4,
+              "qty": 60
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.shop.apothecary.door.01",
+      "archetype": "door.apothecary",
+      "cell": "D5",
+      "transform": {
+        "pos": [
+          2.036,
+          0.35,
+          -4.15
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "enter"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.shop.apothecary.counter.01",
+      "archetype": "vendor.apothecary",
+      "cell": "D5",
+      "transform": {
+        "pos": [
+          -0.692,
+          1.155,
+          -4.48
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "buy"
+          ],
+          "range": 2.0
+        },
+        "vendor": {
+          "currency": "copper",
+          "stock": [
+            {
+              "item": "salve_minor",
+              "price": 26,
+              "qty": 12
+            },
+            {
+              "item": "dried_herbs",
+              "price": 7,
+              "qty": 40
+            },
+            {
+              "item": "tonic_clarity",
+              "price": 55,
+              "qty": 4
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.shop.tailor.door.01",
+      "archetype": "door.tailor",
+      "cell": "D5",
+      "transform": {
+        "pos": [
+          4.76,
+          0.35,
+          -4.15
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "enter"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.shop.tailor.counter.01",
+      "archetype": "vendor.tailor",
+      "cell": "D5",
+      "transform": {
+        "pos": [
+          7.344,
+          1.155,
+          -4.48
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "buy"
+          ],
+          "range": 2.0
+        },
+        "vendor": {
+          "currency": "copper",
+          "stock": [
+            {
+              "item": "linen_bolt",
+              "price": 32,
+              "qty": 8
+            },
+            {
+              "item": "travel_cloak",
+              "price": 78,
+              "qty": 3
+            },
+            {
+              "item": "thread_spool",
+              "price": 5,
+              "qty": -1
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

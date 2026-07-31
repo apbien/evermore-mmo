@@ -78,7 +78,7 @@ looks like it does not quite belong.
 | Venue | Cells | Role | Anchor silhouette |
 | --- | --- | --- | --- |
 | **Market Square** | C3 D3 C4 D4 | Hub. All roads meet here | Fountain + awning canopy |
-| **Adventurer's Guild** | C2 D2 | Hero building. Quest board, the "what next" | Stone tower + crimson banners |
+| **Adventurer's Guild** | C2 | Hero building. Quest board, the "what next" | Stone tower + crimson banners |
 | **Grey Heron Inn** | E3 E4 | Rest, save point, second-largest mass | Three storeys + gabled dormers |
 | **Ferryman's Lamp (pub)** | B3 B4 | Social heart, warmest interior | Hanging lamp sign + chimney smoke |
 | **Blacksmith** | B5 B6 | Craft. Loudest, most active | Forge chimney + open work yard |
@@ -104,8 +104,13 @@ down the Ford Road at the square.
 
 This single frame is the most important composition in the build. It must show,
 in one view: the gate arch framing the shot, the Ford Road leading the eye, the
-fountain as the focal point at centre, the guild tower rising on the right, the
-inn's roofline on the left, stall awnings adding colour, and NPCs moving.
+fountain as the focal point at centre, the guild tower rising on the LEFT, the
+inn's roofline on the right, stall awnings adding colour, and NPCs moving.
+
+**Nothing may stand on the road's centreline.** The guild originally spanned
+C2+D2, which put it squarely across Ford Road and blocked the view through to
+the fountain — the composition above is impossible if the hero building is in
+the way. The guild sits west of the centreline; the road stays clear.
 
 Everything must be legible with no HUD. If the player does not immediately know
 where to walk, the composition has failed.

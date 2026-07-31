@@ -152,12 +152,18 @@ def check_town():
         mesh = os.path.join(MESH_DIR, f"{v['id']}.gltf")
         if not os.path.exists(mesh):
             warn(f"town references venue '{v['id']}' with no built mesh yet")
-    # Venue overlap: two venues sharing a footprint is a layout error.
+    # Venue overlap. Some venues legitimately occupy the same footprint —
+    # the market stalls stand inside the market square — so only flag pairs
+    # that are not a known nesting.
+    NESTED = {("market_square", "stalls")}
     seen = {}
     for v in town.get("venues", []):
         key = tuple(round(c, 1) for c in v["origin"])
-        if key in seen and seen[key] != v["id"]:
-            warn(f"venues '{seen[key]}' and '{v['id']}' share origin {key}")
+        other = seen.get(key)
+        if other and other != v["id"]:
+            pair = tuple(sorted((other, v["id"])))
+            if pair not in {tuple(sorted(p)) for p in NESTED}:
+                warn(f"venues '{other}' and '{v['id']}' share origin {key}")
         seen[key] = v["id"]
 
 

@@ -177,7 +177,8 @@ function buildGround(townTex) {
   if (townTex) {
     mat.map = townTex;
     mat.map.wrapS = mat.map.wrapT = THREE.RepeatWrapping;
-    mat.map.repeat.set(48, 48);
+    // Cobble tiles cover 2m of world, and the ground plane is 300m.
+    mat.map.repeat.set(150, 150);
     mat.map.colorSpace = THREE.SRGBColorSpace;
     mat.color.set(0xffffff);
   }

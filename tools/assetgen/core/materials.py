@@ -301,8 +301,12 @@ def cobblestone(name="cobble", size=1024, seed=0, wetness=0.0):
     # distance past a few metres — the normal map alone mips away, so the
     # ALBEDO has to carry the read. Keyed off the cell id so variance is
     # per-stone rather than a smooth blur across stones.
-    cell_id = np.floor(worley(s, 12, seed + 41) * 9.0)
-    per_stone = ((cell_id * 0.6180339887 + normalize01(fbm(s, 30, seed + 48)) * 0.35) % 1.0)
+    # Per-stone value. Quantising the Worley f1 DISTANCE field produces
+    # concentric rings inside every cell rather than one flat value per stone,
+    # which tiled across a street as a field of visible bullseyes. Blobby
+    # noise at the stone frequency gives per-region variance with no rings.
+    per_stone = normalize01(fbm(s, 26, seed + 48, octaves=2))
+    per_stone = np.floor(per_stone * 7.0) / 7.0
     m.darken(per_stone * 0.9, 0.34)
     m.lighten(smoothstep(0.62, 1.0, per_stone), 0.20)
     m.tint(P.FOUNDATION, smoothstep(0.30, 0.75, per_stone) * 0.50)
