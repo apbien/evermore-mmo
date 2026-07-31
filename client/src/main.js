@@ -71,7 +71,10 @@ scene.environment = pmrem.fromScene(envScene, 0.04).texture;
 // look like the renders it was signed off from.
 // ---------------------------------------------------------------------------
 
-const EL = 38 * Math.PI / 180, AZ = 125 * Math.PI / 180;
+// Read from content/town/hearthmere.json so the client and the review harness
+// cannot drift apart — and so the town looks like the renders each venue was
+// signed off from. Populated in boot(); see applyLighting().
+let EL = 38 * Math.PI / 180, AZ = 125 * Math.PI / 180;
 const sun = new THREE.DirectionalLight(new THREE.Color('#FFF2D8'), 3.2);
 sun.castShadow = true;
 sun.shadow.mapSize.set(4096, 4096);
@@ -82,8 +85,25 @@ scene.add(sun, sun.target);
 
 // Desaturated sky tint: the PMREM environment already supplies saturated blue,
 // and stacking both turns every shadowed facade cyan.
-scene.add(new THREE.HemisphereLight(new THREE.Color('#AFC9E0'), new THREE.Color('#8A7352'), 1.35));
-scene.add(new THREE.AmbientLight(new THREE.Color('#6B5A46'), 0.55));
+const hemi = new THREE.HemisphereLight(new THREE.Color('#AFC9E0'), new THREE.Color('#8A7352'), 1.35);
+const amb = new THREE.AmbientLight(new THREE.Color('#6B5A46'), 0.55);
+scene.add(hemi, amb);
+
+/** Apply the authoritative rig from content/. */
+function applyLighting(L) {
+  if (!L) return;
+  EL = L.sunElevationDeg * Math.PI / 180;
+  AZ = L.sunAzimuthDeg * Math.PI / 180;
+  sun.color.set(L.sun.color); sun.intensity = L.sun.intensity;
+  hemi.color.set(L.hemisphere.sky); hemi.groundColor.set(L.hemisphere.ground);
+  hemi.intensity = L.hemisphere.intensity;
+  amb.color.set(L.ambient.color); amb.intensity = L.ambient.intensity;
+  bounce.color.set(L.bounce.color); bounce.intensity = L.bounce.intensity;
+  rim.color.set(L.rim.color); rim.intensity = L.rim.intensity;
+  renderer.toneMappingExposure = L.exposure;
+  bounce.position.set(-Math.cos(EL) * Math.sin(AZ) * 30, 8, -Math.cos(EL) * Math.cos(AZ) * 30);
+  rim.position.set(-Math.sin(AZ) * 40, 14, -Math.cos(AZ) * 40);
+}
 
 const bounce = new THREE.DirectionalLight(new THREE.Color('#C9A87E'), 0.55);
 bounce.position.set(-Math.cos(EL) * Math.sin(AZ) * 30, 8, -Math.cos(EL) * Math.cos(AZ) * 30);
@@ -200,9 +220,14 @@ async function boot() {
   status('loading town…');
   const town = await (await fetch('/content/town/hearthmere.json')).json();
   CELL = town.grid?.cellSize ?? 16;
+  applyLighting(town.lighting);
 
   const texLoader = new THREE.TextureLoader();
-  const cobble = await texLoader.loadAsync('/assets/textures/cobble_albedo.png').catch(() => null);
+  // Earth, NOT cobble. The street layer paves its carriageways in cobble;
+  // texturing the whole ground plane with the same material at the same
+  // tiling made Ford Road invisible — a cobble ribbon on a cobble plane,
+  // measured at +/-5 luminance units across carriageway and verge alike.
+  const cobble = await texLoader.loadAsync('/assets/textures/dirt_albedo.png').catch(() => null);
   buildGround(cobble);
 
   status('loading entities…');

@@ -185,7 +185,7 @@ def build(ctx: VenueContext, asset_id="hm.inn"):
 
     for i in range(4):                        # laundry
         cloth = M.box(rng.uniform(0.30, 0.46), rng.uniform(0.40, 0.60), 0.008,
-                      0.0, "canvas")
+                      0.0, "cloth_cream" if rng.random() < 0.6 else "cloth_blue")
         cloth.rotate_z(rng.uniform(-0.05, 0.05))
         cloth.translate(-3.3 + i * 0.62, y2 + 0.62, -D2 * 0.5 - 0.62)
         ctx.emit(cloth)

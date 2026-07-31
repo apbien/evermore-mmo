@@ -26,15 +26,32 @@
     "comment": "World origin (0,0,0) is the market square fountain, on the C/D-3/4 corner. Cell C1 spans world x[-48,-32] z[-48,-32]."
   },
   "lighting": {
-    "comment": "Locked at mid-morning per docs/ART_BIBLE.md \u00a74. Do not parameterise.",
+    "comment": "Locked 09:30 rig, Art Bible section 4. THE authoritative copy - both tools/render/viewer.html and client/src/main.js read this file. Previously each rig hardcoded its own values and the authored ones here had no consumer, so section 8's 'reviewed at the locked lighting' was never actually true. See D-009.",
     "timeOfDay": "09:30",
     "sunElevationDeg": 38.0,
     "sunAzimuthDeg": 125.0,
-    "sunColor": "#FFF2D8",
-    "sunIntensity": 3.2,
-    "skyFill": "#93BEE8",
-    "groundBounce": "#7A6A52",
-    "rim": "#8FB8E8"
+    "sun": {
+      "color": "#FFF2D8",
+      "intensity": 3.2
+    },
+    "hemisphere": {
+      "sky": "#AFC9E0",
+      "ground": "#8A7352",
+      "intensity": 1.35
+    },
+    "ambient": {
+      "color": "#6B5A46",
+      "intensity": 0.55
+    },
+    "bounce": {
+      "color": "#C9A87E",
+      "intensity": 0.55
+    },
+    "rim": {
+      "color": "#8FB8E8",
+      "intensity": 1.15
+    },
+    "exposure": 1.05
   },
   "playerSpawn": {
     "comment": "Just inside the north gate, facing south down Ford Road at the square. This single frame is the most important composition in the build.",

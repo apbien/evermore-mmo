@@ -161,12 +161,18 @@ maps stay within these families. Deviation requires a recorded decision.
 
 ### Lighting
 
+**The authoritative copy of this rig lives in `content/town/hearthmere.json`
+under `lighting`.** Both `tools/render/viewer.html` and `client/src/main.js`
+read it. Do not hardcode these anywhere — see D-009 for why.
+
 | Role | Hex | Intensity |
 | --- | --- | --- |
 | Key (sun, mid-morning) | `#FFF2D8` | 3.2 |
-| Sky fill (hemisphere top) | `#93BEE8` | 1.1 |
-| Ground bounce (hemisphere bottom) | `#7A6A52` | 1.1 |
-| Rim / separation | `#8FB8E8` | 1.4 |
+| Sky fill (hemisphere top) | `#AFC9E0` | 1.35 |
+| Ground bounce (hemisphere bottom) | `#8A7352` | 1.35 |
+| Warm ambient floor | `#6B5A46` | 0.55 |
+| Warm bounce (shadow side) | `#C9A87E` | 0.55 |
+| Rim / separation | `#8FB8E8` | 1.15 |
 | Forge fire | `#FF8C42` | 4.0, flickering |
 | Candle / lamp | `#FFB35C` | 1.8, gentle flicker |
 | Window interior spill | `#FFD9A0` | 2.2 |

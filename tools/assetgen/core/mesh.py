@@ -366,8 +366,19 @@ def lathe(profile, segments=24, mat="default", close_bottom=True, close_top=True
             p01 = np.array([r1 * cs[j], y1, r1 * sn[j]], np.float32)
             pts = [p for p in (p00, p10, p11, p01)]
             # Degenerate ring (r == 0) collapses to a triangle.
-            uvs = [(j / seg * uv_scale, y0 * uv_scale), ((j + 1) / seg * uv_scale, y0 * uv_scale),
-                   ((j + 1) / seg * uv_scale, y1 * uv_scale), (j / seg * uv_scale, y1 * uv_scale)]
+            # U is ARC LENGTH IN METRES, not normalised angle.
+            #
+            # Angular UVs stretch exactly one texture tile around the whole
+            # circumference regardless of size, so a 1m-radius turret sampled a
+            # single tile across 6.6m while the flat wall beside it — whose UVs
+            # are planar and in metres — tiled three times. Same material, wildly
+            # different texel density: measured saturation 0.097 on the turret
+            # against 0.253 on the wall. Two venues, two lathes, one root cause.
+            a0 = (j / seg) * 2.0 * np.pi
+            a1 = ((j + 1) / seg) * 2.0 * np.pi
+            u0, u1 = a0 * max(r0, r1), a1 * max(r0, r1)
+            uvs = [(u0 * uv_scale, y0 * uv_scale), (u1 * uv_scale, y0 * uv_scale),
+                   (u1 * uv_scale, y1 * uv_scale), (u0 * uv_scale, y1 * uv_scale)]
             if smooth:
                 # Radial normals, tilted by the profile slope.
                 dr, dy = r1 - r0, y1 - y0

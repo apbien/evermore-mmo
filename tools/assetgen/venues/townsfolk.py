@@ -70,11 +70,25 @@ PEOPLE = [
 ]
 
 
+# People in conversation look AT each other. Hand-authored angles had all four
+# pairs facing 41-150 degrees away, including an adult standing back-to-back
+# with the child it is captioned as accompanying — so the facing for the second
+# member of each pair is derived from the first rather than guessed.
+PAIRS = [(0, 1), (5, 6), (10, 9), (18, 17)]
+
+
 def build(ctx: VenueContext, asset_id="hm.folk"):
     rng = rng_for(asset_id, "townsfolk")
 
+    faces = {}
+    for a, b in PAIRS:
+        ax, az = PEOPLE[a][0], PEOPLE[a][1]
+        bx, bz = PEOPLE[b][0], PEOPLE[b][1]
+        faces[a] = float(np.arctan2(bx - ax, bz - az))
+        faces[b] = float(np.arctan2(ax - bx, az - bz))
+
     for i, (x, z, facing, pose, kind, y) in enumerate(PEOPLE):
-        yaw = facing + rng.uniform(-0.10, 0.10)
+        yaw = faces.get(i, facing) + rng.uniform(-0.08, 0.08)
         f = N.figure(f"{asset_id}.{i:02d}", pose=pose, child=(kind == "child"))
         f.rotate_y(yaw)
         f.translate(x, y, z)

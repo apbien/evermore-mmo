@@ -21,10 +21,12 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 // --- Locked review setup, docs/ART_BIBLE.md §4 -----------------------------
 // Time of day is fixed at 09:30 so that every review screenshot across every
 // venue and every iteration is directly comparable. Do not parameterise this.
-const SUN_ELEV = 38.0, SUN_AZI = 125.0;
-const C = {
-  sun:'#FFF2D8', skyFill:'#93BEE8', groundBounce:'#7A6A52', rim:'#8FB8E8',
-};
+// Read from content/town/hearthmere.json — the ONE authoritative copy. This
+// file used to declare its own constants here under a comment citing §4 and
+// then never use them, while the lights below carried different values. Dead
+// constants that make a file pass inspection are worse than none.
+const LIGHTING = (await (await fetch('/content/town/hearthmere.json')).json()).lighting;
+const SUN_ELEV = LIGHTING.sunElevationDeg, SUN_AZI = LIGHTING.sunAzimuthDeg;
 
 const q = new URLSearchParams(location.search);
 const W = +(q.get('w') || 1600), H = +(q.get('h') || 900);
@@ -35,7 +37,7 @@ renderer.setPixelRatio(1);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;   // Art Bible §5 chain
-renderer.toneMappingExposure = 1.05;
+renderer.toneMappingExposure = LIGHTING.exposure;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 document.body.appendChild(renderer.domElement);
 
@@ -61,7 +63,8 @@ const skyMat = new THREE.ShaderMaterial({
       gl_FragColor = vec4(c,1.0);
     }`
 });
-scene.add(new THREE.Mesh(skyGeo, skyMat));
+const skyMesh = new THREE.Mesh(skyGeo, skyMat);
+scene.add(skyMesh);
 
 const pmrem = new THREE.PMREMGenerator(renderer);
 const envScene = new THREE.Scene();
@@ -70,7 +73,7 @@ scene.environment = pmrem.fromScene(envScene, 0.04).texture;
 
 // --- Lighting -------------------------------------------------------------
 const el = SUN_ELEV * Math.PI/180, az = SUN_AZI * Math.PI/180;
-const sun = new THREE.DirectionalLight(new THREE.Color(C.sun), 3.2);
+const sun = new THREE.DirectionalLight(new THREE.Color(LIGHTING.sun.color), LIGHTING.sun.intensity);
 sun.position.set(Math.cos(el)*Math.sin(az)*60, Math.sin(el)*60, Math.cos(el)*Math.cos(az)*60);
 sun.castShadow = true;
 sun.shadow.mapSize.set(4096, 4096);
@@ -87,19 +90,21 @@ scene.add(sun, sun.target);
 //
 // Desaturated sky tint, because the PMREM environment already supplies the
 // saturated blue; stacking both turns every shadowed facade cyan.
-scene.add(new THREE.HemisphereLight(new THREE.Color('#AFC9E0'), new THREE.Color('#8A7352'), 1.35));
+scene.add(new THREE.HemisphereLight(new THREE.Color(LIGHTING.hemisphere.sky),
+                                   new THREE.Color(LIGHTING.hemisphere.ground),
+                                   LIGHTING.hemisphere.intensity));
 
 // Warm ambient floor so nothing bottoms out to black.
-scene.add(new THREE.AmbientLight(new THREE.Color('#6B5A46'), 0.55));
+scene.add(new THREE.AmbientLight(new THREE.Color(LIGHTING.ambient.color), LIGHTING.ambient.intensity));
 
 // Warm bounce from the shadow side, standing in for sunlight reflecting off
 // the paving and the building opposite.
-const bounce = new THREE.DirectionalLight(new THREE.Color('#C9A87E'), 0.55);
+const bounce = new THREE.DirectionalLight(new THREE.Color(LIGHTING.bounce.color), LIGHTING.bounce.intensity);
 bounce.position.set(-Math.cos(el)*Math.sin(az)*30, 8, -Math.cos(el)*Math.cos(az)*30);
 scene.add(bounce);
 
 // The anime separation signature (Art Bible §1): a cool rim from behind.
-const rim = new THREE.DirectionalLight(new THREE.Color(C.rim), 1.15);
+const rim = new THREE.DirectionalLight(new THREE.Color(LIGHTING.rim.color), LIGHTING.rim.intensity);
 rim.position.set(-Math.sin(az)*40, 14, -Math.cos(az)*40);
 scene.add(rim);
 
@@ -107,11 +112,13 @@ scene.add(rim);
 // Textured, not a constant colour. A flat-colour ground plane is on the
 // anti-reference list in docs/REFERENCES.md, and it also makes ground-contact
 // wear impossible to judge in any review render.
-const _gtex = new THREE.TextureLoader().load('/assets/textures/cobble_albedo.png');
+// Earth, not cobble: paved venues must read against the ground, not vanish
+// into it.
+const _gtex = new THREE.TextureLoader().load('/assets/textures/dirt_albedo.png');
 _gtex.wrapS = _gtex.wrapT = THREE.RepeatWrapping;
 _gtex.repeat.set(200, 200);
 _gtex.colorSpace = THREE.SRGBColorSpace;
-const _gnrm = new THREE.TextureLoader().load('/assets/textures/cobble_normal.png');
+const _gnrm = new THREE.TextureLoader().load('/assets/textures/dirt_normal.png');
 _gnrm.wrapS = _gnrm.wrapT = THREE.RepeatWrapping;
 _gnrm.repeat.set(200, 200);
 const ground = new THREE.Mesh(
@@ -285,10 +292,21 @@ window.__setView = (view, silhouette) => {
   const c = bbox.getCenter(new THREE.Vector3());
   sun.target.position.copy(c); sun.target.updateMatrixWorld();
   sun.position.set(c.x + Math.cos(el)*Math.sin(az)*60, c.y + Math.sin(el)*60, c.z + Math.cos(el)*Math.cos(az)*60);
+  // The ground plane and sky must be EXCLUDED from the black override, or the
+  // silhouette is ~46% solid black ground and everything below eaves level is
+  // swallowed — which makes the Art Bible §6 black-on-white test impossible to
+  // run, the exact thing the view exists for.
   scene.overrideMaterial = silhouette
     ? new THREE.MeshBasicMaterial({ color:0x000000 }) : null;
-  if (silhouette) { scene.background = new THREE.Color(0xffffff); }
-  else { scene.background = null; }
+  if (silhouette) {
+    scene.background = new THREE.Color(0xffffff);
+    ground.visible = false;
+    skyMesh.visible = false;
+  } else {
+    scene.background = null;
+    ground.visible = (q.get('ground') !== '0');
+    skyMesh.visible = true;
+  }
   composer.render();
 };
 

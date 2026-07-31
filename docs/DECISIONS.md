@@ -157,3 +157,39 @@ sides cleanly and the Haven register silently reverted to the placeholder
 `Haven I: Hearth`. Re-applied to `docs/world/arkadion.md`, which is now the
 canonical location. Worth noting the failure mode: a clean merge is not
 evidence that a semantic change survived.
+
+
+---
+
+## D-009 — The locked lighting rig lives in content, not in the renderers
+
+**Context.** A cohesion review found that `docs/ART_BIBLE.md` §4 specified one
+rig, `tools/render/viewer.html` and `client/src/main.js` both hardcoded a
+*different* one, and `content/town/hearthmere.json`'s `lighting` block — the
+authored copy — had no consumer at all.
+
+Worse, `viewer.html` declared the §4-correct constants near the top under a
+comment citing the Art Bible and then never used them. Dead values that make a
+file pass inspection are worse than no values.
+
+The consequence is blunt: **§8's "reviewed at the locked 09:30 lighting" had
+never been true for any asset in this repo.** Every sign-off to date was made
+under an undocumented rig.
+
+**Decision.** `content/town/hearthmere.json.lighting` is the single
+authoritative copy; both renderers read it at startup. The Art Bible documents
+the values and points at the file.
+
+**Which values won, and why the SPEC moved rather than the rigs.** The
+hardcoded values were not drift — they were deliberately tuned early on to fix
+two measured defects: shadowed facades reading blue-grey (the PMREM
+environment and the hemisphere light were double-counting sky), and cast-shadow
+regions crushing to near-black. The §4 numbers were the original untested
+guess. Reverting the rigs to them would have reintroduced both defects, so the
+spec was corrected to match the working values and the two undeclared fills
+(warm ambient floor, warm bounce) were written into the table.
+
+**The generalisable failure.** This is the same shape as `streets[]`: data
+authored in `content/`, no consumer, and nothing detects it. Both were found by
+review rather than by tooling. A check that flags authored blocks in
+`content/` with no reader would have caught both.

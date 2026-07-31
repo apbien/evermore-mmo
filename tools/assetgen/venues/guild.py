@@ -289,14 +289,16 @@ def build(ctx: VenueContext, asset_id="hm.guild"):
             if i % 2:
                 continue
             off = -per * 0.5 + (i + 0.5) * per / n_m
-            m_ = M.box(per / n_m * 0.9, 0.62, 0.34, 0.018, "ashlar", uv_scale=0.7)
+            # Full-height merlons. These were 0.62m — half height — which is
+            # why they read as nicks rather than as crenellation.
+            m_ = M.box(per / n_m * 0.9, 1.05, 0.38, 0.018, "ashlar", uv_scale=0.7)
             if side % 2:
                 m_.rotate_y(np.pi * 0.5)
-                m_.translate(tx + (per * 0.5 - 0.17) * (1 if side == 1 else -1),
-                             TOWER_H + 0.61, tz + off)
+                m_.translate(tx + (per * 0.5 - 0.19) * (1 if side == 1 else -1),
+                             TOWER_H + 0.83, tz + off)
             else:
-                m_.translate(tx + off, TOWER_H + 0.61,
-                             tz + (per * 0.5 - 0.17) * (1 if side == 0 else -1))
+                m_.translate(tx + off, TOWER_H + 0.83,
+                             tz + (per * 0.5 - 0.19) * (1 if side == 0 else -1))
             ctx.emit(m_)
 
     # Tall lancet openings up the tower — vertical rhythm, and they read as
@@ -304,9 +306,18 @@ def build(ctx: VenueContext, asset_id="hm.guild"):
     for i in range(3):
         y = 4.4 + i * 3.4
         for szz in (-1, 1):
-            sl = M.box(0.42, 1.55, 0.16, 0.012, "glass")
-            sl.translate(tx, y, tz + szz * (TOWER_W * 0.5 - 0.20))
-            ctx.emit(sl)
+            # Proud of the wall face, not inside it. At z-offset 0.20 these sat
+            # within the 0.5m wall thickness and rendered nothing. They now
+            # carry a label so the occlusion tripwire tests them — its docstring
+            # names this exact bug as its motivation, but they were untested.
+            sl = M.box(0.42, 1.55, 0.22, 0.012, "glass_lit")
+            sl.translate(tx, y, tz + szz * (TOWER_W * 0.5 + 0.02))
+            ctx.emit(sl, label=f"tower lancet {i}{szz}")
+            # Dressed surround so the opening reads as cut, not painted on.
+            for oy in (-1, 1):
+                lint = M.box(0.62, 0.16, 0.26, 0.014, "ashlar", uv_scale=0.8)
+                lint.translate(tx, y + oy * 0.86, tz + szz * (TOWER_W * 0.5 + 0.02))
+                ctx.emit(lint)
 
     # --- secondary silhouette tier ---------------------------------------
     # The massing reviewed as "two rectangles and a triangle": one hall box,
@@ -354,14 +365,15 @@ def build(ctx: VenueContext, asset_id="hm.guild"):
     bay_face.translate(0, 0.55 + PORCH_H + 0.62 + (BAY_H - PORCH_H - 0.62) * 0.5,
                        -HALL_D * 0.5 - BAY_D + 0.25)
     ctx.emit(bay_face)
-    bay_roof = K.gable_roof(BAY_D + 0.9, BAY_W + 0.5, f"{asset_id}.bayroof",
+    # NO rotate_y here. Rotating put the ridge PARALLEL to the facade, so from
+    # the approach the bay added a horizontal band rather than the gable
+    # triangle that breaks the eaves line. The gable must face the street.
+    bay_roof = K.gable_roof(BAY_W + 0.5, BAY_D + 0.9, f"{asset_id}.bayroof",
                             pitch=1.05, overhang=0.35)
-    bay_roof.rotate_y(np.pi * 0.5)
     bay_roof.translate(0, 0.55 + BAY_H, -HALL_D * 0.5 - BAY_D * 0.5)
     ctx.emit(bay_roof)
-    bay_gable = K.gable_end(BAY_D + 0.9, 0.55 + BAY_H, 1.05, mat="ashlar", depth=0.4)
-    bay_gable.rotate_y(np.pi * 0.5)
-    bay_gable.translate(0, 0, -HALL_D * 0.5 - BAY_D * 0.5)
+    bay_gable = K.gable_end(BAY_W + 0.5, 0.55 + BAY_H, 1.05, mat="ashlar", depth=0.4)
+    bay_gable.translate(0, 0, -HALL_D * 0.5 - BAY_D - 0.15)
     ctx.emit(bay_gable)
 
     # Stepped buttresses down the hall flanks — vertical rhythm against a long
@@ -465,7 +477,7 @@ def build(ctx: VenueContext, asset_id="hm.guild"):
     pack = K.sack(f"{asset_id}.pack", height=0.48)
     pack.translate(-PORCH_W * 0.5 + 0.5, 0.55, zf - 1.15)
     ctx.emit(pack)
-    roll = M.lathe([(0.13, 0), (0.14, 0.62)], 10, "canvas")
+    roll = M.lathe([(0.13, 0), (0.14, 0.62)], 10, "cloth_brown")
     roll.rotate_z(np.pi * 0.5)
     roll.rotate_y(0.4)
     roll.translate(-PORCH_W * 0.5 + 1.15, 0.68, zf - 1.05)
