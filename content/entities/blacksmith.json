@@ -1,0 +1,117 @@
+{
+  "venue": "blacksmith",
+  "cells": [
+    "B5",
+    "B6"
+  ],
+  "entities": [
+    {
+      "id": "hm.blacksmith.forge.01",
+      "archetype": "crafting_station.forge",
+      "cell": "B5",
+      "transform": {
+        "pos": [
+          0.0,
+          0.9,
+          0.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        },
+        "crafting_station": {
+          "profession": "blacksmith",
+          "tier": 1
+        },
+        "light": {
+          "color": "#FF8C42",
+          "intensity": 4.0,
+          "range": 9.0,
+          "flickerHz": [
+            8,
+            12
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.blacksmith.chimney.01",
+      "archetype": "prop.chimney",
+      "cell": "B5",
+      "transform": {
+        "pos": [
+          -1.5,
+          5.4,
+          2.25
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "smoke": {
+          "rate": 1.0,
+          "drift": [
+            0.8,
+            0,
+            0.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.blacksmith.anvil.01",
+      "archetype": "crafting_station.anvil",
+      "cell": "B5",
+      "transform": {
+        "pos": [
+          0.0,
+          0.76,
+          0.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        },
+        "crafting_station": {
+          "profession": "blacksmith",
+          "tier": 1
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.35,
+            0.42,
+            0.18
+          ]
+        }
+      }
+    }
+  ]
+}

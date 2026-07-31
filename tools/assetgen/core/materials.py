@@ -442,11 +442,14 @@ def forge_coal(name="coal", size=1024, seed=0):
     lumps = worley(s, 14, seed + 91)
     m.add_height(lumps * 0.4)
 
-    # Heat: hottest at the centre, breaking through the char.
-    gx = np.linspace(-1, 1, size)[None, :].repeat(size, 0)
-    gy = np.linspace(-1, 1, size)[:, None].repeat(size, 1)
-    core = 1.0 - smoothstep(0.1, 0.85, np.hypot(gx, gy))
-    heat = np.clip(core * (0.55 + 0.45 * normalize01(fbm(s, 9, seed + 92))) - lumps * 0.3, 0, 1)
+    # Heat, distributed across the whole tile rather than as one central
+    # hotspot. The fire bed is built from dozens of small scattered coal
+    # pieces, each sampling world-position UVs — with a radial gradient most
+    # of them land in the cold corners and render as black rock, which is
+    # exactly what killed the forge glow in the first pass.
+    ember = normalize01(fbm(s, 7, seed + 92, octaves=4))
+    veins = normalize01(ridged(s, 13, seed + 95, octaves=3))
+    heat = np.clip(0.30 + ember * 0.55 + veins * 0.35 - lumps * 0.45, 0, 1)
 
     m.emissive = (P.rgb(P.IRON_HOT)[None, None, :] * (heat ** 1.6)[..., None] * 3.0 +
                   P.rgb("#FFD98A")[None, None, :] * (heat ** 5.0)[..., None] * 2.0)
@@ -603,6 +606,34 @@ def banner_cloth(name="banner", size=512, seed=0, colour=P.GUILD_CRIMSON):
     return m
 
 
+def beaten_earth(name="dirt", size=1024, seed=0):
+    """Trodden earth with cinder and scale worked into it.
+
+    The blacksmith's yard is not paved — using the rubble-stone material there
+    made a working floor read as crazy-paving. Beaten earth needs no cell
+    structure at all: it is scuffs, ruts, embedded grit and scattered dark
+    cinder.
+    """
+    m = MaterialSet(name, size)
+    s = (size, size)
+    m.set_base("#6E5C46")
+
+    # Broad rutting and scuffing from feet and barrow wheels.
+    ruts = fbm(s, 5, seed + 151, octaves=4)
+    m.add_height(ruts * 0.35 + fbm(s, 34, seed + 152, octaves=3) * 0.14)
+    m.darken(normalize01(ruts) * 0.8, 0.22)
+    m.lighten(smoothstep(0.55, 1.0, normalize01(fbm(s, 12, seed + 153))), 0.14)
+
+    # Embedded grit and cinder — the smithy's signature on the ground.
+    grit = smoothstep(0.72, 0.90, normalize01(worley(s, 46, seed + 154, metric="f2f1")))
+    m.add_height(grit * 0.22)
+    cinder = smoothstep(0.80, 0.95, normalize01(fbm(s, 26, seed + 155, octaves=3)))
+    m.tint("#241E1A", cinder * 0.85)
+
+    m.rough(0.93, 0.07, 0.05, seed + 156)
+    return m
+
+
 # Registry so venue modules and the build script agree on names.
 LIBRARY = {
     "plaster":      lambda **k: lime_plaster(**k),
@@ -623,4 +654,7 @@ LIBRARY = {
     "foliage_flower": lambda **k: foliage(flowers=True, **k),
     "ashlar":       lambda **k: ashlar(**k),
     "banner":       lambda **k: banner_cloth(**k),
+    "dirt":         lambda **k: beaten_earth(**k),
+    "leather":      lambda **k: canvas_awning(stripe=False, base="#6B4A2E",
+                                              accent="#6B4A2E", **k),
 }
