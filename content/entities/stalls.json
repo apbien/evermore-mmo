@@ -1,0 +1,355 @@
+{
+  "venue": "stalls",
+  "cells": [
+    "C3",
+    "D3",
+    "C4",
+    "D4"
+  ],
+  "entities": [
+    {
+      "id": "hm.market.stall.produce.01",
+      "archetype": "vendor.produce",
+      "cell": "C3",
+      "transform": {
+        "pos": [
+          -3.8035,
+          0.0,
+          -13.1419
+        ],
+        "rot": [
+          0.0,
+          -0.16504760586067765,
+          0.0,
+          0.9862856015372314
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "browse",
+            "trade"
+          ],
+          "range": 2.0
+        },
+        "vendor": {
+          "trade": "produce",
+          "hours": [
+            7,
+            17
+          ]
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            1.575,
+            1.2,
+            1.175
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.market.stall.fish.01",
+      "archetype": "vendor.fish",
+      "cell": "D3",
+      "transform": {
+        "pos": [
+          3.3266,
+          0.0,
+          -13.8868
+        ],
+        "rot": [
+          0.0,
+          0.21643961393810288,
+          0.0,
+          0.9762960071199334
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "browse",
+            "trade"
+          ],
+          "range": 2.0
+        },
+        "vendor": {
+          "trade": "fish",
+          "hours": [
+            7,
+            17
+          ]
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            1.425,
+            1.2,
+            1.125
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.market.stall.bread.01",
+      "archetype": "vendor.bread",
+      "cell": "C3",
+      "transform": {
+        "pos": [
+          -5.4233,
+          0.0,
+          -9.6734
+        ],
+        "rot": [
+          0.0,
+          -0.09584575252022398,
+          0.0,
+          0.9953961983671789
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "browse",
+            "trade"
+          ],
+          "range": 2.0
+        },
+        "vendor": {
+          "trade": "bread",
+          "hours": [
+            7,
+            17
+          ]
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            1.375,
+            1.2,
+            1.1
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.market.stall.cloth.01",
+      "archetype": "vendor.cloth",
+      "cell": "D3",
+      "transform": {
+        "pos": [
+          4.9812,
+          0.0,
+          -10.4264
+        ],
+        "rot": [
+          0.0,
+          0.13052619222005157,
+          0.0,
+          0.9914448613738104
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "browse",
+            "trade"
+          ],
+          "range": 2.0
+        },
+        "vendor": {
+          "trade": "cloth",
+          "hours": [
+            7,
+            17
+          ]
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            1.4749999999999999,
+            1.2,
+            1.075
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.market.stall.herbs.01",
+      "archetype": "vendor.herbs",
+      "cell": "C3",
+      "transform": {
+        "pos": [
+          -6.1125,
+          0.0,
+          -6.1274
+        ],
+        "rot": [
+          0.0,
+          -0.25881904510252074,
+          0.0,
+          0.9659258262890683
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "browse",
+            "trade"
+          ],
+          "range": 2.0
+        },
+        "vendor": {
+          "trade": "herbs",
+          "hours": [
+            7,
+            17
+          ]
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            1.3499999999999999,
+            1.2,
+            1.125
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.market.stall.charms.01",
+      "archetype": "vendor.charms",
+      "cell": "D3",
+      "transform": {
+        "pos": [
+          5.7147,
+          0.0,
+          -6.4322
+        ],
+        "rot": [
+          0.0,
+          0.28401534470392265,
+          0.0,
+          0.958819734868193
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "browse",
+            "trade"
+          ],
+          "range": 2.0
+        },
+        "vendor": {
+          "trade": "charms",
+          "hours": [
+            7,
+            17
+          ]
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            1.175,
+            1.2,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.market.stall.pottery.01",
+      "archetype": "vendor.pottery",
+      "cell": "C4",
+      "transform": {
+        "pos": [
+          -7.3412,
+          0.0,
+          0.2146
+        ],
+        "rot": [
+          0.0,
+          -0.0697564737441253,
+          0.0,
+          0.9975640502598242
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "browse",
+            "trade"
+          ],
+          "range": 2.0
+        },
+        "vendor": {
+          "trade": "pottery",
+          "hours": [
+            7,
+            17
+          ]
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            1.5,
+            1.2,
+            1.15
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.market.stall.roast.01",
+      "archetype": "vendor.roast",
+      "cell": "D4",
+      "transform": {
+        "pos": [
+          6.988,
+          0.0,
+          -0.2915
+        ],
+        "rot": [
+          0.0,
+          0.052335956242943835,
+          0.0,
+          0.9986295347545738
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "browse",
+            "trade"
+          ],
+          "range": 2.0
+        },
+        "vendor": {
+          "trade": "roast",
+          "hours": [
+            7,
+            17
+          ]
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            1.45,
+            1.2,
+            1.2
+          ]
+        }
+      }
+    }
+  ]
+}

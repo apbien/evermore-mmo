@@ -616,3 +616,95 @@ def planter_plants(asset_id, width, count=5, mat="foliage_flower", height=0.11):
                     height, rng.uniform(-0.03, 0.03))
         out.add(c)
     return out
+
+
+def thatch_roof(width, depth, asset_id, pitch=1.05, overhang=0.55,
+                thickness=0.38, mat="thatch", segments=10):
+    """Thick reed thatch: one smooth extruded shell with rolled eaves.
+
+    Thatch cannot reuse `gable_roof`. Stacked tile courses produce a stepped
+    surface that reads as corrugated sheet, which is the opposite of thatch —
+    whose entire character is MASS and the absence of any hard edge: 300-400mm
+    of packed reed, eaves that roll under into a deep shadow, and a soft
+    settled surface.
+
+    Built as a closed cross-section (outer surface, rolled ends, inner
+    underside) extruded along the ridge, so the shell is continuous.
+
+    `width` spans the gable; `depth` is the ridge length.
+    """
+    rng = rng_for(asset_id, "thatch_roof")
+    out = M.Group()
+    hw = (width + overhang * 2) * 0.5
+    d = depth + overhang * 2
+    h = hw * pitch
+
+    # Centreline of the roof surface: eave -> ridge -> eave, with a little sag
+    # because thatch settles over its lifetime.
+    centre = []
+    for side in (-1, 1):
+        rng_pts = range(segments, -1, -1) if side < 0 else range(1, segments + 1)
+        for i in rng_pts:
+            t = i / segments
+            sag = np.sin(t * np.pi) * 0.045
+            centre.append((side * hw * (1.0 - t), h * t - sag))
+    centre = [(float(x), float(y)) for x, y in centre]
+
+    def offset_poly(pts, dist):
+        """Offset a polyline along its outward normal."""
+        out_pts = []
+        n = len(pts)
+        for i, (x, y) in enumerate(pts):
+            px, py = pts[max(0, i - 1)]
+            nx_, ny_ = pts[min(n - 1, i + 1)]
+            dx, dy = nx_ - px, ny_ - py
+            ln = float(np.hypot(dx, dy)) or 1.0
+            out_pts.append((x + (dy / ln) * dist, y - (dx / ln) * dist))
+        return out_pts
+
+    # Thicker at the eave than the ridge, as laid.
+    outer = offset_poly(centre, thickness * 0.5)
+    inner = offset_poly(centre, -thickness * 0.5)
+
+    # Roll the eave ends under instead of leaving a flat cut edge. This roll is
+    # the single most recognisable feature of a thatched roof.
+    profile = []
+    profile.extend(outer)
+    ex, ey = centre[-1]
+    for a in np.linspace(0.0, np.pi, 5)[1:-1]:
+        profile.append((ex + np.cos(a) * 0.0 + thickness * 0.5 * np.cos(-a + 0.4),
+                        ey - thickness * 0.5 * np.sin(a) * 0.9))
+    profile.extend(reversed(inner))
+
+    shell = M.prism([(float(x), float(y)) for x, y in profile], d,
+                    chamfer=0.0, uv_scale=1.1)
+    shell.translate(0, 0, rng.uniform(-0.01, 0.01))
+    out.add(shell.with_material(mat))
+
+    # Ridge cap: a rolled bundle running the length of the ridge.
+    # Built as a prism extruded along Z, matching the shell. A lathe rotated
+    # onto the Z axis extends along -Z, not +Z, which put the cap a full
+    # roof-length off the building in the first pass. Prism has no such trap.
+    t = thickness
+    cap_profile = []
+    for a in np.linspace(0.0, np.pi, 11):
+        cap_profile.append((np.cos(a) * t * 0.95, np.sin(a) * t * 0.72))
+    cap_profile.append((-t * 0.95, -t * 0.30))
+    cap_profile.append((t * 0.95, -t * 0.30))
+    cap = M.prism([(float(x), float(y)) for x, y in cap_profile], d,
+                  chamfer=0.0, uv_scale=1.1)
+    cap.translate(0, h - t * 0.05, 0)
+    out.add(cap.with_material(mat))
+
+    # Crossed hazel spars pinning the ridge. Without them the ridge is a lump.
+    nspar = max(4, int(d / 0.55))
+    for i in range(nspar):
+        z = -d * 0.5 + (i + 0.5) * (d / nspar)
+        for sgn in (-1, 1):
+            spar = M.cylinder(0.016, thickness * 1.9, 6, 0.003, "oak_weathered")
+            spar.rotate_z(np.pi * 0.5)
+            spar.rotate_y(sgn * 0.6 + rng.uniform(-0.05, 0.05))
+            spar.translate(0, h + thickness * 0.34, z + rng.uniform(-0.02, 0.02))
+            out.add(spar)
+
+    return out

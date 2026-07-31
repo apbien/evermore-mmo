@@ -73,14 +73,20 @@ def build(ctx: VenueContext, variant=0, asset_id="hm.cottage.01"):
 
     # --- gable ends and roof --------------------------------------------
     pitch = rng.uniform(0.82, 0.95)
+    gable_pitch = pitch * 1.25 if roof_mat == "thatch" else pitch
     for sz in (-1, 1):
-        g = K.gable_end(d, 0.42 + eaves, pitch, depth=0.20)
+        g = K.gable_end(d, 0.42 + eaves, gable_pitch, depth=0.20)
         g.rotate_y(np.pi * 0.5)
         g.translate(sz * w * 0.5, 0, 0)
         ctx.emit(g, "plaster")
 
-    roof = K.gable_roof(d, w, f"{asset_id}.roof", pitch=pitch, overhang=0.40,
-                        tile_mat=roof_mat)
+    # Thatch needs its own builder: the tile-course logic produces thin stepped
+    # slabs, and thatch's whole character is mass and rounded edges.
+    if roof_mat == "thatch":
+        roof = K.thatch_roof(d, w, f"{asset_id}.roof", pitch=pitch * 1.25, overhang=0.55)
+    else:
+        roof = K.gable_roof(d, w, f"{asset_id}.roof", pitch=pitch, overhang=0.40,
+                            tile_mat=roof_mat)
     roof.rotate_y(np.pi * 0.5)
     roof.translate(0, 0.42 + eaves, 0)
     ctx.emit(roof)
