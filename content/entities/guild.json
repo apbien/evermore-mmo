@@ -13,7 +13,7 @@
         "pos": [
           0.0,
           0.62,
-          -5.25
+          -5.75
         ],
         "rot": [
           0,
@@ -77,8 +77,8 @@
       "cell": "C2",
       "transform": {
         "pos": [
-          -3.64,
-          10.95,
+          -4.94,
+          12.45,
           0.7
         ],
         "rot": [
@@ -108,7 +108,7 @@
         "pos": [
           2.15,
           3.05,
-          -7.2
+          -7.7
         ],
         "rot": [
           0,
@@ -127,6 +127,37 @@
       }
     },
     {
+      "id": "hm.guild.trainingyard.01",
+      "archetype": "prop.training_yard",
+      "cell": "D2",
+      "transform": {
+        "pos": [
+          13.5,
+          0.0,
+          -2.6
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        },
+        "crafting_station": {
+          "profession": "combat",
+          "tier": 1
+        }
+      }
+    },
+    {
       "id": "hm.guild.counter.01",
       "archetype": "vendor.guild",
       "cell": "C2",
@@ -134,7 +165,7 @@
         "pos": [
           0.6,
           1.08,
-          -1.65
+          -2.15
         ],
         "rot": [
           0,

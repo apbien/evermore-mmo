@@ -180,14 +180,27 @@ under an undocumented rig.
 authoritative copy; both renderers read it at startup. The Art Bible documents
 the values and points at the file.
 
-**Which values won, and why the SPEC moved rather than the rigs.** The
-hardcoded values were not drift — they were deliberately tuned early on to fix
-two measured defects: shadowed facades reading blue-grey (the PMREM
-environment and the hemisphere light were double-counting sky), and cast-shadow
-regions crushing to near-black. The §4 numbers were the original untested
-guess. Reverting the rigs to them would have reintroduced both defects, so the
-spec was corrected to match the working values and the two undeclared fills
-(warm ambient floor, warm bounce) were written into the table.
+**Which values won, and why the SPEC moved rather than the rigs.** The values
+in the renderers do fix two real defects — shadowed facades reading blue-grey
+(the PMREM environment and the hemisphere light double-counting sky) and
+cast-shadow regions crushing to near-black — both of which were measured at the
+time. Reverting to the §4 numbers would reintroduce them, so the spec was
+corrected to match and the two undeclared fills were written into the table.
+
+**Provenance corrected.** An earlier version of this entry said the renderer
+values were "deliberately tuned" after the spec was set. A reviewer checked the
+history and that is not what happened: `git show ac718cf` shows `ART_BIBLE.md`
+and `viewer.html` authored in the SAME foundation commit carrying different
+numbers, and `git log -L` shows the rig untouched from then until `2cb6b67`.
+The tuning happened inside the foundation working session, before anything was
+committed, and the Art Bible was simply never updated to match. So this was not
+drift away from a spec — the spec and the implementation **never agreed at any
+point in the repository's history**, which is worse, and is why nothing ever
+flagged it.
+
+**Still open.** The rim light ships at 1.15 against §1's 1.4, and §1 calls rim
+the single strongest anime-3D signature. That value was inherited, not chosen,
+and should be re-tested on its merits rather than grandfathered by this entry.
 
 **The generalisable failure.** This is the same shape as `streets[]`: data
 authored in `content/`, no consumer, and nothing detects it. Both were found by

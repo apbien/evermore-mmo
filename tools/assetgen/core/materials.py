@@ -767,6 +767,10 @@ LIBRARY = {
     # daylight-neutral windows read as a building nobody is home in.
     "glass_lit":    lambda **k: leaded_glass(lit=True, **k),
     "wax":          lambda **k: sealing_wax(**k),
+    # The guild's own colour. "painted" defaults to INN_GREEN, so the guild's
+    # heraldic device shipped in the innkeeper's green — the one colour on the
+    # building that must be unmistakably its own.
+    "painted_crimson": lambda **k: painted_wood(colour=P.GUILD_CRIMSON, **k),
     "leather":      lambda **k: canvas_awning(stripe=False, base="#6B4A2E",
                                               accent="#6B4A2E", **k),
 }

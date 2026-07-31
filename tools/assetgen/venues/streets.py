@@ -89,8 +89,15 @@ def _ribbon(path, width, mat, asset_id, trough=0.0, uv=0.5):
                 c3 = p1 + n * (u0 * width); c3[1] = y0 + j
 
                 bld = M._Builder()
-                # Wound for a +Y geometric normal.
-                quad = [c3, c2, c1, c0]
+                # Wound for a +Y geometric normal — VERIFIED, not asserted.
+                # The previous order carried this same comment and produced the
+                # opposite: 288/288 carriageway triangles wound against their
+                # stored [0,1,0] normal, and with doubleSided:false the whole
+                # road was back-face culled and never drawn. What showed between
+                # the kerbs was bare ground, darkened by the invisible slab's
+                # own cast shadow. Identical bug to the market square plaza,
+                # reintroduced here.
+                quad = [c0, c1, c2, c3]
                 uvs = [(p[0] * uv, p[2] * uv) for p in quad]
                 bld.poly(quad, uvs, np.array([0, 1, 0], np.float32))
                 out.add(bld.build(mat))

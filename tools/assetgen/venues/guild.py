@@ -1,13 +1,28 @@
 """Adventurer's Guild — Hearthmere's hero building.
 
-The guild reads as **imported**. Where the rest of the town is timber frame
-and lime plaster built by locals over generations, the guild is dressed ashlar
-with a square tower, put up by an outside organisation with outside money. It
-is the only symmetrical building in Hearthmere, and the only one whose stone
-was cut rather than gathered.
+The guild reads as **imported**: an outside organisation with outside money,
+the only cut stone and the only symmetry in a town of crooked timber cottages.
 
-That contrast does the storytelling. A player who has walked past six crooked
-timber cottages reads "this is not from here" without being told.
+But imported must not mean ECCLESIASTICAL. The first pass landed on a small
+parish church — vertical mass, all ashlar, pointed lancets, a conical spire
+and a gabled porch. Every one of those cues is a church cue, and nothing in
+the silhouette said "an organisation that sends armed people into danger".
+
+The reference is the anime/MMO guild hall, which is the opposite shape:
+
+  - HORIZONTAL, not vertical. A broad mead-hall mass that hugs the ground.
+    Height comes from one stocky WATCHTOWER, not a spire.
+  - Stone base, TIMBER above. Pure ashlar reads institutional; a jettied
+    timber upper storey reads as a hall people live and work in.
+  - Square-headed mullioned windows. The pointed arch was doing most of the
+    church work on its own.
+  - A wide, heavy double door — an entrance a party walks through together,
+    not a chapel door.
+  - A large heraldic device over the entrance. Guilds advertise.
+  - Visible WORK: a training yard with pells and weapon racks, open to the
+    street, so the building's function is legible without entering it.
+
+Art Bible §2 still applies: the device is a carved emblem, never lettering.
 
 Composition:
   - The tower is the anchor silhouette — visible from the north gate, and the
@@ -30,9 +45,13 @@ from core.venue import VenueContext
 NAME = "guild"
 CELLS = ["C2", "D2"]
 
-HALL_W, HALL_D = 14.0, 10.5
-HALL_H = 6.2
-TOWER_W, TOWER_H = 5.2, 15.5
+# Broad and low. Was 14.0 x 10.5 with a 5.2 x 15.5m tower — a 3:1 vertical
+# slab that read as a church steeple. A guild hall is a horizontal mass with a
+# stocky lookout, so the hall widened and the tower got shorter and fatter.
+HALL_W, HALL_D = 19.0, 11.5
+HALL_H = 4.6            # stone storey; timber storey sits above it
+UPPER_H = 3.1           # jettied timber upper floor
+TOWER_W, TOWER_H = 6.4, 11.0
 
 
 def _quoin_column(height, block_h=0.42, mat="ashlar", size=0.40, seed_id="q"):
@@ -238,6 +257,37 @@ def build(ctx: VenueContext, asset_id="hm.guild"):
         w.translate(sx * (HALL_W * 0.5 - 0.275), 0.55 + HALL_H * 0.5, 0)
         ctx.emit(w)
 
+    # --- jettied TIMBER upper storey -------------------------------------
+    # Stone base, timber above. Pure ashlar to the eaves is what made the first
+    # pass read institutional; a jettied timber storey reads as a hall that
+    # people work and sleep in, and matches the inn's construction so the guild
+    # belongs to Hearthmere even while standing apart from it.
+    y_up = 0.55 + HALL_H
+    y_eaves = y_up + UPPER_H
+    jt = K.jetty(HALL_W, HALL_D, 0.38)
+    jt.translate(0, y_up, 0)
+    ctx.emit(jt)
+    UW, UD = HALL_W + 0.76, HALL_D + 0.76
+    for sz in (-1, 1):
+        wl = K.timber_frame_wall(UW, UPPER_H, f"{asset_id}.up{sz}", style="close",
+                                 sill_y=0)
+        if sz > 0:
+            wl.rotate_y(np.pi)
+        wl.translate(0, y_up, sz * UD * 0.5)
+        ctx.emit(wl)
+    for sx in (-1, 1):
+        wl = K.timber_frame_wall(UD, UPPER_H, f"{asset_id}.ups{sx}", style="close",
+                                 sill_y=0)
+        wl.rotate_y(sx * np.pi * 0.5)
+        wl.translate(sx * UW * 0.5, y_up, 0)
+        ctx.emit(wl)
+    for i, wx in enumerate((-6.2, -2.1, 2.1, 6.2)):
+        w_ = K.leaded_window(f"{asset_id}.upw{i}", width=1.05, height=1.15,
+                             mat="glass_lit" if i % 2 else "glass",
+                             shutters=(i % 3 == 0), shutter_mat="painted")
+        w_.translate(wx, y_up + UPPER_H * 0.5, -UD * 0.5 - 0.06)
+        ctx.emit(w_)
+
     # Quoins at every hall corner.
     for sx in (-1, 1):
         for sz in (-1, 1):
@@ -276,12 +326,35 @@ def build(ctx: VenueContext, asset_id="hm.guild"):
     thr.translate(0, 0.60, zf - PORCH_D + 0.2)
     ctx.emit(thr)
 
-    # Tall double doors, standing open — the guild never closes.
+    # WIDE, heavy double doors standing open — an entrance a party walks
+    # through together. Chapel doors are tall and narrow; hall doors are broad.
     for sx in (-1, 1):
-        d = K.plank_door(f"{asset_id}.door{sx}", width=1.30, height=3.10,
+        d = K.plank_door(f"{asset_id}.door{sx}", width=1.85, height=3.10,
                          mat="oak_dark", open_angle=sx * rng.uniform(0.85, 1.05))
-        d.translate(sx * 1.30, 0.62, zf + 0.05)
+        d.translate(sx * 1.85, 0.62, zf + 0.05)
         ctx.emit(d)
+
+    # Big carved heraldic device over the entrance. Guilds advertise; a church
+    # does not. Pictorial only per Art Bible §2 — a shield carrying the crossed
+    # blades and the town heron, no lettering anywhere.
+    shield = M.prism([(-0.95, 0.85), (0.95, 0.85), (0.95, -0.15),
+                      (0.55, -0.75), (0.0, -1.05), (-0.55, -0.75), (-0.95, -0.15)],
+                     0.20, chamfer=0.02)
+    shield.translate(0, 0.55 + PORCH_H + 1.15, zf - PORCH_D - 0.28)
+    ctx.emit(shield.with_material("painted_crimson"))
+    rim_ = M.prism([(-1.05, 0.95), (1.05, 0.95), (1.05, -0.18),
+                    (0.62, -0.84), (0.0, -1.17), (-0.62, -0.84), (-1.05, -0.18)],
+                   0.12, chamfer=0.015)
+    rim_.translate(0, 0.55 + PORCH_H + 1.15, zf - PORCH_D - 0.20)
+    ctx.emit(rim_.with_material("iron"))
+    for sgn in (-1, 1):                       # crossed blades on the device
+        bl = M.box(0.10, 1.45, 0.05, 0.008, "iron")
+        bl.rotate_z(sgn * 0.62)
+        bl.translate(0, 0.55 + PORCH_H + 1.20, zf - PORCH_D - 0.40)
+        ctx.emit(bl)
+    hrn = M.lathe([(0.0, 0), (0.14, 0.09), (0.16, 0.28), (0.0, 0.44)], 10, "ashlar")
+    hrn.translate(0, 0.55 + PORCH_H + 0.95, zf - PORCH_D - 0.46)
+    ctx.emit(hrn)
     ctx.entity(f"{asset_id}.door.01", "door.guild", (0, 0.62, zf), cell="C2",
                verbs=["enter"])
 
@@ -331,20 +404,25 @@ def build(ctx: VenueContext, asset_id="hm.guild"):
 
     # Tall lancet openings up the tower — vertical rhythm, and they read as
     # arrow-slits softened into windows by a town that was never besieged.
-    for i in range(3):
-        y = 4.4 + i * 3.4
+    for i in range(2):
+        y = 4.6 + i * 3.6
         for szz in (-1, 1):
             # Proud of the wall face, not inside it. At z-offset 0.20 these sat
             # within the 0.5m wall thickness and rendered nothing. They now
             # carry a label so the occlusion tripwire tests them — its docstring
             # names this exact bug as its motivation, but they were untested.
-            sl = M.box(0.42, 1.55, 0.22, 0.012, "glass_lit")
+            # SQUARE-HEADED and mullioned, not a lancet. A tall narrow opening
+            # under a pointed head is a church window; a wide square one under a
+            # heavy stone lintel is a hall window.
+            sl = M.box(1.15, 0.95, 0.22, 0.012, "glass_lit")
             sl.translate(tx, y, tz + szz * (TOWER_W * 0.5 + 0.02))
-            ctx.emit(sl, label=f"tower lancet {i}{szz}")
-            # Dressed surround so the opening reads as cut, not painted on.
+            ctx.emit(sl, label=f"tower window {i}{szz}")
+            mull = M.box(0.11, 0.95, 0.26, 0.010, "ashlar", uv_scale=0.9)
+            mull.translate(tx, y, tz + szz * (TOWER_W * 0.5 + 0.03))
+            ctx.emit(mull)
             for oy in (-1, 1):
-                lint = M.box(0.62, 0.16, 0.26, 0.014, "ashlar", uv_scale=0.8)
-                lint.translate(tx, y + oy * 0.86, tz + szz * (TOWER_W * 0.5 + 0.02))
+                lint = M.box(1.55, 0.20, 0.30, 0.014, "ashlar", uv_scale=0.8)
+                lint.translate(tx, y + oy * 0.58, tz + szz * (TOWER_W * 0.5 + 0.02))
                 ctx.emit(lint)
 
     # --- secondary silhouette tier ---------------------------------------
@@ -365,13 +443,25 @@ def build(ctx: VenueContext, asset_id="hm.guild"):
                       (1.22, TOWER_H + 1.75), (1.18, TOWER_H + 2.05)],
                      8, "ashlar")
     ctx.emit(turret.translate(turr_x, 0, turr_z))
-    # Conical cap — the only cone in Hearthmere, so it reads instantly.
-    cap = M.lathe([(1.22, TOWER_H + 2.05), (0.92, TOWER_H + 3.10),
-                   (0.42, TOWER_H + 3.95), (0.0, TOWER_H + 4.35)], 8, "terracotta")
-    ctx.emit(cap.translate(turr_x, 0, turr_z))
-    # Finial.
-    fin = M.lathe([(0.10, 0), (0.14, 0.14), (0.05, 0.30), (0.03, 0.62)], 8, "iron")
-    ctx.emit(fin.translate(turr_x, TOWER_H + 4.30, turr_z))
+    # NO CONE. A conical cap on a corner turret is a steeple, and it was the
+    # single loudest church cue on the building. The turret gets a flat
+    # battlemented head instead — a lookout somebody stands on.
+    lookout = M.lathe([(1.34, TOWER_H + 2.05), (1.34, TOWER_H + 2.28)], 8, "ashlar")
+    ctx.emit(lookout.translate(turr_x, 0, turr_z))
+    for k in range(8):
+        a = k * np.pi * 0.25
+        if k % 2:
+            continue
+        mer = M.box(0.62, 0.72, 0.30, 0.02, "ashlar", uv_scale=0.7)
+        mer.rotate_y(-a)
+        mer.translate(turr_x + np.sin(a) * 1.18, TOWER_H + 2.64, turr_z + np.cos(a) * 1.18)
+        ctx.emit(mer)
+    # A brazier up there instead of a finial: this is a signal point, not a spire.
+    braz = M.lathe([(0.0, 0), (0.26, 0.10), (0.30, 0.30), (0.22, 0.36)], 10, "iron")
+    ctx.emit(braz.translate(turr_x, TOWER_H + 2.28, turr_z))
+    coals = M.lathe([(0.0, 0.30), (0.24, 0.30)], 10, "coal",
+                    close_bottom=False, close_top=False)
+    ctx.emit(coals.translate(turr_x, TOWER_H + 2.28, turr_z))
     # Slit windows spiralling up the turret, following the stair inside.
     for i in range(6):
         a = 0.9 + i * 0.85
@@ -404,32 +494,30 @@ def build(ctx: VenueContext, asset_id="hm.guild"):
     bay_gable.translate(0, 0, -HALL_D * 0.5 - BAY_D - 0.15)
     ctx.emit(bay_gable)
 
-    # Stepped buttresses down the hall flanks — vertical rhythm against a long
-    # blank wall, and they cast the shadow bars that give the wall depth.
+    # Buttresses only on the stone base, and shallow. Tall stepped buttresses
+    # are a church cue; a low plinth spur reads as ordinary heavy construction.
     for sx in (-1, 1):
-        for i in range(3):
+        for i in range(2):
             bz = -HALL_D * 0.28 + i * HALL_D * 0.28
-            for k, (bw, bh, bd) in enumerate([(0.75, HALL_H * 0.62, 0.95),
-                                              (0.62, HALL_H * 0.30, 0.72)]):
+            for k, (bw, bh, bd) in enumerate([(0.85, HALL_H * 0.55, 0.80)]):
                 b = M.box(bw, bh, bd, 0.022, "ashlar", uv_scale=0.6)
                 b.translate(sx * (HALL_W * 0.5 + bd * 0.5 - 0.22 - k * 0.12),
                             0.55 + (0 if k == 0 else HALL_H * 0.62) + bh * 0.5, bz)
                 ctx.emit(b)
-            # Weathered slope on top of each buttress.
-            cap_ = M.prism([(-0.31, 0), (0.31, 0), (0.31, 0.10), (0, 0.34), (-0.31, 0.10)],
-                           0.62, chamfer=0.01)
+            cap_ = M.prism([(-0.34, 0), (0.34, 0), (0.34, 0.09), (0, 0.24), (-0.34, 0.09)],
+                           0.56, chamfer=0.01)
             cap_.rotate_y(np.pi * 0.5)
-            cap_.translate(sx * (HALL_W * 0.5 + 0.24), 0.55 + HALL_H * 0.92, bz)
+            cap_.translate(sx * (HALL_W * 0.5 + 0.20), 0.55 + HALL_H * 0.55, bz)
             ctx.emit(cap_.with_material("ashlar"))
 
     # A chimney on the hall — the guild has hearths, and a roofline with no
     # stack reads as a model kit.
     hch = K.chimney(f"{asset_id}.hallchimney",
-                    height=(HALL_D * 0.5) * 0.72 + 1.3, section=0.78)
-    hch.translate(-HALL_W * 0.26, 0.55 + HALL_H - 0.2, 0.7)
+                    height=((UD + 1.3) * 0.5) * 0.62 + 1.5, section=0.86)
+    hch.translate(-HALL_W * 0.26, y_eaves - 0.2, 0.7)
     ctx.emit(hch, label="guild hall chimney")
     ctx.entity(f"{asset_id}.chimney.01", "prop.chimney",
-               (-HALL_W * 0.26, 0.55 + HALL_H + 4.2, 0.7), cell="C2",
+               (-HALL_W * 0.26, y_eaves + 4.2, 0.7), cell="C2",
                smoke={"rate": 0.5, "drift": [0.8, 0, 0.5]})
 
     # --- banners ---------------------------------------------------------
@@ -518,6 +606,93 @@ def build(ctx: VenueContext, asset_id="hm.guild"):
     ctx.entity(f"{asset_id}.lantern.01", "prop.lantern",
                (PORCH_W * 0.5 - 0.35, 3.05, zf - PORCH_D - 0.05), cell="C2",
                light={"color": "#FFB35C", "intensity": 1.8, "range": 6.0})
+
+    # --- training yard ----------------------------------------------------
+    # The single strongest identity cue available, and the thing the first pass
+    # lacked entirely: VISIBLE WORK. A player walking past should be able to
+    # tell what this organisation does without going in. Open to the street,
+    # fenced only waist-high.
+    YX, YZ = HALL_W * 0.5 + 4.0, -2.6
+    yard = M.Group()
+
+    # Beaten-earth ring, scuffed bare by boots.
+    ring = M.quad(8.0, 7.5, "dirt", uv_scale=0.45)
+    ring.translate(YX, 0.012, YZ)
+    yard.add(ring)
+
+    # Pells — the posts you actually hit. Hacked, splintered, leaning.
+    for i, (px, pz) in enumerate([(-2.3, -1.6), (0.1, -2.1), (2.4, -1.2)]):
+        pell = M.cylinder(0.17, rng.uniform(1.55, 1.80), 10, 0.012, "oak_weathered")
+        pell.rotate_z(rng.uniform(-0.05, 0.05))
+        pell.translate(YX + px, 0, YZ + pz)
+        yard.add(pell)
+        # Hack marks: chips taken out around head and body height.
+        for k in range(int(rng.integers(4, 8))):
+            a = rng.uniform(0, 6.283)
+            ch = M.box(rng.uniform(0.05, 0.12), rng.uniform(0.03, 0.07), 0.09, 0.006,
+                       "oak_dark")
+            ch.rotate_y(a)
+            ch.translate(YX + px + np.cos(a) * 0.16, rng.uniform(0.85, 1.55),
+                         YZ + pz + np.sin(a) * 0.16)
+            yard.add(ch)
+
+    # Weapon rack along the street edge — the read from outside.
+    rack = M.Group()
+    for sx in (-1, 1):
+        p_ = M.box(0.12, 1.70, 0.12, 0.010, "oak_dark")
+        p_.translate(sx * 1.55, 0.85, 0)
+        rack.add(p_)
+    for yy in (0.65, 1.50):
+        r_ = M.plank(3.20, 0.10, 0.09, 0.006, "oak_dark")
+        r_.translate(0, yy, 0)
+        rack.add(r_)
+    for i in range(7):
+        wx = -1.30 + i * 0.43
+        if i == 3:
+            continue                          # a gap: someone took theirs out
+        shaft = M.cylinder(0.030, rng.uniform(1.75, 2.05), 7, 0.004, "oak_weathered")
+        shaft.rotate_z(rng.uniform(0.07, 0.15))
+        shaft.translate(wx, 0, rng.uniform(-0.03, 0.03))
+        rack.add(shaft)
+        if i % 2:
+            head = M.prism([(0, 0), (0.11, 0.17), (0.0, 0.36), (-0.08, 0.15)], 0.035,
+                           chamfer=0.004)
+            head.translate(wx + 0.20, 1.78, 0)
+            rack.add(head.with_material("iron"))
+    rack.rotate_y(0.06)
+    rack.translate(YX - 0.4, 0, YZ - 2.9)
+    yard.add(rack)
+
+    # Straw target butts.
+    for i, (bx, bz) in enumerate([(3.3, 1.9), (3.3, 3.2)]):
+        butt = M.lathe([(0.0, 0), (0.52, 0.06), (0.58, 0.34), (0.50, 0.62),
+                        (0.0, 0.70)], 14, "thatch")
+        butt.rotate_x(-0.22)
+        butt.translate(YX + bx, 0.30, YZ + bz)
+        yard.add(butt)
+        for k in range(int(rng.integers(2, 5))):   # arrows still in it
+            arw = M.cylinder(0.014, 0.62, 5, 0.003, "oak_weathered")
+            arw.rotate_x(np.pi * 0.5 - 0.22)
+            arw.rotate_y(rng.uniform(-0.2, 0.2))
+            arw.translate(YX + bx + rng.uniform(-0.22, 0.22),
+                          0.55 + rng.uniform(-0.18, 0.18), YZ + bz - 0.45)
+            yard.add(arw)
+
+    # Waist-high rail: encloses without hiding. A solid wall would defeat it.
+    for i in range(9):
+        fx = YX - 3.9 + i * 1.05
+        post = M.box(0.13, 1.05, 0.13, 0.010, "oak_weathered")
+        post.rotate_y(rng.uniform(-0.03, 0.03))
+        post.translate(fx, 0.52, YZ - 3.6)
+        yard.add(post)
+        if i < 8:
+            rl = M.plank(1.18, 0.09, 0.07, 0.006, "oak_weathered")
+            rl.translate(fx + 0.575, 0.86, YZ - 3.6)
+            yard.add(rl)
+    ctx.emit(yard)
+    ctx.entity(f"{asset_id}.trainingyard.01", "prop.training_yard",
+               (YX, 0, YZ), cell="D2", verbs=["use"],
+               crafting_station={"profession": "combat", "tier": 1})
 
     # Reception counter visible through the open doors.
     counter = M.box(2.6, 1.05, 0.62, 0.012, "oak_dark", uv_scale=1.2)
