@@ -121,40 +121,68 @@ def _quest_board(ctx, asset_id):
     return out
 
 
-def _banner(asset_id, width=2.10, height=6.40, sway=0.05):
-    """Hanging banner with a weighted, wind-lifted lower edge.
+def _banner(asset_id, width=2.10, height=6.40, sway=0.05, mat="banner"):
+    """Hanging banner as ONE continuous displaced surface.
 
-    A flat rectangle reads as cardboard. The curve across the width and the
-    lift at the free corner are what make it read as heavy cloth.
+    Previously 72 independent flat boxes on a grid. Boxes cannot share normals
+    across their seams, so every panel edge caught the light differently and
+    the cloth read as horizontal striping — the defect survived two review
+    rounds because the fix attempted was overlap, which cannot help: the
+    problem is that a box has six faces and a hanging cloth has one.
+
+    Built instead as a single smooth-shaded quad grid, displaced by a catenary
+    sag across the width and a wind-lift that grows toward the free lower
+    corner, with normals derived from the actual surface. That is what makes it
+    read as heavy dyed wool rather than as slats.
     """
     rng = rng_for(asset_id, "banner")
-    out = M.Group()
-    rows, cols = 12, 6
-    for r in range(rows):
-        for c in range(cols):
-            t_r, t_c = r / rows, c / cols
-            # Catenary sag across the width, growing toward the free lower edge.
-            bow = np.sin(t_c * np.pi) * 0.10 * (0.35 + t_r)
-            lift = (t_r ** 2) * rng.uniform(0.10, 0.24) * np.sin(t_c * np.pi + 0.6)
-            # Generous overlap: each panel is tilted by its own lift, which
-            # opens a seam against its neighbour. At 1.02 those seams read as
-            # venetian-blind striping across the cloth.
-            panel = M.box(width / cols * 1.06, height / rows * 1.35, 0.012, 0.0, "banner")
-            panel.rotate_x(-lift * 0.28)
-            panel.translate(-width * 0.5 + (c + 0.5) * width / cols,
-                            -(r + 0.5) * height / rows,
-                            -bow - lift * 0.4)
-            out.add(panel)
-    # Hanging pole with finials.
-    # rotate_z(+pi/2) maps +Y onto -X, so the bar runs from the origin toward
-    # -X. Offsetting by +half its length is what actually centres it on the
-    # banner; offsetting by -half pushes it clear of the cloth entirely.
-    pole = M.cylinder(0.042, width + 0.40, 8, 0.005, "iron")
+    COLS, ROWS = 14, 30
+
+    def surface(u, v):
+        """u across the width (0..1), v down the drop (0..1)."""
+        x = (u - 0.5) * width
+        y = -v * height
+        # Catenary across the width, deepening down the drop as the cloth
+        # takes its own weight.
+        bow = np.sin(u * np.pi) * 0.13 * (0.30 + v)
+        # Wind lifts the free lower corner, not the fixed top edge.
+        lift = (v ** 2.2) * 0.55 * np.sin(u * np.pi * 0.85 + 0.5)
+        z = -bow - lift * 0.45
+        y += lift * 0.30
+        # Fine wrinkling so the surface is never geometrically flat.
+        z += np.sin(u * 9.0 + v * 5.0) * 0.012 * v
+        return np.array([x, y, z], np.float32)
+
+    b = M._Builder()
+    for j in range(ROWS):
+        for i in range(COLS):
+            u0, u1 = i / COLS, (i + 1) / COLS
+            v0, v1 = j / ROWS, (j + 1) / ROWS
+            p00, p10 = surface(u0, v0), surface(u1, v0)
+            p11, p01 = surface(u1, v1), surface(u0, v1)
+            # Smooth normal from the surface itself, shared across the quad, so
+            # neighbouring quads agree and no seam catches light.
+            n = np.cross(p10 - p00, p01 - p00)
+            ln = float(np.linalg.norm(n))
+            n = n / ln if ln > 1e-9 else np.array([0, 0, -1], np.float32)
+            # NORMALISED 0..1, not metres. banner_cloth carries a directional
+            # top-to-bottom gradient (sun-bleached at the hanging edge, dirty
+            # at the hem). Mapping in metres tiled that gradient 6.4x down the
+            # drop and produced the horizontal banding that survived two review
+            # rounds — the seams were never the cause, and rebuilding the mesh
+            # as one surface could not have fixed it.
+            uvs = [(u0, v0), (u1, v0), (u1, v1), (u0, v1)]
+            b.poly([p00, p10, p11, p01], uvs, n)
+    out = M.Group().add(b.build(mat))
+
+    # Hanging pole with finials. rotate_z(+pi/2) maps +Y onto -X, so centring
+    # needs a POSITIVE half-length offset.
+    pole = M.cylinder(0.042, width + 0.40, 10, 0.005, "iron")
     pole.rotate_z(np.pi * 0.5)
     pole.translate((width + 0.40) * 0.5, 0.07, 0)
     out.add(pole)
-    for sx in (-1, 1):                       # finials
-        f = M.lathe([(0.0, 0), (0.055, 0.05), (0.03, 0.12)], 8, "iron")
+    for sx in (-1, 1):
+        f = M.lathe([(0.0, 0), (0.055, 0.05), (0.03, 0.12)], 10, "iron")
         f.translate(sx * (width + 0.40) * 0.5, 0.07, 0)
         out.add(f)
     out.rotate_z(sway)
