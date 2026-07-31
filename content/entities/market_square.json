@@ -1,0 +1,98 @@
+{
+  "venue": "market_square",
+  "cells": [
+    "C3",
+    "D3",
+    "C4",
+    "D4"
+  ],
+  "entities": [
+    {
+      "id": "hm.market.fountain.01",
+      "archetype": "prop.fountain",
+      "cell": "C4",
+      "transform": {
+        "pos": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect",
+            "drink"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "cylinder",
+          "radius": 2.5,
+          "height": 0.9
+        }
+      }
+    },
+    {
+      "id": "hm.market.trough.01",
+      "archetype": "prop.trough",
+      "cell": "C3",
+      "transform": {
+        "pos": [
+          -9.4,
+          0.0,
+          -10.2
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.market.notice.01",
+      "archetype": "prop.notice_post",
+      "cell": "D3",
+      "transform": {
+        "pos": [
+          6.8,
+          0.0,
+          -11.6
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "read"
+          ],
+          "range": 2.0
+        }
+      }
+    }
+  ]
+}

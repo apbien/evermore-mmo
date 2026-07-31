@@ -1,0 +1,188 @@
+{
+  "venue": "guild",
+  "cells": [
+    "C2",
+    "D2"
+  ],
+  "entities": [
+    {
+      "id": "hm.guild.door.01",
+      "archetype": "door.guild",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          0.0,
+          0.62,
+          -5.75
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "enter"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.guild.questboard.01",
+      "archetype": "quest_board",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "read"
+          ],
+          "range": 2.0
+        },
+        "quest_board": {
+          "notices": [],
+          "capacity": 20
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            1.35,
+            1.3,
+            0.12
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.guild.chimney.01",
+      "archetype": "prop.chimney",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          -4.94,
+          12.45,
+          0.7
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "smoke": {
+          "rate": 0.5,
+          "drift": [
+            0.8,
+            0,
+            0.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.guild.lantern.01",
+      "archetype": "prop.lantern",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          2.15,
+          3.05,
+          -7.7
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.8,
+          "range": 6.0
+        }
+      }
+    },
+    {
+      "id": "hm.guild.trainingyard.01",
+      "archetype": "prop.training_yard",
+      "cell": "D2",
+      "transform": {
+        "pos": [
+          13.5,
+          0.0,
+          -2.6
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        },
+        "crafting_station": {
+          "profession": "combat",
+          "tier": 1
+        }
+      }
+    },
+    {
+      "id": "hm.guild.counter.01",
+      "archetype": "vendor.guild",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          0.6,
+          1.08,
+          -2.15
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        }
+      }
+    }
+  ]
+}

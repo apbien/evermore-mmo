@@ -1,0 +1,687 @@
+{
+  "venue": "townsfolk",
+  "cells": [
+    "C2",
+    "C3",
+    "D3",
+    "C4",
+    "D4",
+    "C5",
+    "B5",
+    "E3"
+  ],
+  "entities": [
+    {
+      "id": "hm.folk.00",
+      "archetype": "npc.talk",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          -3.4,
+          0.0,
+          -6.2
+        ],
+        "rot": [
+          0.0,
+          0.47990109892734956,
+          0.0,
+          0.8773225947439871
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "talk",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.01",
+      "archetype": "npc.stand",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          -2.3,
+          0.0,
+          -5.6
+        ],
+        "rot": [
+          0.0,
+          -0.8541902879834109,
+          0.0,
+          0.5199605291893006
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "stand",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.02",
+      "archetype": "npc.work",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          4.6,
+          0.0,
+          -7.1
+        ],
+        "rot": [
+          0.0,
+          0.9701074180880623,
+          0.0,
+          0.24267591015696927
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "work",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.03",
+      "archetype": "npc.carry",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          6.2,
+          0.0,
+          -5.0
+        ],
+        "rot": [
+          0.0,
+          0.04849749000103859,
+          0.0,
+          0.9988233044255621
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "carry",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.04",
+      "archetype": "npc.stand",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          2.1,
+          0.0,
+          3.4
+        ],
+        "rot": [
+          0.0,
+          0.7218611420182928,
+          0.0,
+          0.6920379264491551
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "stand",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.05",
+      "archetype": "npc.talk",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          -5.8,
+          0.0,
+          2.9
+        ],
+        "rot": [
+          0.0,
+          0.4314462396106296,
+          0.0,
+          0.9021386491697644
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "talk",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.06",
+      "archetype": "npc.stand",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          -4.9,
+          0.0,
+          3.6
+        ],
+        "rot": [
+          0.0,
+          -0.9092395655078783,
+          0.0,
+          0.4162732426124032
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "stand",
+          "kind": "child",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.07",
+      "archetype": "npc.carry",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          8.4,
+          0.0,
+          1.2
+        ],
+        "rot": [
+          0.0,
+          0.9971571889156002,
+          0.0,
+          0.0753494564939789
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "carry",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.08",
+      "archetype": "npc.sit",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          1.75,
+          0.9,
+          1.35
+        ],
+        "rot": [
+          0.0,
+          0.8982445570344506,
+          0.0,
+          0.4394959792284607
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "sit",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.09",
+      "archetype": "npc.stand",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          -15.8,
+          0.0,
+          -14.9
+        ],
+        "rot": [
+          0.0,
+          0.5426031360047564,
+          0.0,
+          0.8399891885005448
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "stand",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.10",
+      "archetype": "npc.talk",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          -14.2,
+          0.0,
+          -14.2
+        ],
+        "rot": [
+          0.0,
+          -0.824183971724164,
+          0.0,
+          0.566322152800844
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "talk",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.11",
+      "archetype": "npc.lean",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          -10.6,
+          0.0,
+          -13.8
+        ],
+        "rot": [
+          0.0,
+          0.9961973883449196,
+          0.0,
+          -0.087124987545259
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "lean",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.12",
+      "archetype": "npc.stand",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          18.9,
+          0.0,
+          -8.2
+        ],
+        "rot": [
+          0.0,
+          0.7627723111174998,
+          0.0,
+          -0.6466671488427939
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "stand",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.13",
+      "archetype": "npc.carry",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          20.4,
+          0.0,
+          -5.4
+        ],
+        "rot": [
+          0.0,
+          0.9181538924640077,
+          0.0,
+          -0.3962239641329022
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "carry",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.14",
+      "archetype": "npc.sit",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          -21.4,
+          0.75,
+          -2.6
+        ],
+        "rot": [
+          0.0,
+          0.5509125349153765,
+          0.0,
+          0.8345629867620024
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "sit",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.15",
+      "archetype": "npc.sit",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          -20.2,
+          0.75,
+          -1.4
+        ],
+        "rot": [
+          0.0,
+          0.8539252425279402,
+          0.0,
+          -0.5203956957677479
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "sit",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.16",
+      "archetype": "npc.work",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          -21.6,
+          0.0,
+          26.4
+        ],
+        "rot": [
+          0.0,
+          0.8615731791257677,
+          0.0,
+          0.507633388392763
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "work",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.17",
+      "archetype": "npc.stand",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          3.2,
+          0.0,
+          19.6
+        ],
+        "rot": [
+          0.0,
+          0.6831717708195125,
+          0.0,
+          0.7302577158478584
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "stand",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.18",
+      "archetype": "npc.talk",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          8.8,
+          0.0,
+          19.9
+        ],
+        "rot": [
+          0.0,
+          -0.7113065383715989,
+          0.0,
+          0.7028819306752828
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "talk",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.19",
+      "archetype": "npc.lean",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          3.1,
+          0.0,
+          -41.0
+        ],
+        "rot": [
+          0.0,
+          0.9999266726173796,
+          0.0,
+          0.012109888039770204
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "lean",
+          "kind": "adult",
+          "schedule": "static_v0"
+        }
+      }
+    },
+    {
+      "id": "hm.folk.20",
+      "archetype": "npc.stand",
+      "cell": "C2",
+      "transform": {
+        "pos": [
+          -1.6,
+          0.0,
+          -18.5
+        ],
+        "rot": [
+          0.0,
+          0.9984686678988111,
+          0.0,
+          0.05532015206390685
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        },
+        "npc": {
+          "pose": "stand",
+          "kind": "child",
+          "schedule": "static_v0"
+        }
+      }
+    }
+  ]
+}

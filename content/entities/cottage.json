@@ -1,0 +1,48 @@
+{
+  "venue": "cottage",
+  "cells": [
+    "A2",
+    "B2",
+    "F2",
+    "A4",
+    "F3",
+    "F5"
+  ],
+  "entities": [
+    {
+      "id": "hm.cottage.01.door",
+      "archetype": "door.cottage",
+      "cell": "A2",
+      "transform": {
+        "pos": [
+          -0.932,
+          0.42,
+          -2.7228
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.05
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "venue": "streets",
+  "cells": [
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C5",
+    "C6",
+    "B3",
+    "D3",
+    "E3"
+  ],
+  "entities": [
+    {
+      "id": "hm.streets.waymarker.w",
+      "archetype": "prop.waymarker",
+      "cell": "C6",
+      "transform": {
+        "pos": [
+          -4.6,
+          0.0,
+          44.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.waymarker.e",
+      "archetype": "prop.waymarker",
+      "cell": "C6",
+      "transform": {
+        "pos": [
+          4.6,
+          0.0,
+          44.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.gatelamp.w",
+      "archetype": "prop.lantern",
+      "cell": "C1",
+      "transform": {
+        "pos": [
+          -3.75,
+          3.3,
+          -46.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.6,
+          "range": 7.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.gatelamp.e",
+      "archetype": "prop.lantern",
+      "cell": "C1",
+      "transform": {
+        "pos": [
+          3.75,
+          3.3,
+          -46.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.6,
+          "range": 7.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.gate.north",
+      "archetype": "landmark.gate",
+      "cell": "C1",
+      "transform": {
+        "pos": [
+          0.0,
+          0.0,
+          -46.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    }
+  ]
+}

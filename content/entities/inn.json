@@ -1,0 +1,126 @@
+{
+  "venue": "inn",
+  "cells": [
+    "E3",
+    "E4"
+  ],
+  "entities": [
+    {
+      "id": "hm.inn.door.01",
+      "archetype": "door.inn",
+      "cell": "E3",
+      "transform": {
+        "pos": [
+          -2.65,
+          0.45,
+          -4.62
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "enter"
+          ],
+          "range": 2.0
+        },
+        "rest_point": {
+          "restores": [
+            "stamina",
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.inn.chimney.01",
+      "archetype": "prop.chimney",
+      "cell": "E3",
+      "transform": {
+        "pos": [
+          -4.1638,
+          15.6455,
+          0.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "smoke": {
+          "rate": 0.6,
+          "drift": [
+            0.8,
+            0,
+            0.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.inn.chimney.02",
+      "archetype": "prop.chimney",
+      "cell": "E3",
+      "transform": {
+        "pos": [
+          4.4241,
+          15.9955,
+          0.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "smoke": {
+          "rate": 0.6,
+          "drift": [
+            0.8,
+            0,
+            0.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.inn.lantern.01",
+      "archetype": "prop.lantern",
+      "cell": "E3",
+      "transform": {
+        "pos": [
+          -3.6,
+          2.8,
+          -4.62
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.8,
+          "range": 7.0
+        }
+      }
+    }
+  ]
+}

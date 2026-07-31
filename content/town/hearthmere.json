@@ -1,0 +1,472 @@
+{
+  "$schema": "../schemas/town.schema.json",
+  "id": "hearthmere",
+  "displayName": "Hearthmere",
+  "zonePrefix": "hm",
+  "description": "A lake town grown up around the old ford. The first town.",
+  "grid": {
+    "cellSize": 16.0,
+    "cols": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+    ],
+    "rows": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "originCell": "C4",
+    "comment": "World origin (0,0,0) is the market square fountain, on the C/D-3/4 corner. Cell C1 spans world x[-48,-32] z[-48,-32]."
+  },
+  "lighting": {
+    "comment": "Locked 09:30 rig, Art Bible section 4. THE authoritative copy - both tools/render/viewer.html and client/src/main.js read this file. Rim is a directional light standing in for a true grazing-angle rim, so it lights whole faces; on curved geometry the limb dominates the projected face and a strongly saturated rim drains colour from every lathed object. Desaturated and reduced accordingly. See D-009 and D-010.",
+    "timeOfDay": "09:30",
+    "sunElevationDeg": 38.0,
+    "sunAzimuthDeg": 125.0,
+    "sun": {
+      "color": "#FFF2D8",
+      "intensity": 3.2
+    },
+    "hemisphere": {
+      "sky": "#AFC9E0",
+      "ground": "#8A7352",
+      "intensity": 1.35
+    },
+    "ambient": {
+      "color": "#6B5A46",
+      "intensity": 0.55
+    },
+    "bounce": {
+      "color": "#C9A87E",
+      "intensity": 0.55
+    },
+    "rim": {
+      "color": "#A9C6E2",
+      "intensity": 0.85
+    },
+    "exposure": 1.05
+  },
+  "playerSpawn": {
+    "comment": "Just inside the north gate, facing south down Ford Road at the square. This single frame is the most important composition in the build.",
+    "pos": [
+      0.0,
+      0.0,
+      -44.0
+    ],
+    "facingDeg": 180.0
+  },
+  "venues": [
+    {
+      "id": "streets",
+      "name": "Streets and Gate",
+      "cells": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6"
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotationDeg": 0,
+      "role": "infrastructure",
+      "comment": "Consumer for streets[] below. Ford Road, Mere Street, Smith's Lane, the north gate and the south waymarkers."
+    },
+    {
+      "id": "market_square",
+      "name": "Market Square",
+      "cells": [
+        "C3",
+        "D3",
+        "C4",
+        "D4"
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotationDeg": 0,
+      "role": "hub"
+    },
+    {
+      "id": "stalls",
+      "name": "Market Stalls",
+      "cells": [
+        "C3",
+        "D3",
+        "C4",
+        "D4"
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotationDeg": 0,
+      "role": "commerce"
+    },
+    {
+      "id": "guild",
+      "name": "Adventurer's Guild",
+      "cells": [
+        "C2"
+      ],
+      "origin": [
+        -12.5,
+        0,
+        -21
+      ],
+      "rotationDeg": 0,
+      "role": "hero",
+      "comment": "Faces -Z toward the north gate. Set WEST of Ford Road's centreline: spanning C2+D2 put the guild across the road and blocked the sightline from the gate to the fountain, which WORLD_BIBLE calls the most important frame in the build. The tower still anchors the approach from the side."
+    },
+    {
+      "id": "inn",
+      "name": "The Grey Heron",
+      "cells": [
+        "E3",
+        "E4"
+      ],
+      "origin": [
+        22,
+        0,
+        -6
+      ],
+      "rotationDeg": 270,
+      "role": "rest"
+    },
+    {
+      "id": "pub",
+      "name": "The Ferryman's Lamp",
+      "cells": [
+        "B3",
+        "B4"
+      ],
+      "origin": [
+        -24,
+        0,
+        2
+      ],
+      "rotationDeg": 90,
+      "role": "social"
+    },
+    {
+      "id": "blacksmith",
+      "name": "Blacksmith",
+      "cells": [
+        "B5",
+        "B6"
+      ],
+      "origin": [
+        -22,
+        0,
+        26
+      ],
+      "rotationDeg": 45,
+      "role": "craft"
+    },
+    {
+      "id": "shop_row",
+      "name": "Shop Row",
+      "cells": [
+        "C5",
+        "D5",
+        "E5"
+      ],
+      "origin": [
+        4,
+        0,
+        24
+      ],
+      "rotationDeg": 0,
+      "role": "commerce"
+    },
+    {
+      "id": "cottage",
+      "instance": "cottage_a",
+      "cells": [
+        "A2"
+      ],
+      "origin": [
+        -40,
+        0,
+        -22
+      ],
+      "rotationDeg": 20,
+      "role": "residential",
+      "variant": 0
+    },
+    {
+      "id": "cottage",
+      "instance": "cottage_b",
+      "cells": [
+        "B2"
+      ],
+      "origin": [
+        -25,
+        0,
+        -24
+      ],
+      "rotationDeg": -8,
+      "role": "residential",
+      "variant": 1
+    },
+    {
+      "id": "cottage",
+      "instance": "cottage_c",
+      "cells": [
+        "F2"
+      ],
+      "origin": [
+        40,
+        0,
+        -21
+      ],
+      "rotationDeg": -25,
+      "role": "residential",
+      "variant": 2
+    },
+    {
+      "id": "cottage",
+      "instance": "cottage_d",
+      "cells": [
+        "A4"
+      ],
+      "origin": [
+        -41,
+        0,
+        8
+      ],
+      "rotationDeg": 95,
+      "role": "residential",
+      "variant": 3
+    },
+    {
+      "id": "cottage",
+      "instance": "cottage_e",
+      "cells": [
+        "F3"
+      ],
+      "origin": [
+        41,
+        0,
+        -6
+      ],
+      "rotationDeg": 265,
+      "role": "residential",
+      "variant": 1
+    },
+    {
+      "id": "cottage",
+      "instance": "cottage_f",
+      "cells": [
+        "F5"
+      ],
+      "origin": [
+        39,
+        0,
+        24
+      ],
+      "rotationDeg": 200,
+      "role": "residential",
+      "variant": 2
+    },
+    {
+      "id": "townsfolk",
+      "name": "Townsfolk",
+      "cells": [
+        "C2",
+        "C3",
+        "D3",
+        "C4",
+        "D4",
+        "C5",
+        "B5",
+        "E3"
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotationDeg": 0,
+      "role": "population",
+      "comment": "Posed NPCs in world coordinates. Placement is composition: clustered where trade is, a pair mid-conversation, one on the fountain lip."
+    }
+  ],
+  "streets": [
+    {
+      "id": "ford_road",
+      "name": "Ford Road",
+      "width": 7.0,
+      "surface": "cobble",
+      "comment": "Main N-S artery. Worn to a shallow trough down the centre by cart traffic.",
+      "path": [
+        [
+          0,
+          0,
+          -48
+        ],
+        [
+          0,
+          0,
+          -24
+        ],
+        [
+          0,
+          0,
+          -16
+        ],
+        [
+          0,
+          0,
+          16
+        ],
+        [
+          0,
+          0,
+          32
+        ],
+        [
+          0,
+          0,
+          48
+        ]
+      ]
+    },
+    {
+      "id": "mere_street",
+      "name": "Mere Street",
+      "width": 6.0,
+      "surface": "cobble",
+      "path": [
+        [
+          -32,
+          0,
+          2
+        ],
+        [
+          -16,
+          0,
+          1
+        ],
+        [
+          16,
+          0,
+          1
+        ],
+        [
+          32,
+          0,
+          2
+        ]
+      ]
+    },
+    {
+      "id": "smiths_lane",
+      "name": "Smith's Lane",
+      "width": 3.5,
+      "surface": "dirt",
+      "comment": "Narrows toward the forge; unpaved past the midpoint (fire risk is why the smithy sits out here).",
+      "path": [
+        [
+          -24,
+          0,
+          6
+        ],
+        [
+          -23,
+          0,
+          16
+        ],
+        [
+          -22,
+          0,
+          26
+        ]
+      ]
+    }
+  ],
+  "landmarks": [
+    {
+      "id": "hm.gate.north",
+      "name": "North Gate",
+      "pos": [
+        0,
+        0,
+        -46
+      ],
+      "comment": "The player's arrival frame. Must show: the gate arch framing the shot, Ford Road leading the eye, the fountain as focal point at centre, the guild tower rising on the RIGHT (facing +Z, screen-right is -X, and the guild sits west at x=-12.5), the inn's roofline on the left, stall colour, and NPCs moving."
+    },
+    {
+      "id": "hm.fountain",
+      "name": "Heron Fountain",
+      "pos": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "hm.road.south",
+      "name": "South Road",
+      "pos": [
+        0,
+        0,
+        46
+      ],
+      "comment": "Exit to the quest zones. Every street must terminate in something worth walking toward."
+    }
+  ],
+  "ambient": {
+    "comment": "Art Bible \u00a77: static worlds read as dioramas. These drive the client's motion systems.",
+    "wind": {
+      "direction": [
+        0.82,
+        0,
+        0.57
+      ],
+      "speed": 1.4,
+      "gustHz": 0.35
+    },
+    "cloth": {
+      "swayHz": [
+        0.3,
+        0.8
+      ],
+      "amplitudeDeg": 4.5
+    },
+    "fire": {
+      "flickerHz": [
+        8,
+        12
+      ],
+      "intensityVariance": 0.18
+    },
+    "smoke": {
+      "sources": [
+        "hm.blacksmith.chimney.01",
+        "hm.inn.chimney.01",
+        "hm.inn.chimney.02",
+        "hm.pub.chimney.01"
+      ]
+    },
+    "particulate": {
+      "dustMotes": true,
+      "pollen": true,
+      "forgeSparks": true
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "town.schema.json",
+  "title": "Town layout",
+  "description": "Authoritative town definition. The server owns this; the client assembles a scene from it but never authors it. See docs/ARCHITECTURE.md §1.",
+  "type": "object",
+  "required": ["id", "grid", "venues", "playerSpawn"],
+  "properties": {
+    "id":          { "type": "string" },
+    "displayName": { "type": "string" },
+    "zonePrefix":  { "type": "string", "description": "Prefix for all entity IDs in this zone." },
+    "grid": {
+      "type": "object",
+      "required": ["cellSize"],
+      "properties": {
+        "cellSize": { "type": "number", "description": "16m. Chosen so a 3-cell radius (48m) exceeds the ~40m detail horizon." },
+        "cols": { "type": "array" },
+        "rows": { "type": "array" }
+      }
+    },
+    "lighting":    { "type": "object", "description": "Locked at 09:30 per Art Bible §4." },
+    "playerSpawn": {
+      "type": "object",
+      "required": ["pos"],
+      "properties": {
+        "pos":        { "type": "array", "minItems": 3, "maxItems": 3 },
+        "facingDeg":  { "type": "number" }
+      }
+    },
+    "venues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "origin"],
+        "properties": {
+          "id":          { "type": "string", "description": "Matches a module NAME in tools/assetgen/venues/." },
+          "instance":    { "type": "string", "description": "Set when a venue is placed more than once." },
+          "cells":       { "type": "array", "items": { "type": "string" } },
+          "origin":      { "type": "array", "minItems": 3, "maxItems": 3 },
+          "rotationDeg": { "type": "number" },
+          "role":        { "type": "string" },
+          "variant":     { "type": "integer" }
+        }
+      }
+    },
+    "streets":   { "type": "array" },
+    "landmarks": { "type": "array" },
+    "ambient":   { "type": "object" }
+  }
+}
