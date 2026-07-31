@@ -542,6 +542,67 @@ def foliage(name="foliage", size=512, seed=0, tone=P.HERB_GREEN, flowers=False):
     return m
 
 
+def ashlar(name="ashlar", size=1024, seed=0):
+    """Dressed ashlar — squared blocks, fine joints, tooled faces.
+
+    Distinct from `foundation_stone` (coursed rubble) on purpose. The guild is
+    the only building in Hearthmere built by outside money to outside
+    standards, and regular ashlar against everyone else's rubble-and-plaster is
+    what carries that story without a word of exposition.
+    """
+    m = MaterialSet(name, size)
+    s = (size, size)
+    m.set_base("#B3A894")
+
+    # Regular courses: wide blocks, running bond, thin joints.
+    rows, cols = 7, 4
+    gy = np.linspace(0, rows, size, endpoint=False)[:, None].repeat(size, 1)
+    gx = np.linspace(0, cols, size, endpoint=False)[None, :].repeat(size, 0)
+    gx = gx + (np.floor(gy) % 2) * 0.5
+    ty, tx = gy % 1.0, gx % 1.0
+    joint = np.minimum(np.minimum(tx, 1 - tx) * cols, np.minimum(ty, 1 - ty) * rows)
+    jm = 1.0 - smoothstep(0.0, 0.055, joint)
+    m.add_height(-jm * 0.55)
+
+    # Tooled face: fine chisel marks, plus a slightly raised centre per block.
+    m.add_height(ridged(s, 64, seed + 131, octaves=2) * 0.10)
+    m.add_height((1.0 - jm) * 0.06)
+
+    # Per-block colour: quarried stone varies bed to bed.
+    blk = ((np.floor(gy) * 19.0 + np.floor(gx) * 7.0) * 0.6180339887) % 1.0
+    m.darken(blk * 0.8, 0.13)
+    m.tint(P.FOUNDATION, smoothstep(0.4, 1.0, blk) * 0.35)
+
+    m.rough(0.68, 0.11, 0.06, seed + 132)
+    m.cavity_dirt(jm * 0.8, 0.35)
+    return m
+
+
+def banner_cloth(name="banner", size=512, seed=0, colour=P.GUILD_CRIMSON):
+    """Heavy dyed wool for banners. Uneven dye, sun-fade, frayed lower edge."""
+    m = MaterialSet(name, size)
+    s = (size, size)
+    m.set_base(colour)
+
+    gx = np.linspace(0, 1, size, endpoint=False)[None, :].repeat(size, 0)
+    gy = np.linspace(0, 1, size, endpoint=False)[:, None].repeat(size, 1)
+    weave = (np.sin(gx * 200 * np.pi) * np.sin(gy * 200 * np.pi)) * 0.5 + 0.5
+    m.add_height(weave * 0.14 + fbm(s, 22, seed + 141) * 0.08)
+
+    # Vat-dyed wool is never even; the blotching is what stops it reading as
+    # a flat colour swatch.
+    blotch = normalize01(fbm(s, 5, seed + 142, octaves=3))
+    m.darken(blotch * 0.8, 0.22)
+    m.lighten(smoothstep(0.6, 1.0, blotch), 0.14)
+
+    # Sun-bleached toward the hanging edge, dirt at the bottom.
+    m.lighten(smoothstep(0.45, 0.0, gy) * 0.7, 0.20)
+    m.darken(smoothstep(0.82, 1.0, gy), 0.30)
+
+    m.rough(0.90, 0.07, 0.05, seed + 143)
+    return m
+
+
 # Registry so venue modules and the build script agree on names.
 LIBRARY = {
     "plaster":      lambda **k: lime_plaster(**k),
@@ -560,4 +621,6 @@ LIBRARY = {
     "glass":        lambda **k: leaded_glass(**k),
     "foliage":      lambda **k: foliage(**k),
     "foliage_flower": lambda **k: foliage(flowers=True, **k),
+    "ashlar":       lambda **k: ashlar(**k),
+    "banner":       lambda **k: banner_cloth(**k),
 }
