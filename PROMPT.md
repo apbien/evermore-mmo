@@ -116,6 +116,13 @@ Every session that continues this work starts the same way, before building:
 If you inherit a dirty working tree, your first deliverable is committing it
 in coherent, reviewable pieces (§7) — not building on quicksand.
 
+This ritual is also the recovery procedure. Sessions end without warning —
+usage limits (the 5-hour window, the weekly cap) cut work off mid-task, and
+that is normal, not an emergency. A successor session that runs steps 1–5
+needs nothing from the dead one: no memory, no summary, no luck. If the
+ritual is ever not enough to resume, the dead session violated §7, and the
+fix is tighter checkpoints, not more notes.
+
 ## 6. Current objective and priority order
 
 The current objective is the **visual completion of Hearthmere**: every venue
@@ -170,6 +177,15 @@ and after every verdict is acted on, with messages naming the venue and the
 report they answer. An uncommitted tree older than one iteration is itself a
 defect: it breaks review diffing and puts weeks of work one crash from gone.
 Never leave a session with more than one venue's work uncommitted.
+
+**Assume the session can end without warning.** Usage limits — the 5-hour
+window and the weekly cap — cut sessions off mid-task. Shape the work to
+survive that: finish and commit one venue rather than starting three; never
+fan out wider than can reach a committed checkpoint soon; commit small
+completed units as they land instead of batching a day of work. When work
+stops mid-venue, end the last commit message with a `NEXT:` line naming the
+immediate next step — the successor session reads it in step 1 of the
+ritual (§5), which is the resume procedure.
 
 ## 8. Definition of done
 
