@@ -1,12 +1,14 @@
 {
-  "name": "unlimitless-horizons",
+  "name": "evermore-mmo",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Hearthmere - an MMORPG first town built to AAA standards",
+  "description": "Evermore - Hearthmere, an MMORPG first town built to AAA standards",
   "scripts": {
     "shots": "node tools/render/shoot.mjs",
-    "serve": "node client/serve.mjs"
+    "serve": "node client/serve.mjs",
+    "walkable": "node tools/check_walkable.mjs",
+    "playable": "node tools/check_client.mjs"
   },
   "dependencies": { "three": "^0.180.0" },
   "devDependencies": { "playwright": "^1.49.0" }

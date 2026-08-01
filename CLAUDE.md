@@ -1,8 +1,12 @@
-# Unlimitless Horizons — Agent Instructions
+# Evermore — Agent Instructions
 
 An MMORPG first town, **Hearthmere**, built to modern AAA standards in a
 semi-realistic anime style (SAO / Shangri-La Frontier / Echoes of Aincrad),
 benchmarked against FFXIV, Guild Wars 2, and World of Warcraft.
+
+**Standing mission:** `PROMPT.md` at the repo root is the owner's standing
+order — what to build next, in what order, and the rules of evidence. Read it
+first when continuing the work.
 
 ## Read before doing anything
 
