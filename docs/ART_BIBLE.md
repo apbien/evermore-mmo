@@ -51,6 +51,28 @@ What separates this from straight realism, in order of impact:
 5. **Colour separation between planes.** Foreground/midground/background are
    pushed apart in value and temperature so the frame reads instantly.
 
+### The architectural idiom
+
+**The town is, for the most part, Tudor** (owner direction, D-040). The
+domestic and commercial fabric — houses, shops, inns, workshops — is Tudor
+vernacular:
+
+- Exposed **timber framing**, close-studded on show frontages, with
+  **jettied upper storeys** on street-facing buildings.
+- Infill of lime-plastered wattle-and-daub or **brick nogging**, in the §4
+  plaster tones; frame members in the §4 oak family.
+- **Steeply pitched roofs** in clay tile or thatch, dealt per the covering
+  rules; **tall, prominent chimneys** — a Tudor chimney is a silhouette
+  feature, not plumbing.
+- **Leaded casement windows** in small panes, as §2 already requires.
+
+"For the most part" is load-bearing. Stone remains the mark of the sacred,
+the civic, and the boundary: the church, the guild's tower, the town wall
+with its gates and towers, and the bridge stay masonry per their World Bible
+and Town Plan briefs. Timber town, stone institutions — the contrast is the
+founding logic made visible, and it is what keeps Tudor from becoming a
+theme park.
+
 ---
 
 ## 2. Non-Technological Constraint
