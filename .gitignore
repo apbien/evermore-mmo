@@ -23,6 +23,16 @@ test-results/
 # review/reports/ ARE tracked — they are the argument, and they cite the frames.
 review/shots/
 
+# Generated assets (D-067). Every file under assets/ is deterministic output of
+# tools/assetgen: a fresh clone runs `make setup && make assets` and gets
+# byte-identical meshes and textures. Git was carrying 410 MB of regenerable
+# binaries, and townhouse.bin (63 MB) had crossed GitHub's 50 MB warning line.
+# Git keeps the source of truth (generators, content/, docs); the generated
+# state is covered by timestamped zips in backups/ (SessionStart hook ->
+# tools/backup.ps1), which OneDrive carries off-machine.
+assets/
+backups/
+
 # Local Claude Code settings
 .claude/settings.local.json
 

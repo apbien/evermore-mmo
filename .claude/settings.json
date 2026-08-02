@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/backup.ps1",
+            "async": true,
+            "timeout": 600,
+            "statusMessage": "Backing up generated assets (D-067)"
+          }
+        ]
+      }
+    ]
+  }
+}
