@@ -30,6 +30,11 @@ built a thing cannot see it clearly.
 
 **Builder agent** — owns a venue. Writes generators, produces assets, renders
 its own screenshots, iterates. Reports `READY_FOR_REVIEW` with render paths.
+Every submitted render carries the **calibration strip** (D-078): the 1.75 m
+scale figure, an 18% grey sphere, a chrome sphere, and a row of §4 palette
+chips — so two venues shot weeks apart are provably at the same exposure and
+grade. A missing strip is an automatic `REVISE`. The packet includes one
+**LOD2-range render (60–100 m)** alongside the close views.
 
 **Critic agent** — reviews one venue, never builds. Has not seen the generator
 code and does not read it before forming a visual judgement. Looks at the
@@ -73,8 +78,10 @@ scope. Do not report character findings at all — there are no characters.
 | `REVISE` | Specific, enumerated defects. Builder fixes and resubmits. |
 | `REJECT` | Fundamentally wrong approach — composition, proportion, or concept. Rebuild, do not patch. |
 
-`REVISE` is the expected verdict on a first submission. A first-pass `ACCEPT`
-usually means the critic was not looking hard enough.
+`REVISE` is a common verdict on a first submission — but judge what is in
+front of you (D-078). A finished venue deserves its `ACCEPT` on round one,
+and a defect list padded to look thorough is as much a review failure as a
+soft pass. The instrument must not be told its answer in advance.
 
 ## Scoring
 
@@ -89,7 +96,7 @@ This prevents a beautiful-but-wrongly-scaled asset from averaging into a pass.
 | **Detail hierarchy** | Primary/secondary/tertiary layering, no detail-soup |
 | **Wear & story** | Physically motivated, tells you how it is used |
 | **Life & residue** | Evidence of recent human activity |
-| **Cohesion** | Belongs to Hearthmere; consistent with neighbours |
+| **Cohesion** | Conforms to the pattern book, colour script, signage, and wear-index standards (Art Bible §§1, 4, 5) — the parts of "belongs to Hearthmere" a per-venue critic can actually check without neighbours; whole-town consistency belongs to the cohesion review |
 | **Scale truth** | Correct against the 1.75 m reference |
 | **AAA comparison** | The blind side-by-side verdict |
 

@@ -109,6 +109,28 @@ types, not jittered clones**:
 Cohesion still wins: every type and dressing draws from §4's palette and
 this idiom. Five houses, one town.
 
+### The pattern book (D-076)
+
+The idiom has numbers. Two builders on adjacent plots must produce roofs
+that argue about nothing but their seeds:
+
+- **Roof pitch by covering**: thatch 50–55°; plain tile 45–50°; slate
+  38–42°. Stone civic buildings (church, guild, moot hall) may run
+  shallower per their briefs — the vernacular may not.
+- **Eaves overhang** 0.35–0.55 m; **verge** 0.15–0.25 m; exposed rafter
+  feet on domestic work.
+- **Jetty**: 0.45–0.65 m per jettied storey, dragon beams at corners.
+- **Framing rhythm**: post bays 2.4–3.6 m; close studding at 0.35–0.45 m
+  centres on show frontages.
+- **Windows**: lights 0.45–0.55 m wide in oak mullions; domestic openings
+  small and horizontal; leaded quarries per §2.
+- **Doors**: per §3's split — thoroughfare and civic doors at the gameplay
+  minimum, domestic doors at vernacular scale.
+
+The generated building schedule grows `eaves`/`ridge` **height** columns so
+every mass's roof is checkable against these ranges (checker support
+pending).
+
 ---
 
 ## 2. Non-Technological Constraint
@@ -130,6 +152,18 @@ suggesting electricity or combustion engines.
 **Signage is pictorial, never typographic.** Shops advertise with carved or
 forged icons — a boot, an anvil, a wheat sheaf. This is both period-correct and
 solves localization. No readable lettering anywhere in the world.
+
+**The sign language (D-077).** With lettering banned, signs are the town's
+wayfinding — one language, not ninety-four dialects:
+
+- **One bracket family**, wrought, three variants: plain scroll (shops),
+  heron scroll (civic), lantern-and-board (licensed houses). Mounted at
+  2.6 m to the bracket, board clearing §3's 2.20 m awning line.
+- **Board sizes**: 0.75 × 0.55 m for shops; 0.9 × 0.7 m for the inn, pub,
+  and guild.
+- **Icons are silhouette-first**: one object, carved or painted, readable
+  black-on-white at 30 m — a boot, an anvil, a sugar loaf. If it needs a
+  second object to parse, it is wrong.
 
 Corollary rules that catch most mistakes:
 - Nothing is perfectly straight or perfectly repeated. Hand-made means variance.
@@ -173,6 +207,18 @@ These are not suggestions:
 | Crate | 0.55 m cube |
 | Cart wheel diameter | 1.15 m |
 
+### Gameplay minimums and the vernacular (D-076)
+
+The table above is the **gameplay minimum** set — thoroughfares, the
+church, the guild, and any route the player must walk. The Tudor vernacular
+is smaller, and domestic buildings use it: door openings 1.85–1.95 m ×
+0.85 m, interior floor-to-ceiling 2.2–2.4 m with exposed joists,
+head-brushing beams permitted where the player is never forced through
+them. The pub's heavy low beams are its identity, and they are legal — its
+circulation route still meets the gameplay minimum. Camera consequence per
+ARCHITECTURE §5: vernacular rooms collapse toward first person, and that is
+the intended feel, not a defect.
+
 **Camera reference:** the gameplay rig — third-person, boom 3.6 m, camera
 height 2.05 m, 55° FOV (single source: ARCHITECTURE §5 "The gameplay
 camera", D-069). Every asset is judged from that camera, not from a hero
@@ -182,15 +228,23 @@ close-up. If it only looks good at 0.5 m, it is not finished.
 
 ## 4. Locked Palette
 
-Hex values are **linear-space authoring targets in sRGB notation**. All albedo
-maps stay within these families. Deviation requires a recorded decision.
+Hex values are **sRGB-encoded authoring values**, decoded to linear on
+import — exactly what a hex colour is everywhere else (D-075; the previous
+"linear-space targets in sRGB notation" wording was self-contradictory). All
+albedo maps stay within these families; deviation requires a recorded
+decision. The palette is only meaningful through the locked viewing
+pipeline, which is law: linear-light rendering, exposure 1.05, ACES filmic
+tonemap, then the warm grade — lifted shadows, warm midtones, cyan-pushed
+shadow hue (implementation in ARCHITECTURE §5). A palette check compares the
+render *through that pipeline* against the swatch sheet — never raw hex
+against screen.
 
 ### Architecture
 
 | Role | Hex | Notes |
 | --- | --- | --- |
 | Lime plaster (primary wall) | `#E8DCC4` | Warm off-white, the town's base value |
-| Lime plaster (shadowed variant) | `#D4C4A8` | For north faces and recesses |
+| Lime plaster (shadowed variant) | `#D4C4A8` | For south and west faces and recesses — the faces the locked sun does not reach (D-075) |
 | Oak timber (fresh) | `#8B6F47` | Frame members, doors |
 | Oak timber (weathered) | `#6B5638` | Sun-facing, older structures |
 | Oak timber (dark stain) | `#4A3728` | Structural posts, beams |
@@ -203,14 +257,28 @@ maps stay within these families. Deviation requires a recorded decision.
 
 ### Metals
 
+True metals are authored as **F0 reflectance** — the colour a metal actually
+reflects — never as their "look" in shade. A dark albedo at metalness 1.0
+renders as a black cutout (the anti-reference list's "black metal"), which
+is why the pipeline was already shipping fractional metalness off-book; that
+deviation is now sanctioned and bounded (D-075). Values are standard PBR F0
+references — verify against the swatch sheet at the locked rig.
+
+| Role | Hex (F0) | Roughness | Metalness |
+| --- | --- | --- | --- |
+| Wrought iron (bare) | `#8E8E8D` | 0.55 | 1.0 |
+| Hot iron (forge) | `#FF7A2E` | 0.40 | 1.0, emissive carries the heat |
+| Bronze | `#F0C0A0` | 0.35 | 1.0 |
+| Steel (polished blade) | `#C8CCD4` | 0.15 | 1.0 |
+| Brass fittings | `#E8C88A` | 0.28 | 1.0 |
+
+Painted, limed, or heavily oxidised ironwork is a **dielectric** — this is
+where the dark values live:
+
 | Role | Hex | Roughness | Metalness |
 | --- | --- | --- | --- |
-| Wrought iron | `#3A3632` | 0.55 | 1.0 |
-| Hot iron (forge) | `#FF7A2E` | 0.40 | 1.0 |
-| Bronze | `#A87438` | 0.35 | 1.0 |
+| Ironwork, blacked / limed | `#3A3632` | 0.55 | 0.0–0.3 |
 | Copper (verdigris) | `#5FA88C` | 0.70 | 0.0 |
-| Steel (polished blade) | `#C8CCD4` | 0.15 | 1.0 |
-| Brass fittings | `#C9A227` | 0.28 | 1.0 |
 
 ### Accent & Life
 
@@ -223,6 +291,37 @@ maps stay within these families. Deviation requires a recorded decision.
 | Market canvas stripe | `#9C4A3C` | Awning stripe, ~40% of stalls |
 | Herb green | `#6B8E4E` | Planters, produce |
 | Produce accent | `#D4832F` | Pumpkins, gourds, warm goods |
+
+### Water (D-077)
+
+| Role | Hex | Notes |
+| --- | --- | --- |
+| Shallow / bed tint | `#6E7A6A` | The ford, margins, fountain basin |
+| Deep water | `#2E4A52` | The Mere, the dredged basin |
+| Foam / broken water | `#DCE4E2` | The weir, the ford riffle, bow waves |
+
+### The district colour script (D-077)
+
+One palette, eight biases (district names per TOWN_PLAN §2 — where a name
+differs there, the plan is right). Buildings draw the same families; each
+district applies a bias so a street photographs like its cause:
+
+| District | Value | Temperature | Bias |
+| --- | --- | --- | --- |
+| Kirk Knowe | high | neutral-warm | clean plaster, pale stone; lowest wear |
+| Market place | mid-high | warm | densest accents; canvas and produce carry the colour |
+| The Fire Lane | mid | warm | soot above openings; charred timber ends |
+| Quayside | mid | cool | silvered timber, algae line, tar blacks |
+| West Lanes | low-mid | neutral | damp plaster, moss greens, high wear |
+| The Bailey | low | cool-neutral | patched everything; wear index 4 |
+| Smithward | mid | warm | cinder greys, scorch, iron staining |
+| Gate wards | mid | neutral | travel dust, worn thresholds |
+
+**Dominance ratio** for any single building: roughly 60% wall field, 25%
+timber/stone structure, 10% roof accent, 5% painted accent. A building
+one-third guild crimson is out of palette no matter which hexes it used.
+Filler shutters and doors draw from a five-colour family (`#4A7C59`,
+`#9C4A3C`, `#5A6270`, `#C87F2A`, `#6B5638`) dealt by seed.
 
 ### Lighting
 
@@ -243,9 +342,27 @@ read it. Do not hardcode these anywhere — see D-009 for why.
 | Window interior spill | `#FFD9A0` | 2.2 |
 
 **Time of day is locked to mid-morning, ~09:30.** Sun elevation 38°, azimuth
-125°. This gives long-but-not-extreme shadows, warm key, and strong sky fill —
-the most flattering light for architecture and the standard "arrival" mood.
-All review screenshots use this exact setup.
+125° — **azimuth measured clockwise from +Z (south); compass equivalent 55°,
+sun in the east-north-east**. World-space direction *to* the sun:
+`(0.645, 0.616, −0.452)`. State it that way in any port: typing "125°" into
+a compass-convention sun rotates every shadow in Hearthmere by 70° (D-075).
+At this hour the **north and east elevations are the lit ones**; shadowed
+palette variants belong on south and west faces. This gives
+long-but-not-extreme shadows, warm key, and strong sky fill. All review
+screenshots use this exact setup.
+
+Emissive intensities in the table above are relative to the locked exposure
+(1.05) and the bloom threshold (1.0): an emissive is correct when it reads
+at 09:30 without blooming out. The pub and forge, whose identity is
+firelight, additionally carry a declared night/interior review condition
+(D-078). **Day and night are committed as design** — the 09:30 lock is a
+production stage, not world law, and nothing may be authored in a way that
+forecloses a day cycle (D-078).
+
+The rim row is the authored directional approximation (D-010); the
+screen-space rim pass in ARCHITECTURE §5 is the target implementation. When
+it lands, the rim's saturation and intensity are re-tuned and this row is
+updated — open item, D-075.
 
 ---
 
@@ -257,11 +374,18 @@ anywhere.** A flat-shaded surface is the fastest way to look like a prototype.
 Required channels per material:
 - **Albedo** (RGB) — base colour, no baked lighting, no baked AO
 - **Roughness** (R) — never uniform; every surface has roughness breakup
-- **Metalness** (R) — binary in practice, 0.0 or 1.0, except worn transitions
+- **Metalness** (R) — 0.0 or 1.0 by default; fractional values are the
+  recorded exception for bare ironwork under weak IBL and for worn
+  metal-through-paint transitions (D-075)
 - **Normal** (RGB, tangent-space, OpenGL +Y) — surface detail
 - **AO** (R) — cavity occlusion, multiplied into indirect only
 
 Optional: **Emissive** (RGB) for forge, lamps, windows.
+
+Channels ship **ORM-packed** — R=AO, G=roughness, B=metalness in one
+texture — the native packing for glTF, Unreal, and Unity (this is what the
+pipeline builds; the five channels above are the *authoring* contract).
+Albedo is sRGB; ORM and normal maps are linear data.
 
 ### Texel density
 
@@ -295,7 +419,36 @@ does the sun hit, what is it standing in?*
 - **Water streaking** — vertical runs below sills, ledges, and roof edges.
 - **Touch polish** — door handles, counter edges, stair nosings, bar tops, and
   the top of every barrel at 0.88 m get smoothed roughness and slight darkening.
-- **Ground contact** — the bottom 0.15 m of every wall gets splash dirt.
+- **Ground contact** — the bottom 0.35–0.5 m of every wall gets splash
+  dirt, dense at the base with a soft upper edge. Rain splash-back is
+  knee-high, not ankle-high (D-077).
+
+### The wear index (D-077)
+
+Wear has a quantity, not just a mechanism. Every venue brief carries a
+**wear index 0–5** — 0 new-built, 5 derelict — defaulted by district and
+age (the Bailey's cottages run 4; the guild's imported ashlar runs 1) and
+applied consistently across a building's materials. Two venues at the same
+index weather the same amount. "Physically motivated" no longer passes both
+a pristine and a ruined version of the same cottage.
+
+### Water (D-077)
+
+Hearthmere is a lake town; water is a first-class material, not a blue
+plane:
+
+- **Colour by depth** — shallow water tints toward its bed (`#6E7A6A`);
+  deep water absorbs toward `#2E4A52`; the Mere at distance reads as the
+  sky's value, one step darker.
+- **The waterline band** — everything within 0.5 m of standing or flowing
+  water is wet: darkened albedo, dropped roughness, algae per its brief.
+  The quay stair's bottom treads, the fountain rim, the bridge piers.
+- **Motion** — two counter-scrolling normal layers (the shipped technique);
+  flow direction follows the Emberflow's course, never a tiling default.
+- **Foam** — a narrow broken-water line where moving water meets stone;
+  none in open water at this wind.
+- **Reflection budget** — planar/screen-space reflection is an Ultra-tier
+  effect; the base read must hold with IBL alone.
 
 ---
 
@@ -336,8 +489,12 @@ Hand-built means nothing repeats exactly. Mandatory variance:
 - Rotation jitter: ±2°
 - Scale jitter: ±4%
 - No element may appear more than 3 times in a row without a variant
-- Every building has at least one element that is visibly *wrong* — a sagging
-  beam, a patched wall, a replaced shutter of different wood
+- Visible imperfection is dealt at a **rate, not a rule** (D-077): roughly
+  70% of domestic masses carry one visibly *wrong* element — a sagging beam,
+  a patched wall, a mismatched shutter — dealt by seed, biased by district
+  age and wealth. The guild (imported, expensive, deliberately alien) and
+  the newest work carry none. A wonky thing on every house is itself a
+  uniformity.
 
 ### Poly budget
 
@@ -356,6 +513,23 @@ these exist to keep memory and streaming sane, not to force ugliness.
 
 LOD chain: LOD0 (0–15 m), LOD1 @ 50% (15–40 m), LOD2 @ 20% (40–100 m),
 LOD3 @ 6% / impostor (100 m+).
+
+### What a LOD may not lose (D-078)
+
+The 100 m views are the town's best views, and they are drawn entirely from
+coarse LODs — the town that ships is the town at LOD2, not the review
+close-up:
+
+- **Silhouette survives to LOD3**: chimneys, jetty steps, gable lines, and
+  every venue's anchor element. Decimation may not flatten a roofline.
+- **Chamfers may collapse at LOD2** (sub-pixel past 40 m); normal maps
+  persist through LOD2 and may drop at LOD3.
+- **Apparent colour is LOD-stable** — material collapse follows the by-area
+  dominance rule (D-028); a building may not change colour when it changes
+  LOD.
+- **Transitions dissolve** (dither crossfade), never pop.
+- Every review packet includes **one LOD2-range render (60–100 m)**; the
+  silhouette axis is scored against it as well as LOD0.
 
 ---
 
@@ -399,6 +573,12 @@ Static worlds read as dioramas. Required motion:
 - Water: fountain, troughs — flowing normal maps, ripples
 - Vegetation: window boxes, vines, potted herbs — wind sway
 - Ambient particulate: dust motes in sun shafts, forge sparks, pollen
+
+All drift takes its direction from `ambient.wind` in
+`content/town/hearthmere.json` — cloth, smoke, laundry, steam, and
+vegetation lean the same way, or the town reads as a collage (D-077).
+Smoke rises from every lived-in chimney, not a shortlist; generating the
+source list from the building schedule is pending.
 
 ---
 

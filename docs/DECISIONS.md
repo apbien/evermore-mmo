@@ -3072,3 +3072,79 @@ reading table; `docs/README.md`'s claim scoped accordingly. PROMPT.md §6
 gains the named systems-design phase (item i) that the canon governs, scoped
 by the audit synthesis backlog. Where the canon touches the art, layout, or
 lore of a built area, the §3 governed documents win.
+
+## D-075 — Light and colour tell the truth
+
+**Context.** Audit findings (docs-audit-art-01.md #1–4, #8): the sun's
+azimuth had no stated convention and is not compass (125° in the shipped
+formula = compass 55°, sun in the ENE); the palette's shadowed variants were
+keyed to "north faces", which the sun actually lights; the palette hexes
+were declared with the self-contradictory phrase "linear-space targets in
+sRGB notation" and no viewing pipeline; and the metals table demanded
+metalness 1.0 on ~4%-reflectance hexes — physically impossible, already
+silently overridden in code.
+
+**Decision.** Art Bible §4 now states the azimuth convention, the compass
+equivalent, and the world-space sun vector; shadow variants re-key to south
+and west faces; hexes are declared sRGB-encoded with the locked viewing
+pipeline (linear light, exposure 1.05, ACES, warm grade) made law; metals
+re-author as F0 reflectance with a dielectric painted-ironwork family, and
+the pipeline's fractional metalness is sanctioned and bounded. The rim's
+three-way spec (directional vs screen-space) is recorded as an open item to
+resolve when the screen-space pass is confirmed.
+
+## D-076 — The idiom has numbers
+
+**Context.** Audit findings #5, #23: no roof pitch, jetty depth, bay
+spacing, or window module existed anywhere — two builders would produce a
+35° and a 55° roof and both pass; and §3's single scale table applied modern
+building code (2.10 m doors, 2.70 m ceilings) to a Tudor town, making the
+pub's low-beamed identity illegal.
+
+**Decision.** Art Bible §1 gains the pattern book (pitch by covering —
+thatch 50–55°, tile 45–50°, slate 38–42° — eaves, verge, jetty, bays,
+studding, window and door modules). §3 splits into gameplay minimums
+(thoroughfares, church, guild, forced routes) and vernacular dimensions
+(domestic doors 1.85–1.95 m, ceilings 2.2–2.4 m); vernacular rooms
+collapsing toward first person is the intended feel per ARCHITECTURE §5.
+The building schedule grows eaves/ridge height columns (checker pending).
+
+## D-077 — The missing vocabularies
+
+**Context.** Audit findings #9, #10, #25, #27–29: no water direction in a
+lake town; one flat palette across eight causally distinct districts; no
+signage standard in a world where signs are the only wayfinding; a wear
+system with mechanisms but no quantities; "one wrong element per building"
+as a uniformity; wind never bound to the motion rules.
+
+**Decision.** Art Bible gains: a water sub-palette (§4) and water material
+standard (§5 — depth colour, the 0.5 m waterline band, flow direction from
+the river's course, foam, reflection budget); the district colour script
+(§4 — per-district value/temperature/bias plus the 60/25/10/5 dominance
+ratio and a five-colour filler accent family); the sign language (§2 — one
+bracket family, fixed board sizes, silhouette-first icons readable at
+30 m); the wear index 0–5 with district defaults and a splash band raised
+to 0.35–0.5 m (§5); imperfection dealt at ~70% of domestic masses by seed
+rather than one-per-building (§6); and all ambient motion bound to
+`ambient.wind` with smoke from every lived-in chimney (§7).
+
+## D-078 — The review instrument is calibrated, and it sees what ships
+
+**Context.** Audit findings #18, #19, #21, #24: reviews judged only LOD0
+close-ups while the town's best views draw LOD2–3; emissives were tuned
+against a mid-morning key that washes them out; nothing proved two renders
+shared an exposure; the Cohesion axis asked a per-venue critic about
+neighbours they cannot see; and the protocol told critics a first-pass
+ACCEPT means they weren't looking — instructing the instrument's answer.
+
+**Decision.** REVIEW_PROTOCOL: every submission carries a calibration strip
+(scale figure, 18% grey sphere, chrome sphere, palette chips — missing strip
+is automatic REVISE) and one LOD2-range render; the Cohesion axis becomes
+conformance to the pattern book / colour script / signage / wear standards;
+the first-pass bias sentence is replaced with "judge what is in front of
+you." Art Bible §6 gains "What a LOD may not lose" (silhouette to LOD3,
+chamfer collapse at LOD2, LOD-stable colour, dissolve transitions). §4
+defines emissive correctness against the locked exposure and bloom
+threshold, grants the pub and forge a night/interior review condition, and
+records **day/night as a committed design decision** — the 09:30 lock is a
+production stage; nothing may forecloses a day cycle.
