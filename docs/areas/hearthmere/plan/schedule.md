@@ -4,7 +4,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 01 | `hm.slot.01.inn` | `inn` | -34.0, -26.0 | 16.0 x 14.0 | 90&deg; | 3 | 10.6 | gable | D4 D5 E4 E5 | the market place | hero |
 | 02 | `hm.slot.02.guild` | `guild` | -33.0, +0.0 | 16.0 x 16.0 | 90&deg; | 2 | 8.4 | along | D6 D7 E6 E7 | the market place | hero |
-| 03 | `hm.slot.03.moot` | `moot_hall` | -16.0, +9.0 | 13.0 x 8.0 | 60&deg; | 2 | 7.2 | along | E7 E8 F7 F8 | the market place | secondary |
+| 03 | `hm.slot.03.moot` | `moot_hall` | -16.0, +9.0 | 13.0 x 8.0 | 60&deg; | 2 | 7.2 | along | E7 E8 F7 F8 | the market place | hero |
 | 04 | `hm.slot.04.store` | `shop_row` | -19.0, +23.5 | 8.0 x 11.0 | 0&deg; | 2 | 6.6 | along | E8 F8 | the market place | secondary |
 | 05 | `hm.slot.05.apothecary` | `shop_row` | -11.5, +23.5 | 6.0 x 11.0 | 0&deg; | 2 | 6.6 | along | F8 | the market place | secondary |
 | 06 | `hm.slot.06.tailor` | `shop_row` | -5.5, +23.5 | 6.0 x 11.0 | 0&deg; | 2 | 6.9 | along | F8 | the market place | secondary |
@@ -99,11 +99,11 @@
 
 **Slot notes.** `ground` is the terrain height at the plot centre; the ground floor sits on it unless the note says otherwise. `w` runs along the frontage, `d` back into the plot, and the front face is at centre + forward x d/2.
 
-**01 inn** &mdash; ground -1.05 m. The Grey Heron. Tallest timber structure in town; upper floors jettied 0.45 m each. Gable to the square so the sign hangs over the paving. Four dormers on the east slope, two chimneys, stable yard behind.
+**01 inn** &mdash; ground -1.05 m. The Grey Heron. Tallest timber structure in town; upper floors jettied 0.45 m each. Gable to the square so the sign hangs over the paving. Four dormers on the east slope, two chimneys, stable yard behind. *Facade break (16 m face):* Carriage arch through to the stable yard, south of centre, and the jettied upper storeys step 0.45 m out over the paving — the frontage breaks at the arch and again at each jetty line.
 
-**02 guild** &mdash; ground +0.00 m. Adventurer's Guild. Dressed stone in a plaster town, symmetrical in a town where nothing is, and it bought the best block on the market place. Forecourt raised 0.42 m on a stylobate with four steps across the full frontage. Square tower on the block's NORTH-EAST corner, footprint x[-32,-25] z[-8,-1], parapet 18.6 m, pyramid roof and iron finial to 21.5 m, crimson banners on the north and east faces. That tower is the far anchor of the arrival frame: it stands just right of the fountain at 71.5 m and closes the view west.
+**02 guild** &mdash; ground +0.00 m. Adventurer's Guild. Dressed stone in a plaster town, symmetrical in a town where nothing is, and it bought the best block on the market place. Forecourt raised 0.42 m on a stylobate with four steps across the full frontage. Square tower on the block's NORTH-EAST corner, footprint x[-32,-25] z[-8,-1], parapet 18.6 m, pyramid roof and iron finial to 21.5 m, crimson banners on the north and east faces. That tower is the far anchor of the arrival frame: it stands just right of the fountain at 71.5 m and closes the view west. *Facade break (16 m face):* The forecourt's four steps run the full frontage, but the doorcase breaks forward half a bay at the porch and the north-east tower lifts the north end of the block clear of the eaves line.
 
-**03 moot** &mdash; ground +0.00 m. Moot Hall. FREE-STANDING in the market place, not on a frontage: arcaded ground floor on ten oak posts (the butter market) with the council chamber over, so the market flows under and round it. Skewed 60 degrees because it was built along the old sheep-pen rail. Louvred bell-cote on the EAST gable, 15.8 m — the left-hand anchor of the arrival frame. Stands on the upper market, one step above the fountain.
+**03 moot** &mdash; ground +0.00 m. Moot Hall. FREE-STANDING in the market place, not on a frontage: arcaded ground floor on ten oak posts (the butter market) with the council chamber over, so the market flows under and round it. Skewed 60 degrees because it was built along the old sheep-pen rail. Louvred bell-cote on the EAST gable, 15.8 m — the left-hand anchor of the arrival frame. Stands on the upper market, one step above the fountain. *Facade break (13 m face):* Arcaded ground floor — ten oak posts and open air, no facade at all below the chamber; the bell-cote gable breaks the roof at the east end.
 
 **04 store** &mdash; ground +1.15 m. General store. Widest of the three, shutters that fold down into counters, goods out over the footway. Party wall east with the apothecary.
 
@@ -119,13 +119,13 @@
 
 **10 townhouse_c** &mdash; ground -1.05 m. The infill plot: 4.0 m of frontage squeezed between its neighbour and Ford Road's kerb, skewed 10 degrees to take up the angle, and three storeys because that was the only way up. Its east gable takes the full morning sun and carries the only painted plaster panel in town.
 
-**11 church** &mdash; ground +0.00 m. CHURCH OF SUMMONING. Aisled hall church, ridge east-west, 14.6 m to the ridge. Great west portal 6.4 m clear x 8.0 m to the arch apex, doors standing open. Floor at +2.40, altar dais +0.90 above that. Clerestory over the arcade on both sides; lantern over the altar bay. THE ARRIVAL FRAME IS AUTHORED FROM THIS BUILDING — see docs/areas/hearthmere/TOWN_PLAN.md section 7.
+**11 church** &mdash; ground +0.00 m. CHURCH OF SUMMONING. Aisled hall church, ridge east-west, 14.6 m to the ridge. Great west portal 6.4 m clear x 8.0 m to the arch apex, doors standing open. Floor at +2.40, altar dais +0.90 above that. Clerestory over the arcade on both sides; lantern over the altar bay. THE ARRIVAL FRAME IS AUTHORED FROM THIS BUILDING — see docs/areas/hearthmere/TOWN_PLAN.md section 7. *Facade break (20 m face):* The great west portal — 6.4 m clear, 8.0 m to the arch apex, doors standing open — breaks the front at centre, with full-height buttresses at the aisle lines and the nave gable standing proud of both aisle roofs.
 
-**12 church_tower** &mdash; ground +0.80 m. Church tower, north-west angle. Part of venue `church`. Parapet 18.4 m, lead spirelet to 21.4 m — the tallest thing in Hearthmere by 0.1 m over the guild, which the guild has never mentioned. Sited at the NORTH-west angle so its north and east faces are lit at 09:30 and it reads from the north gate and from the water.
+**12 church_tower** &mdash; ground +0.80 m. Church tower, north-west angle. Part of venue `church`. Parapet 18.4 m, lead spirelet to 21.6 m — the tallest thing in Hearthmere by 0.1 m over the guild, which the guild has never mentioned. Sited at the NORTH-west angle so its north and east faces are lit at 09:30 and it reads from the north gate and from the water.
 
 **13 parsonage** &mdash; ground +0.88 m. The parsonage, inside the churchyard's south-east corner. Best garden in town, a lean-to glasshouse of leaded quarries against its south wall.
 
-**14 bede_houses** &mdash; ground +0.00 m. Bede houses: six one-room almshouses under one long roof, six doors, six chimneys, no two shutters the same colour. On the Bailey under the east wall, so the old people get the morning sun over the orchard and the wall keeps the wind off their backs.
+**14 bede_houses** &mdash; ground +0.00 m. Bede houses: six one-room almshouses under one long roof, six doors, six chimneys, no two shutters the same colour. On the Bailey under the east wall, so the old people get the morning sun over the orchard and the wall keeps the wind off their backs. *Facade break (24 m face):* Six doors and six chimneys at 4 m centres, no two shutters the same colour: one 24 m roof that reads as six houses.
 
 **15 song_school** &mdash; ground +0.80 m. Song school and vestry, its BACK against the churchyard's north wall and its door on the north side, onto the lane behind the rope house. It faced south until ad-town-04: the churchyard is terraced 2.40 m above this ground, so the church's own retaining parapet stood 1.1 m in front of the door and hm.townhouse.door.15 was the one unreachable door in Hearthmere. A building that is 'against' a wall has its back to it, not its face.
 
@@ -165,7 +165,7 @@
 
 **33 cooper** &mdash; ground +1.15 m. Cooper. Open-sided setting-up floor, a firing pit, staves stacked in cones outside. Yard to the south.
 
-**34 carpenter** &mdash; ground +1.15 m. Carpenter and joiner. Long open front, a sawpit under a lean-to roof, timber in stick to season along the plot's south edge.
+**34 carpenter** &mdash; ground +1.15 m. Carpenter and joiner. Long open front, a sawpit under a lean-to roof, timber in stick to season along the plot's south edge. *Facade break (14 m face):* Open working bays between closed end bays, and the sawpit lean-to breaks the eaves line at the east end.
 
 **35 chandler** &mdash; ground +1.15 m. Tallow and wax chandler. Sited at the far end of the fire lane with the prevailing wind carrying everything it renders away over the orchard and out of town. Rendering shed behind, drying racks, a smell.
 
@@ -173,7 +173,7 @@
 
 **37 sawshed** &mdash; ground +1.62 m. Open saw shed and timber store, three bays, no walls.
 
-**38 waggon_shed** &mdash; ground -1.05 m. Waggon shed: five open bays, waggon poles up, a spare axle on brackets and a broken wheel leaning where it fell. Carriers turn in the yard beside it.
+**38 waggon_shed** &mdash; ground -1.05 m. Waggon shed: five open bays, waggon poles up, a spare axle on brackets and a broken wheel leaning where it fell. Carriers turn in the yard beside it. *Facade break (14 m face):* Five open bays on posts — no wall to be undifferentiated — closed by a boarded harness bay at the west end.
 
 **39 carter** &mdash; ground +1.62 m. Carter's cottage, its door 2 m from the yard gate.
 
@@ -183,7 +183,7 @@
 
 **42 cottage_f** &mdash; ground +1.62 m. Shed and lean-to on the Bailey: iron stock under cover, a grindstone, and a cart that has not moved in a year.
 
-**43 blacksmith** &mdash; ground +1.62 m. BLACKSMITH. Open-fronted work shed (roofed, unwalled, so the work is visible from the lane) with the forge, anvil, quench and bellows, plus a walled dwelling bay at the west end. Chimney to 11.4 m. Platform cut into the slope with a 1.1 m revetment on its north side. Highest, driest ground in the town and 30 m from the nearest thatch.
+**43 blacksmith** &mdash; ground +1.62 m. BLACKSMITH. Open-fronted work shed (roofed, unwalled, so the work is visible from the lane) with the forge, anvil, quench and bellows, plus a walled dwelling bay at the west end. Chimney to 11.4 m. Platform cut into the slope with a 1.1 m revetment on its north side. Highest, driest ground in the town and 30 m from the nearest thatch. *Facade break (18 m face):* Open-fronted work shed on posts for two-thirds of the run, then the walled dwelling bay at the west end: a hard open-to-closed break, with the chimney marking it.
 
 **44 smith_house** &mdash; ground +1.62 m. Cottage on the Bailey. Its garden is bigger than the house and is full of scrap iron, which the owner insists he is going to use.
 
@@ -213,9 +213,9 @@
 
 **57 dovecote** &mdash; ground -1.05 m. Glebe dovecote. Circular, coursed rubble, conical tiled roof to 7.6 m with a lantern. 240 nest boxes. The only round building in Hearthmere and worth the whole quarter for silhouette.
 
-**58 tithe_barn** &mdash; ground -1.05 m. Tithe barn. Cart doors on both long sides with a threshing floor between them, so the draught blows the chaff clear. Aisled, five bays, the biggest single roof in the town after the church.
+**58 tithe_barn** &mdash; ground -1.05 m. Tithe barn. Cart doors on both long sides with a threshing floor between them, so the draught blows the chaff clear. Aisled, five bays, the biggest single roof in the town after the church. *Facade break (13 m face):* Recessed full-height cart door at mid-front with a gablet over it; the threshing draught runs through to the matching door behind.
 
-**59 warehouse_a** &mdash; ground +1.62 m. Warehouse on the Bailey: the carriers' bonded store, the oldest timber frame in Hearthmere and underpinned twice. Loading door at first floor with a gibbet beam and a block over it.
+**59 warehouse_a** &mdash; ground +1.62 m. Warehouse on the Bailey: the carriers' bonded store, the oldest timber frame in Hearthmere and underpinned twice. Loading door at first floor with a gibbet beam and a block over it. *Facade break (14 m face):* First-floor loading door, gibbet beam and block break the front at mid-run, and the two underpinning campaigns read as a stone-to-timber change at sill height.
 
 **60 netloft** &mdash; ground -1.85 m. Net loft over an open boat store. Tar barrel, floats, a half-mended net on trestles.
 
@@ -223,7 +223,7 @@
 
 **62 warehouse_b** &mdash; ground -1.05 m. Warehouse. Grain below, wool above, both smells.
 
-**63 warehouse_c** &mdash; ground -1.85 m. Warehouse on the Bailey in the mill quarter: grain below, wool above, both smells. Its north wall is stained to head height by the leat.
+**63 warehouse_c** &mdash; ground -1.85 m. Warehouse on the Bailey in the mill quarter: grain below, wool above, both smells. Its north wall never sees the sun and is stained to head height with damp.
 
 **64 fish_eatery** &mdash; ground -1.05 m. Mere-fish eatery. Six trestles under an awning, a smoking shed behind, and a queue at noon. Faces north onto Wharf Lane, so it is lit.
 
@@ -231,13 +231,13 @@
 
 **66 fisher_b** &mdash; ground +1.62 m. Cottage on the Bailey; its gable window is a boat's transom reused, which is how you know who used to live in it.
 
-**67 ropehouse** &mdash; ground -1.05 m. Rope house: 24 m long and 5 m wide because that is what laying rope needs. Its plan shape alone breaks the town's grain and is worth keeping exactly as drawn.
+**67 ropehouse** &mdash; ground -1.05 m. Rope house: 24 m long and 5 m wide because that is what laying rope needs. Its plan shape alone breaks the town's grain and is worth keeping exactly as drawn. *Facade break (24 m face):* Post-and-shutter working bays alternate open and closed down the whole run — a rope walk is a rhythm, not a wall — with a boarded store bay closing the north end.
 
 **68 cottage_o** &mdash; ground -1.05 m. Cottage on Kirkgate's west side, backing onto the Ford Road plots.
 
 **69 cottage_p** &mdash; ground -1.84 m. Cottage on Wharf Lane, its front step dished 40 mm by two hundred years of wet boots.
 
-**70 stables** &mdash; ground -1.05 m. Stables and waggon yard. Long range of eleven stalls with a hay loft over, tack on pegs, a mounting block at the yard gate. The yard itself is open to Ford Road and is where the carriers turn.
+**70 stables** &mdash; ground -1.05 m. Stables and waggon yard. Long range of eleven stalls with a hay loft over, tack on pegs, a mounting block at the yard gate. The yard itself is open to Ford Road and is where the carriers turn. *Facade break (16 m face):* Recessed cart entry to the yard at mid-range with the mounting block beside it; the hay-loft door and hoist above break the eaves.
 
 **71 farrier** &mdash; ground -1.05 m. Farrier's forge, small and open-fronted. A second fire in the town, sited on the lowest, wettest ground 8 m from the wall and 12 m from the river, which is exactly why it is allowed.
 
@@ -251,7 +251,7 @@
 
 **76 shed_c** &mdash; ground -1.05 m. Handcart shed and a lean-to woodstore.
 
-**77 watermill** &mdash; ground -1.55 m, OUTSIDE the wall. Watermill, OUTSIDE the wall on the leat. Breastshot wheel 3.6 m diameter on the north gable, axle at -2.10; leat sill -2.00, tailrace -3.30, so the head is 1.95 m and the wheel dips. Sack hoist and a lucam over the leat.
+**77 watermill** &mdash; ground -1.55 m, OUTSIDE the wall. Watermill, OUTSIDE the wall, on a made platform cut out into the south bank so the wheel reaches the channel — the leat it used to run on went with D-024's one-water-surface rule. Breastshot wheel 3.6 m diameter on the north gable, its foot dipping into the one water surface at -3.10. Sack hoist and a lucam over the water. *Facade break (13 m face):* The lucam oversails the front at the hoist door, and the wheel's gable end stands proud of the run at the north.
 
 **78 granary** &mdash; ground -1.85 m. Granary on staddle stones, 0.6 m clear beneath, boarded, no ground floor at all. Part of venue `watermill`.
 
@@ -279,11 +279,11 @@
 
 **90 wellhouse** &mdash; ground +1.15 m. Well-house over the town well and the conduit head that feeds the fountain. Open on all four sides, tiled pyramid roof, a windlass, a chained cup, and a stone trough the whole west quarter draws from.
 
-**91 bathhouse** &mdash; ground +1.15 m. Bathhouse, on the conduit and next to its own spring. Furnace and a 9.0 m flue at the west end; steam out of the roof louvres on a cold morning is one of the town's best ambient reads.
+**91 bathhouse** &mdash; ground +1.15 m. Bathhouse, on the conduit and next to its own spring. Furnace and a 9.0 m flue at the west end; steam out of the roof louvres on a cold morning is one of the town's best ambient reads. *Facade break (14 m face):* The furnace house and its 9.0 m flue break forward at the west end; stone to the vapour line, limewashed plaster above.
 
 **92 cottage_z** &mdash; ground +1.15 m. Cottage against the Bailey below the Spring Tower.
 
-**93 tannery** &mdash; ground +0.35 m, OUTSIDE the wall. Tannery and dye yard, OUTSIDE the wall, downstream of the quay and downwind of everything. Pit yard of 24 lime and tan pits, drying shed with louvred sides, a bark store. The single most defensible placement in the plan: it needs running water, it stinks, and it is 90 m from the nearest occupied window with the wind blowing away from town.
+**93 tannery** &mdash; ground +0.35 m, OUTSIDE the wall. Tannery and dye yard, OUTSIDE the wall, downstream of the quay and downwind of everything. Pit yard of 24 lime and tan pits, drying shed with louvred sides, a bark store. The single most defensible placement in the plan: it needs running water, it stinks, and it is 90 m from the nearest occupied window with the wind blowing away from town. *Facade break (14 m face):* The drying shed's louvred slatting against the closed bark store — solid to slatted at mid-front, with the pit yard's gate between.
 
 **94 crane_house** &mdash; ground -1.55 m, OUTSIDE the wall. Treadwheel crane on the quay, OUTSIDE the wall. Timber tower with a slewing jib, a double treadwheel, and a stone counterweight box. Silhouette anchor of the whole waterfront.
 

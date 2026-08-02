@@ -125,7 +125,8 @@
           "groundY":      { "type": "number" },
           "outsideWall":  { "type": "boolean" },
           "fronts":       { "type": "string" },
-          "note":         { "type": "string" }
+          "note":         { "type": "string" },
+          "facadeBreak":  { "type": "string", "description": "How a street face longer than 12 m is broken (Art Bible section 7). Authored in tools/plan/plan_data.py BREAKS; required by the checker for every face over the cap." }
         }
       }
     },

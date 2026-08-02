@@ -13,8 +13,8 @@
       "description": "Stable hierarchical ID: hm.<venue>.<kind>.<nn>. Never recycled - this is the key for replication, persistence and save state."
     },
     "archetype": { "type": "string", "description": "e.g. prop.anvil, door.inn, vendor.stall" },
-    "cell": { "type": ["string", "null"], "pattern": "^[A-F][1-6]$",
-              "description": "16m spatial cell. Drives culling now, network interest management later." },
+    "cell": { "type": ["string", "null"], "pattern": "^[A-L](1[0-2]|[1-9])$",
+              "description": "16m spatial cell (labels per docs/areas/hearthmere/BUILD_DIRECTIVE.md section 2). Drives culling now, network interest management later." },
     "transform": {
       "type": "object",
       "required": ["pos"],

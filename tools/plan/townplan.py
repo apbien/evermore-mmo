@@ -347,6 +347,56 @@ def check(slots):
     notes.append(f"ground falls {fall:.2f} m from the south gate to the north gate")
 
 
+# Slots that a §7 composition is built on: the anchors of the §7.1 arrival
+# frame, plus every mass the §7.2 gate frames name as an anchor. A mass a
+# locked composition depends on gets hero attention in the schedule; anything
+# less and the most important frames in the build are anchored on filler.
+FRAME_ANCHOR_SLOTS = {
+    1:  "arrival frame — right-hand anchor (Grey Heron Inn)",
+    2:  "arrival frame — far anchor (guild tower); north and west gate frames",
+    3:  "arrival frame — left-hand anchor (moot hall bell-cote)",
+    11: "the arrival frame is authored from this building (church)",
+    12: "north, south and water gate frames (church tower)",
+    61: "water gate frame (customs house, square on to the arch)",
+    94: "water gate frame (the crane, silhouette anchor of the waterfront)",
+}
+
+
+def check_frame_anchors(slots):
+    """Every mass §7 names as a frame anchor must be scheduled role `hero`."""
+    by_n = {s["n"]: s for s in slots}
+    for n, why in sorted(FRAME_ANCHOR_SLOTS.items()):
+        s = by_n.get(n)
+        if s is None:
+            fail(f"frame anchor slot {n:02d} is missing from the schedule ({why})")
+        elif s["role"] != "hero":
+            fail(f"slot {n:02d} ({s['kit_group']}) anchors a section-7 frame "
+                 f"({why}) but is scheduled role '{s['role']}', not 'hero'")
+    notes.append(f"{len(FRAME_ANCHOR_SLOTS)} section-7 frame anchors are all "
+                 f"scheduled role hero")
+
+
+FACADE_CAP = 12.0    # Art Bible §7: undifferentiated street facade caps at 12 m
+
+
+def check_facade_breaks(slots):
+    """A street face over 12 m must declare its break (plan_data.BREAKS)."""
+    long_faces = 0
+    ns = {s["n"] for s in slots}
+    for s in slots:
+        if s["w"] > FACADE_CAP + 1e-9:
+            long_faces += 1
+            if not str(P.BREAKS.get(s["n"], "")).strip():
+                fail(f"slot {s['n']:02d} ({s['kit_group']}) has a {s['w']:.0f} m "
+                     f"street face and no entry in plan_data.BREAKS — Art "
+                     f"Bible section 7 caps undifferentiated facade at 12 m")
+    for n in sorted(P.BREAKS):
+        if n not in ns:
+            fail(f"plan_data.BREAKS[{n}] names a slot that is not in the schedule")
+    notes.append(f"{long_faces} masses exceed the {FACADE_CAP:g} m facade cap "
+                 f"and every one declares its break")
+
+
 ALTAR = (43.0, -0.5)
 CHURCH_FLOOR = 2.40
 DAIS = 0.90
@@ -795,8 +845,10 @@ def schedule_table(slots):
               "along the frontage, `d` back into the plot, and the front face is at "
               "centre + forward x d/2.", ""]
     for s in slots:
+        br = str(P.BREAKS.get(s["n"], "")).strip()
         L.append(f"**{s['n']:02d} {s['kit_group']}** &mdash; ground {s['ground']:+.2f} m"
-                 f"{', OUTSIDE the wall' if s['outside'] else ''}. {s['note']}")
+                 f"{', OUTSIDE the wall' if s['outside'] else ''}. {s['note']}"
+                 + (f" *Facade break ({s['w']:g} m face):* {br}" if br else ""))
         L.append("")
     return NL.join(L)
 
@@ -1218,6 +1270,10 @@ def write_town(slots):
                 "outsideWall": s["outside"],
                 "fronts": s["street"],
                 "note": s["note"],
+                # Art Bible §7: a street face over 12 m must say how the run
+                # is broken. Authored in plan_data.BREAKS, checked by
+                # check_facade_breaks.
+                **({"facadeBreak": P.BREAKS[s["n"]]} if s["n"] in P.BREAKS else {}),
             } for s in slots
         ],
         # Every polyline below is [x, z]. See terrain.comment: a stored Y is a
@@ -1345,6 +1401,8 @@ def main():
     slots = build_slots()
     check(slots)
     check_placement_total()
+    check_frame_anchors(slots)
+    check_facade_breaks(slots)
     check_siting(slots)
 
     written = []

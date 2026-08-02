@@ -21,6 +21,26 @@ The portability comes from three deliberate choices:
    describe the world declaratively. An importer reads them; nothing is locked
    inside a proprietary scene format.
 
+## Required extensions
+
+Every mesh lists two extensions in `extensionsRequired`
+(`tools/assetgen/core/gltf.py`, D-052):
+
+- **`KHR_mesh_quantization`** — positions, normals and UVs are stored as
+  quantized integer attributes (instance prototypes excepted), with the
+  dequantizing transform on the node. A consumer that ignores it reads
+  garbage, which is why it is *required* rather than merely used.
+- **`KHR_texture_transform`** — carries the file-wide dequantizing UV scale
+  for the quantized `TEXCOORD_0`. Skip it and every texture samples at a
+  fraction of its authored tiling; the town renders as smeared colour.
+
+`extensionsRequired` means a conforming importer that lacks either refuses the
+file outright instead of mangling it silently. `KHR_texture_transform` is
+historically the extension on which UE5 Interchange and Unity glTFast versions
+disagree — each has shipped releases with partial or absent support — so a
+port must verify importer support for both extensions **first**, before any
+asset is judged. It is step 1 of the UE5 procedure below.
+
 ## Which engine
 
 **Unreal Engine 5** is the recommendation for a large-scale MMO:
@@ -114,25 +134,40 @@ become ISM components without re-authoring.
 
 ## Import procedure (UE5)
 
-1. Create a blank C++ project, target 5.4+.
-2. Enable **Interchange Framework** and **glTF Importer** plugins.
-3. Copy `assets/` into `Content/Hearthmere/Raw/`.
-4. Import glTF with: *Generate Lightmap UVs* off (we use Lumen), *Combine
+1. **Verify the importer supports the required extensions** (see "Required
+   extensions" above): import one small venue into a throwaway project and
+   confirm geometry lands at the right scale and every texture at its
+   authored tiling. A build of Interchange without `KHR_texture_transform`
+   fails here, cheaply — not three weeks later as a smeared-looking town.
+2. Create a blank C++ project, target 5.4+.
+3. Enable **Interchange Framework** and **glTF Importer** plugins.
+4. Copy `assets/` into `Content/Hearthmere/Raw/`.
+5. Import glTF with: *Generate Lightmap UVs* off (we use Lumen), *Combine
    Meshes* off (we need per-material sections for instancing), scale 100
    (Unreal is centimetres; glTF is metres).
-5. Build the master material `M_Hearthmere_Base`:
+6. Build the master material `M_Hearthmere_Base`:
    - `BaseColor` ← albedo texture
    - `Roughness` ← ORM.**G**
    - `Metallic` ← ORM.**B**
    - `AmbientOcclusion` ← ORM.**R**
    - `Normal` ← normal texture (OpenGL +Y — **tick Flip Green Channel**, as
      Unreal expects DirectX −Y)
-6. Run the layout importer (`engine/unreal/import_town.py`) as an editor
+7. Run the layout importer (`engine/unreal/import_town.py`) as an editor
    utility to place venues from `content/town/hearthmere.json`.
 
 **The green-channel flip is the one thing that silently looks wrong if missed.**
 Our normals are OpenGL convention (Art Bible §5); Unreal is DirectX. Lighting
 will appear subtly inverted on every surface if this is skipped.
+
+## The reference renderer
+
+The three.js harness — the locked camera rig plus the atmosphere stack — is
+authoritative for the **look**, not just a convenience for review. After any
+engine port, a side-by-side against the harness at the locked 09:30 rig is
+required before art review continues in the new engine. Parity to check:
+tonemap and grade, sun vector (Art Bible §4), the rim pass, AO tint, and
+aerial perspective — the five things that change what every material reads
+as. The full port-parity checklist is audit backlog.
 
 ## What does not port
 
@@ -152,11 +187,13 @@ Being honest about the boundary:
   `content/collision/`, which an importer must turn into simple collision.
 - **Mesh memory, not draw calls, is now the binding constraint.** The four-step
   LOD chain adds ~76% to every venue's vertex buffer, and the town's `.bin`
-  files total ~180 MB. That is fine for a packaged Unreal build and painful for
-  a web client. The fixes are ordinary and none of them is done: quantised
-  vertex attributes (`KHR_mesh_quantization`), Draco or Meshopt compression,
-  and streaming the coarse levels separately from LOD0.
+  files total ~245 MB. That is fine for a packaged Unreal build and painful for
+  a web client. Quantised vertex attributes are done — `KHR_mesh_quantization`
+  cut the set from 318.5 MB to 191 MB when it landed (D-052), and the town has
+  grown since. The remaining levers, neither of which is done: Draco or
+  Meshopt compression, and streaming the coarse levels separately from LOD0.
 - No skeletal meshes or animation — the player is a placeholder capsule, and
   characters are out of scope for v2 entirely (D-012).
-- Interiors are authored (`ctx.interior`) and culled by the client, but no
-  venue declares one yet; the church will be the first.
+- Interiors are authored (`ctx.interior`) and culled by the client. The
+  church's nave is the first and so far only one; the Level Instance /
+  Occlusion Portal mapping above is untested against anything bigger.

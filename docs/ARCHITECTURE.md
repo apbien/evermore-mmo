@@ -79,6 +79,17 @@ Everything the player can perceive as a *thing* — not scenery — is an entity
 }
 ```
 
+**Two coordinate spaces meet in this record, and the example alone does not
+say so.** `transform.pos` is **venue-local**: the client composes the venue's
+world origin and Y-rotation from the town file at load (`client/src/main.js`,
+the same transform it applies to the venue's mesh and collision), so an
+entity record never changes when its venue is re-sited. `cell` is
+**world-derived** — the §3 grid cell the *composed* world position lands in.
+One known gap follows from that split: the sim's runtime cell key
+(`server/src/sim.js` `cellOf()`) is currently a third, numeric `cx,cz`
+format and must be unified with the authored `A1`…`L12` labels (chip
+pending).
+
 ### ID scheme
 
 `hm.<venue>.<kind>.<nn>` — `hm` is the Hearthmere zone prefix. IDs are assigned
@@ -103,7 +114,11 @@ Getting this line right keeps the entity count in the hundreds, not millions.
 
 ## 3. Spatial partitioning
 
-The town is divided into a grid of **16 m × 16 m cells**, labelled `A1`…`F6`.
+The town is divided into a grid of **16 m × 16 m cells**. The cell *size* is
+architecture and lives here; the grid's *extent* and *labels* are the area's:
+`docs/areas/hearthmere/BUILD_DIRECTIVE.md` §2 owns Hearthmere's grid
+dimensions and label range, and this document deliberately does not restate
+them — a copied number is a future contradiction.
 
 Every entity records its cell. This single field powers, in order of when we
 need it:
@@ -111,12 +126,19 @@ need it:
 1. **Now:** frustum and distance culling by cell, and asset streaming.
 2. **Soon:** LOD selection at cell granularity.
 3. **Later, unchanged:** network interest management — a client subscribes to
-   its own cell plus the 8 neighbours, and receives updates only for entities
-   in that set.
+   every cell within a **3-cell radius** of its own (the 7 × 7 block, 48 m
+   orthogonal), and receives updates only for entities in that set. That
+   radius is **provisional until `docs/NETCODE.md` exists** (audit backlog);
+   nothing else in this document depends on the exact value.
 
-16 m is chosen so that a 3-cell radius (48 m) comfortably exceeds the ~40 m at
-which detail becomes indistinguishable, and so a dense market cell holds a
-tractable number of entities.
+16 m is chosen so that the provisional 3-cell radius (48 m) comfortably
+exceeds the ~40 m at which detail becomes indistinguishable, and so a dense
+market cell holds a tractable number of entities. One known gap is recorded
+here rather than papered over: LOD3 draws buildings out to 100 m (§5), well
+beyond that entity replication range, so a distant street would render its
+architecture without its replicated entities — the classic
+populated-at-distance / empty-at-range artifact. The netcode spec is where
+the two horizons get reconciled.
 
 Cells are also the unit of **occlusion authoring**: building interiors are
 separate cells linked by portals at doorways, so an interior's contents are
@@ -143,8 +165,16 @@ The client applies the authoritative result.
 
 Local prediction is allowed for **presentation only** — playing the pickup
 animation immediately, showing the coin-purse animation — but the number in the
-inventory comes from the server response. That split is what makes prediction
-safe to add later without exploits.
+inventory comes from the server response.
+
+**Movement is not an exception to this rule — it is the rule's hardest
+case.** The server integrates movement input and owns position: a `Move`
+intent carries input, not a teleport destination, and the server rejects
+deltas exceeding `maxSpeed × dt` or positions failing the collision and
+terrain tests. The current `sim.js` accepts client positions as truth — a
+recorded gap (docs-audit-tech-01.md #1/#3, chip pending), not the design.
+Prediction without server authority is not "safe to add later"; server
+authority is what makes it safe.
 
 The current `LocalTransport` implements this interface with a direct call and
 zero latency. A `WebSocketTransport` replaces it without touching a single

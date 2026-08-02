@@ -114,7 +114,7 @@ SPOT_LEVELS = [
     ("west gate threshold",        -79.0,  -13.0,   None, "paving"),
     ("water gate threshold",       +50.0,  -57.0,   None, "paving"),
     ("wharf deck",                 +58.0,  -60.0,   None, "deck"),
-    ("wharf lower stage",          +64.8,  -68.9,  -3.70, "deck"),
+    ("wharf lower stage",          +64.8,  -68.9,  -2.85, "deck"),
     ("harbour bed at the quay face", +64.5, -68.5,  None, "water"),
     ("Emberflow / Mere surface",    0.0,  -95.0, WATER_Y, "water"),
 ]
@@ -211,7 +211,8 @@ GATES = [
               "with a cart-brake groove worn 60 mm into the threshold stone."),
     dict(id="hm.wall.postern.mill", name="Mill Postern", kind="postern", pos=(-46.5, -71.6),
          rot=315, clear=2.2, head=2.9,
-         note="Mill Lane to the watermill and the leat. Foot and handcart only."),
+         note="Mill Lane to the watermill on its platform in the bank. Foot "
+              "and handcart only."),
     dict(id="hm.wall.postern.ferry", name="Ferry Postern", kind="postern", pos=(+17.0, -74.9),
          rot=0, clear=1.9, head=2.6,
          note="The old ferry stair, behind the Ferryman's Lamp. The stair is "
@@ -336,10 +337,12 @@ STREETS = [
     dict(id="kirkgate", name="Kirkgate", width=5.0, verge=1.0, surface="cobble",
          cls="secondary",
          note="Links the waterfront to the church, along the churchyard's west "
-              "wall. Climbs 2.0 m over its length at a steady 4%, which is "
-              "what a coffin bearer can manage and a laden cart cannot, so "
-              "carts go round by Ford Road. Ends at the churchyard's north "
-              "gate and six steps; there is no cart way through.",
+              "wall. A steady climb the whole way — the grade a coffin bearer "
+              "can manage and a laden cart cannot, so carts go round by Ford "
+              "Road; length and gradient are the street table's, measured "
+              "from the height field. No steps in the run: the six steps are "
+              "at the churchyard's north gate, beyond its end, and there is "
+              "no cart way through.",
          path=[(+26.0, -62.4), (+27.0, -52.0), (+27.5, -40.0), (+27.5, -28.0),
                (+27.0, -21.0)]),
 
@@ -415,9 +418,12 @@ STREETS = [
 
     dict(id="fishers_steps", name="Fishers' Steps", width=2.5, verge=0.25, surface="stone steps",
          cls="steps",
-         note="9 risers of 0.155 m taking the 1.4 m from Wharf Lane up to "
-              "the Rope Walk terrace. Worn into a hollow on the left-hand "
-              "side, because a man carrying a basket carries it on his right.",
+         note="8 risers of 0.163 m in the quay face, taking the 1.30 m from "
+              "the wharf deck at -1.55 down to the lower stage at -2.85. "
+              "(The street table's grade column reads the terrain of the "
+              "deck, so it shows the flat approach, not the drop in the "
+              "wall.) Worn into a hollow on the left-hand side, because a "
+              "man carrying a basket carries it on his right.",
          path=[(+51.0, -58.0), (+55.0, -62.0)]),
 ]
 
@@ -452,7 +458,7 @@ SLOTS = [
       "tower is the far anchor of the arrival frame: it stands just right of "
       "the fountain at 71.5 m and closes the view west."),
     S(3, "moot", "moot_hall", -16.0, +9.0, 13.0, 8.0, 60, 2, 7.2, "along", "market_square",
-      "secondary",
+      "hero",
       "Moot Hall. FREE-STANDING in the market place, not on a frontage: "
       "arcaded ground floor on ten oak posts (the butter market) with the "
       "council chamber over, so the market flows under and round it. Skewed "
@@ -510,7 +516,7 @@ SLOTS = [
     S(12, "church_tower", "church", +35.8, -14.3, 7.6, 7.6, 270, 1, 18.4, "flat",
       "kirk_green", "hero",
       "Church tower, north-west angle. Part of venue `church`. Parapet 18.4 m, "
-      "lead spirelet to 21.4 m — the tallest thing in Hearthmere by 0.1 m over "
+      "lead spirelet to 21.6 m — the tallest thing in Hearthmere by 0.1 m over "
       "the guild, which the guild has never mentioned. Sited at the NORTH-west "
       "angle so its north and east faces are lit at 09:30 and it reads from "
       "the north gate and from the water."),
@@ -705,8 +711,8 @@ SLOTS = [
       "kirkgate", "secondary", "Warehouse. Grain below, wool above, both smells."),
     S(63, "warehouse_c", "warehouse", -63.7, -59.8, 11.0, 8.0, 139, 2, 7.2, "along",
       "the_bailey", "secondary", "Warehouse on the Bailey in the mill quarter: grain below, wool "
-      "above, both smells. Its north wall is stained to head height by the "
-      "leat."),
+      "above, both smells. Its north wall never sees the sun and is stained "
+      "to head height with damp."),
     S(64, "fish_eatery", "fish_eatery", +36.4, -51.6, 10.0, 8.0, 11, 1, 5.0, "along",
       "wharf_lane", "secondary",
       "Mere-fish eatery. Six trestles under an awning, a smoking shed behind, "
@@ -756,10 +762,11 @@ SLOTS = [
     # -- 77-84  Mill quarter, north-west --------------------------------------
     S(77, "watermill", "watermill", -49.0, -79.5, 13.0, 10.0, 150, 2, 7.4, "along",
       "mill_lane", "secondary",
-      "Watermill, OUTSIDE the wall on the leat. Breastshot wheel 3.6 m "
-      "diameter on the north gable, axle at -2.10; leat sill -2.00, tailrace "
-      "-3.30, so the head is 1.95 m and the wheel dips. Sack hoist and a "
-      "lucam over the leat."),
+      "Watermill, OUTSIDE the wall, on a made platform cut out into the "
+      "south bank so the wheel reaches the channel — the leat it used to "
+      "run on went with D-024's one-water-surface rule. Breastshot wheel "
+      "3.6 m diameter on the north gable, its foot dipping into the one "
+      "water surface at -3.10. Sack hoist and a lucam over the water."),
     S(78, "granary", "watermill", -22.9, -75.4, 12.0, 9.0, 190, 2, 6.8, "along",
       "mill_lane", "secondary",
       "Granary on staddle stones, 0.6 m clear beneath, boarded, no ground "
@@ -844,9 +851,9 @@ OPEN_LOTS = [
          note="Outside the Cinder Tower, downwind. Kites over it."),
     dict(id="hm.lot.quay", name="The quay", kind="quay",
          poly=WHARF,
-         note="Wharf deck at -1.55 with a lower stage at -2.85 reached by the "
-              "quay stair and a slipway. Bollards, mooring rings, fish drying "
-              "racks, four flat-bottomed lighters, crane at slot 94."),
+         note="Wharf deck at -1.55 with a lower stage at -2.85 reached by "
+              "Fishers' Steps and a slipway. Bollards, mooring rings, fish "
+              "drying racks, four flat-bottomed lighters, crane at slot 94."),
     dict(id="hm.lot.gardens_west", name="West kitchen gardens", kind="garden",
          poly=[(-74, -14), (-58, -13), (-58, +0), (-74, -1)],
          note="Beans, leeks, a beehive, hurdle fences that lean."),
@@ -863,6 +870,56 @@ OPEN_LOTS = [
 ]
 
 # --------------------------------------------------------------------------
+# Facade breaks — Art Bible §7
+# --------------------------------------------------------------------------
+# §7 caps undifferentiated street facade at 12 m. Every scheduled mass whose
+# street face (`w`) exceeds that declares HOW the run is broken, keyed by slot
+# number. `townplan.py` emits the note into the generated schedule and FAILS
+# the build if a face over 12 m has no entry. Kept as a side table rather than
+# a fifteenth tuple field because three tools (townplan.py, ground.py, lay.py)
+# parse the fourteen-field slot row.
+BREAKS = {
+    1:  "Carriage arch through to the stable yard, south of centre, and the "
+        "jettied upper storeys step 0.45 m out over the paving — the frontage "
+        "breaks at the arch and again at each jetty line.",
+    2:  "The forecourt's four steps run the full frontage, but the doorcase "
+        "breaks forward half a bay at the porch and the north-east tower "
+        "lifts the north end of the block clear of the eaves line.",
+    3:  "Arcaded ground floor — ten oak posts and open air, no facade at all "
+        "below the chamber; the bell-cote gable breaks the roof at the east "
+        "end.",
+    11: "The great west portal — 6.4 m clear, 8.0 m to the arch apex, doors "
+        "standing open — breaks the front at centre, with full-height "
+        "buttresses at the aisle lines and the nave gable standing proud of "
+        "both aisle roofs.",
+    14: "Six doors and six chimneys at 4 m centres, no two shutters the same "
+        "colour: one 24 m roof that reads as six houses.",
+    34: "Open working bays between closed end bays, and the sawpit lean-to "
+        "breaks the eaves line at the east end.",
+    38: "Five open bays on posts — no wall to be undifferentiated — closed "
+        "by a boarded harness bay at the west end.",
+    43: "Open-fronted work shed on posts for two-thirds of the run, then the "
+        "walled dwelling bay at the west end: a hard open-to-closed break, "
+        "with the chimney marking it.",
+    58: "Recessed full-height cart door at mid-front with a gablet over it; "
+        "the threshing draught runs through to the matching door behind.",
+    59: "First-floor loading door, gibbet beam and block break the front at "
+        "mid-run, and the two underpinning campaigns read as a "
+        "stone-to-timber change at sill height.",
+    67: "Post-and-shutter working bays alternate open and closed down the "
+        "whole run — a rope walk is a rhythm, not a wall — with a boarded "
+        "store bay closing the north end.",
+    70: "Recessed cart entry to the yard at mid-range with the mounting "
+        "block beside it; the hay-loft door and hoist above break the eaves.",
+    77: "The lucam oversails the front at the hoist door, and the wheel's "
+        "gable end stands proud of the run at the north.",
+    91: "The furnace house and its 9.0 m flue break forward at the west "
+        "end; stone to the vapour line, limewashed plaster above.",
+    93: "The drying shed's louvred slatting against the closed bark store — "
+        "solid to slatted at mid-front, with the pit yard's gate between.",
+}
+
+# --------------------------------------------------------------------------
 # Which slots are authored venue modules
 # --------------------------------------------------------------------------
 # Lives here rather than in townplan.py because `tools/plan/ground.py` needs
@@ -873,6 +930,11 @@ VENUE_ROLE = {
     "church": "hero", "guild": "hero", "inn": "hero", "pub": "hero",
     "blacksmith": "hero", "market_square": "hero", "stalls": "hero",
     "gatehouse": "hero", "wall": "hero", "quay": "hero",
+    # The moot hall's bell-cote is the left-hand anchor of the arrival frame
+    # (TOWN_PLAN section 7.1). A mass a locked composition depends on gets hero
+    # attention; townplan.py::check_frame_anchors enforces this for every slot
+    # named as an anchor in section 7.
+    "moot_hall": "hero",
 }
 
 VENUE_OF_SLOT = {
@@ -1367,9 +1429,11 @@ DISTRICTS = [
          holds="Waggon shed, carter, gate ward, cottages."),
     dict(id="smithward", name="Smithward", cells="C10-E11",
          cause="The high south edge: highest, driest, furthest from thatch, "
-               "and with the wind carrying sparks out over the tenter ground "
-               "and the wall rather than across roofs. Charcoal comes in "
-               "through the south gate, 60 m away.",
+               "and the wind carries sparks east-south-east over the yard "
+               "and the south wall and out of town — never toward the tenter "
+               "ground's drying cloth, which sits safely upwind to the "
+               "north-west. Charcoal comes in through the south gate, 60 m "
+               "away.",
          holds="Blacksmith and yard, smith's house, charcoal store, cottages, byre."),
     dict(id="westlanes", name="The West Lanes", cells="A5-D9",
          cause="Poorest ground and the last to be built on: no through trade, "

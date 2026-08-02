@@ -71,7 +71,7 @@ MAX_VENUE_SPAN = 60.0     # m; a single venue larger than this is a layout bug
 # site's. It is a network like the streets, not a building.
 TOWN_WIDE = {"streets.gltf", "terrain.gltf", "townhouse.gltf",
              "wall.gltf"}
-MAX_VENUE_HEIGHT = 22.0   # m; the guild tower is the tallest thing in town
+MAX_VENUE_HEIGHT = 22.0   # m; the church spirelet (21.6) is the tallest thing in town
 # The ground is not a building. Its vertical span is the landscape's relief
 # (the distance ring rises ~28 m above the mere bed) and it defines the datum
 # every other check measures against, so height and sink limits do not apply.
@@ -1479,6 +1479,132 @@ def check_entities(path):
     return len(doc.get("entities", []))
 
 
+def check_entity_ids_global():
+    """One ID space for the whole zone, not one per file (ARCHITECTURE §2).
+
+    `check_entities` catches a duplicate within one file; this catches the
+    same ID authored in two files, which per-file checking is structurally
+    unable to see. The ID is the key for replication, persistence and save
+    state, so a collision anywhere is a defect everywhere.
+    """
+    where = {}
+    files = sorted(glob.glob(os.path.join(ENT_DIR, "*.json")))
+    total = 0
+    for p in files:
+        doc = json.load(open(p))
+        for e in doc.get("entities", []):
+            eid = e.get("id")
+            if eid:
+                where.setdefault(eid, []).append(rel(p))
+                total += 1
+    dups = {k: v for k, v in where.items() if len(v) > 1}
+    print(f"  {total} entity IDs over {len(files)} files, "
+          f"global uniqueness: {len(dups)} duplicated")
+    for k in sorted(dups):
+        locs = dups[k]
+        pretty = ", ".join(f"{f} x{locs.count(f)}" if locs.count(f) > 1 else f
+                           for f in sorted(set(locs)))
+        err(f"entity ID '{k}' appears {len(locs)} times across the content "
+            f"set ({pretty}) — IDs are never reused (ARCHITECTURE §2)")
+
+
+# ---------------------------------------------------------------------------
+# Schema conformance of the authoritative content (ARCHITECTURE §1/§6)
+# ---------------------------------------------------------------------------
+
+def _schema_validator(schema_path):
+    """A validator for whatever draft the schema itself declares."""
+    import jsonschema
+    schema = json.load(open(schema_path))
+    cls = jsonschema.validators.validator_for(schema)
+    cls.check_schema(schema)
+    return cls(schema)
+
+
+def check_schemas(town):
+    """content/ is authoritative data, so it conforms to its schema or FAILS.
+
+    A missing jsonschema library is itself a FAIL, never a warning: `make
+    setup` installs it, and a schema gate that degrades to silence is how the
+    entity files drifted for a whole grid revision — entity.schema.json kept
+    the v1 `A1..F6` cell pattern while the town moved to the Directive §2
+    grid, and nothing said a word because nothing was running.
+    """
+    print("\nschemas (content/schemas):")
+    try:
+        import jsonschema                            # noqa: F401
+    except ImportError:
+        err("jsonschema is not installed, so NOTHING in content/ is checked "
+            "against its schema. `make setup` installs it. An absent gate "
+            "must fail, not warn: it reports exactly like a passing one "
+            "otherwise.")
+        return
+
+    # The town file against town.schema.json.
+    tp = os.path.join(SCHEMA_DIR, "town.schema.json")
+    if not os.path.exists(tp):
+        err("content/schemas/town.schema.json is missing")
+    elif town is None:
+        err("content/town/hearthmere.json missing — nothing to validate")
+    else:
+        n = 0
+        for e in _schema_validator(tp).iter_errors(town):
+            loc = "/".join(str(x) for x in e.absolute_path) or "(root)"
+            err(f"{loc}: {e.message}", rel(TOWN_PATH))
+            n += 1
+        print(f"  town file against town.schema.json: {n or 'no'} violation(s)")
+
+    # Every entity record against entity.schema.json. The files are wrappers
+    # — {venue, cells, entities: [...]} — and the schema describes ONE entity,
+    # so each element of `entities` is validated on its own and reported by
+    # its id.
+    ep = os.path.join(SCHEMA_DIR, "entity.schema.json")
+    if not os.path.exists(ep):
+        err("content/schemas/entity.schema.json is missing")
+        return
+    v = _schema_validator(ep)
+    n_ent = n_bad = 0
+    files = sorted(glob.glob(os.path.join(ENT_DIR, "*.json")))
+    for p in files:
+        doc = json.load(open(p))
+        for i, ent in enumerate(doc.get("entities", [])):
+            n_ent += 1
+            for e in v.iter_errors(ent):
+                loc = "/".join(str(x) for x in e.absolute_path)
+                tag = ent.get("id") or f"entities[{i}]"
+                err(f"{tag}{('/' + loc) if loc else ''}: {e.message}", rel(p))
+                n_bad += 1
+    print(f"  {n_ent} entity records over {len(files)} files against "
+          f"entity.schema.json: {n_bad or 'no'} violation(s)")
+
+
+def check_decision_ids():
+    """docs/DECISIONS.md: a decision ID is a stable citation, so it is unique.
+
+    Half the documents in this repository cite decisions by number; a number
+    used twice makes every one of those citations ambiguous. Five duplicates
+    are known today (D-025, D-026, D-038, D-040, D-050) and a reconciliation
+    task exists — this check is what keeps the count from quietly growing.
+    """
+    p = os.path.join(REPO, "docs/DECISIONS.md")
+    if not os.path.exists(p):
+        warn("docs/DECISIONS.md missing — decision-ID uniqueness unchecked")
+        return
+    seen = {}
+    for i, line in enumerate(open(p, encoding="utf-8"), 1):
+        m = re.match(r"^## (D-[0-9]+)\b", line)
+        if m:
+            seen.setdefault(m.group(1), []).append(i)
+    dups = {k: v for k, v in seen.items() if len(v) > 1}
+    print(f"\ndecision IDs (docs/DECISIONS.md): {len(seen)} distinct IDs, "
+          f"{len(dups)} duplicated")
+    for k in sorted(dups):
+        lines = ", ".join(str(n) for n in dups[k])
+        err(f"decision ID {k} heads {len(dups[k])} sections (lines {lines}) "
+            f"— every citation of {k} anywhere in the repo is ambiguous. "
+            f"Renumber one and update its citations.", "docs/DECISIONS.md")
+
+
 def check_textures():
     albedos = glob.glob(os.path.join(TEX_DIR, "*_albedo.png"))
     if not albedos:
@@ -2019,8 +2145,11 @@ def check_collision(town):
                     loc = "/".join(str(x) for x in e.absolute_path) or "(root)"
                     err(f"{loc}: {e.message}", rel(p))
         except ImportError:
-            warn("jsonschema not installed — collision files checked for shape "
-                 "sanity only")
+            err("jsonschema is not installed, so collision volumes are NOT "
+                "validated — a malformed volume is skipped at load and "
+                "silently removes collision from a building. `make setup` "
+                "installs it. An absent gate must fail, not warn: it reports "
+                "exactly like a passing one otherwise.")
     for name, (doc, p) in have.items():
         total += len(doc.get("volumes", []))
         if not doc.get("volumes") and name in want:
@@ -2268,6 +2397,10 @@ def main():
         ent += c
         print(f"  {os.path.basename(p):24s} {c:3d}")
     print(f"  total {ent}")
+    check_entity_ids_global()
+
+    check_schemas(town)
+    check_decision_ids()
 
     print("\ntown:")
     check_town(town, mesh_info)

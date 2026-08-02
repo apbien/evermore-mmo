@@ -116,7 +116,7 @@ RIDGE = 14.60           # slot 11 note
 PORTAL_W = 6.40         # slot 11 note: clear 6.4 m
 PORTAL_APEX = 10.40     # 8.0 m above the floor
 PARAPET = 18.40         # slot 12
-SPIRE = 21.40           # slot 12
+SPIRE = 21.60           # slot 12
 
 # --- the plan ---------------------------------------------------------------
 HALF_X = 10.0           # outer wall face, north (-x) and south (+x)
@@ -915,8 +915,8 @@ def _tower(ctx, g):
             g.add(_wall(fixed - 0.16, fixed + 0.16, a0, a1,
                         PARAPET - 0.80, PARAPET - 0.42, "ashlar"))
 
-    # The lead spirelet, PARAPET -> SPIRE. Slot 12: 21.4 m, and by 0.1 m the
-    # tallest thing in Hearthmere.
+    # The lead spirelet, PARAPET -> SPIRE. Slot 12: 21.6 m, and by 0.1 m over
+    # the guild's 21.5 m finial the tallest thing in Hearthmere.
     roofdeck = M.box(hw * 2.0 - 0.5, 0.24, hw * 2.0 - 0.5, 0.03, "lead")
     roofdeck.translate(TOW_CX, PARAPET - 0.95, TOW_CZ)
     g.add(roofdeck)

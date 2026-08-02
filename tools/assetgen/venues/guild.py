@@ -124,13 +124,14 @@ TW_CX, TW_CZ = (TW_X0 + TW_X1) * 0.5, (TW_Z0 + TW_Z1) * 0.5
 TW_W = TW_X1 - TW_X0                   # 7.0
 TW_PARAPET = 18.60                     # slot note
 TW_WALK = 17.55                        # wall-walk floor behind the parapet
-# The slot note says "finial to 21.5"; slot 12 says the church spirelet reaches
-# 21.4 and is "the tallest thing in Hearthmere by 0.1 m over the guild". Those
-# two notes disagree by 0.2 m and only one of them can be true. The church's is
-# the load-bearing claim — a town whose cathedral is beaten by its guild hall
-# is a different town — so the guild tops out at 21.30 and the church keeps its
-# 0.10 m. Recorded here because a silent 0.2 m is how plans rot.
-TW_TIP = 21.30
+# The slot note says "finial to 21.5"; slot 12's church spirelet reaches 21.6
+# and is "the tallest thing in Hearthmere by 0.1 m over the guild". The two
+# notes used to disagree (spirelet 21.4 against finial 21.5, resolved locally
+# by shaving the finial to 21.30); the owner ruling settled it the other way —
+# the church's claim is the load-bearing one, a town whose cathedral is beaten
+# by its guild hall is a different town, so the SPIRELET was raised to 21.6
+# and the guild builds its full noted 21.5. The guild came up a tenth short.
+TW_TIP = 21.50
 
 # The entrance sits on the exposed part of the hall front: the tower occludes
 # the frontage out to x = -1, so the composition is centred on x = +3.20 and

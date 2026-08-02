@@ -175,66 +175,9 @@
       "vignetteSoftness": 0.62
     },
     "water": {
-      "comment": [
-        "THE authoritative description of how water behaves in Hearthmere. client/src/water.js is the only implementation; client/src/main.js, tools/render/town.html and tools/render/viewer.html all import that one module and hand it this block, so the game and both harnesses cannot disagree (D-009, D-049). Nothing about water is hardcoded in a harness.",
-        "Hearthmere is a lake town at a ford, so this is not decoration: the Mere and the Emberflow are in the arrival route, the departure frame and half the aerials. The reference is Divinity's Reach and Limsa Lominsa \u2014 idealised, readable, a clear surface plane, visible depth, and a shoreline that tells you how deep it is before you step in."
-      ],
-      "specularKnee": 0.55,
-      "specularKneeComment": "A GGX lobe's peak goes as roughness^-4, so a lake at roughness 0.21 under a 3.2-intensity sun answers with a blown plate however much the roughness floor is raised \u2014 raising it spreads the same energy over MORE pixels. `specularKnee` is a Reinhard shoulder on the DIRECT specular term alone: below ~1.0 it is nearly the identity, so the glitter path and the sky sheen survive; at the sun's own reflection, where the term arrives in the tens, it compresses hard. 1.05 shipped through four art-director passes and was asked for at 0.55 in two of them; at 1.05 the shoulder only bites above 1.0 and the whole sun path was still clipping to a featureless white plate. 0.55 puts the half-power point at 1.8, which is inside the glitter path, so the path resolves into individual highlights instead of a sheet.",
-      "envIntensity": 0.88,
-      "fresnel": {
-        "comment": "Water is not one opacity. Looking down into it you see the bed; looking along it you see the sky, and the crossover is Schlick's Fresnel at IOR 1.33. The depth transmission baked into COLOR_0 alpha by tools/assetgen/core/kit.water_alpha is the LOOKING-DOWN half only; without this term the shallows stayed 26% opaque at a grazing angle and the far half of the Mere read as translucent paint. `f0` 0.02 is the real normal-incidence reflectance of water; `power` 5 is Schlick; `reflectOpacity` is how opaque the sheet becomes where it is a pure mirror.",
-        "f0": 0.02,
-        "power": 5.0,
-        "reflectOpacity": 1.0
-      },
-      "distanceRoughness": {
-        "comment": "The far half of a lake is never sharper than the near half \u2014 the ripple field goes sub-texel and what survives is the average, which is a wide lobe. Renderers that do not do this get two defects at once: an aliasing shimmer as the normal map mips, and a hard-edged specular plate where the mip has flattened the normal to (0,0,1) and every pixel answers the sun identically. That plate is what ad-town-05 \u00a72 measured across t-approach-ne. Roughness rises linearly from `start` to `full` metres of view distance.",
-        "gain": 0.72,
-        "start": 7.0,
-        "full": 70.0
-      },
-      "shallow": {
-        "comment": "The colour a thin sheet of water takes over its own bed. Shallow water is WARMER and lighter than deep water because you are seeing sand and gravel through it, and a lake whose margin is the same value as its middle is the single loudest tell of a stamped polygon. The tint is applied by depth, which the generator writes into COLOR_0 rgb; this is the target the shallowest water is driven toward.",
-        "colour": "#B9A57E",
-        "roughnessComment": "Shallow water is rougher: a sheet thin enough to see the bed through is being broken continuously by that bed. Without it the waterline answers the sun with the same narrow lobe the open lake does and renders as a hard pale rim on every sunlit shore.",
-        "roughness": 0.34,
-        "depth": 0.85
-      },
-      "flow": {
-        "comment": [
-          "Metres per second in UV space at the material's own tiling (2.5 m per tile, core.kit.WATER_UV). `still` is the Mere, the harbour, every basin and trough: TWO counter-scrolling samples of the same normal map at different scales, which have no shared frame to translate in, so the eye gets interference \u2014 crests forming and dying in place, which is what a wind-ruffled lake does. One scrolling layer reads as a conveyor belt.",
-          "`river` is the Emberflow and the mill race, and it is not the lake with the same texture on it. venues/terrain.py lays the channel's UVs in the river's own curvilinear frame, so downstream is +V everywhere on the mesh however the reach bends. Both layers therefore move the SAME way and differ only in rate, which is the slow beat of a current. The small opposed U component is lateral shear off the banks."
-        ],
-        "still": {
-          "a": [
-            0.014,
-            -0.0065
-          ],
-          "b": [
-            -0.0083,
-            0.0112
-          ],
-          "scaleB": 0.47
-        },
-        "river": {
-          "a": [
-            0.0045,
-            0.078
-          ],
-          "b": [
-            -0.0031,
-            0.0506
-          ],
-          "scaleB": 0.47
-        }
-      },
-      "wind": {
-        "comment": "Ripples answer the wind. `ambient.wind` is the town's one authored wind vector (direction, speed, gustHz) and it already drives the cloth and the smoke; water that ignores it is the third motion system in the town disagreeing with the other two. `drift` is how far the still-water flow is pushed along the wind direction per m/s of wind \u2014 a lake does drift downwind, slowly. `chop` raises the normal amplitude with wind speed, and `gust` breathes it at the authored gust rate so the surface is not metronomic.",
-        "drift": 0.0042,
-        "chop": 0.22,
-        "gust": 0.18
-      }
+      "comment": "A GGX lobe's peak goes as roughness^-4, so a lake at roughness 0.21 under a 3.2-intensity sun answers with a blown plate however much the roughness floor is raised \u2014 raising it spreads the same energy over MORE pixels. `specularKnee` is a Reinhard shoulder on the direct specular term alone, applied in client/src/water.js: it keeps the glitter path and takes the plate away.",
+      "specularKnee": 1.05,
+      "envIntensity": 0.72
     }
   },
   "terrain": {
@@ -481,7 +424,7 @@
           64.8,
           -68.9
         ],
-        "y": -3.7,
+        "y": -2.85,
         "kind": "deck",
         "source": "made"
       },
@@ -563,7 +506,7 @@
       "id": "smithward",
       "name": "Smithward",
       "cells": "C10-E11",
-      "cause": "The high south edge: highest, driest, furthest from thatch, and with the wind carrying sparks out over the tenter ground and the wall rather than across roofs. Charcoal comes in through the south gate, 60 m away.",
+      "cause": "The high south edge: highest, driest, furthest from thatch, and the wind carries sparks east-south-east over the yard and the south wall and out of town \u2014 never toward the tenter ground's drying cloth, which sits safely upwind to the north-west. Charcoal comes in through the south gate, 60 m away.",
       "holds": "Blacksmith and yard, smith's house, charcoal store, cottages, byre."
     },
     {
@@ -627,7 +570,7 @@
         9.0
       ],
       "rotationDeg": 60,
-      "role": "secondary"
+      "role": "hero"
     },
     {
       "id": "shop_row",
@@ -1166,7 +1109,8 @@
       "groundY": -1.05,
       "outsideWall": false,
       "fronts": "market_square",
-      "note": "The Grey Heron. Tallest timber structure in town; upper floors jettied 0.45 m each. Gable to the square so the sign hangs over the paving. Four dormers on the east slope, two chimneys, stable yard behind."
+      "note": "The Grey Heron. Tallest timber structure in town; upper floors jettied 0.45 m each. Gable to the square so the sign hangs over the paving. Four dormers on the east slope, two chimneys, stable yard behind.",
+      "facadeBreak": "Carriage arch through to the stable yard, south of centre, and the jettied upper storeys step 0.45 m out over the paving \u2014 the frontage breaks at the arch and again at each jetty line."
     },
     {
       "n": 2,
@@ -1213,13 +1157,14 @@
       "groundY": 0.0,
       "outsideWall": false,
       "fronts": "market_square",
-      "note": "Adventurer's Guild. Dressed stone in a plaster town, symmetrical in a town where nothing is, and it bought the best block on the market place. Forecourt raised 0.42 m on a stylobate with four steps across the full frontage. Square tower on the block's NORTH-EAST corner, footprint x[-32,-25] z[-8,-1], parapet 18.6 m, pyramid roof and iron finial to 21.5 m, crimson banners on the north and east faces. That tower is the far anchor of the arrival frame: it stands just right of the fountain at 71.5 m and closes the view west."
+      "note": "Adventurer's Guild. Dressed stone in a plaster town, symmetrical in a town where nothing is, and it bought the best block on the market place. Forecourt raised 0.42 m on a stylobate with four steps across the full frontage. Square tower on the block's NORTH-EAST corner, footprint x[-32,-25] z[-8,-1], parapet 18.6 m, pyramid roof and iron finial to 21.5 m, crimson banners on the north and east faces. That tower is the far anchor of the arrival frame: it stands just right of the fountain at 71.5 m and closes the view west.",
+      "facadeBreak": "The forecourt's four steps run the full frontage, but the doorcase breaks forward half a bay at the porch and the north-east tower lifts the north end of the block clear of the eaves line."
     },
     {
       "n": 3,
       "id": "hm.slot.03.moot",
       "kit": "moot_hall",
-      "role": "secondary",
+      "role": "hero",
       "venue": "moot_hall",
       "cells": [
         "E7",
@@ -1260,7 +1205,8 @@
       "groundY": 0.0,
       "outsideWall": false,
       "fronts": "market_square",
-      "note": "Moot Hall. FREE-STANDING in the market place, not on a frontage: arcaded ground floor on ten oak posts (the butter market) with the council chamber over, so the market flows under and round it. Skewed 60 degrees because it was built along the old sheep-pen rail. Louvred bell-cote on the EAST gable, 15.8 m \u2014 the left-hand anchor of the arrival frame. Stands on the upper market, one step above the fountain."
+      "note": "Moot Hall. FREE-STANDING in the market place, not on a frontage: arcaded ground floor on ten oak posts (the butter market) with the council chamber over, so the market flows under and round it. Skewed 60 degrees because it was built along the old sheep-pen rail. Louvred bell-cote on the EAST gable, 15.8 m \u2014 the left-hand anchor of the arrival frame. Stands on the upper market, one step above the fountain.",
+      "facadeBreak": "Arcaded ground floor \u2014 ten oak posts and open air, no facade at all below the chamber; the bell-cote gable breaks the roof at the east end."
     },
     {
       "n": 4,
@@ -1621,7 +1567,8 @@
       "groundY": 0.0,
       "outsideWall": false,
       "fronts": "kirk_green",
-      "note": "CHURCH OF SUMMONING. Aisled hall church, ridge east-west, 14.6 m to the ridge. Great west portal 6.4 m clear x 8.0 m to the arch apex, doors standing open. Floor at +2.40, altar dais +0.90 above that. Clerestory over the arcade on both sides; lantern over the altar bay. THE ARRIVAL FRAME IS AUTHORED FROM THIS BUILDING \u2014 see docs/areas/hearthmere/TOWN_PLAN.md section 7."
+      "note": "CHURCH OF SUMMONING. Aisled hall church, ridge east-west, 14.6 m to the ridge. Great west portal 6.4 m clear x 8.0 m to the arch apex, doors standing open. Floor at +2.40, altar dais +0.90 above that. Clerestory over the arcade on both sides; lantern over the altar bay. THE ARRIVAL FRAME IS AUTHORED FROM THIS BUILDING \u2014 see docs/areas/hearthmere/TOWN_PLAN.md section 7.",
+      "facadeBreak": "The great west portal \u2014 6.4 m clear, 8.0 m to the arch apex, doors standing open \u2014 breaks the front at centre, with full-height buttresses at the aisle lines and the nave gable standing proud of both aisle roofs."
     },
     {
       "n": 12,
@@ -1668,7 +1615,7 @@
       "groundY": 0.8,
       "outsideWall": false,
       "fronts": "kirk_green",
-      "note": "Church tower, north-west angle. Part of venue `church`. Parapet 18.4 m, lead spirelet to 21.4 m \u2014 the tallest thing in Hearthmere by 0.1 m over the guild, which the guild has never mentioned. Sited at the NORTH-west angle so its north and east faces are lit at 09:30 and it reads from the north gate and from the water."
+      "note": "Church tower, north-west angle. Part of venue `church`. Parapet 18.4 m, lead spirelet to 21.6 m \u2014 the tallest thing in Hearthmere by 0.1 m over the guild, which the guild has never mentioned. Sited at the NORTH-west angle so its north and east faces are lit at 09:30 and it reads from the north gate and from the water."
     },
     {
       "n": 13,
@@ -1762,7 +1709,8 @@
       "groundY": 0.0,
       "outsideWall": false,
       "fronts": "the_bailey",
-      "note": "Bede houses: six one-room almshouses under one long roof, six doors, six chimneys, no two shutters the same colour. On the Bailey under the east wall, so the old people get the morning sun over the orchard and the wall keeps the wind off their backs."
+      "note": "Bede houses: six one-room almshouses under one long roof, six doors, six chimneys, no two shutters the same colour. On the Bailey under the east wall, so the old people get the morning sun over the orchard and the wall keeps the wind off their backs.",
+      "facadeBreak": "Six doors and six chimneys at 4 m centres, no two shutters the same colour: one 24 m roof that reads as six houses."
     },
     {
       "n": 15,
@@ -2673,7 +2621,8 @@
       "groundY": 1.15,
       "outsideWall": false,
       "fronts": "bakers_row",
-      "note": "Carpenter and joiner. Long open front, a sawpit under a lean-to roof, timber in stick to season along the plot's south edge."
+      "note": "Carpenter and joiner. Long open front, a sawpit under a lean-to roof, timber in stick to season along the plot's south edge.",
+      "facadeBreak": "Open working bays between closed end bays, and the sawpit lean-to breaks the eaves line at the east end."
     },
     {
       "n": 35,
@@ -2857,7 +2806,8 @@
       "groundY": -1.05,
       "outsideWall": false,
       "fronts": "ford_road",
-      "note": "Waggon shed: five open bays, waggon poles up, a spare axle on brackets and a broken wheel leaning where it fell. Carriers turn in the yard beside it."
+      "note": "Waggon shed: five open bays, waggon poles up, a spare axle on brackets and a broken wheel leaning where it fell. Carriers turn in the yard beside it.",
+      "facadeBreak": "Five open bays on posts \u2014 no wall to be undifferentiated \u2014 closed by a boarded harness bay at the west end."
     },
     {
       "n": 39,
@@ -3088,7 +3038,8 @@
       "groundY": 1.62,
       "outsideWall": false,
       "fronts": "smiths_lane",
-      "note": "BLACKSMITH. Open-fronted work shed (roofed, unwalled, so the work is visible from the lane) with the forge, anvil, quench and bellows, plus a walled dwelling bay at the west end. Chimney to 11.4 m. Platform cut into the slope with a 1.1 m revetment on its north side. Highest, driest ground in the town and 30 m from the nearest thatch."
+      "note": "BLACKSMITH. Open-fronted work shed (roofed, unwalled, so the work is visible from the lane) with the forge, anvil, quench and bellows, plus a walled dwelling bay at the west end. Chimney to 11.4 m. Platform cut into the slope with a 1.1 m revetment on its north side. Highest, driest ground in the town and 30 m from the nearest thatch.",
+      "facadeBreak": "Open-fronted work shed on posts for two-thirds of the run, then the walled dwelling bay at the west end: a hard open-to-closed break, with the chimney marking it."
     },
     {
       "n": 44,
@@ -3774,7 +3725,8 @@
       "groundY": -1.05,
       "outsideWall": false,
       "fronts": "kirkgate",
-      "note": "Tithe barn. Cart doors on both long sides with a threshing floor between them, so the draught blows the chaff clear. Aisled, five bays, the biggest single roof in the town after the church."
+      "note": "Tithe barn. Cart doors on both long sides with a threshing floor between them, so the draught blows the chaff clear. Aisled, five bays, the biggest single roof in the town after the church.",
+      "facadeBreak": "Recessed full-height cart door at mid-front with a gablet over it; the threshing draught runs through to the matching door behind."
     },
     {
       "n": 59,
@@ -3819,7 +3771,8 @@
       "groundY": 1.62,
       "outsideWall": false,
       "fronts": "the_bailey",
-      "note": "Warehouse on the Bailey: the carriers' bonded store, the oldest timber frame in Hearthmere and underpinned twice. Loading door at first floor with a gibbet beam and a block over it."
+      "note": "Warehouse on the Bailey: the carriers' bonded store, the oldest timber frame in Hearthmere and underpinned twice. Loading door at first floor with a gibbet beam and a block over it.",
+      "facadeBreak": "First-floor loading door, gibbet beam and block break the front at mid-run, and the two underpinning campaigns read as a stone-to-timber change at sill height."
     },
     {
       "n": 60,
@@ -4003,7 +3956,7 @@
       "groundY": -1.85,
       "outsideWall": false,
       "fronts": "the_bailey",
-      "note": "Warehouse on the Bailey in the mill quarter: grain below, wool above, both smells. Its north wall is stained to head height by the leat."
+      "note": "Warehouse on the Bailey in the mill quarter: grain below, wool above, both smells. Its north wall never sees the sun and is stained to head height with damp."
     },
     {
       "n": 64,
@@ -4189,7 +4142,8 @@
       "groundY": -1.05,
       "outsideWall": false,
       "fronts": "wharf_lane",
-      "note": "Rope house: 24 m long and 5 m wide because that is what laying rope needs. Its plan shape alone breaks the town's grain and is worth keeping exactly as drawn."
+      "note": "Rope house: 24 m long and 5 m wide because that is what laying rope needs. Its plan shape alone breaks the town's grain and is worth keeping exactly as drawn.",
+      "facadeBreak": "Post-and-shutter working bays alternate open and closed down the whole run \u2014 a rope walk is a rhythm, not a wall \u2014 with a boarded store bay closing the north end."
     },
     {
       "n": 68,
@@ -4327,7 +4281,8 @@
       "groundY": -1.05,
       "outsideWall": false,
       "fronts": "ford_road",
-      "note": "Stables and waggon yard. Long range of eleven stalls with a hay loft over, tack on pegs, a mounting block at the yard gate. The yard itself is open to Ford Road and is where the carriers turn."
+      "note": "Stables and waggon yard. Long range of eleven stalls with a hay loft over, tack on pegs, a mounting block at the yard gate. The yard itself is open to Ford Road and is where the carriers turn.",
+      "facadeBreak": "Recessed cart entry to the yard at mid-range with the mounting block beside it; the hay-loft door and hoist above break the eaves."
     },
     {
       "n": 71,
@@ -4644,7 +4599,8 @@
       "groundY": -1.55,
       "outsideWall": true,
       "fronts": "mill_lane",
-      "note": "Watermill, OUTSIDE the wall on the leat. Breastshot wheel 3.6 m diameter on the north gable, axle at -2.10; leat sill -2.00, tailrace -3.30, so the head is 1.95 m and the wheel dips. Sack hoist and a lucam over the leat."
+      "note": "Watermill, OUTSIDE the wall, on a made platform cut out into the south bank so the wheel reaches the channel \u2014 the leat it used to run on went with D-024's one-water-surface rule. Breastshot wheel 3.6 m diameter on the north gable, its foot dipping into the one water surface at -3.10. Sack hoist and a lucam over the water.",
+      "facadeBreak": "The lucam oversails the front at the hoist door, and the wheel's gable end stands proud of the run at the north."
     },
     {
       "n": 78,
@@ -5286,7 +5242,8 @@
       "groundY": 1.15,
       "outsideWall": false,
       "fronts": "well_lane",
-      "note": "Bathhouse, on the conduit and next to its own spring. Furnace and a 9.0 m flue at the west end; steam out of the roof louvres on a cold morning is one of the town's best ambient reads."
+      "note": "Bathhouse, on the conduit and next to its own spring. Furnace and a 9.0 m flue at the west end; steam out of the roof louvres on a cold morning is one of the town's best ambient reads.",
+      "facadeBreak": "The furnace house and its 9.0 m flue break forward at the west end; stone to the vapour line, limewashed plaster above."
     },
     {
       "n": 92,
@@ -5378,7 +5335,8 @@
       "groundY": 0.35,
       "outsideWall": true,
       "fronts": "quay_road",
-      "note": "Tannery and dye yard, OUTSIDE the wall, downstream of the quay and downwind of everything. Pit yard of 24 lime and tan pits, drying shed with louvred sides, a bark store. The single most defensible placement in the plan: it needs running water, it stinks, and it is 90 m from the nearest occupied window with the wind blowing away from town."
+      "note": "Tannery and dye yard, OUTSIDE the wall, downstream of the quay and downwind of everything. Pit yard of 24 lime and tan pits, drying shed with louvred sides, a bark store. The single most defensible placement in the plan: it needs running water, it stinks, and it is 90 m from the nearest occupied window with the wind blowing away from town.",
+      "facadeBreak": "The drying shed's louvred slatting against the closed bark store \u2014 solid to slatted at mid-front, with the pit yard's gate between."
     },
     {
       "n": 94,
@@ -5685,7 +5643,7 @@
       "verge": 1.0,
       "surface": "cobble",
       "cls": "secondary",
-      "note": "Links the waterfront to the church, along the churchyard's west wall. Climbs 2.0 m over its length at a steady 4%, which is what a coffin bearer can manage and a laden cart cannot, so carts go round by Ford Road. Ends at the churchyard's north gate and six steps; there is no cart way through.",
+      "note": "Links the waterfront to the church, along the churchyard's west wall. A steady climb the whole way \u2014 the grade a coffin bearer can manage and a laden cart cannot, so carts go round by Ford Road; length and gradient are the street table's, measured from the height field. No steps in the run: the six steps are at the churchyard's north gate, beyond its end, and there is no cart way through.",
       "path": [
         [
           26.0,
@@ -6029,7 +5987,7 @@
       "verge": 0.25,
       "surface": "stone steps",
       "cls": "steps",
-      "note": "9 risers of 0.155 m taking the 1.4 m from Wharf Lane up to the Rope Walk terrace. Worn into a hollow on the left-hand side, because a man carrying a basket carries it on his right.",
+      "note": "8 risers of 0.163 m in the quay face, taking the 1.30 m from the wharf deck at -1.55 down to the lower stage at -2.85. (The street table's grade column reads the terrain of the deck, so it shows the flat approach, not the drop in the wall.) Worn into a hollow on the left-hand side, because a man carrying a basket carries it on his right.",
       "path": [
         [
           51.0,
@@ -6287,7 +6245,7 @@
         "rot": 315,
         "clear": 2.2,
         "head": 2.9,
-        "note": "Mill Lane to the watermill and the leat. Foot and handcart only."
+        "note": "Mill Lane to the watermill on its platform in the bank. Foot and handcart only."
       },
       {
         "id": "hm.wall.postern.ferry",
@@ -6781,7 +6739,7 @@
           -77.3
         ]
       ],
-      "note": "Wharf deck at -1.55 with a lower stage at -2.85 reached by the quay stair and a slipway. Bollards, mooring rings, fish drying racks, four flat-bottomed lighters, crane at slot 94."
+      "note": "Wharf deck at -1.55 with a lower stage at -2.85 reached by Fishers' Steps and a slipway. Bollards, mooring rings, fish drying racks, four flat-bottomed lighters, crane at slot 94."
     },
     {
       "id": "hm.lot.gardens_west",

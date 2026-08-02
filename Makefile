@@ -7,7 +7,7 @@ help:
 	@grep -E '^[a-z-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  %-14s %s\n", $$1, $$2}'
 
 setup:  ## install python + node dependencies
-	pip3 install --quiet numpy Pillow
+	pip3 install --quiet numpy Pillow jsonschema scipy
 	npm install
 
 textures:  ## regenerate all PBR texture sets (slow; incremental by default)

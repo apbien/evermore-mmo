@@ -45,10 +45,13 @@ came first, the market grew at the crossing, the guild arrived when the roads
 got dangerous. That history is legible in the town's shape without being
 explained.
 
-Venues: market square, adventurer's guild, inn, pub, blacksmith, shop row
-(general store, apothecary, tailor), and market stalls. The blacksmith,
-apothecary and tailor correspond to the Blacksmith, Alchemist and Tailor
-professions in `docs/systems/professions.md`.
+Venues: the Church of Summoning — the arrival and summoning altar, and the
+town's defining structure — the town wall with its four gates, the market
+square and its stalls, moot hall, adventurer's guild, inn, pub, blacksmith,
+shop row (general store, apothecary, tailor), the bakery and the fire-lane
+trade row, the watermill, and the quay with its treadwheel crane and customs
+house. The blacksmith, apothecary and tailor correspond to the Blacksmith,
+Alchemist and Tailor professions in `docs/systems/professions.md`.
 
 Full layout, lore and venue briefs: `docs/areas/hearthmere/WORLD_BIBLE.md`.
 Visual standards that govern how it is built: `docs/ART_BIBLE.md`.

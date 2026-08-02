@@ -1657,7 +1657,7 @@
 <line x1="395.0" y1="559.0" x2="395.0" y2="633.0" stroke="#f4ecd8" stroke-width="0.9"/>
 <line x1="435.0" y1="596.0" x2="443.0" y2="596.0" stroke="#4a3728" stroke-width="0.8"/>
 <text x="395.0" y="599.0" font-size="8.5" fill="#fdf8ea" text-anchor="middle" font-weight="bold" stroke="#3a2c1f" stroke-width="1.6" paint-order="stroke">2</text>
-<polygon points="481.1,602.9 513.6,659.1 478.9,679.1 446.4,622.9" fill="#c69a5e" stroke="#4a3728" stroke-width="0.7"/>
+<polygon points="481.1,602.9 513.6,659.1 478.9,679.1 446.4,622.9" fill="#b4634a" stroke="#4a3728" stroke-width="0.7"/>
 <line x1="465.2" y1="615.5" x2="494.8" y2="666.5" stroke="#f4ecd8" stroke-width="0.9"/>
 <line x1="497.3" y1="631.0" x2="504.2" y2="627.0" stroke="#4a3728" stroke-width="0.8"/>
 <text x="480.0" y="644.0" font-size="8.5" fill="#fdf8ea" text-anchor="middle" font-weight="bold" stroke="#3a2c1f" stroke-width="1.6" paint-order="stroke">3</text>

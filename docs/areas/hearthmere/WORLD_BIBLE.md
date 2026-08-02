@@ -59,8 +59,8 @@ guild looks imported.
 
 192 m × 192 m on a 12 × 12 grid of 16 m cells, columns `A`–`L` west→east and
 rows `1`–`12` north→south. **World origin (0,0,0) is the Heron Fountain in the
-market place**, at the grid centre. Ninety-four building masses stand inside —
-and four just outside — a walled circuit of roughly ±80 m.
+market place**, at the grid centre. Ninety-four building masses stand about a
+walled circuit of roughly ±80 m — ninety inside it, four just outside.
 
 ```
         ← -X (west)                                          (east) +X →
@@ -79,6 +79,9 @@ and four just outside — a walled circuit of roughly ±80 m.
  11   ······ THE BAILEY ······ SOUTH GATE ··············· midden        +Z
  12   ················ the road climbing to the quest zones ······      (S)
 ```
+
+*(Schematic — hand-drawn and approximate; the generated plan SVG at
+`docs/areas/hearthmere/plan/hearthmere-plan.svg` is the accurate drawing.)*
 
 ### The waterfront
 
@@ -137,7 +140,8 @@ open great west door.
 
 This single frame is the most important composition in the build. Through the
 6.4 m portal, in one view: the perron falling away in three shallow flights,
-Kirk Green, Ford Road crossing the view with traffic on it, the **Heron
+Kirk Green, Ford Road crossing the view with the residue of traffic on it —
+ruts, droppings, a parked cart — the **Heron
 Fountain at 43 m dead centre**, the market cross and the stalls' colour around
 it, the **moot hall's bell-cote** entering frame-left at 54 m, the
 **Adventurer's Guild tower** with its crimson banners just right of the
@@ -182,7 +186,7 @@ terraced churchyard 2.40 m above the street.
   drops below the sightline from the altar and the arrival frame loses its
   foreground.
 - **The tower** on the north-west angle, parapet 18.4 m, lead spirelet to
-  21.4 m: the tallest thing in Hearthmere by a tenth of a metre over the guild,
+  21.6 m: the tallest thing in Hearthmere by a tenth of a metre over the guild,
   which the guild has never mentioned. On the *north-west* angle so its north
   and east faces are lit at 09:30 and it reads from the north gate and from the
   water.
@@ -217,15 +221,18 @@ The "what do I do next", and the far anchor of the arrival frame. Deliberately
 nothing is, and it bought the best block on the market place.
 
 - **Square tower on the north-east corner**, parapet 18.6 m, pyramid roof and
-  iron finial to 21.5 m, crimson banners on the north and east faces. It stands
-  just right of the fountain from the church door and closes the view west.
+  iron finial to 21.5 m — a tenth of a metre short of the church's spirelet,
+  which the guild does not discuss — crimson banners on the north and east
+  faces. It stands just right of the fountain from the church door and closes
+  the view west.
 - Forecourt raised 0.42 m on a stylobate, four steps across the full frontage.
 - Tall double doors, always open, threshold stone dished by boots.
 - **Quest board** under the porch — the single most important interactable in
   the town. Layered parchment, some notices new and crisp, some sun-bleached and
   curling, wax seals, iron pins, torn corners where notices were taken.
 - Interior visible from the door: a stone hall, a counter, a big map on the
-  wall, weapon racks, adventurers loitering.
+  wall, weapon racks, and kit stacked by the door — the residue of adventurers,
+  not the adventurers themselves (D-012).
 
 ### Grey Heron Inn — slot 01 · cells `D4 D5 E4 E5`
 
@@ -268,7 +275,9 @@ frame.
 The most *active* venue: hot, loud, and the town's only significant emissive. On
 the high south edge because that is the highest, driest ground, because the
 charcoal comes in through the south gate 60 m away, and because the wind carries
-sparks out over the tenter ground and the wall rather than across roofs.
+sparks east-south-east over the yard and the south wall and out of town — never
+toward the tenter ground's drying cloth, which sits safely upwind to the
+north-west.
 
 - **Open-fronted work shed**, roofed but not walled, so the work is visible from
   the lane, with a walled dwelling bay at the west end.
