@@ -2992,3 +2992,83 @@ socialise.
 church interior polish pass (extended zoom, indoors state and affordance
 cap, floor-collision fix). No generator or client code changes in this
 entry.
+
+## D-070 — The documentation was audited by fresh eyes, and the findings are the backlog
+
+**Context.** Owner direction, 2026-08-02: three independent reviewers with no
+project context — an art director, a technical director, and a lead game
+designer — audited the full documentation set. ~79 findings.
+
+**Decision.** The verbatim reports and the triage live at
+`review/reports/docs-audit-{art,tech,design,synthesis}-01.md`. Every finding
+carries a disposition: FIX (remediated in the audit commits), RULED (owner
+decisions D-071..D-074), or FUTURE (the canonical systems-design-phase
+backlog in the synthesis). The consensus verdict is recorded honestly: the
+art/world foundation is sign-off quality; the MMO/system foundations are
+promissory and are now a named phase, not an implication.
+
+## D-071 — First arrival is solo-instanced
+
+**Context.** The arrival frame (BUILD_DIRECTIVE §3, the most important
+composition in the build) is composed for one viewer, but the altar is every
+player's spawn — in a shared world the frame is reliably buried under other
+players' avatars and nameplates. The known failure of every MMO spawn hub.
+
+**Decision.** A player's *first* entry plays solo-instanced: the composed
+frame lands alone, every time, and hands off to the shared world at the
+perron. Later log-ins and respawns are shared-world at the altar with no
+composition guarantee. The frame's ACCEPT is judged in the solo state.
+BUILD_DIRECTIVE §3 gains consequence 5. Instancing tech is systems-phase
+work; the composition is protected by rule now so nothing is re-composed
+later.
+
+## D-072 — The budget reserves the crowd
+
+**Context.** The performance budget was 100% world. An MMO market square
+holds a crowd of other players — 100+ skinned characters — and discovering
+their cost after the town is ACCEPTed is the most expensive late discovery
+available. Owner ruling: reserve for ~100 visible players now.
+
+**Decision.** ARCHITECTURE §5's budget splits into shares: world < 600
+draws / < 2.5 M tris / < 1.1 GB, characters (~100 visible) < 220 / < 0.8 M /
+< 300 MB, UI < 40, effects < 40 / < 0.2 M — whole frame unchanged at
+< 900 / < 3.5 M / < 1.5 GB. Venue reviews and the perf gate hold the town to
+the **world share**. A synthetic-crowd test joins the gate before cohesion
+ACCEPT. BUILD_DIRECTIVE §7's copied table becomes a citation.
+
+**Recorded honestly:** the committed baseline (1419 draws, peak 5066) exceeds
+even the old whole-frame budget; fitting the town into its world share is
+open build work the gate already tracks. Frame time is asserted, not
+measured — instrumentation is a named gap.
+
+## D-073 — Access follows purpose
+
+**Context.** The systems canon assumes venues players can enter and use; v2
+sealed everything but the church. Retrofitting interiors into ~90 finished
+masses would be a rebuild. Owner ruling, in the owner's words: "if it's an
+actual landmark that would be interacted with [by] the playable character,
+it should be able to be accessed. If it's just a filler with no purpose to
+the player, it should for now be unenterable unless designated as such if
+it's for lore or skill purposes later."
+
+**Decision.** BUILD_DIRECTIVE §1 rewritten: venues with player-facing
+interactables (quest board, vendor, crafting station, rest point) get
+walkable ground-floor interiors — portal cell, authored collision, furnished
+to brief. Pure filler stays sealed, with a schedule-row designation as the
+escape hatch for future lore/skill use. Upper storeys remain sealed (D-065).
+Interior work follows the same priority order and review protocol as
+everything else.
+
+## D-074 — The design tree is canon for a named phase
+
+**Context.** `docs/philosophy|systems|social|world` claimed authority
+(`docs/README.md`: "the philosophy layer is authoritative") while appearing
+in no precedence chain and no reading list — unread, undrifting only because
+untouched. The audit called the contradiction out.
+
+**Decision.** The tree is the **game-design canon**: binding on systems
+design, not on the visual build. Registered in PROMPT.md §3 and CLAUDE.md's
+reading table; `docs/README.md`'s claim scoped accordingly. PROMPT.md §6
+gains the named systems-design phase (item i) that the canon governs, scoped
+by the audit synthesis backlog. Where the canon touches the art, layout, or
+lore of a built area, the §3 governed documents win.

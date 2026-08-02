@@ -31,9 +31,14 @@ which is: *would a player believe this shipped in a current AAA MMO?* Judged
 side by side against Divinity's Reach (GW2), Gridania and Ul'dah (FFXIV), and
 post-Legion WoW.
 
-Interiors are in scope only where they are visible from the street through an
-open door or window. Full walkable interiors are out of scope for v2 except the
-Church of Summoning, which the player spawns inside.
+**Access follows purpose** (owner ruling, D-073 — supersedes the earlier
+visible-through-door-only rule). A venue the player interacts with — a quest
+board, a vendor counter, a crafting station, a rest point — gets a walkable
+ground-floor interior: portal cell, authored collision, furnished to its
+brief. Pure filler — townhouses, sheds, warehouses with no player-facing
+verb — stays sealed, readable through an open door or window at most, unless
+its schedule row designates it for later lore or skill content. The Church
+of Summoning remains the hero interior.
 
 **Upper storeys are sealed** (owner direction, D-065). Unless a venue's brief
 says otherwise, nothing grants second-storey access: stairs to upper floors
@@ -76,6 +81,12 @@ That is the canonical entry into the world. Consequences, all mandatory:
 3. The **north gate and its bridge over the Emberflow** remain a hero
    composition, but as the *departure/return* frame rather than the arrival.
 4. `playerSpawn` in `content/town/hearthmere.json` moves to the altar.
+5. **First arrival is solo-instanced** (D-071). The composed frame is
+   guaranteed to every player's *first* entry: the arrival sequence plays in
+   a private instance and hands off to the shared world at the perron. Later
+   log-ins and respawns materialize at the altar in the shared world with no
+   composition guarantee. The frame's ACCEPT is judged in the solo state —
+   which is the state every player actually sees it in.
 
 **Nothing may stand on Ford Road's centreline.** Still true, still the rule
 that the guild violated in v1.
@@ -161,12 +172,10 @@ These exist because v1 broke every one of them.
 This is packaged as a real MMO client, so the town must hold up with players
 in it, not just in a screenshot.
 
-| Resource | Budget (1080p, mid-range GPU, 60 fps) |
-| --- | --- |
-| Draw calls | < 900 |
-| Triangles drawn | < 3.5 M |
-| Texture memory | < 1.5 GB |
-| Shadow-casting lights | 1 sun + 8 local |
+The budget lives in `ARCHITECTURE.md` §5 "Performance budget" — D-072 splits
+it into world / characters / UI / effects shares, and **the town is gated
+against the world share only**. The numbers are not copied here: a copied
+number is a future contradiction.
 
 Required techniques: per-cell per-material static batching · GPU instancing for
 repeated props keyed by mesh ID · 4-step LOD chain (0–15 m / 15–40 m / 40–100 m

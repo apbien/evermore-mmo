@@ -317,13 +317,27 @@ lighting rig (D-009). Depth separation between planes is measured, not asserted:
 
 ### Performance budget (1080p, mid-range GPU, 60 fps)
 
-| Resource | Budget |
-| --- | --- |
-| Draw calls | < 900 |
-| Triangles | < 3.5 M |
-| Texture memory | < 1.5 GB |
-| Shadow-casting lights | 1 sun + 8 local |
-| Frame time | 16.6 ms |
+One frame, split four ways (D-072). The **world share** is what venue reviews
+and the perf gate hold the town to; the other shares are reserved now so
+their cost is not discovered after the town is ACCEPTed. An MMO's market
+square holds a crowd — the budget says so before the crowd exists.
+
+| Share | Draw calls | Triangles | Texture memory |
+| --- | --- | --- | --- |
+| World (the town) | < 600 | < 2.5 M | < 1.1 GB |
+| Characters (~100 visible players, LOD'd and impostored) | < 220 | < 0.8 M | < 300 MB |
+| UI + nameplates | < 40 | — | < 50 MB |
+| Effects (weather, ambient VFX, abilities) | < 40 | < 0.2 M | < 50 MB |
+| **Whole frame** | **< 900** | **< 3.5 M** | **< 1.5 GB** |
+
+Shadow-casting lights: 1 sun + 8 local. Frame time target: 16.6 ms —
+currently asserted, not measured; real frame-time and VRAM instrumentation
+are named gaps. A synthetic-crowd test (the character share stubbed with 100
+impostored figures) joins the perf gate before the whole-town cohesion
+ACCEPT. Honesty note: the recorded baseline in `review/perf-baseline.json`
+exceeds even the whole-frame draw budget today — reconciling the town into
+its world share is open build work, tracked by the gate, not a documentation
+problem.
 
 ---
 

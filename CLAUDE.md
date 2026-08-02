@@ -18,6 +18,7 @@ first when continuing the work.
 | `docs/REVIEW_PROTOCOL.md` | The art-director bar and iteration loop |
 | `docs/areas/hearthmere/WORLD_BIBLE.md` | Hearthmere's lore, layout, and venue briefs |
 | `docs/areas/README.md` | The per-area doc pattern — one directory per haven, route, cave, or dungeon |
+| `docs/philosophy/` + `docs/systems/` | The game-design canon — binding for systems design (D-074), not the visual build |
 | `docs/DECISIONS.md` | Recorded deviations and why |
 
 If an instruction here conflicts with the Art Bible, **the Art Bible wins.**

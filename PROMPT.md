@@ -50,6 +50,10 @@ Rows 2–4 are Hearthmere's area set. Every future area — haven, route, cave,
 dungeon — gets its own directory with the same three documents, per the
 pattern in `docs/areas/README.md` (D-068).
 
+The game-design canon — `docs/philosophy/`, `docs/systems/`, `docs/social/`,
+`docs/world/` — is binding on **systems design** (D-074). It does not direct
+the visual build; it governs the systems-design phase named in §6.
+
 ### 3a. Where each craft concern is governed
 
 Every dimension of quality already has an owner. Never re-invent one of these
@@ -165,6 +169,11 @@ g. **Everything recorded as open in `docs/DECISIONS.md`** (terrain the plan
    promises, texel-density and atlas commitments, venues authored flat over
    falling ground).
 h. **Cohesion pass and whole-town ACCEPT** — the definition of done in §8.
+i. **The systems-design phase** (after visual completion, D-074): combat,
+   the core loop, death and the altar network, economy, the first hour,
+   progression, party and social systems — governed by the design canon,
+   scoped by the audit backlog in
+   `review/reports/docs-audit-synthesis-01.md`.
 
 ## 7. Orchestration
 

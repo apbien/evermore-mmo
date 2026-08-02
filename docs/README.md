@@ -11,9 +11,13 @@ the systems detail that expands from it.
 
 ## How these documents relate
 
-The philosophy layer is authoritative. Systems documents must support the
-principles in `philosophy/`, never contradict them. Where a system makes a
-concrete design choice, it should trace back to a principle here.
+The philosophy layer is authoritative **for game-systems design**. Systems
+documents must support the principles in `philosophy/`, never contradict
+them; where a system makes a concrete design choice, it should trace back to
+a principle here. For the build itself, this tree is canon for the
+systems-design phase (PROMPT.md §6, D-074) — it does not direct the visual
+build, and where it touches the art, layout, or lore of a built area, the
+governed documents in `PROMPT.md` §3 win.
 
 ```
 philosophy/   The "why" — vision, discovery principles, design rules
