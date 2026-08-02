@@ -1,0 +1,18 @@
+{
+  "schema": 2,
+  "view": "arrival",
+  "measures": "whole frame: scene + shadow + AO G-buffer + post",
+  "instrument": "tools/render/town.mjs",
+  "drawCalls": 1389,
+  "triangles": 3017160,
+  "stages": {
+    "scene": 545,
+    "shadow": 568,
+    "ao": 203,
+    "post": 73
+  },
+  "batchesDrawn": 217,
+  "batchesTotal": 559,
+  "tolerance": 0.03,
+  "recorded": "2026-08-02"
+}

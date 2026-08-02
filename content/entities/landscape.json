@@ -1,0 +1,202 @@
+{
+  "venue": "landscape",
+  "cells": [],
+  "entities": [
+    {
+      "id": "hm.landscape.orchard",
+      "archetype": "landmark.orchard",
+      "cell": "K7",
+      "transform": {
+        "pos": [
+          87.5,
+          1.2335,
+          17.5
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "gather"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.landscape.lychgate",
+      "archetype": "landmark.lychgate",
+      "cell": "H6",
+      "transform": {
+        "pos": [
+          24.0,
+          0.0,
+          8.5
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.landscape.market.tree",
+      "archetype": "landmark.tree",
+      "cell": "F7",
+      "transform": {
+        "pos": [
+          1.7679,
+          0.0735,
+          13.5
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "rest",
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.landscape.drinkingplace",
+      "archetype": "landmark.ford",
+      "cell": "D2",
+      "transform": {
+        "pos": [
+          -34.0,
+          -5.6,
+          -88.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.landscape.milestone.ford_road.0",
+      "archetype": "prop.milestone",
+      "cell": null,
+      "transform": {
+        "pos": [
+          2.4,
+          -2.25,
+          -96.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.landscape.milestone.ford_road.1",
+      "archetype": "prop.milestone",
+      "cell": null,
+      "transform": {
+        "pos": [
+          -5.7821,
+          1.9225,
+          87.5213
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.landscape.shrine.south",
+      "archetype": "landmark.shrine",
+      "cell": "G12",
+      "transform": {
+        "pos": [
+          6.6,
+          2.3274,
+          88.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect",
+            "pray"
+          ],
+          "range": 2.0
+        },
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.4,
+          "range": 5.0
+        }
+      }
+    }
+  ]
+}

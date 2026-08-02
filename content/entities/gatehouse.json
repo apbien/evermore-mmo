@@ -1,0 +1,168 @@
+{
+  "venue": "gatehouse",
+  "cells": [
+    "F2"
+  ],
+  "entities": [
+    {
+      "id": "hm.gatehouse.refuge.01",
+      "archetype": "prop.bench",
+      "cell": "F1",
+      "transform": {
+        "pos": [
+          -5.3,
+          1.0532,
+          -9.698
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "sit"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.gatehouse.refuge.02",
+      "archetype": "prop.bench",
+      "cell": "F1",
+      "transform": {
+        "pos": [
+          -5.3,
+          1.0451,
+          -14.502
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "sit"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.gatehouse.bridge",
+      "archetype": "landmark.bridge",
+      "cell": "F1",
+      "transform": {
+        "pos": [
+          -1.5,
+          0.95,
+          -12.1
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.gate.north",
+      "archetype": "landmark.gate",
+      "cell": "F2",
+      "transform": {
+        "pos": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.gatehouse.lamp.w",
+      "archetype": "prop.lantern",
+      "cell": "F2",
+      "transform": {
+        "pos": [
+          -2.9443,
+          2.72,
+          -2.3962
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.6,
+          "range": 8.0
+        }
+      }
+    },
+    {
+      "id": "hm.gatehouse.lamp.e",
+      "archetype": "prop.lantern",
+      "cell": "F2",
+      "transform": {
+        "pos": [
+          3.0926,
+          2.72,
+          -2.2014
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.6,
+          "range": 8.0
+        }
+      }
+    }
+  ]
+}

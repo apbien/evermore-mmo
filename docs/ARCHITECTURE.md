@@ -1,4 +1,4 @@
-# Architecture — Unlimitless Horizons
+# Architecture — Evermore
 
 ## The governing decision
 
@@ -31,7 +31,7 @@ add afterwards.
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  content/            Authoritative data (JSON + schemas)     │
-│                      Shop stock, NPC schedules, quests,      │
+│                      Shop stock, opening hours, quests,      │
 │                      prices, town layout, entity placement   │
 │                      ── The server owns this. ──             │
 └───────────────────────────┬─────────────────────────────────┘
@@ -156,12 +156,36 @@ intent call site.
 
 Presentation-side design, chosen for both visual quality and a clean port.
 
-### Batching
+### Batching, LOD and culling
 
-Scenery is merged into **per-cell, per-material static batches** at build time.
-Repeated props (barrels, crates, cobbles) use **GPU instancing** keyed by mesh
-ID. The instancing key maps 1:1 onto Unreal's `InstancedStaticMeshComponent`
-and Unity's `Graphics.DrawMeshInstanced`, so the batching strategy ports.
+Built, and built in `tools/assetgen/core/` so that every venue gets it without
+doing anything. See D-027 for what each technique actually buys, which is not
+what their names suggest.
+
+- **Static batching.** Everything a venue emits is re-bucketed at export into
+  one primitive per (16 m cell, material). One primitive is one draw call, and
+  the cell is also the unit the client culls and LODs — so batching and culling
+  agree by construction rather than by discipline. `ctx.emit` is therefore free
+  to call per prop; it was not, and that cost `streets` 1,344 draw calls.
+- **LOD.** A four-step chain per cell at 1 / .5 / .2 / .06 triangles, exported
+  as `MSFT_lod`, switching at 15 / 40 / 100 m. The coarse levels shed
+  *materials* as well as triangles — capped at three at LOD2 and two at LOD3 —
+  which is where the draw calls actually go.
+- **GPU instancing.** `ctx.instance(mesh_id, mesh, transforms)` exports
+  `EXT_mesh_gpu_instancing`, one node per (prototype, cell). Maps 1:1 onto
+  Unreal's `InstancedStaticMeshComponent` and Unity's
+  `Graphics.DrawMeshInstanced`.
+- **Culling.** `client/src/lod.js` does LOD selection, frustum culling, cell
+  distance culling, a build-time screen-size cull for clutter, and portal
+  visibility for interiors. `tools/render/town.html` imports the same module, so
+  the review harness measures the town the client draws (D-029).
+- **Interiors** are declared with `ctx.interior(id, aabb, portals)` and are one
+  occlusion group, not drawn unless the camera is inside them or in front of an
+  on-screen doorway.
+
+Both glTF extensions are fallback-safe and never listed in
+`extensionsRequired`: a consumer that ignores them renders a correct, merely
+expensive town.
 
 ### Lighting
 
@@ -178,6 +202,37 @@ vignette → FXAA/TAA`
 
 The grade LUT is where the anime look is finalized: lifted shadows, warm
 midtones, slight cyan push in the shadows for complementary contrast.
+
+**Built, in `client/src/atmosphere.js`, and there is exactly one of it** (D-049).
+`makePostChain()` assembles the chain in that order and
+`tools/render/town.html`, `tools/render/viewer.html` and `client/src/main.js`
+all call it. The grade is a closed-form transform rather than a sampled LUT —
+the transform has to exist before it can be baked, and `ENGINE_PORTING.md`'s LUT
+bakes off it. SSAO is `GTAOPass` with its blend shader replaced so occlusion
+tints toward Art Bible §1's `#4A3828` by ratio instead of multiplying the linear
+beam by a near-black colour.
+
+### The environmental layer
+
+The same module owns everything the frame shares rather than the objects in it,
+because `review/reports/ad-town-02.md` found that the absence of that layer, not
+the quality of the venues, was what made the build read as parts:
+
+- **Aerial perspective.** An analytic height-integrated exponential, warm near
+  and cool far, with a forward-scattering lobe toward the locked 09:30 sun.
+  Patched into `THREE.ShaderChunk` so it reaches every material without any of
+  them being enumerated. Not `FogExp2`: uniform density hazes a river valley and
+  a distance ridge identically.
+- **Sky.** A gradient dome with a horizon value ramp, a sun disc and low cirrus,
+  doubling as the PMREM source so the drawn sky and the IBL cannot disagree.
+- **Horizon closure.** A square annulus stitched to the terrain plate's own
+  boundary, falling away to 1200 m, so the ground does not end in mid-air at the
+  world edge.
+
+Every number is authored in `content/town/hearthmere.json` → `atmosphere`,
+generated from `tools/plan/plan_data.py:ATMOSPHERE`, on the same rule as the
+lighting rig (D-009). Depth separation between planes is measured, not asserted:
+`tools/render/town.mjs --bands`.
 
 ### Performance budget (1080p, mid-range GPU, 60 fps)
 
@@ -198,6 +253,7 @@ midtones, slight cyan push in the shadows for complementary contrast.
 | `content/schemas/` | JSON Schema for all authoritative data | Schema changes are versioned |
 | `content/town/` | Layout, cells, venue placement | No code |
 | `content/entities/` | Entity records per venue | No code |
+| `content/collision/` | Authored collision volumes per venue | Generated by `ctx.collider*`; venue-local space; the client may not infer collision from geometry (Directive §6.4) |
 | `assets/meshes/` | Generated glTF/GLB | Generated only — never hand-edited |
 | `assets/textures/` | Generated PBR sets | Generated only — never hand-edited |
 | `tools/assetgen/core/` | Shared mesh/material/export library | The single source of geometry truth |

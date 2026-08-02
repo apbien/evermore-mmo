@@ -4,15 +4,20 @@ Hearthmere is **Haven I** in the settlement register of `docs/world/arkadion.md`
 Canon pairs a numerical designation with a historical name; players may use
 either. This document covers the historical settlement in detail.
 
+**The definitive layout is `docs/TOWN_PLAN.md` and the drawing at
+`docs/plan/hearthmere-plan.svg`.** This document is the lore-facing companion to
+them. Where the two disagree, the Town Plan is right and this is stale.
+
 ## The place
 
 Hearthmere sits where the mere meets the old road — a lake town that grew up
 around a ford, then a bridge, then a market. It is prosperous but not rich,
 old but well-kept. Three hundred people live here. Everyone knows everyone.
 
-It is the **first town** of Arkadion. The player arrives through the north gate having
-just entered the world, and everything they see must say: *you are safe here,
-this place is real, and there is somewhere to go next.*
+It is the **first town** of Arkadion. The player arrives **inside the Church of
+Summoning**, standing on the teleportation altar, and everything seen through
+its open west door must say: *you are safe here, this place is real, and there
+is somewhere to go next.*
 
 ### Tone
 
@@ -23,99 +28,133 @@ is out past the gate, which is exactly why the town must feel like shelter.
 ### Founding logic
 
 Every convincing town answers *why is it here* and *why is it shaped like
-this*. Hearthmere's answer:
+this*. Hearthmere's answer, in the order it happened:
 
 - The **ford** came first — the only safe crossing of the Emberflow for a day
-  in either direction.
-- The **market** grew at the crossing because travellers had to stop anyway.
-- The **guild** came when the roads got dangerous, and built the only stone
-  tower in town.
-- The **town wall** is low, more customs boundary than defence — Hearthmere
-  has never been besieged, and its gate is decorative in the way a prosperous
-  trading town's gate is.
+  in either direction. The road came to the crossing; the crossing is why there
+  is a town rather than a farm. It is still there beside the bridge, silted and
+  disused, its stone approach ramp running into the water.
+- The **market** grew at the crossing because travellers had to stop anyway. It
+  is a wide place on the road rather than a planned square, which is why it is
+  irregular and why the fountain sits off-centre in it.
+- The **church** took Kirk Knowe, the only high dry ground, before anything
+  else was built. A church must never flood and wants to be seen, so it has the
+  best site in Hearthmere and the town grew downhill and west of it.
+- The **guild** came when the roads got dangerous, bought the west frontage of
+  the market place, and built the only stone tower in town. It faces the church
+  across the market and does not quite belong, which is the point.
+- The **town wall** came last and is low — more customs boundary than defence.
+  Hearthmere has never been besieged and its gate is decorative in the way a
+  prosperous trading town's gate is. It follows the river and the contour, so
+  it is an irregular oval; on the north-east it stands straight out of the
+  water because there was no bank to build it on.
 
 This history is why the streets bend (they follow the old cart tracks to the
-ford, not a planner's grid), why the square is irregular, and why the guild
-looks like it does not quite belong.
+ford, not a planner's grid), why the market place is irregular, and why the
+guild looks imported.
 
 ---
 
 ## Town plan
 
-96 m × 96 m core, on the 16 m cell grid from `docs/ARCHITECTURE.md`.
-**World origin (0,0,0) is the centre of the market square fountain.**
+192 m × 192 m on a 12 × 12 grid of 16 m cells, columns `A`–`L` west→east and
+rows `1`–`12` north→south. **World origin (0,0,0) is the Heron Fountain in the
+market place**, at the grid centre. Ninety-four building masses stand inside —
+and four just outside — a walled circuit of roughly ±80 m.
 
 ```
-        ← -X (west)                              +X (east) →
-      ┌────────┬────────┬────────┬────────┬────────┬────────┐
-  -Z  │   A1   │   B1   │   C1   │   D1   │   E1   │   F1   │
- (N)  │        │        │  NORTH GATE ▲   │        │        │   Row 1
-      │  wall  │  wall  │  ═══ARRIVAL═══  │  wall  │  wall  │
-      ├────────┼────────┼────────┼────────┼────────┼────────┤
-      │   A2   │   B2   │   C2   │   D2   │   E2   │   F2   │
-      │ cottage│ cottage│ ADVENTURER'S    │ stable │ cottage│   Row 2
-      │        │        │ GUILD (hero)    │        │        │
-      ├────────┼────────┼────────┼────────┼────────┼────────┤
-      │   A3   │   B3   │   C3   │   D3   │   E3   │   F3   │
-      │ garden │  PUB   │   MARKET SQUARE │  INN   │ cottage│   Row 3
-      │        │ "Ferry-│  ░░ STALLS ░░   │ "Grey  │        │
-      ├────────┼─ man's ┼──── FOUNTAIN ───┼ Heron" ┼────────┤
-      │   A4   │ Lamp"  │   C4   │   D4   │   E4   │   F4   │
-      │ cottage│        │   ░░ STALLS ░░  │        │ orchard│   Row 4
-      ├────────┼────────┼────────┼────────┼────────┼────────┤
-      │   A5   │   B5   │   C5   │   D5   │   E5   │   F5   │
-      │ midden │ BLACK- │ GENERAL│ APOTH- │ TAILOR │ cottage│   Row 5
-      │        │ SMITH  │ STORE  │ ECARY  │        │        │
-      ├────────┼────────┼────────┼────────┼────────┼────────┤
-      │   A6   │   B6   │   C6   │   D6   │   E6   │   F6   │
-  +Z  │  wall  │ smith  │  SOUTH ROAD ▼   │  wall  │  wall  │   Row 6
- (S)  │        │  yard  │  ═══ TO QUESTS  │        │        │
-      └────────┴────────┴────────┴────────┴────────┴────────┘
+        ← -X (west)                                          (east) +X →
+      A     B     C     D     E     F     G     H     I     J     K     L
+  1   ·····················  THE  EMBERFLOW  ·······················    -Z
+  2   watermill  MILL LANE ···· NORTH GATE ···· WHARF LANE ·· wharf     (N)
+        (outside)   stables, waggon yard   FERRYMAN'S LAMP    crane
+  3   ······ cottages ······· warehouses ·· customs house ·· THE MERE
+  4   west lanes    INN ┐                    Kirkgate    rope house
+  5                     ├─ MARKET PLACE ─┤  ┌ KIRK GREEN ┐   bede houses
+  6   MERE STREET ── GUILD ┤   fountain   ├── perron ──┤ CHURCH OF
+  7   cottages       MOOT HALL (free-standing)   churchyard   SUMMONING
+  8   WELL LANE  bathhouse   SHOP ROW   BAKERS' ROW: bakery, cooper,
+  9   tenter ground   Bell Alley    FORD ROAD    carpenter, chandler
+ 10   BLACKSMITH   SMITHS' LANE      STY LANE       tithe barn
+ 11   ······ THE BAILEY ······ SOUTH GATE ··············· midden        +Z
+ 12   ················ the road climbing to the quest zones ······      (S)
 ```
 
-### Venue register
+### The waterfront
 
-| Venue | Cells | Role | Anchor silhouette |
-| --- | --- | --- | --- |
-| **Market Square** | C3 D3 C4 D4 | Hub. All roads meet here | Fountain + awning canopy |
-| **Adventurer's Guild** | C2 | Hero building. Quest board, the "what next" | Stone tower + crimson banners |
-| **Grey Heron Inn** | E3 E4 | Rest, save point, second-largest mass | Three storeys + gabled dormers |
-| **Ferryman's Lamp (pub)** | B3 B4 | Social heart, warmest interior | Hanging lamp sign + chimney smoke |
-| **Blacksmith** | B5 B6 | Craft. Loudest, most active | Forge chimney + open work yard |
-| **Shop row** | C5 D5 E5 | General store, apothecary, tailor | Continuous shopfront + hanging signs |
-| **Stalls** | in C3–D4 | Market traders, 8 stalls | Striped awnings |
-| **Cottages** | perimeter | Residential filler, makes it a *town* | Varied rooflines |
+The **Emberflow** runs west to east across the north and widens into the
+**Mere** in the north-east. Ford Road crosses it on a three-arched stone bridge
+ten metres outside the north gate — the crossing is 11.5 m of open water,
+narrowed by the causeway that carries the road out to the far abutment — and
+the old ford is still visible sixteen metres upstream of it, a gravel bar under
+half a metre of water with a shelving bay in the south bank where the approach
+ramp ran in.
+
+From the Crane Tower round to the Heron Tower the wall stands within a few
+metres of the water, with the berm and Tan Road on the strip between; its foot
+is not in the mere (D-024 — the plan said it was, but the road is there). The
+**wharf** is a stone-faced platform 26 x 16 m projecting from the Water Gate,
+with the gate at the middle of its landward edge and a coursed ashlar quay wall
+along its face. There is 2.25 m of water at that wall in the dredged basin, so
+a laden lighter lies alongside at any season; that is the reason the quay is
+here and not at the bridge. Moored flat-bottomed lighters, a treadwheel crane,
+net lofts, fish drying racks, and the customs house set square to the gate so
+nothing lands without passing its window. The **tannery** is outside the wall,
+downstream of the quay and downwind of the town.
+
+### Levels
+
+The ground falls about 4 m from the south gate to the river. That is not
+decoration: it is why the streets drain the way they do, why the pub's floor is
+sunken, why the blacksmith sits on the high south edge, why the market place
+has a step across it separating the dry-goods half from the wet, and why the
+town has a slope in silhouette instead of a table. **Kirk Knowe**, in the east,
+is the one piece of high ground, and it carries the church.
 
 ### Streets
 
-- **The Ford Road** — main N–S artery, 7 m wide, enters at the north gate,
-  crosses the square, exits south. Cobbled, worn to a shallow trough down the
-  centre from cart traffic.
-- **Mere Street** — E–W, 6 m, connects pub to inn across the square.
-- **Smith's Lane** — B4→B5, 3.5 m, narrows toward the forge, unpaved past the
-  midpoint (dirt and cinder).
-- **Back alleys** — 2.5 m, between cottage blocks. Dark, damp, laundry
-  overhead. These sell the town's density more than the main streets do.
+- **Ford Road** — the spine, 7 m, granite setts. Runs down the fall line from
+  the bridge to the south gate, because it drains and because a laden cart can
+  brake on it. Worn to a shallow trough down the centre.
+- **Mere Street** — 6 m, and the older of the two: the drove track to the
+  mere-side pastures. It holds one contour for its whole length and is the only
+  level street in Hearthmere, which is why the carriers use it.
+- **Kirk Green** — the church's forecourt, and the arrival axis: door, perron,
+  green, Ford Road, market place, fountain.
+- **Wharf Lane, Mill Lane, Kirkgate, Bakers' Row, Smiths' Lane, Well Lane,
+  Sty Lane** — the working streets, each named for what happens on it.
+- **The Bailey** — the intramural lane. Never planned; it is what was left when
+  the wall went up outside everyone's back fence, and it is where the town
+  keeps its woodpiles, its middens and its poorest cottages.
+- **Bell Alley** and **Tenter Lane** — 2.5–3 m. Dark, damp, laundry overhead.
+  These sell the town's density more than the main streets do.
 
-### The arrival shot
+### The arrival
 
-The player spawns at **(0, 0, -44)**, just inside the north gate, facing south
-down the Ford Road at the square.
+The player spawns **on the summoning altar inside the church**, at
+`(43.0, 3.30, -0.5)`, facing **west** (270°) down the nave and out through the
+open great west door.
 
-This single frame is the most important composition in the build. It must show,
-in one view: the gate arch framing the shot, the Ford Road leading the eye, the
-fountain as the focal point at centre, the guild tower rising on the RIGHT, the
-inn's roofline on the left, stall awnings adding colour, and NPCs moving.
+This single frame is the most important composition in the build. Through the
+6.4 m portal, in one view: the perron falling away in three shallow flights,
+Kirk Green, Ford Road crossing the view with traffic on it, the **Heron
+Fountain at 43 m dead centre**, the market cross and the stalls' colour around
+it, the **moot hall's bell-cote** entering frame-left at 54 m, the
+**Adventurer's Guild tower** with its crimson banners just right of the
+fountain at 72 m, and the **Grey Heron Inn's** jettied gables at frame-right.
 
-Note the handedness, because it is easy to get backwards: the player faces +Z,
-and in this right-handed Y-up system screen-right is therefore **-X**. The
-guild sits west (x = -12.5) and so appears on the RIGHT of the frame; the inn
-sits east and appears on the LEFT.
+Two things make it work and must not be undone. The church stands 2.40 m above
+the market place, so the player looks *down* the fall of the land and the roofs
+stack instead of hiding each other. And the player faces **west at 09:30**, so
+every facade in the frame is a lit one — which is why the church is east of the
+market place and not west of it.
 
-**Nothing may stand on the road's centreline.** The guild originally spanned
-C2+D2, which put it squarely across Ford Road and blocked the view through to
-the fountain — the composition above is impossible if the hero building is in
-the way. The guild sits west of the centreline; the road stays clear.
+**Nothing may stand on Ford Road's centreline.** This is the rule the guild
+broke in v1, and it now applies to the ground as well as to the buildings
+(D-017).
+
+The **north gate and its bridge** remain a hero composition, but as the
+departure and return frame rather than the arrival.
 
 Everything must be legible with no HUD. If the player does not immediately know
 where to walk, the composition has failed.
@@ -124,103 +163,175 @@ where to walk, the composition has failed.
 
 ## Venue briefs
 
-Each builder agent owns one. The brief is the intent; the Art Bible is the law.
+Each builder agent owns one. The brief is the intent; the Art Bible is the law;
+`docs/TOWN_PLAN.md` §6 is the footprint, and that is not negotiable from here.
 
-### Market Square — `C3 D3 C4 D4`
+### Church of Summoning — slots 11, 12, 17 · cells `H5`–`J7`
 
-The town's living room. An irregular plaza, wider at the north (where the road
-enters) than the south, because it grew rather than being planned.
+The player's first sight of the world, and the only fully walkable interior in
+v2. An aisled hall church, ridge east–west, 14.6 m to the ridge, standing on a
+terraced churchyard 2.40 m above the street.
 
-- **Fountain** at origin — the anchor. Carved stone, worn lip where people sit
-  and where buckets scrape, algae in the shaded north face, constantly running
-  water from a spouted heron head (the town's emblem).
-- **8 stalls** in two loose rows, not a grid. Traders arrange for footfall, so
-  stalls cluster near the road mouth and thin toward the south.
-- Ground is cobbled but **worn into desire paths** — the cobbles are polished
-  smooth along the diagonal everyone actually walks, mossy where nobody does.
-- Residue: spilled produce, a broken crate nobody has cleared, pigeons, a dog
-  under a cart, chalk marks on the fountain lip where a trader tallies.
+- **The summoning altar** on a 0.90 m dais, under a lantern. Light shafts from
+  the clerestory. Stone floor worn into a visible path from the dais to the west
+  door — the path everyone who ever arrived here took.
+- **The great west door**, 6.4 m clear and 8.0 m to the arch apex, standing
+  open. It is a framing device before it is a door.
+- **The perron** outside it: three shallow flights and two broad landings
+  falling 1.60 m across a 15 m width. Shallow deliberately — a steep flight
+  drops below the sightline from the altar and the arrival frame loses its
+  foreground.
+- **The tower** on the north-west angle, parapet 18.4 m, lead spirelet to
+  21.4 m: the tallest thing in Hearthmere by a tenth of a metre over the guild,
+  which the guild has never mentioned. On the *north-west* angle so its north
+  and east faces are lit at 09:30 and it reads from the north gate and from the
+  water.
+- Churchyard, graveyard, lychgate, bede houses, song school, sexton's cottage,
+  charnel house and the parsonage around it.
 
-### Adventurer's Guild — `C2 D2`
+### Market Place — cells `E5`–`G8`
 
-The hero building and the player's "what do I do next." Deliberately reads as
-**imported** — built by an outside organisation with outside money. Where the
-rest of Hearthmere is timber and plaster, the guild is dressed stone with a
-square tower, and it is the only building in town that is symmetrical.
+The town's living room, and a wide place on a road rather than a planned square.
+Bounded west by the guild and the inn, south by the shop row, north by the
+chophouse and its neighbours, and **east by Ford Road itself**.
 
-- Tall double doors, always open, worn threshold stone dished by boots.
+- **Fountain** at the origin — octagonal, 6.8 m across the flats, kerb worn into
+  a dish where buckets scrape, algae on the shaded north face, water from a
+  heron spout at 2.9 m. Built over the old town well, which is why it is
+  off-centre and why the conduit runs in from Well Lane.
+- **Market cross**, stepped octagonal base, shaft to 5.2 m. Proclamations are
+  read from the second step.
+- **The Market Step** — three risers and a stone bench-wall across the place,
+  dividing the upper market (dry goods) from the lower (fish and greens, where
+  the wash-down drains). Traders sit on it.
+- **14 stalls**, clustered at the north mouth where the footfall is and thinning
+  south. Each is a person's business.
+- Cobbles polished along the diagonals everyone actually walks, mossy where
+  nobody does. Residue: spilled produce, a broken crate nobody has cleared,
+  pigeons, a dog under a cart, chalk tallies on the fountain lip.
+
+### Adventurer's Guild — slot 02 · cells `D6 D7 E6 E7`
+
+The "what do I do next", and the far anchor of the arrival frame. Deliberately
+**imported**: dressed stone in a plaster town, symmetrical in a town where
+nothing is, and it bought the best block on the market place.
+
+- **Square tower on the north-east corner**, parapet 18.6 m, pyramid roof and
+  iron finial to 21.5 m, crimson banners on the north and east faces. It stands
+  just right of the fountain from the church door and closes the view west.
+- Forecourt raised 0.42 m on a stylobate, four steps across the full frontage.
+- Tall double doors, always open, threshold stone dished by boots.
 - **Quest board** under the porch — the single most important interactable in
-  the town. Layered parchment, some notices new and crisp, some sun-bleached
-  and curling, wax seals, iron pins, a few torn corners where notices were
-  taken.
-- Crimson banners on the tower, wind-moved.
-- Interior visible from the door: a stone hall, a reception counter, a big map
-  on the wall, weapon racks, adventurers loitering.
+  the town. Layered parchment, some notices new and crisp, some sun-bleached and
+  curling, wax seals, iron pins, torn corners where notices were taken.
+- Interior visible from the door: a stone hall, a counter, a big map on the
+  wall, weapon racks, adventurers loitering.
 
-### Grey Heron Inn — `E3 E4`
+### Grey Heron Inn — slot 01 · cells `D4 D5 E4 E5`
 
-Three storeys, the tallest timber structure in town, jettied upper floors
-overhanging the street (period-correct and great for silhouette). Named for the
-birds on the mere.
+Three storeys, the tallest timber structure in town, upper floors jettied 0.45 m
+each. Gable to the market place so the sign hangs over the paving. Named for the
+birds on the mere, and the right-hand anchor of the arrival frame.
 
 - Painted hanging sign: a grey heron, hand-painted, weathered, swinging.
-- Warm light in every window — the inn is the most inviting thing in the frame.
-- Ground floor: common room, hearth, long tables, stairs up.
-- Stable attached at `E2` with a water trough, hay, tack on pegs.
+- Warm light in every window; four dormers on the east slope; two chimneys.
+- Stable yard behind, to the west: muck heap, water trough, tack on pegs, two
+  hunters and a mule.
 - Residue: boots by the door, a cat on the windowsill, laundry on the upper
-  balcony, smoke from two chimneys.
+  balcony, smoke from both chimneys.
 
-### The Ferryman's Lamp (pub) — `B3 B4`
+### The Ferryman's Lamp — slot 72 · cells `G2 H2`
 
-Older and lower than the inn — this is the *locals'* place, not the
-travellers'. Slightly sunken floor (the ground rose around it over two
-centuries), heavy low beams, small windows.
+**On Wharf Lane by the old ferry stair, not on the market place.** This is the
+locals' pub, and its story is why it is here: the lamp on its bracket is the
+actual iron ferry lamp that used to guide the ferry across, and the bridge put
+the ferry out of business two hundred years ago. The pub kept the lamp.
 
-- Sign is an actual **iron ferryman's lamp** on a bracket, not a painted board.
+- Floor sunken 0.55 m below the lane, because the lane has been re-metalled over
+  itself and the pub has not moved. Heavy low beams, small windows.
 - Warmest interior in the town. Firelight, not daylight, defines it.
 - Outside: two trestle tables, worn benches, a dog, barrels awaiting collection.
-- Residue: rings on the tables from mugs, a dartboard, a leaning stack of
-  empty casks, sawdust on the floor at the threshold.
+- The ferry stair is still there, through the Ferry Postern behind.
+- Residue: rings on the tables from mugs, a dartboard, a leaning stack of empty
+  casks, sawdust at the threshold.
 
-### Blacksmith — `B5 B6`
+### Moot Hall — slot 03 · free-standing in the market place
 
-The most *active* venue — this one has to feel hot and loud. Placed at the edge
-for fire risk, which is why Smith's Lane narrows and turns to cinder.
+Arcaded ground floor on ten oak posts (the butter market) with the council
+chamber over, standing **free in the plaza** so the market flows under and round
+it. Skewed 60° because it was built along the old sheep-pen rail. Louvred
+bell-cote on the east gable at 15.8 m — the left-hand anchor of the arrival
+frame.
 
-- **Open-fronted work yard**, roofed but not walled, so the player can see the
-  work. This is the correct historical form and far better for gameplay.
-- **Forge** with live fire — the town's strongest light source and the only
-  significant emissive. Coal glow, sparks, heat shimmer.
-- Anvil on an oak stump, quench barrel with scummy water, bellows, tool rack
-  arranged by workflow (not by size), a grindstone.
-- Residue: a half-finished blade in the quench, horseshoes in a pile,
-  scale and cinder ground into the dirt floor, scorch marks on the posts,
-  a leather apron on a hook.
+### Blacksmith — slot 43 · cells `C10 D10 C11 D11`
 
-### Shop row — `C5 D5 E5`
+The most *active* venue: hot, loud, and the town's only significant emissive. On
+the high south edge because that is the highest, driest ground, because the
+charcoal comes in through the south gate 60 m away, and because the wind carries
+sparks out over the tenter ground and the wall rather than across roofs.
 
-Three shops sharing party walls, which is how towns actually build. Continuous
-frontage, varied above the ground floor.
+- **Open-fronted work shed**, roofed but not walled, so the work is visible from
+  the lane, with a walled dwelling bay at the west end.
+- Forge with live fire, anvil on an oak stump, quench barrel with scummy water,
+  bellows, tool rack arranged by workflow (not by size), a grindstone. Chimney
+  to 11.4 m.
+- Platform cut into the slope with a 1.1 m revetment on its north side.
+- Smiths' Lane is paved for 12 m off Ford Road and then is not paved at all: the
+  surface change is the junction, and past it the lane is black cinder.
+- Residue: a half-finished blade in the quench, horseshoes in a pile, scale and
+  cinder ground into the floor, scorch marks on the posts, an apron on a hook.
 
-- **General store** — barrels and sacks spilling onto the street, broadest
+### Shop row — slots 04–06 · cells `E8 F8`
+
+Three shops sharing party walls on the market place's **south** frontage, so
+they face north and are lit at 09:30. Continuous 20 m shopfront, varied above
+the ground floor.
+
+- **General store** — barrels and sacks spilling onto the footway, broadest
   goods, most cluttered.
-- **Apothecary** — hanging dried herbs, small leaded windows, bottles,
-  the most colourful interior.
-- **Tailor** — bolts of cloth, a dress form in the window, the tidiest.
-- Each has a **pictorial hanging sign** on a wrought-iron bracket.
-- Shared: shuttered display windows that fold down into counters (period
-  correct, very readable as "shop").
+- **Apothecary** — hanging dried herbs, small leaded windows, bottles, the most
+  colourful interior.
+- **Tailor** — bolts of cloth, a dress form in the window, the tidiest; its east
+  gable is exposed to Ford Road and takes the painted panel and the pole sign.
+- Shuttered display windows that fold down into counters; pictorial hanging
+  signs on wrought-iron brackets.
 
-### Stalls — inside `C3 D3 C4 D4`
+### Quay, crane and customs house — slots 61, 94 · cells `H3`–`J4`
 
-Eight, each individually specified so none repeats: produce, fish (fresh from
-the mere), bread, cloth, pottery, charms/trinkets, herbs, roast meat.
+The town's working waterfront. Wharf deck at −1.55 with a lower stage at −2.85
+for low water, joined by Fishers' Steps and a slipway. A timber treadwheel crane
+with a slewing jib and a stone counterweight box is the silhouette anchor of the
+whole north-east. The customs house faces the Water Gate square on, with the
+town weighbeam under a canopy on its north side.
+
+### Watermill — slot 77 · outside the wall
+
+On the Emberflow itself, on a made platform cut out into the south bank so the
+wheel can reach the channel — the leat the mill used to run on is gone with
+D-024's one-water-surface rule, because a leat sill above the river is a second
+water elevation and Hearthmere has exactly one. Breastshot wheel 3.6 m across on
+the north gable, sack hoist and a lucam over the water. Its granary stands on staddle stones with 0.6 m of clear
+air beneath and no ground floor at all.
+
+### Stalls — inside the market place
+
+Fourteen, each individually specified so none repeats: produce, mere-fish,
+bread, cloth, pottery, charms, herbs, roast meat, eggs, rope and twine, baskets,
+honey and wax, cheese, and one trader who has not decided what he sells.
 
 - Striped canvas awnings, sagging and patched differently per stall.
 - Each is a *person's business* — the pottery seller stacks carefully, the
   fishmonger's boards are wet and scaled, the baker's stall is dusted in flour.
-- These carry most of the square's colour. They are why the square reads as
-  busy rather than as an empty plaza.
+- These carry most of the market place's colour and are why it reads as busy
+  rather than as an empty plaza.
+
+### Everything else
+
+The remaining eighty-odd masses — bakery, cooper, carpenter, chandler, bowyer,
+bathhouse, well-house, dovecote, tithe barn, warehouses, stables, farrier,
+tannery, almshouses, townhouses, cottages, workshops, sheds and privies — are
+scheduled individually in `docs/TOWN_PLAN.md` §6, each with a footprint, a
+rotation, a fronting street and a one-line brief.
 
 ---
 
@@ -231,7 +342,9 @@ the mere), bread, cloth, pottery, charms/trinkets, herbs, roast meat.
 - **River:** the Emberflow
 - **Inn:** The Grey Heron
 - **Pub:** The Ferryman's Lamp
-- **Main road:** Ford Road
+- **Church:** the Church of Summoning
+- **Main road:** Ford Road · **the contour road:** Mere Street
+- **The high ground:** Kirk Knowe · **the intramural lane:** the Bailey
 - **Emblem:** a grey heron, used on the fountain spout, the gate keystone,
   and the town's few official markings
 

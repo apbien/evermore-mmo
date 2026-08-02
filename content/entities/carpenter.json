@@ -1,0 +1,103 @@
+{
+  "venue": "carpenter",
+  "cells": [
+    "I8",
+    "I9",
+    "J8",
+    "J9"
+  ],
+  "entities": [
+    {
+      "id": "hm.carpenter.sawpit.01",
+      "archetype": "crafting_station.sawpit",
+      "cell": "J8",
+      "transform": {
+        "pos": [
+          -4.1191,
+          0.1,
+          -1.8797
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        },
+        "crafting_station": {
+          "profession": "carpenter",
+          "tier": 1
+        }
+      }
+    },
+    {
+      "id": "hm.carpenter.station.01",
+      "archetype": "crafting_station.carpenter",
+      "cell": "J9",
+      "transform": {
+        "pos": [
+          1.6719,
+          0.32,
+          2.9916
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        },
+        "crafting_station": {
+          "profession": "carpenter",
+          "tier": 1
+        }
+      }
+    },
+    {
+      "id": "hm.carpenter.brazier.01",
+      "archetype": "prop.hearth",
+      "cell": "J9",
+      "transform": {
+        "pos": [
+          3.3572,
+          0.32,
+          3.7195
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FF9A4A",
+          "intensity": 1.5,
+          "range": 4.5,
+          "flickerHz": [
+            7,
+            12
+          ]
+        }
+      }
+    }
+  ]
+}

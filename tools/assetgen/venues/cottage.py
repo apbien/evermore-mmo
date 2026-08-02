@@ -71,6 +71,18 @@ def build(ctx: VenueContext, variant=0, asset_id="hm.cottage.01"):
         side.translate(sx * w * 0.5, 0, 0)
         ctx.emit(side)
 
+    # --- collision -------------------------------------------------------
+    # Plinth solid, walls solid, doorway open, one step up to the threshold.
+    # Six cottages share this mesh and this collision file; the client places
+    # each instance with its own origin and rotation.
+    DOORWAY = K.DOOR_W + 0.45
+    ctx.collider("box", center=(0, 0.21, 0),
+                 half=((w + 0.24) * 0.5, 0.21, (d + 0.24) * 0.5), tag="plinth")
+    ctx.collider_walls(w, d, eaves, y=0.42, thickness=0.30,
+                       doors=[("-z", door_x, DOORWAY)])
+    ctx.collider_steps((door_x, 0.0, -(d + 0.24) * 0.5), 0.42, tread=0.5,
+                       width=DOORWAY + 0.3)
+
     # --- gable ends and roof --------------------------------------------
     pitch = rng.uniform(0.82, 0.95)
     gable_pitch = pitch * 1.25 if roof_mat == "thatch" else pitch

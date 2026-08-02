@@ -1,0 +1,126 @@
+textures:
+  107 PBR sets
+
+meshes:
+  blacksmith.gltf           18,939 tris   11.0 x   8.5 x   9.0 m  9 mats
+  cottage.gltf              14,359 tris    7.9 x   7.5 x   6.5 m  11 mats
+  guild.gltf                61,912 tris   28.2 x  14.3 x  14.6 m  20 mats
+  inn.gltf                  47,893 tris   14.0 x  16.6 x  12.1 m  13 mats
+  market_square.gltf        34,236 tris   34.0 x   3.3 x  32.4 m  12 mats
+  pub.gltf                  22,092 tris   15.6 x   8.3 x  13.6 m  11 mats
+  shop_row.gltf            124,834 tris   21.8 x  11.6 x   9.7 m  15 mats
+  stalls.gltf              124,089 tris   18.8 x   3.1 x  17.7 m  16 mats
+  streets.gltf              47,674 tris  155.8 x  11.1 x 192.3 m  7 mats
+  terrain.gltf             263,094 tris  576.0 x  30.4 x 576.0 m  7 mats
+  townhouse.gltf           1,731,316 tris  151.7 x  16.3 x 156.7 m  18 mats
+  total 2,490,438 tris authored
+
+entities:
+  blacksmith.json            3
+  cottage.json               1
+  guild.json                 6
+  inn.json                   4
+  market_square.json         3
+  pub.json                   5
+  shop_row.json              6
+  stalls.json                8
+  streets.json               5
+  terrain.json               0
+  townhouse.json            67
+  total 108
+
+town:
+  31 placements, 2,476,079 source tris, 2,426 primitives; unculled draw calls by LOD level: L0 1,136 / L1 743 / L2 465 / L3 369
+  75 GPU-instanced batches carrying 1,453 instances
+  heaviest venues (LOD0 draws): townhouse 826 over 74 cells, streets 94 over 30 cells, stalls 40 over 4 cells, guild 39 over 5 cells, shop_row 36 over 4 cells
+  heaviest cells  (LOD0 draws): G7 95 (market_square+streets+terrain+townhouse), H2 43 (pub+townhouse), D5 41 (guild+inn+townhouse), G6 33 (market_square+stalls+streets+townhouse), D7 30 (guild+townhouse), D10 30 (blacksmith+townhouse)
+  15 street widths checked
+  11 collision files, 927 volumes, 1072 street stations checked for a walkable gap
+
+geometry (terrain: core/terrain.py height()):
+  blacksmith                  1 masses  1 placement(s)
+  cottage                     1 masses  1 placement(s)
+  guild                       1 masses  1 placement(s)
+  inn                         1 masses  1 placement(s)
+  market_square               1 masses  1 placement(s)
+  pub                         1 masses  1 placement(s)
+  shop_row                    1 masses  1 placement(s)
+  stalls                      1 masses  1 placement(s)
+  streets                     3 masses  1 placement(s)
+  terrain                     1 masses  1 placement(s)
+  townhouse                  10 masses  1 placement(s)
+  11 placements tested for sunk / buried / floating mass
+  107 entity positions tested against terrain
+
+palette (Art Bible §4):
+  107 albedo maps against 32 locked colours; worst: stained 13.8, stained_dark 13.7, grass_dry 8.8, copper 7.5
+
+texel density (Art Bible §5):
+  105 sets against 3 density classes (hero 512 / standard 256 / large 128 px/m), declared and on disk
+
+scale (Art Bible §3 named dimensions):
+  15 named dimensions checked (AWNING_CLEAR, CEIL_H, CHAMFER_ARCH, CHAMFER_PROP, CH_PROP, CH_SMALL, COUNTER_H, DOOR_H…)
+
+anachronisms (Art Bible §2):
+  16,849 lines of generator source over 29 files, 13 forbidden classes (suppress a false positive with '# anachronism-ok: reason')
+
+  WARN  terrain.gltf: batch 'terrain#all' is 263,094 triangles with no LOD chain
+  WARN  content/town/hearthmere.json: venues 'streets' and 'wall' share origin (0, 0, 0)
+  WARN  content/town/hearthmere.json: venues 'wall' and 'market_square' share origin (0, 0, 0)
+  WARN  content/town/hearthmere.json: venues 'market_square' and 'townhouse' share origin (0, 0, 0)
+  WARN  cell G7 costs 95 draw calls at LOD0 (market_square, streets, terrain, townhouse) — over 45, a frame spike for anyone standing in it
+  WARN  townhouse: an isolated mass (1 voxels) floats — nothing under it for 8.74 m at (-68.3, 0.7). Directive §6.1: every mass sits on ground, is carried by something that reaches the ground, or is visibly fixed to a wall.
+  WARN  townhouse: an isolated mass (1 voxels) floats — nothing under it for 4.33 m at (-55.9, -25.8). Directive §6.1: every mass sits on ground, is carried by something that reaches the ground, or is visibly fixed to a wall.
+  WARN  townhouse: an isolated mass (2 voxels) floats — nothing under it for 3.47 m at (59.3, 9.8). Directive §6.1: every mass sits on ground, is carried by something that reaches the ground, or is visibly fixed to a wall.
+  WARN  townhouse: an isolated mass (3 voxels) floats — nothing under it for 2.43 m at (66.0, 70.4). Directive §6.1: every mass sits on ground, is carried by something that reaches the ground, or is visibly fixed to a wall.
+  WARN  townhouse: an isolated mass (1 voxels) floats — nothing under it for 2.43 m at (71.2, 62.7). Directive §6.1: every mass sits on ground, is carried by something that reaches the ground, or is visibly fixed to a wall.
+  WARN  assets/textures/algae_albedo.png: albedo 'algae' drifts from §4 (90th-percentile distance 5.0, nearest family INN_GREEN) — authored from a hex literal rather than a palette constant?
+  WARN  assets/textures/grass_dry_albedo.png: albedo 'grass_dry' drifts from §4 (90th-percentile distance 8.8, nearest family HERB_GREEN) — authored from a hex literal rather than a palette constant?
+  WARN  assets/textures/kit_trim_albedo.png: albedo 'kit_trim' drifts from §4 (90th-percentile distance 5.7, nearest family IRON) — authored from a hex literal rather than a palette constant?
+  WARN  assets/textures/steel_blued_albedo.png: albedo 'steel_blued' drifts from §4 (90th-percentile distance 6.5, nearest family SLATE) — authored from a hex literal rather than a palette constant?
+  WARN  assets/textures/water_albedo.png: albedo 'water' drifts from §4 (90th-percentile distance 5.4, nearest family VERDIGRIS) — authored from a hex literal rather than a palette constant?
+  FAIL  content/town/hearthmere.json: town references venue 'moot_hall' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'chophouse' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'church' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'confectioner' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'bakery' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'cooper' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'carpenter' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'chandler' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'bowyer' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'stables' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'dovecote' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'quay' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'warehouse' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'fish_eatery' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'stables' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'watermill' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'wellhouse' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'bathhouse' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'tannery' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'wall' with no built mesh
+  FAIL  content/town/hearthmere.json: town references venue 'gatehouse' with no built mesh
+  FAIL  content/collision: venue 'bakery' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'bathhouse' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'bowyer' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'carpenter' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'chandler' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'chophouse' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'church' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'confectioner' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'cooper' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'dovecote' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'fish_eatery' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'gatehouse' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'moot_hall' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'quay' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'stables' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'tannery' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'wall' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'warehouse' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'watermill' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  content/collision: venue 'wellhouse' is placed in the town but has no collision file — the client will let the player walk through it
+  FAIL  tools/assetgen/core/materials.py:1901: plastic: coloured plastic.
+  FAIL  tools/assetgen/core/materials.py:3160: wire rope / machine chain: # chain link's bearing face. That single bright note is what stops the whole
+
+43 failures, 15 warnings

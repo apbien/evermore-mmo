@@ -3,7 +3,8 @@
   "id": "hearthmere",
   "displayName": "Hearthmere",
   "zonePrefix": "hm",
-  "description": "A lake town grown up around the old ford. The first town.",
+  "version": 2,
+  "description": "A lake town grown up around the old ford. The first town. v2: 192 m walled town on a 12x12 grid, arrival from the church altar. See docs/TOWN_PLAN.md.",
   "grid": {
     "cellSize": 16.0,
     "cols": [
@@ -12,7 +13,13 @@
       "C",
       "D",
       "E",
-      "F"
+      "F",
+      "G",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L"
     ],
     "rows": [
       1,
@@ -20,13 +27,29 @@
       3,
       4,
       5,
-      6
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
     ],
-    "originCell": "C4",
-    "comment": "World origin (0,0,0) is the market square fountain, on the C/D-3/4 corner. Cell C1 spans world x[-48,-32] z[-48,-32]."
+    "originCell": "F6",
+    "bounds": {
+      "min": [
+        -96.0,
+        -96.0
+      ],
+      "max": [
+        96.0,
+        96.0
+      ]
+    },
+    "comment": "12x12 cells of 16 m. World origin (0,0,0) is the market square fountain at the grid centre, on the F/G-6/7 corner. Cell letter index = floor(x/16)+6, row = floor(z/16)+7. Cell A1 spans x[-96,-80] z[-96,-80]."
   },
   "lighting": {
-    "comment": "Locked 09:30 rig, Art Bible section 4. THE authoritative copy - both tools/render/viewer.html and client/src/main.js read this file. Rim is a directional light standing in for a true grazing-angle rim, so it lights whole faces; on curved geometry the limb dominates the projected face and a strongly saturated rim drains colour from every lathed object. Desaturated and reduced accordingly. See D-009 and D-010.",
+    "comment": "Locked 09:30 rig, Art Bible section 4. THE authoritative copy is tools/plan/plan_data.py:LIGHTING; this block is generated from it and both tools/render/viewer.html and client/src/main.js read it from here. Rim is a directional light standing in for a true grazing-angle rim, so it lights whole faces; on curved geometry the limb dominates the projected face and a strongly saturated rim drains colour from every lathed object. Desaturated and reduced accordingly. See D-009, D-010 and D-025.",
     "timeOfDay": "09:30",
     "sunElevationDeg": 38.0,
     "sunAzimuthDeg": 125.0,
@@ -51,29 +74,931 @@
       "color": "#A9C6E2",
       "intensity": 0.85
     },
-    "exposure": 1.05
+    "exposure": 1.05,
+    "shadows": {
+      "comment": "Cascaded shadow maps, ARCHITECTURE section 5. THE authoritative copy is tools/plan/plan_data.py:LIGHTING; client/src/shadows.js reads this block and all three renderers drive the same SunRig from it, the same rule as D-009 and for the same reason \u2014 a harness whose shadow rig differs from the client's is not measuring the client. `distance` must equal client/src/lod.js SHADOW_CAST_DISTANCE. `normalBias` is scaled per cascade by that cascade's own texel size against `normalBiasTexelRef`, the 2.25 cm texel it was tuned at: a fixed world offset that is right for a 2.2 cm texel detaches every contact shadow on a 0.3 cm one.",
+      "cascades": 2,
+      "distance": 30.0,
+      "splits": [
+        0.18
+      ],
+      "mapSizes": [
+        4096,
+        4096
+      ],
+      "bias": -0.0004,
+      "normalBias": 0.02,
+      "normalBiasTexelRef": 0.0225,
+      "fade": true,
+      "margin": 55.0,
+      "near": 0.5,
+      "far": 200.0
+    }
+  },
+  "atmosphere": {
+    "comment": [
+      "Aerial perspective, sky, horizon closure, warm AO and the colour grade. THE authoritative copy \u2014 client/src/atmosphere.js reads it and tools/render/town.html, tools/render/viewer.html and client/src/main.js all import that one module. See D-049.",
+      "Art Bible section 1 requires colour separation between planes: foreground / midground / background pushed apart in value AND temperature. That is what `scattering` is; a single-colour fog only buys the value half."
+    ],
+    "scattering": {
+      "comment": "Height-integrated exponential, warm near, cool far. Density is per metre at the base level; the height term is what keeps the water meadow in haze and the church tower out of it. `startDistance` is a dead zone so nothing within arm's reach is ever touched. RETUNED against ad-town-04 section 3 and (a): measured temperatureSwing 0.2 and midgroundToBackground 12.6 on the arrival frame \u2014 the value half of Art Bible section 1 over-driven into a veil, the temperature half not happening at all. The two are one fault. `fullDistance` is the ONLY control over where warm becomes cool, and at 130 m it put the crossover beyond the 192 m town: every distance a player ever looks at was still being mixed toward the warm cream near colour, so the cool far colour never reached the frame and the whole depth range came back one temperature. It is 82 m now, which puts the crossover inside the town's own depth. `density` and `maxOpacity` are the value half and both come down: the wash was eating the midground the fountain has to separate from. The two colours are pushed apart in hue and pulled together in value, which is the definition of temperature separation without milkiness \u2014 near-to-far blue-minus-red goes from 83 to 131 while the value gap between them narrows from 27 to 35 the other way (the far colour is now DARKER than the near one, so distance stops meaning 'brighter' and starts meaning 'cooler').",
+      "nearColor": "#E4D3B0",
+      "farColor": "#8FB2DE",
+      "density": 0.0038,
+      "heightFalloff": 30.0,
+      "baseY": -4.0,
+      "maxOpacity": 0.78,
+      "startDistance": 12.0,
+      "fullDistance": 82.0,
+      "sunColor": "#FFE7C0",
+      "sunAmount": 0.34,
+      "sunPower": 5.0
+    },
+    "sky": {
+      "comment": "Gradient dome plus a horizon value ramp, a sun disc and low cirrus. The dome is also the PMREM source, so the drawn sky and the image-based lighting cannot disagree. The horizon band is COOL, not the old cream: the distance ring resolves to `scattering.farColor`, and a warm horizon behind a cool distance draws a hard line exactly where the world edge is supposed to dissolve.",
+      "top": "#4E8FD6",
+      "mid": "#A8CDEC",
+      "horizon": "#D7E2EA",
+      "ground": "#B6AE96",
+      "horizonPower": 3.4,
+      "horizonWidth": 0.17,
+      "sunColor": "#FFF8E6",
+      "sunAngularSize": 1.6,
+      "sunGlow": 0.4,
+      "sunGlowPower": 22.0,
+      "cloudAmount": 0.34,
+      "cloudScale": 0.016,
+      "cloudColor": "#FFFCF4",
+      "cloudShade": "#B9C6D4"
+    },
+    "horizon": {
+      "comment": "The skirt that closes the world edge. terrain.json stops at a SQUARE plate of Chebyshev half-extent 288 m and its own comment says the sky dome closes the frame \u2014 true from overhead, false from 1.62 m, where the plate edge lands on the horizon line and the ground ends in mid-air. `innerHalfExtent` must track terrain.extent.far.",
+      "innerHalfExtent": 288.0,
+      "outerRadius": 1200.0,
+      "innerDrop": 0.35,
+      "outerDrop": 26.0,
+      "color": "#93A07C",
+      "segments": 160
+    },
+    "ao": {
+      "comment": "GTAO with three's grey blend replaced by a tint toward Art Bible section 1's #4A3828 \u2014 warm, never neutral black. `radius` is in metres: 0.75 m is the scale of the junctions that matter (wall to ground, eaves to gable, a barrel against a wall) and larger reads as dirt. `farDistance` clips the AO pass's own camera: GTAO needs a full normal+depth prepass of the scene, which is a second complete scene pass. See D-049, and D-051 for the measurement that moved it from 80 m to 35 m: at the arrival camera the AO prepass was 454 draw calls and 924k triangles of a 2,065-draw frame, against a section 7 budget of 900 for the entire frame. The 2.4 m radius is 34 px at 80 m and 15 px at 35 m in a 55-degree frame, but `atmosphere.scattering` is already at ~60 percent opacity by 35 m and asymptotes to sky by 130 m, so past that the AO term is being multiplied into haze. Every draw beyond it changes no pixel a player can see.",
+      "tint": "#4A3828",
+      "tintStrength": 0.65,
+      "intensity": 0.8,
+      "radius": 2.4,
+      "distanceExponent": 1.0,
+      "thickness": 2.0,
+      "scale": 1.6,
+      "samples": 16,
+      "screenSpaceRadius": false,
+      "farDistance": 35.0,
+      "denoiseRadius": 10,
+      "lumaPhi": 8.0
+    },
+    "bloom": {
+      "comment": "Threshold stays at 1.0 so only genuinely over-range pixels bloom. Strength down from 0.32: the Mere's sun glitter was being spread by the bloom into the white plate of ad-town-02 section 8 before the grade ever saw it.",
+      "strength": 0.26,
+      "radius": 0.55,
+      "threshold": 1.0
+    },
+    "grade": {
+      "comment": "ARCHITECTURE section 5's grade: lifted shadows, warm midtones, a cyan push in the shadows for complementary contrast. Runs after the ACES tonemap, on display-referred sRGB, which is where a LUT belongs \u2014 lifting a shadow in linear light lifts it by a factor of forty in the darks and reads as fog on the lens. `shadowTint` is a DIRECTION, not a colour to multiply by, and `shadowAmount` is how far the lift leans along it: the tint is normalised to unit luminance, so the lift's level is always `lift` and only its hue moves. It was a multiply before, and evaluated on a neutral ramp with lift 0.028 / shadowAmount 0.20 the darkest step came out +1.0 in value and +1.5 in blue-minus-red out of 255 \u2014 the whole complementary contrast move was being computed and then rounded away. Same shape of transform, same two numbers, measured now: +9 value and +15 blue-minus-red at the shadow floor, decaying to zero by 30 percent grey. `shadowAmount` may not exceed lift / 0.247 or the red channel of the lift goes negative, which is a crushed black and Art Bible section 1 forbids it; the shader floors it at zero.",
+      "lift": 0.038,
+      "shadowTint": "#7FB2C8",
+      "shadowAmount": 0.14,
+      "midTint": "#FFD7A2",
+      "midAmount": 0.14,
+      "highlightRolloff": 0.14,
+      "contrast": 1.05,
+      "saturation": 1.12,
+      "vignette": 0.16,
+      "vignetteSoftness": 0.62
+    },
+    "water": {
+      "comment": [
+        "THE authoritative description of how water behaves in Hearthmere. client/src/water.js is the only implementation; client/src/main.js, tools/render/town.html and tools/render/viewer.html all import that one module and hand it this block, so the game and both harnesses cannot disagree (D-009, D-049). Nothing about water is hardcoded in a harness.",
+        "Hearthmere is a lake town at a ford, so this is not decoration: the Mere and the Emberflow are in the arrival route, the departure frame and half the aerials. The reference is Divinity's Reach and Limsa Lominsa \u2014 idealised, readable, a clear surface plane, visible depth, and a shoreline that tells you how deep it is before you step in."
+      ],
+      "specularKnee": 0.55,
+      "specularKneeComment": "A GGX lobe's peak goes as roughness^-4, so a lake at roughness 0.21 under a 3.2-intensity sun answers with a blown plate however much the roughness floor is raised \u2014 raising it spreads the same energy over MORE pixels. `specularKnee` is a Reinhard shoulder on the DIRECT specular term alone: below ~1.0 it is nearly the identity, so the glitter path and the sky sheen survive; at the sun's own reflection, where the term arrives in the tens, it compresses hard. 1.05 shipped through four art-director passes and was asked for at 0.55 in two of them; at 1.05 the shoulder only bites above 1.0 and the whole sun path was still clipping to a featureless white plate. 0.55 puts the half-power point at 1.8, which is inside the glitter path, so the path resolves into individual highlights instead of a sheet.",
+      "envIntensity": 0.88,
+      "fresnel": {
+        "comment": "Water is not one opacity. Looking down into it you see the bed; looking along it you see the sky, and the crossover is Schlick's Fresnel at IOR 1.33. The depth transmission baked into COLOR_0 alpha by tools/assetgen/core/kit.water_alpha is the LOOKING-DOWN half only; without this term the shallows stayed 26% opaque at a grazing angle and the far half of the Mere read as translucent paint. `f0` 0.02 is the real normal-incidence reflectance of water; `power` 5 is Schlick; `reflectOpacity` is how opaque the sheet becomes where it is a pure mirror.",
+        "f0": 0.02,
+        "power": 5.0,
+        "reflectOpacity": 1.0
+      },
+      "distanceRoughness": {
+        "comment": "The far half of a lake is never sharper than the near half \u2014 the ripple field goes sub-texel and what survives is the average, which is a wide lobe. Renderers that do not do this get two defects at once: an aliasing shimmer as the normal map mips, and a hard-edged specular plate where the mip has flattened the normal to (0,0,1) and every pixel answers the sun identically. That plate is what ad-town-05 \u00a72 measured across t-approach-ne. Roughness rises linearly from `start` to `full` metres of view distance.",
+        "gain": 0.72,
+        "start": 7.0,
+        "full": 70.0
+      },
+      "shallow": {
+        "comment": "The colour a thin sheet of water takes over its own bed. Shallow water is WARMER and lighter than deep water because you are seeing sand and gravel through it, and a lake whose margin is the same value as its middle is the single loudest tell of a stamped polygon. The tint is applied by depth, which the generator writes into COLOR_0 rgb; this is the target the shallowest water is driven toward.",
+        "colour": "#B9A57E",
+        "roughnessComment": "Shallow water is rougher: a sheet thin enough to see the bed through is being broken continuously by that bed. Without it the waterline answers the sun with the same narrow lobe the open lake does and renders as a hard pale rim on every sunlit shore.",
+        "roughness": 0.34,
+        "depth": 0.85
+      },
+      "flow": {
+        "comment": [
+          "Metres per second in UV space at the material's own tiling (2.5 m per tile, core.kit.WATER_UV). `still` is the Mere, the harbour, every basin and trough: TWO counter-scrolling samples of the same normal map at different scales, which have no shared frame to translate in, so the eye gets interference \u2014 crests forming and dying in place, which is what a wind-ruffled lake does. One scrolling layer reads as a conveyor belt.",
+          "`river` is the Emberflow and the mill race, and it is not the lake with the same texture on it. venues/terrain.py lays the channel's UVs in the river's own curvilinear frame, so downstream is +V everywhere on the mesh however the reach bends. Both layers therefore move the SAME way and differ only in rate, which is the slow beat of a current. The small opposed U component is lateral shear off the banks."
+        ],
+        "still": {
+          "a": [
+            0.014,
+            -0.0065
+          ],
+          "b": [
+            -0.0083,
+            0.0112
+          ],
+          "scaleB": 0.47
+        },
+        "river": {
+          "a": [
+            0.0045,
+            0.078
+          ],
+          "b": [
+            -0.0031,
+            0.0506
+          ],
+          "scaleB": 0.47
+        }
+      },
+      "wind": {
+        "comment": "Ripples answer the wind. `ambient.wind` is the town's one authored wind vector (direction, speed, gustHz) and it already drives the cloth and the smoke; water that ignores it is the third motion system in the town disagreeing with the other two. `drift` is how far the still-water flow is pushed along the wind direction per m/s of wind \u2014 a lake does drift downwind, slowly. `chop` raises the normal amplitude with wind speed, and `gust` breathes it at the authored gust rate so the surface is not metronomic.",
+        "drift": 0.0042,
+        "chop": 0.22,
+        "gust": 0.18
+      }
+    }
+  },
+  "terrain": {
+    "source": "content/town/terrain.json",
+    "datum": "Y = 0.00 is the market-square paving at the fountain kerb (0,0).",
+    "comment": [
+      "THIS FILE DOES NOT MODEL THE GROUND. content/town/terrain.json does, evaluated by tools/assetgen/core/terrain.py and client/src/terrain.js. There used to be a second height model here \u2014 a base profile plus a Gaussian rise \u2014 and D-022 measured it disagreeing with the real one by up to 1.48 m on venue origins and 1.24 m on street paths. D-024 deleted it.",
+      "Consequently NO polyline in this file carries a Y any more. Street paths, the wall, the open lots, the market place and the landmarks are all [x, z]; a consumer takes the level from terrain.height(x, z), which is the only number that can be right. The one Y that survives is venues[].origin[1], because that is a scene-graph transform the client applies rather than a lookup, and it is written here straight from terrain.height at the venue's own centre \u2014 so the drift is zero by construction, not by anyone remembering to re-derive it."
+    ],
+    "spotLevels": [
+      {
+        "name": "fountain kerb \u2014 DATUM",
+        "pos": [
+          0.0,
+          0.0
+        ],
+        "y": 0.0,
+        "kind": "paving",
+        "source": "terrain"
+      },
+      {
+        "name": "square, north mouth",
+        "pos": [
+          0.0,
+          -24.0
+        ],
+        "y": -1.05,
+        "kind": "paving",
+        "source": "terrain"
+      },
+      {
+        "name": "square, south mouth",
+        "pos": [
+          0.0,
+          18.0
+        ],
+        "y": 1.15,
+        "kind": "paving",
+        "source": "terrain"
+      },
+      {
+        "name": "square, west kerb",
+        "pos": [
+          -24.0,
+          -2.0
+        ],
+        "y": 0.0,
+        "kind": "paving",
+        "source": "terrain"
+      },
+      {
+        "name": "Market Step, upper tread",
+        "pos": [
+          -8.0,
+          1.6
+        ],
+        "y": 0.48,
+        "kind": "step",
+        "source": "made"
+      },
+      {
+        "name": "Market Step, lower tread",
+        "pos": [
+          -8.0,
+          -0.4
+        ],
+        "y": 0.16,
+        "kind": "step",
+        "source": "made"
+      },
+      {
+        "name": "Ford Road at Kirk Green",
+        "pos": [
+          9.5,
+          -0.5
+        ],
+        "y": 0.0,
+        "kind": "paving",
+        "source": "terrain"
+      },
+      {
+        "name": "Kirk Green paving",
+        "pos": [
+          19.0,
+          -0.5
+        ],
+        "y": 0.0,
+        "kind": "made",
+        "source": "terrain"
+      },
+      {
+        "name": "church perron, foot",
+        "pos": [
+          24.0,
+          -0.5
+        ],
+        "y": 0.8,
+        "kind": "made",
+        "source": "terrain"
+      },
+      {
+        "name": "church perron, head",
+        "pos": [
+          32.0,
+          -0.5
+        ],
+        "y": 2.4,
+        "kind": "made",
+        "source": "made"
+      },
+      {
+        "name": "church floor / altar plinth",
+        "pos": [
+          43.0,
+          -0.5
+        ],
+        "y": 2.4,
+        "kind": "floor",
+        "source": "made"
+      },
+      {
+        "name": "guild forecourt",
+        "pos": [
+          -25.0,
+          5.0
+        ],
+        "y": 0.42,
+        "kind": "made",
+        "source": "made"
+      },
+      {
+        "name": "inn threshold",
+        "pos": [
+          -26.0,
+          -20.0
+        ],
+        "y": -0.6,
+        "kind": "floor",
+        "source": "made"
+      },
+      {
+        "name": "moot hall threshold",
+        "pos": [
+          -24.0,
+          17.0
+        ],
+        "y": 1.35,
+        "kind": "floor",
+        "source": "made"
+      },
+      {
+        "name": "Ferryman's Lamp floor",
+        "pos": [
+          19.0,
+          -68.0
+        ],
+        "y": -2.4,
+        "kind": "floor",
+        "source": "made"
+      },
+      {
+        "name": "Wharf Lane at the pub",
+        "pos": [
+          19.0,
+          -63.0
+        ],
+        "y": -1.85,
+        "kind": "paving",
+        "source": "terrain"
+      },
+      {
+        "name": "blacksmith yard platform",
+        "pos": [
+          -31.0,
+          57.0
+        ],
+        "y": 1.82,
+        "kind": "made",
+        "source": "made"
+      },
+      {
+        "name": "south gate threshold",
+        "pos": [
+          1.0,
+          78.5
+        ],
+        "y": 1.9,
+        "kind": "paving",
+        "source": "terrain"
+      },
+      {
+        "name": "north gate threshold",
+        "pos": [
+          -2.4,
+          -76.0
+        ],
+        "y": -1.85,
+        "kind": "paving",
+        "source": "terrain"
+      },
+      {
+        "name": "bridge deck, crown",
+        "pos": [
+          -3.7,
+          -86.0
+        ],
+        "y": -0.9,
+        "kind": "deck",
+        "source": "made"
+      },
+      {
+        "name": "west gate threshold",
+        "pos": [
+          -79.0,
+          -13.0
+        ],
+        "y": 0.4,
+        "kind": "paving",
+        "source": "terrain"
+      },
+      {
+        "name": "water gate threshold",
+        "pos": [
+          50.0,
+          -57.0
+        ],
+        "y": -1.07,
+        "kind": "paving",
+        "source": "terrain"
+      },
+      {
+        "name": "wharf deck",
+        "pos": [
+          58.0,
+          -60.0
+        ],
+        "y": -1.55,
+        "kind": "deck",
+        "source": "terrain"
+      },
+      {
+        "name": "wharf lower stage",
+        "pos": [
+          64.8,
+          -68.9
+        ],
+        "y": -3.7,
+        "kind": "deck",
+        "source": "made"
+      },
+      {
+        "name": "harbour bed at the quay face",
+        "pos": [
+          64.5,
+          -68.5
+        ],
+        "y": -5.35,
+        "kind": "water",
+        "source": "terrain"
+      },
+      {
+        "name": "Emberflow / Mere surface",
+        "pos": [
+          0.0,
+          -95.0
+        ],
+        "y": -3.1,
+        "kind": "water",
+        "source": "made"
+      }
+    ]
   },
   "playerSpawn": {
-    "comment": "Just inside the north gate, facing south down Ford Road at the square. This single frame is the most important composition in the build.",
+    "comment": "ON THE SUMMONING ALTAR, inside the Church of Summoning, facing west (270 deg) down the nave and out through the open great west door. Feet at the dais top: the church pad, plus a 2.40 m floor over it, plus a 0.90 m dais. This frame is the most important composition in the build - see docs/TOWN_PLAN.md section 7.",
     "pos": [
-      0.0,
-      0.0,
-      -44.0
+      43.0,
+      3.3,
+      -0.5
     ],
-    "facingDeg": 180.0
+    "facingDeg": 270.0
   },
+  "districts": [
+    {
+      "id": "waterside",
+      "name": "Waterside",
+      "cells": "D2-H4",
+      "cause": "Water and bulk. Everything heavy arrives at the bridge or the quay and cannot be carried uphill, so the trades that handle weight sit on the lowest ground within 60 m of the water.",
+      "holds": "Stables and waggon yard, farrier, the Ferryman's Lamp, gate ward, warehouses, mill and granary."
+    },
+    {
+      "id": "quayside",
+      "name": "Quayside",
+      "cells": "H2-K5",
+      "cause": "Downstream of the bridge, so laden boats never have to pass under it, and the mere is deep enough to lie alongside. The wall runs behind the wharf, not in front of it, so the town can shut the gate without losing the moorings.",
+      "holds": "Quay, crane, customs house, warehouse row, net lofts, rope house, fish eatery, fishers' cottages. Tannery outside, downstream."
+    },
+    {
+      "id": "market",
+      "name": "The Market Place",
+      "cells": "E5-G8",
+      "cause": "The crossing. Travellers had to stop at the ford anyway, so they were sold to where they stopped. Frontage here is the most expensive in town, which is why the plots are 5-8 m wide and 10-14 m deep and why the buildings are three storeys.",
+      "holds": "Fountain, market cross, stalls, inn, guild, moot hall, shop row, chophouse, townhouses."
+    },
+    {
+      "id": "knowe",
+      "name": "Kirk Knowe",
+      "cells": "H5-K8",
+      "cause": "The only ground in Hearthmere that is both high and dry. A church is the one building that must never flood and the one building that wants to be seen, so it took the knowe before anything else was built.",
+      "holds": "Church of Summoning, churchyard and graveyard, bede houses, song school, parsonage, sexton, dovecote, charnel."
+    },
+    {
+      "id": "fireside",
+      "name": "The Fire Lane",
+      "cells": "G8-K10",
+      "cause": "Ovens, tallow, glue, charcoal. Downwind (the wind blows east-south-east), on the high dry side, and separated from the thatch of the west lanes by the whole width of Ford Road.",
+      "holds": "Bakery, cooper, carpenter, chandler, bowyer, sawshed, tithe barn."
+    },
+    {
+      "id": "southgate",
+      "name": "Southgate",
+      "cells": "F10-H12",
+      "cause": "Where the road climbs away. Carts stage here before the pull up to the quest zones, so the yard, the shed and the carter are here and the blacksmith is 40 m away across the lane.",
+      "holds": "Waggon shed, carter, gate ward, cottages."
+    },
+    {
+      "id": "smithward",
+      "name": "Smithward",
+      "cells": "C10-E11",
+      "cause": "The high south edge: highest, driest, furthest from thatch, and with the wind carrying sparks out over the tenter ground and the wall rather than across roofs. Charcoal comes in through the south gate, 60 m away.",
+      "holds": "Blacksmith and yard, smith's house, charcoal store, cottages, byre."
+    },
+    {
+      "id": "westlanes",
+      "name": "The West Lanes",
+      "cells": "A5-D9",
+      "cause": "Poorest ground and the last to be built on: no through trade, no frontage, and the market's wash-down drains across it. Cottages, gardens, sheds, and the widest gaps between buildings in the town.",
+      "holds": "Cottages, well-house, bathhouse, kitchen gardens, tenter ground, byre, the Bailey."
+    }
+  ],
   "venues": [
     {
-      "id": "streets",
-      "name": "Streets and Gate",
+      "id": "inn",
+      "instance": "inn",
+      "slot": 1,
+      "cells": [
+        "D4",
+        "D5",
+        "E4",
+        "E5"
+      ],
+      "origin": [
+        -34.0,
+        -1.05,
+        -26.0
+      ],
+      "rotationDeg": 90,
+      "role": "hero"
+    },
+    {
+      "id": "guild",
+      "instance": "guild",
+      "slot": 2,
+      "cells": [
+        "D6",
+        "D7",
+        "E6",
+        "E7"
+      ],
+      "origin": [
+        -33.0,
+        0.0,
+        0.0
+      ],
+      "rotationDeg": 90,
+      "role": "hero"
+    },
+    {
+      "id": "moot_hall",
+      "instance": "moot_hall",
+      "slot": 3,
+      "cells": [
+        "E7",
+        "E8",
+        "F7",
+        "F8"
+      ],
+      "origin": [
+        -16.0,
+        0.0,
+        9.0
+      ],
+      "rotationDeg": 60,
+      "role": "secondary"
+    },
+    {
+      "id": "shop_row",
+      "instance": "shop_row",
+      "slot": 4,
+      "cells": [
+        "E8",
+        "F8"
+      ],
+      "origin": [
+        -19.0,
+        1.15,
+        23.5
+      ],
+      "rotationDeg": 0,
+      "role": "secondary"
+    },
+    {
+      "id": "chophouse",
+      "instance": "chophouse",
+      "slot": 7,
+      "cells": [
+        "E4"
+      ],
+      "origin": [
+        -21.3,
+        -1.05,
+        -38.0
+      ],
+      "rotationDeg": 180,
+      "role": "secondary"
+    },
+    {
+      "id": "church",
+      "instance": "church",
+      "slot": 11,
+      "cells": [
+        "H6",
+        "H7",
+        "I6",
+        "I7",
+        "J6",
+        "J7"
+      ],
+      "origin": [
+        44.0,
+        0.0,
+        -0.5
+      ],
+      "rotationDeg": 270,
+      "role": "hero"
+    },
+    {
+      "id": "confectioner",
+      "instance": "confectioner",
+      "slot": 21,
+      "cells": [
+        "H7",
+        "H8"
+      ],
+      "origin": [
+        20.5,
+        0.0,
+        12.0
+      ],
+      "rotationDeg": 0,
+      "role": "secondary"
+    },
+    {
+      "id": "bakery",
+      "instance": "bakery",
+      "slot": 32,
+      "cells": [
+        "H8",
+        "H9",
+        "I8",
+        "I9"
+      ],
+      "origin": [
+        27.3,
+        1.15,
+        33.4
+      ],
+      "rotationDeg": 6,
+      "role": "secondary"
+    },
+    {
+      "id": "cooper",
+      "instance": "cooper",
+      "slot": 33,
+      "cells": [
+        "I8",
+        "I9"
+      ],
+      "origin": [
+        39.2,
+        1.15,
+        34.2
+      ],
+      "rotationDeg": 3,
+      "role": "secondary"
+    },
+    {
+      "id": "carpenter",
+      "instance": "carpenter",
+      "slot": 34,
+      "cells": [
+        "I8",
+        "I9",
+        "J8",
+        "J9"
+      ],
+      "origin": [
+        53.1,
+        1.15,
+        33.9
+      ],
+      "rotationDeg": 357,
+      "role": "secondary"
+    },
+    {
+      "id": "chandler",
+      "instance": "chandler",
+      "slot": 35,
+      "cells": [
+        "I7",
+        "I8"
+      ],
+      "origin": [
+        40.2,
+        1.15,
+        17.0
+      ],
+      "rotationDeg": 183,
+      "role": "secondary"
+    },
+    {
+      "id": "bowyer",
+      "instance": "bowyer",
+      "slot": 36,
+      "cells": [
+        "I10",
+        "I9",
+        "J10",
+        "J9"
+      ],
+      "origin": [
+        48.7,
+        1.62,
+        49.4
+      ],
+      "rotationDeg": 349,
+      "role": "secondary"
+    },
+    {
+      "id": "waggon_shed",
+      "instance": "waggon_shed",
+      "slot": 38,
+      "cells": [
+        "G4",
+        "G5",
+        "H4",
+        "H5"
+      ],
+      "origin": [
+        14.8,
+        -1.05,
+        -29.9
+      ],
+      "rotationDeg": 257,
+      "role": "secondary"
+    },
+    {
+      "id": "blacksmith",
+      "instance": "blacksmith",
+      "slot": 43,
+      "cells": [
+        "D10",
+        "D9",
+        "E10",
+        "E9"
+      ],
+      "origin": [
+        -33.0,
+        1.62,
+        51.0
+      ],
+      "rotationDeg": 60,
+      "role": "hero"
+    },
+    {
+      "id": "dovecote",
+      "instance": "dovecote",
+      "slot": 57,
+      "cells": [
+        "J5",
+        "J6",
+        "K5",
+        "K6"
+      ],
+      "origin": [
+        65.2,
+        -1.05,
+        -17.8
+      ],
+      "rotationDeg": 81,
+      "role": "secondary"
+    },
+    {
+      "id": "quay",
+      "instance": "quay",
+      "slot": 61,
+      "cells": [
+        "I3",
+        "I4",
+        "J3",
+        "J4"
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotationDeg": 0,
+      "role": "hero",
+      "comment": "Built in WORLD coordinates, so its root transform is null like townhouse/streets/wall. It uses core.building and core.roof, which read the height field at world x,z. D-046."
+    },
+    {
+      "id": "warehouse",
+      "instance": "warehouse",
+      "slot": 62,
+      "cells": [
+        "H4",
+        "I4"
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotationDeg": 0,
+      "role": "secondary",
+      "comment": "Built in WORLD coordinates, so its root transform is null like townhouse/streets/wall. It uses core.building and core.roof, which read the height field at world x,z. D-046."
+    },
+    {
+      "id": "fish_eatery",
+      "instance": "fish_eatery",
+      "slot": 64,
+      "cells": [
+        "H3",
+        "H4",
+        "I3",
+        "I4"
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotationDeg": 0,
+      "role": "secondary",
+      "comment": "Built in WORLD coordinates, so its root transform is null like townhouse/streets/wall. It uses core.building and core.roof, which read the height field at world x,z. D-046."
+    },
+    {
+      "id": "stables",
+      "instance": "stables",
+      "slot": 70,
+      "cells": [
+        "E3",
+        "E4",
+        "F3",
+        "F4"
+      ],
+      "origin": [
+        -10.2,
+        -1.05,
+        -47.4
+      ],
+      "rotationDeg": 80,
+      "role": "secondary"
+    },
+    {
+      "id": "pub",
+      "instance": "pub",
+      "slot": 72,
+      "cells": [
+        "G2",
+        "H2"
+      ],
+      "origin": [
+        19.0,
+        -1.85,
+        -70.0
+      ],
+      "rotationDeg": 180,
+      "role": "hero"
+    },
+    {
+      "id": "watermill",
+      "instance": "watermill",
+      "slot": 77,
       "cells": [
         "C1",
         "C2",
-        "C3",
-        "C4",
-        "C5",
-        "C6"
+        "D1",
+        "D2"
       ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotationDeg": 0,
+      "role": "secondary",
+      "comment": "Built in WORLD coordinates, so its root transform is null like townhouse/streets/wall. It uses core.building and core.roof, which read the height field at world x,z. D-046."
+    },
+    {
+      "id": "wellhouse",
+      "instance": "wellhouse",
+      "slot": 90,
+      "cells": [
+        "D8"
+      ],
+      "origin": [
+        -37.7,
+        1.15,
+        26.5
+      ],
+      "rotationDeg": 354,
+      "role": "secondary"
+    },
+    {
+      "id": "bathhouse",
+      "instance": "bathhouse",
+      "slot": 91,
+      "cells": [
+        "C8",
+        "C9",
+        "D8",
+        "D9"
+      ],
+      "origin": [
+        -51.9,
+        1.15,
+        30.3
+      ],
+      "rotationDeg": 357,
+      "role": "secondary"
+    },
+    {
+      "id": "tannery",
+      "instance": "tannery",
+      "slot": 93,
+      "cells": [
+        "K5",
+        "K6",
+        "L5",
+        "L6"
+      ],
+      "origin": [
+        86.0,
+        0.35,
+        -16.0
+      ],
+      "rotationDeg": 225,
+      "role": "secondary"
+    },
+    {
+      "id": "terrain",
+      "instance": "terrain",
+      "cells": [],
       "origin": [
         0,
         0,
@@ -81,220 +1006,77 @@
       ],
       "rotationDeg": 0,
       "role": "infrastructure",
-      "comment": "Consumer for streets[] below. Ford Road, Mere Street, Smith's Lane, the north gate and the south waymarkers."
+      "comment": "Owns height(x,z). Every generator derives Y from it; nothing assumes y=0."
     },
     {
-      "id": "market_square",
-      "name": "Market Square",
-      "cells": [
-        "C3",
-        "D3",
-        "C4",
-        "D4"
-      ],
+      "id": "landscape",
+      "instance": "landscape",
+      "cells": [],
       "origin": [
         0,
         0,
         0
       ],
       "rotationDeg": 0,
-      "role": "hub"
+      "role": "infrastructure",
+      "comment": "Consumer for the ground outside the buildings: fields, hedges, the orchard, the churchyard, gardens, verges, the distance wood. Placed at the origin and authored in world coordinates."
     },
     {
-      "id": "stalls",
-      "name": "Market Stalls",
-      "cells": [
-        "C3",
-        "D3",
-        "C4",
-        "D4"
-      ],
+      "id": "streets",
+      "instance": "streets",
+      "cells": [],
       "origin": [
         0,
         0,
         0
       ],
       "rotationDeg": 0,
-      "role": "commerce"
+      "role": "infrastructure",
+      "comment": "Consumer for streets[]. Carriageways, kerbs, gutters, crossing stones, the Market Step, the perron, the wall stairs and the street furniture. Emits per-segment collision, never one bounding box (v1 sealed Ford Road with exactly that mistake)."
     },
     {
-      "id": "guild",
-      "name": "Adventurer's Guild",
-      "cells": [
-        "C2"
-      ],
+      "id": "wall",
+      "instance": "wall",
+      "cells": [],
       "origin": [
-        -12.5,
         0,
-        -21
+        0,
+        0
       ],
       "rotationDeg": 0,
       "role": "hero",
-      "comment": "Faces -Z toward the north gate. Set WEST of Ford Road's centreline: spanning C2+D2 put the guild across the road and blocked the sightline from the gate to the fountain, which WORLD_BIBLE calls the most important frame in the build. The tower still anchors the approach from the side."
+      "comment": "Consumer for wall{}. Ring, towers, gates, wall-walk."
     },
     {
-      "id": "inn",
-      "name": "The Grey Heron",
-      "cells": [
-        "E3",
-        "E4"
-      ],
-      "origin": [
-        22,
-        0,
-        -6
-      ],
-      "rotationDeg": 270,
-      "role": "rest"
-    },
-    {
-      "id": "pub",
-      "name": "The Ferryman's Lamp",
-      "cells": [
-        "B3",
-        "B4"
-      ],
-      "origin": [
-        -24,
-        0,
-        2
-      ],
-      "rotationDeg": 90,
-      "role": "social"
-    },
-    {
-      "id": "blacksmith",
-      "name": "Blacksmith",
-      "cells": [
-        "B5",
-        "B6"
-      ],
-      "origin": [
-        -22,
-        0,
-        26
-      ],
-      "rotationDeg": 45,
-      "role": "craft"
-    },
-    {
-      "id": "shop_row",
-      "name": "Shop Row",
-      "cells": [
-        "C5",
-        "D5",
-        "E5"
-      ],
-      "origin": [
-        4,
-        0,
-        24
-      ],
-      "rotationDeg": 0,
-      "role": "commerce"
-    },
-    {
-      "id": "cottage",
-      "instance": "cottage_a",
-      "cells": [
-        "A2"
-      ],
-      "origin": [
-        -40,
-        0,
-        -22
-      ],
-      "rotationDeg": 20,
-      "role": "residential",
-      "variant": 0
-    },
-    {
-      "id": "cottage",
-      "instance": "cottage_b",
-      "cells": [
-        "B2"
-      ],
-      "origin": [
-        -25,
-        0,
-        -24
-      ],
-      "rotationDeg": -8,
-      "role": "residential",
-      "variant": 1
-    },
-    {
-      "id": "cottage",
-      "instance": "cottage_c",
+      "id": "gatehouse",
+      "instance": "gatehouse",
       "cells": [
         "F2"
       ],
       "origin": [
-        40,
-        0,
-        -21
+        -2.4,
+        -1.85,
+        -76.0
       ],
-      "rotationDeg": -25,
-      "role": "residential",
-      "variant": 2
+      "rotationDeg": 0,
+      "role": "hero",
+      "comment": "North gatehouse and the Emberflow bridge. The departure/return frame. The bridge crosses the Emberflow 10 m outside the gate and its south abutment shares the gate flat; the north abutment and its causeway are hm.pad.bridge_north at z=-101."
     },
     {
-      "id": "cottage",
-      "instance": "cottage_d",
+      "id": "market_square",
+      "instance": "market_square",
       "cells": [
-        "A4"
-      ],
-      "origin": [
-        -41,
-        0,
-        8
-      ],
-      "rotationDeg": 95,
-      "role": "residential",
-      "variant": 3
-    },
-    {
-      "id": "cottage",
-      "instance": "cottage_e",
-      "cells": [
-        "F3"
-      ],
-      "origin": [
-        41,
-        0,
-        -6
-      ],
-      "rotationDeg": 265,
-      "role": "residential",
-      "variant": 1
-    },
-    {
-      "id": "cottage",
-      "instance": "cottage_f",
-      "cells": [
-        "F5"
-      ],
-      "origin": [
-        39,
-        0,
-        24
-      ],
-      "rotationDeg": 200,
-      "role": "residential",
-      "variant": 2
-    },
-    {
-      "id": "townsfolk",
-      "name": "Townsfolk",
-      "cells": [
-        "C2",
-        "C3",
-        "D3",
-        "C4",
-        "D4",
-        "C5",
-        "B5",
-        "E3"
+        "E5",
+        "F5",
+        "G5",
+        "E6",
+        "F6",
+        "G6",
+        "E7",
+        "F7",
+        "G7",
+        "F8",
+        "G8"
       ],
       "origin": [
         0,
@@ -302,8 +1084,4346 @@
         0
       ],
       "rotationDeg": 0,
-      "role": "population",
-      "comment": "Posed NPCs in world coordinates. Placement is composition: clustered where trade is, a pair mid-conversation, one on the fountain lip."
+      "role": "hero",
+      "comment": "Paving, fountain, market cross, Market Step, kerbs, troughs, bollards."
+    },
+    {
+      "id": "stalls",
+      "instance": "stalls",
+      "cells": [
+        "E6",
+        "F6",
+        "G6",
+        "E7",
+        "F7"
+      ],
+      "origin": [
+        -4.0,
+        0.0,
+        -6.0
+      ],
+      "rotationDeg": 0,
+      "role": "hero",
+      "comment": "Fourteen stalls, clustered at the north mouth where the footfall is and thinning south. No two alike."
+    },
+    {
+      "id": "townhouse",
+      "instance": "townhouse",
+      "cells": [],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotationDeg": 0,
+      "role": "kit",
+      "comment": "Seeded modular kit: townhouse / cottage / workshop / shed / warehouse variants. Consumes buildingSlots[] rows whose venue is null."
+    }
+  ],
+  "buildingSlots": [
+    {
+      "n": 1,
+      "id": "hm.slot.01.inn",
+      "kit": "inn",
+      "role": "hero",
+      "venue": "inn",
+      "cells": [
+        "D4",
+        "D5",
+        "E4",
+        "E5"
+      ],
+      "centre": [
+        -34.0,
+        -26.0
+      ],
+      "footprint": {
+        "w": 16.0,
+        "d": 14.0
+      },
+      "polygon": [
+        [
+          -27.0,
+          -34.0
+        ],
+        [
+          -27.0,
+          -18.0
+        ],
+        [
+          -41.0,
+          -18.0
+        ],
+        [
+          -41.0,
+          -34.0
+        ]
+      ],
+      "rotationDeg": 90,
+      "storeys": 3,
+      "eavesHeight": 10.6,
+      "ridge": "gable",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "market_square",
+      "note": "The Grey Heron. Tallest timber structure in town; upper floors jettied 0.45 m each. Gable to the square so the sign hangs over the paving. Four dormers on the east slope, two chimneys, stable yard behind."
+    },
+    {
+      "n": 2,
+      "id": "hm.slot.02.guild",
+      "kit": "guild",
+      "role": "hero",
+      "venue": "guild",
+      "cells": [
+        "D6",
+        "D7",
+        "E6",
+        "E7"
+      ],
+      "centre": [
+        -33.0,
+        0.0
+      ],
+      "footprint": {
+        "w": 16.0,
+        "d": 16.0
+      },
+      "polygon": [
+        [
+          -25.0,
+          -8.0
+        ],
+        [
+          -25.0,
+          8.0
+        ],
+        [
+          -41.0,
+          8.0
+        ],
+        [
+          -41.0,
+          -8.0
+        ]
+      ],
+      "rotationDeg": 90,
+      "storeys": 2,
+      "eavesHeight": 8.4,
+      "ridge": "along",
+      "groundY": 0.0,
+      "outsideWall": false,
+      "fronts": "market_square",
+      "note": "Adventurer's Guild. Dressed stone in a plaster town, symmetrical in a town where nothing is, and it bought the best block on the market place. Forecourt raised 0.42 m on a stylobate with four steps across the full frontage. Square tower on the block's NORTH-EAST corner, footprint x[-32,-25] z[-8,-1], parapet 18.6 m, pyramid roof and iron finial to 21.5 m, crimson banners on the north and east faces. That tower is the far anchor of the arrival frame: it stands just right of the fountain at 71.5 m and closes the view west."
+    },
+    {
+      "n": 3,
+      "id": "hm.slot.03.moot",
+      "kit": "moot_hall",
+      "role": "secondary",
+      "venue": "moot_hall",
+      "cells": [
+        "E7",
+        "E8",
+        "F7",
+        "F8"
+      ],
+      "centre": [
+        -16.0,
+        9.0
+      ],
+      "footprint": {
+        "w": 13.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -15.79,
+          1.37
+        ],
+        [
+          -9.29,
+          12.63
+        ],
+        [
+          -16.21,
+          16.63
+        ],
+        [
+          -22.71,
+          5.37
+        ]
+      ],
+      "rotationDeg": 60,
+      "storeys": 2,
+      "eavesHeight": 7.2,
+      "ridge": "along",
+      "groundY": 0.0,
+      "outsideWall": false,
+      "fronts": "market_square",
+      "note": "Moot Hall. FREE-STANDING in the market place, not on a frontage: arcaded ground floor on ten oak posts (the butter market) with the council chamber over, so the market flows under and round it. Skewed 60 degrees because it was built along the old sheep-pen rail. Louvred bell-cote on the EAST gable, 15.8 m \u2014 the left-hand anchor of the arrival frame. Stands on the upper market, one step above the fountain."
+    },
+    {
+      "n": 4,
+      "id": "hm.slot.04.store",
+      "kit": "shop_row",
+      "role": "secondary",
+      "venue": "shop_row",
+      "cells": [
+        "E8",
+        "F8"
+      ],
+      "centre": [
+        -19.0,
+        23.5
+      ],
+      "footprint": {
+        "w": 8.0,
+        "d": 11.0
+      },
+      "polygon": [
+        [
+          -23.0,
+          18.0
+        ],
+        [
+          -15.0,
+          18.0
+        ],
+        [
+          -15.0,
+          29.0
+        ],
+        [
+          -23.0,
+          29.0
+        ]
+      ],
+      "rotationDeg": 0,
+      "storeys": 2,
+      "eavesHeight": 6.6,
+      "ridge": "along",
+      "groundY": 1.15,
+      "outsideWall": false,
+      "fronts": "market_square",
+      "note": "General store. Widest of the three, shutters that fold down into counters, goods out over the footway. Party wall east with the apothecary."
+    },
+    {
+      "n": 5,
+      "id": "hm.slot.05.apothecary",
+      "kit": "shop_row",
+      "role": "secondary",
+      "venue": null,
+      "cells": [
+        "F8"
+      ],
+      "centre": [
+        -11.5,
+        23.5
+      ],
+      "footprint": {
+        "w": 6.0,
+        "d": 11.0
+      },
+      "polygon": [
+        [
+          -14.5,
+          18.0
+        ],
+        [
+          -8.5,
+          18.0
+        ],
+        [
+          -8.5,
+          29.0
+        ],
+        [
+          -14.5,
+          29.0
+        ]
+      ],
+      "rotationDeg": 0,
+      "storeys": 2,
+      "eavesHeight": 6.6,
+      "ridge": "along",
+      "groundY": 1.15,
+      "outsideWall": false,
+      "fronts": "market_square",
+      "note": "Apothecary. Party walls both sides. Smallest windows, most colour behind them. Herb bundles under the eaves."
+    },
+    {
+      "n": 6,
+      "id": "hm.slot.06.tailor",
+      "kit": "shop_row",
+      "role": "secondary",
+      "venue": null,
+      "cells": [
+        "F8"
+      ],
+      "centre": [
+        -5.5,
+        23.5
+      ],
+      "footprint": {
+        "w": 6.0,
+        "d": 11.0
+      },
+      "polygon": [
+        [
+          -8.5,
+          18.0
+        ],
+        [
+          -2.5,
+          18.0
+        ],
+        [
+          -2.5,
+          29.0
+        ],
+        [
+          -8.5,
+          29.0
+        ]
+      ],
+      "rotationDeg": 0,
+      "storeys": 2,
+      "eavesHeight": 6.9,
+      "ridge": "along",
+      "groundY": 1.15,
+      "outsideWall": false,
+      "fronts": "market_square",
+      "note": "Tailor. Party wall west; east gable is exposed to Ford Road and is the first thing seen coming up from the south gate, so it gets the painted gable and the pole sign."
+    },
+    {
+      "n": 7,
+      "id": "hm.slot.07.chophouse",
+      "kit": "chophouse",
+      "role": "secondary",
+      "venue": "chophouse",
+      "cells": [
+        "E4"
+      ],
+      "centre": [
+        -21.3,
+        -38.0
+      ],
+      "footprint": {
+        "w": 9.4,
+        "d": 9.4
+      },
+      "polygon": [
+        [
+          -16.6,
+          -33.3
+        ],
+        [
+          -26.0,
+          -33.3
+        ],
+        [
+          -26.0,
+          -42.7
+        ],
+        [
+          -16.6,
+          -42.7
+        ]
+      ],
+      "rotationDeg": 180,
+      "storeys": 2,
+      "eavesHeight": 6.4,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "market_square",
+      "note": "Chophouse. North side, so its front is in shade all morning and its fire-light reads from across the square at 09:30 \u2014 that is why it is here and not on the sunny side. Set 5 m further back than it was: at z -28 its west corner stood 0.5 m off the inn's front plot line and covered 4.4 m of the Grey Heron's 7.4 m gable, so the town's second hero venue had no elevation from the market place at all (ad-town-04). Standing back also opens the plaza's north mouth, which is what WORLD_BIBLE says the market place does where the road enters."
+    },
+    {
+      "n": 8,
+      "id": "hm.slot.08.townhouse_a",
+      "kit": "townhouse",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "F4",
+        "F5"
+      ],
+      "centre": [
+        -12.0,
+        -33.0
+      ],
+      "footprint": {
+        "w": 7.0,
+        "d": 10.0
+      },
+      "polygon": [
+        [
+          -8.5,
+          -28.0
+        ],
+        [
+          -15.5,
+          -28.0
+        ],
+        [
+          -15.5,
+          -38.0
+        ],
+        [
+          -8.5,
+          -38.0
+        ]
+      ],
+      "rotationDeg": 180,
+      "storeys": 2,
+      "eavesHeight": 6.2,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "market_square",
+      "note": "Merchant's townhouse, shop below, hall above."
+    },
+    {
+      "n": 9,
+      "id": "hm.slot.09.townhouse_b",
+      "kit": "townhouse",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "F4",
+        "F5"
+      ],
+      "centre": [
+        -4.5,
+        -33.0
+      ],
+      "footprint": {
+        "w": 6.0,
+        "d": 10.0
+      },
+      "polygon": [
+        [
+          -1.5,
+          -28.0
+        ],
+        [
+          -7.5,
+          -28.0
+        ],
+        [
+          -7.5,
+          -38.0
+        ],
+        [
+          -1.5,
+          -38.0
+        ]
+      ],
+      "rotationDeg": 180,
+      "storeys": 3,
+      "eavesHeight": 8.0,
+      "ridge": "gable",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "market_square",
+      "note": "Narrow, deep and three storeys because the frontage is the most expensive in Hearthmere. 5 m wide on a 10 m plot."
+    },
+    {
+      "n": 10,
+      "id": "hm.slot.10.townhouse_c",
+      "kit": "townhouse",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "G5",
+        "H5"
+      ],
+      "centre": [
+        17.3,
+        -20.6
+      ],
+      "footprint": {
+        "w": 4.0,
+        "d": 9.0
+      },
+      "polygon": [
+        [
+          13.17,
+          -17.92
+        ],
+        [
+          12.54,
+          -21.87
+        ],
+        [
+          21.43,
+          -23.28
+        ],
+        [
+          22.06,
+          -19.33
+        ]
+      ],
+      "rotationDeg": 261,
+      "storeys": 2,
+      "eavesHeight": 7.4,
+      "ridge": "gable",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "ford_road",
+      "note": "The infill plot: 4.0 m of frontage squeezed between its neighbour and Ford Road's kerb, skewed 10 degrees to take up the angle, and three storeys because that was the only way up. Its east gable takes the full morning sun and carries the only painted plaster panel in town."
+    },
+    {
+      "n": 11,
+      "id": "hm.slot.11.church",
+      "kit": "church",
+      "role": "hero",
+      "venue": "church",
+      "cells": [
+        "H6",
+        "H7",
+        "I6",
+        "I7",
+        "J6",
+        "J7"
+      ],
+      "centre": [
+        44.0,
+        -0.5
+      ],
+      "footprint": {
+        "w": 20.0,
+        "d": 24.0
+      },
+      "polygon": [
+        [
+          32.0,
+          9.5
+        ],
+        [
+          32.0,
+          -10.5
+        ],
+        [
+          56.0,
+          -10.5
+        ],
+        [
+          56.0,
+          9.5
+        ]
+      ],
+      "rotationDeg": 270,
+      "storeys": 1,
+      "eavesHeight": 9.0,
+      "ridge": "gable",
+      "groundY": 0.0,
+      "outsideWall": false,
+      "fronts": "kirk_green",
+      "note": "CHURCH OF SUMMONING. Aisled hall church, ridge east-west, 14.6 m to the ridge. Great west portal 6.4 m clear x 8.0 m to the arch apex, doors standing open. Floor at +2.40, altar dais +0.90 above that. Clerestory over the arcade on both sides; lantern over the altar bay. THE ARRIVAL FRAME IS AUTHORED FROM THIS BUILDING \u2014 see docs/TOWN_PLAN.md section 7."
+    },
+    {
+      "n": 12,
+      "id": "hm.slot.12.church_tower",
+      "kit": "church",
+      "role": "hero",
+      "venue": null,
+      "cells": [
+        "H5",
+        "H6",
+        "I5",
+        "I6"
+      ],
+      "centre": [
+        35.8,
+        -14.3
+      ],
+      "footprint": {
+        "w": 7.6,
+        "d": 7.6
+      },
+      "polygon": [
+        [
+          32.0,
+          -10.5
+        ],
+        [
+          32.0,
+          -18.1
+        ],
+        [
+          39.6,
+          -18.1
+        ],
+        [
+          39.6,
+          -10.5
+        ]
+      ],
+      "rotationDeg": 270,
+      "storeys": 1,
+      "eavesHeight": 18.4,
+      "ridge": "flat",
+      "groundY": 0.8,
+      "outsideWall": false,
+      "fronts": "kirk_green",
+      "note": "Church tower, north-west angle. Part of venue `church`. Parapet 18.4 m, lead spirelet to 21.4 m \u2014 the tallest thing in Hearthmere by 0.1 m over the guild, which the guild has never mentioned. Sited at the NORTH-west angle so its north and east faces are lit at 09:30 and it reads from the north gate and from the water."
+    },
+    {
+      "n": 13,
+      "id": "hm.slot.13.parsonage",
+      "kit": "townhouse",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "I7",
+        "I8",
+        "J7",
+        "J8"
+      ],
+      "centre": [
+        50.0,
+        15.5
+      ],
+      "footprint": {
+        "w": 11.0,
+        "d": 9.0
+      },
+      "polygon": [
+        [
+          45.5,
+          21.0
+        ],
+        [
+          45.5,
+          10.0
+        ],
+        [
+          54.5,
+          10.0
+        ],
+        [
+          54.5,
+          21.0
+        ]
+      ],
+      "rotationDeg": 270,
+      "storeys": 2,
+      "eavesHeight": 6.4,
+      "ridge": "along",
+      "groundY": 0.88,
+      "outsideWall": false,
+      "fronts": "kirkgate",
+      "note": "The parsonage, inside the churchyard's south-east corner. Best garden in town, a lean-to glasshouse of leaded quarries against its south wall."
+    },
+    {
+      "n": 14,
+      "id": "hm.slot.14.bede_houses",
+      "kit": "townhouse",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "J6",
+        "J7",
+        "K6",
+        "K7"
+      ],
+      "centre": [
+        65.0,
+        -2.4
+      ],
+      "footprint": {
+        "w": 24.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          69.0,
+          -14.4
+        ],
+        [
+          69.0,
+          9.6
+        ],
+        [
+          61.0,
+          9.6
+        ],
+        [
+          61.0,
+          -14.4
+        ]
+      ],
+      "rotationDeg": 90,
+      "storeys": 1,
+      "eavesHeight": 3.4,
+      "ridge": "along",
+      "groundY": 0.0,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Bede houses: six one-room almshouses under one long roof, six doors, six chimneys, no two shutters the same colour. On the Bailey under the east wall, so the old people get the morning sun over the orchard and the wall keeps the wind off their backs."
+    },
+    {
+      "n": 15,
+      "id": "hm.slot.15.song_school",
+      "kit": "townhouse",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "I5",
+        "I6",
+        "J5",
+        "J6"
+      ],
+      "centre": [
+        48.0,
+        -18.0
+      ],
+      "footprint": {
+        "w": 10.0,
+        "d": 7.0
+      },
+      "polygon": [
+        [
+          43.0,
+          -21.5
+        ],
+        [
+          53.0,
+          -21.5
+        ],
+        [
+          53.0,
+          -14.5
+        ],
+        [
+          43.0,
+          -14.5
+        ]
+      ],
+      "rotationDeg": 0,
+      "storeys": 1,
+      "eavesHeight": 4.4,
+      "ridge": "along",
+      "groundY": 0.8,
+      "outsideWall": false,
+      "fronts": "kirkgate",
+      "note": "Song school and vestry, its BACK against the churchyard's north wall and its door on the north side, onto the lane behind the rope house. It faced south until ad-town-04: the churchyard is terraced 2.40 m above this ground, so the church's own retaining parapet stood 1.1 m in front of the door and hm.townhouse.door.15 was the one unreachable door in Hearthmere. A building that is 'against' a wall has its back to it, not its face."
+    },
+    {
+      "n": 16,
+      "id": "hm.slot.16.sexton",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "J5"
+      ],
+      "centre": [
+        57.0,
+        -19.0
+      ],
+      "footprint": {
+        "w": 7.0,
+        "d": 6.0
+      },
+      "polygon": [
+        [
+          60.5,
+          -16.0
+        ],
+        [
+          53.5,
+          -16.0
+        ],
+        [
+          53.5,
+          -22.0
+        ],
+        [
+          60.5,
+          -22.0
+        ]
+      ],
+      "rotationDeg": 180,
+      "storeys": 1,
+      "eavesHeight": 3.8,
+      "ridge": "along",
+      "groundY": 0.8,
+      "outsideWall": false,
+      "fronts": "kirkgate",
+      "note": "Sexton's cottage. Spades and a bier under a lean-to on its west gable."
+    },
+    {
+      "n": 17,
+      "id": "hm.slot.17.lychgate",
+      "kit": "church",
+      "role": "hero",
+      "venue": null,
+      "cells": [
+        "H6",
+        "H7"
+      ],
+      "centre": [
+        24.0,
+        -0.5
+      ],
+      "footprint": {
+        "w": 3.6,
+        "d": 3.2
+      },
+      "polygon": [
+        [
+          22.4,
+          1.3
+        ],
+        [
+          22.4,
+          -2.3
+        ],
+        [
+          25.6,
+          -2.3
+        ],
+        [
+          25.6,
+          1.3
+        ]
+      ],
+      "rotationDeg": 270,
+      "storeys": 1,
+      "eavesHeight": 2.6,
+      "ridge": "gable",
+      "groundY": 0.8,
+      "outsideWall": false,
+      "fronts": "kirk_green",
+      "note": "Lychgate in the churchyard wall at the foot of the perron. Oak, half-hipped, a coffin stool inside. Part of venue `church`."
+    },
+    {
+      "n": 18,
+      "id": "hm.slot.18.charnel",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "J7",
+        "J8"
+      ],
+      "centre": [
+        57.0,
+        14.0
+      ],
+      "footprint": {
+        "w": 6.0,
+        "d": 4.5
+      },
+      "polygon": [
+        [
+          59.25,
+          11.0
+        ],
+        [
+          59.25,
+          17.0
+        ],
+        [
+          54.75,
+          17.0
+        ],
+        [
+          54.75,
+          11.0
+        ]
+      ],
+      "rotationDeg": 90,
+      "storeys": 1,
+      "eavesHeight": 2.8,
+      "ridge": "along",
+      "groundY": 0.02,
+      "outsideWall": false,
+      "fronts": "kirkgate",
+      "note": "Charnel house, built into the churchyard's north-east angle. Barred window, no door."
+    },
+    {
+      "n": 19,
+      "id": "hm.slot.19.workshop_a",
+      "kit": "workshop",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "H7",
+        "H8"
+      ],
+      "centre": [
+        27.6,
+        15.7
+      ],
+      "footprint": {
+        "w": 7.0,
+        "d": 10.0
+      },
+      "polygon": [
+        [
+          30.56,
+          21.04
+        ],
+        [
+          23.6,
+          20.31
+        ],
+        [
+          24.64,
+          10.36
+        ],
+        [
+          31.6,
+          11.09
+        ]
+      ],
+      "rotationDeg": 186,
+      "storeys": 2,
+      "eavesHeight": 6.4,
+      "ridge": "gable",
+      "groundY": 1.04,
+      "outsideWall": false,
+      "fronts": "bakers_row",
+      "note": "Workshop below, dwelling over, gable to the street. Shutters that fold down into a counter, a bench visible from the pavement, shavings in the gutter. Eaves capped at 6.6 m."
+    },
+    {
+      "n": 20,
+      "id": "hm.slot.20.townhouse_d",
+      "kit": "townhouse",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "G5",
+        "G6",
+        "H5",
+        "H6"
+      ],
+      "centre": [
+        18.7,
+        -15.2
+      ],
+      "footprint": {
+        "w": 7.0,
+        "d": 10.0
+      },
+      "polygon": [
+        [
+          14.31,
+          -10.96
+        ],
+        [
+          13.21,
+          -17.87
+        ],
+        [
+          23.09,
+          -19.44
+        ],
+        [
+          24.19,
+          -12.53
+        ]
+      ],
+      "rotationDeg": 261,
+      "storeys": 2,
+      "eavesHeight": 6.2,
+      "ridge": "gable",
+      "groundY": 0.0,
+      "outsideWall": false,
+      "fronts": "ford_road",
+      "note": "Narrow burgage plot on Ford Road's east side, gable to the road, long yard behind running to the Kirkgate boundary wall. Privy at the far end, as far from the house as the plot allows."
+    },
+    {
+      "n": 21,
+      "id": "hm.slot.21.confectioner",
+      "kit": "confectioner",
+      "role": "secondary",
+      "venue": "confectioner",
+      "cells": [
+        "H7",
+        "H8"
+      ],
+      "centre": [
+        20.5,
+        12.0
+      ],
+      "footprint": {
+        "w": 6.0,
+        "d": 10.0
+      },
+      "polygon": [
+        [
+          17.5,
+          7.0
+        ],
+        [
+          23.5,
+          7.0
+        ],
+        [
+          23.5,
+          17.0
+        ],
+        [
+          17.5,
+          17.0
+        ]
+      ],
+      "rotationDeg": 0,
+      "storeys": 2,
+      "eavesHeight": 6.4,
+      "ridge": "gable",
+      "groundY": 0.0,
+      "outsideWall": false,
+      "fronts": "kirk_green",
+      "note": "Confectioner. Gable to Kirk Green, sugar-loaf sign on an iron bracket. Second near jamb of the arrival frame; same eaves constraint as 19."
+    },
+    {
+      "n": 22,
+      "id": "hm.slot.22.townhouse_e",
+      "kit": "townhouse",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "G9",
+        "H9"
+      ],
+      "centre": [
+        16.2,
+        35.8
+      ],
+      "footprint": {
+        "w": 5.5,
+        "d": 10.0
+      },
+      "polygon": [
+        [
+          10.9,
+          37.92
+        ],
+        [
+          11.57,
+          32.46
+        ],
+        [
+          21.5,
+          33.68
+        ],
+        [
+          20.83,
+          39.14
+        ]
+      ],
+      "rotationDeg": 277,
+      "storeys": 2,
+      "eavesHeight": 6.2,
+      "ridge": "gable",
+      "groundY": 1.15,
+      "outsideWall": false,
+      "fronts": "ford_road",
+      "note": "Burgage plot on Ford Road's east side, gable to the road, long garden running back to the bakery's yard wall."
+    },
+    {
+      "n": 23,
+      "id": "hm.slot.23.townhouse_f",
+      "kit": "townhouse",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "F8",
+        "F9",
+        "G8",
+        "G9"
+      ],
+      "centre": [
+        -4.9,
+        32.9
+      ],
+      "footprint": {
+        "w": 6.0,
+        "d": 11.0
+      },
+      "polygon": [
+        [
+          0.92,
+          30.59
+        ],
+        [
+          0.19,
+          36.55
+        ],
+        [
+          -10.72,
+          35.21
+        ],
+        [
+          -9.99,
+          29.25
+        ]
+      ],
+      "rotationDeg": 97,
+      "storeys": 2,
+      "eavesHeight": 6.4,
+      "ridge": "gable",
+      "groundY": 1.15,
+      "outsideWall": false,
+      "fronts": "ford_road",
+      "note": "Burgage plot: 6 m of frontage, 11 m deep, yard and privy behind."
+    },
+    {
+      "n": 24,
+      "id": "hm.slot.24.townhouse_g",
+      "kit": "townhouse",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "F9",
+        "G9"
+      ],
+      "centre": [
+        -5.8,
+        39.8
+      ],
+      "footprint": {
+        "w": 6.0,
+        "d": 11.0
+      },
+      "polygon": [
+        [
+          0.02,
+          37.49
+        ],
+        [
+          -0.71,
+          43.45
+        ],
+        [
+          -11.62,
+          42.11
+        ],
+        [
+          -10.89,
+          36.15
+        ]
+      ],
+      "rotationDeg": 97,
+      "storeys": 3,
+      "eavesHeight": 8.2,
+      "ridge": "gable",
+      "groundY": 1.15,
+      "outsideWall": false,
+      "fronts": "ford_road",
+      "note": "Three storeys on a 6 m frontage. Sagging ridge; the middle purlin was replaced with a smaller section and it shows."
+    },
+    {
+      "n": 25,
+      "id": "hm.slot.25.cordwainer",
+      "kit": "workshop",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "F10",
+        "F9"
+      ],
+      "centre": [
+        -6.6,
+        46.8
+      ],
+      "footprint": {
+        "w": 6.0,
+        "d": 11.0
+      },
+      "polygon": [
+        [
+          -0.78,
+          44.49
+        ],
+        [
+          -1.51,
+          50.45
+        ],
+        [
+          -12.42,
+          49.11
+        ],
+        [
+          -11.69,
+          43.15
+        ]
+      ],
+      "rotationDeg": 97,
+      "storeys": 2,
+      "eavesHeight": 6.4,
+      "ridge": "gable",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "ford_road",
+      "note": "Cordwainer. Boot sign, last on the bench, offcuts in the gutter."
+    },
+    {
+      "n": 26,
+      "id": "hm.slot.26.cottage_a",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "E8",
+        "E9"
+      ],
+      "centre": [
+        -23.4,
+        34.1
+      ],
+      "footprint": {
+        "w": 8.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -19.2,
+          30.31
+        ],
+        [
+          -19.61,
+          38.3
+        ],
+        [
+          -27.6,
+          37.89
+        ],
+        [
+          -27.19,
+          29.9
+        ]
+      ],
+      "rotationDeg": 93,
+      "storeys": 1,
+      "eavesHeight": 4.2,
+      "ridge": "along",
+      "groundY": 1.15,
+      "outsideWall": false,
+      "fronts": "bell_alley",
+      "note": "Back-plot cottage on Bell Alley, one room and a loft."
+    },
+    {
+      "n": 27,
+      "id": "hm.slot.27.cottage_b",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "C10",
+        "D10"
+      ],
+      "centre": [
+        -44.0,
+        57.1
+      ],
+      "footprint": {
+        "w": 8.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -43.21,
+          62.7
+        ],
+        [
+          -49.6,
+          57.89
+        ],
+        [
+          -44.79,
+          51.5
+        ],
+        [
+          -38.4,
+          56.31
+        ]
+      ],
+      "rotationDeg": 217,
+      "storeys": 1,
+      "eavesHeight": 4.2,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Cottage on the Bailey, built ten years after its neighbour against the same party wall, so the two roofs are a course out of line and the junction is flashed with lead offcuts."
+    },
+    {
+      "n": 28,
+      "id": "hm.slot.28.shed_a",
+      "kit": "shed",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "E10",
+        "E9"
+      ],
+      "centre": [
+        -22.6,
+        47.2
+      ],
+      "footprint": {
+        "w": 6.0,
+        "d": 5.0
+      },
+      "polygon": [
+        [
+          -19.95,
+          44.33
+        ],
+        [
+          -20.26,
+          50.33
+        ],
+        [
+          -25.25,
+          50.07
+        ],
+        [
+          -24.94,
+          44.07
+        ]
+      ],
+      "rotationDeg": 93,
+      "storeys": 1,
+      "eavesHeight": 2.9,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "bell_alley",
+      "note": "Back-lane shed: firewood, a handcart, a pig."
+    },
+    {
+      "n": 29,
+      "id": "hm.slot.29.cottage_c",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "D8",
+        "D9"
+      ],
+      "centre": [
+        -36.6,
+        34.5
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -32.6,
+          30.0
+        ],
+        [
+          -32.6,
+          39.0
+        ],
+        [
+          -40.6,
+          39.0
+        ],
+        [
+          -40.6,
+          30.0
+        ]
+      ],
+      "rotationDeg": 90,
+      "storeys": 1,
+      "eavesHeight": 4.4,
+      "ridge": "along",
+      "groundY": 1.15,
+      "outsideWall": false,
+      "fronts": "tenter_lane",
+      "note": "Weaver's cottage on Tenter Lane, loom window on the east."
+    },
+    {
+      "n": 30,
+      "id": "hm.slot.30.cottage_d",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "J10",
+        "J9",
+        "K10",
+        "K9"
+      ],
+      "centre": [
+        66.7,
+        52.7
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          61.06,
+          54.8
+        ],
+        [
+          65.28,
+          46.85
+        ],
+        [
+          72.34,
+          50.6
+        ],
+        [
+          68.12,
+          58.55
+        ]
+      ],
+      "rotationDeg": 298,
+      "storeys": 1,
+      "eavesHeight": 4.4,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Cottage with a thatched roof instead of tile - the last thatch left inside the wall, and the reason the wall-walk above it carries a leather fire bucket on a hook."
+    },
+    {
+      "n": 31,
+      "id": "hm.slot.31.shed_b",
+      "kit": "shed",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "E11",
+        "F11"
+      ],
+      "centre": [
+        -15.9,
+        66.7
+      ],
+      "footprint": {
+        "w": 6.0,
+        "d": 4.5
+      },
+      "polygon": [
+        [
+          -13.06,
+          69.15
+        ],
+        [
+          -19.05,
+          68.74
+        ],
+        [
+          -18.74,
+          64.25
+        ],
+        [
+          -12.75,
+          64.66
+        ]
+      ],
+      "rotationDeg": 184,
+      "storeys": 1,
+      "eavesHeight": 2.8,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Tenter shed: frames, tenterhooks, a lime tub."
+    },
+    {
+      "n": 32,
+      "id": "hm.slot.32.bakery",
+      "kit": "bakery",
+      "role": "secondary",
+      "venue": "bakery",
+      "cells": [
+        "H8",
+        "H9",
+        "I8",
+        "I9"
+      ],
+      "centre": [
+        27.3,
+        33.4
+      ],
+      "footprint": {
+        "w": 11.0,
+        "d": 10.0
+      },
+      "polygon": [
+        [
+          22.35,
+          27.85
+        ],
+        [
+          33.29,
+          29.0
+        ],
+        [
+          32.25,
+          38.95
+        ],
+        [
+          21.31,
+          37.8
+        ]
+      ],
+      "rotationDeg": 6,
+      "storeys": 2,
+      "eavesHeight": 6.6,
+      "ridge": "along",
+      "groundY": 1.15,
+      "outsideWall": false,
+      "fronts": "bakers_row",
+      "note": "Bakery. Oven-house projecting south with a 12.0 m stone flue \u2014 the second tallest chimney in town and a landmark from the south road. Flour dust on everything within 5 m."
+    },
+    {
+      "n": 33,
+      "id": "hm.slot.33.cooper",
+      "kit": "cooper",
+      "role": "secondary",
+      "venue": "cooper",
+      "cells": [
+        "I8",
+        "I9"
+      ],
+      "centre": [
+        39.2,
+        34.2
+      ],
+      "footprint": {
+        "w": 12.0,
+        "d": 10.0
+      },
+      "polygon": [
+        [
+          33.47,
+          28.89
+        ],
+        [
+          45.45,
+          29.52
+        ],
+        [
+          44.93,
+          39.51
+        ],
+        [
+          32.95,
+          38.88
+        ]
+      ],
+      "rotationDeg": 3,
+      "storeys": 1,
+      "eavesHeight": 5.2,
+      "ridge": "along",
+      "groundY": 1.15,
+      "outsideWall": false,
+      "fronts": "bakers_row",
+      "note": "Cooper. Open-sided setting-up floor, a firing pit, staves stacked in cones outside. Yard to the south."
+    },
+    {
+      "n": 34,
+      "id": "hm.slot.34.carpenter",
+      "kit": "carpenter",
+      "role": "secondary",
+      "venue": "carpenter",
+      "cells": [
+        "I8",
+        "I9",
+        "J8",
+        "J9"
+      ],
+      "centre": [
+        53.1,
+        33.9
+      ],
+      "footprint": {
+        "w": 14.0,
+        "d": 10.0
+      },
+      "polygon": [
+        [
+          45.85,
+          29.27
+        ],
+        [
+          59.83,
+          28.54
+        ],
+        [
+          60.35,
+          38.53
+        ],
+        [
+          46.37,
+          39.26
+        ]
+      ],
+      "rotationDeg": 357,
+      "storeys": 1,
+      "eavesHeight": 5.6,
+      "ridge": "along",
+      "groundY": 1.15,
+      "outsideWall": false,
+      "fronts": "bakers_row",
+      "note": "Carpenter and joiner. Long open front, a sawpit under a lean-to roof, timber in stick to season along the plot's south edge."
+    },
+    {
+      "n": 35,
+      "id": "hm.slot.35.chandler",
+      "kit": "chandler",
+      "role": "secondary",
+      "venue": "chandler",
+      "cells": [
+        "I7",
+        "I8"
+      ],
+      "centre": [
+        40.2,
+        17.0
+      ],
+      "footprint": {
+        "w": 10.0,
+        "d": 9.0
+      },
+      "polygon": [
+        [
+          44.96,
+          21.76
+        ],
+        [
+          34.97,
+          21.23
+        ],
+        [
+          35.44,
+          12.24
+        ],
+        [
+          45.43,
+          12.77
+        ]
+      ],
+      "rotationDeg": 183,
+      "storeys": 1,
+      "eavesHeight": 5.0,
+      "ridge": "along",
+      "groundY": 1.15,
+      "outsideWall": false,
+      "fronts": "bakers_row",
+      "note": "Tallow and wax chandler. Sited at the far end of the fire lane with the prevailing wind carrying everything it renders away over the orchard and out of town. Rendering shed behind, drying racks, a smell."
+    },
+    {
+      "n": 36,
+      "id": "hm.slot.36.bowyer",
+      "kit": "bowyer",
+      "role": "secondary",
+      "venue": "bowyer",
+      "cells": [
+        "I10",
+        "I9",
+        "J10",
+        "J9"
+      ],
+      "centre": [
+        48.7,
+        49.4
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          43.52,
+          46.33
+        ],
+        [
+          52.35,
+          44.61
+        ],
+        [
+          53.88,
+          52.47
+        ],
+        [
+          45.05,
+          54.19
+        ]
+      ],
+      "rotationDeg": 349,
+      "storeys": 1,
+      "eavesHeight": 4.8,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "sty_lane",
+      "note": "Bowyer. Staves in the rafters, a shooting butt against the wall revetment behind, which is the only straight 30 m in the south quarter."
+    },
+    {
+      "n": 37,
+      "id": "hm.slot.37.sawshed",
+      "kit": "shed",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "I10",
+        "I9"
+      ],
+      "centre": [
+        38.6,
+        50.2
+      ],
+      "footprint": {
+        "w": 10.0,
+        "d": 6.0
+      },
+      "polygon": [
+        [
+          33.31,
+          47.74
+        ],
+        [
+          43.26,
+          46.69
+        ],
+        [
+          43.89,
+          52.66
+        ],
+        [
+          33.94,
+          53.71
+        ]
+      ],
+      "rotationDeg": 354,
+      "storeys": 1,
+      "eavesHeight": 3.6,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "sty_lane",
+      "note": "Open saw shed and timber store, three bays, no walls."
+    },
+    {
+      "n": 38,
+      "id": "hm.slot.38.waggon_shed",
+      "kit": "stables",
+      "role": "secondary",
+      "venue": "waggon_shed",
+      "cells": [
+        "G4",
+        "G5",
+        "H4",
+        "H5"
+      ],
+      "centre": [
+        14.8,
+        -29.9
+      ],
+      "footprint": {
+        "w": 14.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          12.48,
+          -22.18
+        ],
+        [
+          9.33,
+          -35.82
+        ],
+        [
+          17.12,
+          -37.62
+        ],
+        [
+          20.27,
+          -23.98
+        ]
+      ],
+      "rotationDeg": 257,
+      "storeys": 1,
+      "eavesHeight": 4.6,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "ford_road",
+      "note": "Waggon shed: five open bays, waggon poles up, a spare axle on brackets and a broken wheel leaning where it fell. Carriers turn in the yard beside it."
+    },
+    {
+      "n": 39,
+      "id": "hm.slot.39.carter",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "G10",
+        "H10"
+      ],
+      "centre": [
+        13.0,
+        54.6
+      ],
+      "footprint": {
+        "w": 8.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          8.54,
+          58.08
+        ],
+        [
+          9.52,
+          50.14
+        ],
+        [
+          17.46,
+          51.12
+        ],
+        [
+          16.48,
+          59.06
+        ]
+      ],
+      "rotationDeg": 277,
+      "storeys": 1,
+      "eavesHeight": 4.2,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "ford_road",
+      "note": "Carter's cottage, its door 2 m from the yard gate."
+    },
+    {
+      "n": 40,
+      "id": "hm.slot.40.gateward_s",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "F10",
+        "F11"
+      ],
+      "centre": [
+        -9.0,
+        62.9
+      ],
+      "footprint": {
+        "w": 8.0,
+        "d": 7.0
+      },
+      "polygon": [
+        [
+          -13.77,
+          60.55
+        ],
+        [
+          -6.04,
+          58.48
+        ],
+        [
+          -4.23,
+          65.25
+        ],
+        [
+          -11.96,
+          67.32
+        ]
+      ],
+      "rotationDeg": 345,
+      "storeys": 1,
+      "eavesHeight": 4.0,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "smiths_lane",
+      "note": "Cottage on Smiths' Lane. The south gate ward lives over the gate arch, not here; this is the carter who works for him."
+    },
+    {
+      "n": 41,
+      "id": "hm.slot.41.cottage_e",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "J10",
+        "J11",
+        "K10",
+        "K11"
+      ],
+      "centre": [
+        60.8,
+        60.9
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          54.79,
+          61.25
+        ],
+        [
+          61.15,
+          54.89
+        ],
+        [
+          66.81,
+          60.55
+        ],
+        [
+          60.45,
+          66.91
+        ]
+      ],
+      "rotationDeg": 315,
+      "storeys": 1,
+      "eavesHeight": 4.4,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Cottage on the Bailey, woodpile stacked to the eaves along its wall and a lean-to henhouse against the wall revetment behind."
+    },
+    {
+      "n": 42,
+      "id": "hm.slot.42.cottage_f",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "H10",
+        "H11",
+        "I10",
+        "I11"
+      ],
+      "centre": [
+        30.0,
+        60.5
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          35.56,
+          62.82
+        ],
+        [
+          27.05,
+          65.75
+        ],
+        [
+          24.44,
+          58.18
+        ],
+        [
+          32.95,
+          55.25
+        ]
+      ],
+      "rotationDeg": 161,
+      "storeys": 1,
+      "eavesHeight": 4.4,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Shed and lean-to on the Bailey: iron stock under cover, a grindstone, and a cart that has not moved in a year."
+    },
+    {
+      "n": 43,
+      "id": "hm.slot.43.blacksmith",
+      "kit": "blacksmith",
+      "role": "hero",
+      "venue": "blacksmith",
+      "cells": [
+        "D10",
+        "D9",
+        "E10",
+        "E9"
+      ],
+      "centre": [
+        -33.0,
+        51.0
+      ],
+      "footprint": {
+        "w": 18.0,
+        "d": 14.0
+      },
+      "polygon": [
+        [
+          -31.44,
+          39.71
+        ],
+        [
+          -22.44,
+          55.29
+        ],
+        [
+          -34.56,
+          62.29
+        ],
+        [
+          -43.56,
+          46.71
+        ]
+      ],
+      "rotationDeg": 60,
+      "storeys": 1,
+      "eavesHeight": 5.4,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "smiths_lane",
+      "note": "BLACKSMITH. Open-fronted work shed (roofed, unwalled, so the work is visible from the lane) with the forge, anvil, quench and bellows, plus a walled dwelling bay at the west end. Chimney to 11.4 m. Platform cut into the slope with a 1.1 m revetment on its north side. Highest, driest ground in the town and 30 m from the nearest thatch."
+    },
+    {
+      "n": 44,
+      "id": "hm.slot.44.smith_house",
+      "kit": "townhouse",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "G10",
+        "G11",
+        "H10",
+        "H11"
+      ],
+      "centre": [
+        12.5,
+        64.8
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          17.57,
+          68.05
+        ],
+        [
+          8.68,
+          69.45
+        ],
+        [
+          7.43,
+          61.55
+        ],
+        [
+          16.32,
+          60.15
+        ]
+      ],
+      "rotationDeg": 171,
+      "storeys": 2,
+      "eavesHeight": 6.0,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Cottage on the Bailey. Its garden is bigger than the house and is full of scrap iron, which the owner insists he is going to use."
+    },
+    {
+      "n": 45,
+      "id": "hm.slot.45.charcoal_store",
+      "kit": "shed",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "E10",
+        "E11"
+      ],
+      "centre": [
+        -27.5,
+        64.1
+      ],
+      "footprint": {
+        "w": 8.0,
+        "d": 6.0
+      },
+      "polygon": [
+        [
+          -24.08,
+          67.75
+        ],
+        [
+          -31.96,
+          66.36
+        ],
+        [
+          -30.92,
+          60.45
+        ],
+        [
+          -23.04,
+          61.84
+        ]
+      ],
+      "rotationDeg": 190,
+      "storeys": 1,
+      "eavesHeight": 3.4,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Charcoal store, deliberately separate from the forge, doors on the leeward side."
+    },
+    {
+      "n": 46,
+      "id": "hm.slot.46.cottage_g",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "J7",
+        "J8",
+        "K7",
+        "K8"
+      ],
+      "centre": [
+        64.2,
+        15.9
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          68.85,
+          12.08
+        ],
+        [
+          67.45,
+          20.97
+        ],
+        [
+          59.55,
+          19.72
+        ],
+        [
+          60.95,
+          10.83
+        ]
+      ],
+      "rotationDeg": 99,
+      "storeys": 1,
+      "eavesHeight": 4.4,
+      "ridge": "along",
+      "groundY": 1.14,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Cottage on the Bailey. A vine over the door, dead for two years and never cut down."
+    },
+    {
+      "n": 47,
+      "id": "hm.slot.47.cottage_h",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "C10",
+        "C9"
+      ],
+      "centre": [
+        -56.6,
+        44.1
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -57.19,
+          50.09
+        ],
+        [
+          -62.48,
+          42.81
+        ],
+        [
+          -56.01,
+          38.11
+        ],
+        [
+          -50.72,
+          45.39
+        ]
+      ],
+      "rotationDeg": 234,
+      "storeys": 1,
+      "eavesHeight": 4.4,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Cottage with a lean-to workshop on its gable, and hens that get into the lane."
+    },
+    {
+      "n": 48,
+      "id": "hm.slot.48.byre",
+      "kit": "shed",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "C7",
+        "C8",
+        "D7",
+        "D8"
+      ],
+      "centre": [
+        -52.2,
+        14.3
+      ],
+      "footprint": {
+        "w": 10.0,
+        "d": 7.0
+      },
+      "polygon": [
+        [
+          -47.02,
+          17.53
+        ],
+        [
+          -57.01,
+          18.06
+        ],
+        [
+          -57.38,
+          11.07
+        ],
+        [
+          -47.39,
+          10.54
+        ]
+      ],
+      "rotationDeg": 177,
+      "storeys": 1,
+      "eavesHeight": 4.0,
+      "ridge": "along",
+      "groundY": 0.0,
+      "outsideWall": false,
+      "fronts": "well_lane",
+      "note": "Cow house and hay loft. Two cows, and the town's milk comes from here."
+    },
+    {
+      "n": 49,
+      "id": "hm.slot.49.cottage_i",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "H10"
+      ],
+      "centre": [
+        22.1,
+        52.2
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          17.6,
+          48.2
+        ],
+        [
+          26.6,
+          48.2
+        ],
+        [
+          26.6,
+          56.2
+        ],
+        [
+          17.6,
+          56.2
+        ]
+      ],
+      "rotationDeg": 0,
+      "storeys": 1,
+      "eavesHeight": 4.4,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "sty_lane",
+      "note": "Cottage on Sty Lane."
+    },
+    {
+      "n": 50,
+      "id": "hm.slot.50.cottage_j",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "D7",
+        "D8"
+      ],
+      "centre": [
+        -37.1,
+        12.6
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -32.21,
+          16.11
+        ],
+        [
+          -41.16,
+          17.05
+        ],
+        [
+          -41.99,
+          9.09
+        ],
+        [
+          -33.04,
+          8.15
+        ]
+      ],
+      "rotationDeg": 174,
+      "storeys": 1,
+      "eavesHeight": 4.4,
+      "ridge": "along",
+      "groundY": 0.0,
+      "outsideWall": false,
+      "fronts": "well_lane",
+      "note": "Cottage with a brick-nogged gable, rebuilt after a fire - the only nogging in Hearthmere, and a different colour from everything near it."
+    },
+    {
+      "n": 51,
+      "id": "hm.slot.51.cottage_k",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "K10",
+        "K9"
+      ],
+      "centre": [
+        71.2,
+        44.4
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          65.56,
+          46.5
+        ],
+        [
+          69.78,
+          38.55
+        ],
+        [
+          76.84,
+          42.3
+        ],
+        [
+          72.62,
+          50.25
+        ]
+      ],
+      "rotationDeg": 298,
+      "storeys": 1,
+      "eavesHeight": 4.4,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Cottage skewed to the Bailey's curve, so its plot is a wedge and its back fence has a kink in it."
+    },
+    {
+      "n": 52,
+      "id": "hm.slot.52.sties",
+      "kit": "shed",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "J10",
+        "J11",
+        "K10",
+        "K11"
+      ],
+      "centre": [
+        68.0,
+        66.0
+      ],
+      "footprint": {
+        "w": 8.0,
+        "d": 5.0
+      },
+      "polygon": [
+        [
+          69.06,
+          70.6
+        ],
+        [
+          63.4,
+          64.94
+        ],
+        [
+          66.94,
+          61.4
+        ],
+        [
+          72.6,
+          67.06
+        ]
+      ],
+      "rotationDeg": 225,
+      "storeys": 1,
+      "eavesHeight": 2.8,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": true,
+      "fronts": "the_bailey",
+      "note": "Pig sties and a byre OUTSIDE the Cinder Tower, on the midden. Pigs and the midden belong together and both belong outside the wall."
+    },
+    {
+      "n": 53,
+      "id": "hm.slot.53.privy_row",
+      "kit": "shed",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "H10",
+        "H9",
+        "I10",
+        "I9"
+      ],
+      "centre": [
+        30.0,
+        49.5
+      ],
+      "footprint": {
+        "w": 6.0,
+        "d": 3.0
+      },
+      "polygon": [
+        [
+          26.86,
+          48.32
+        ],
+        [
+          32.83,
+          47.69
+        ],
+        [
+          33.14,
+          50.68
+        ],
+        [
+          27.17,
+          51.31
+        ]
+      ],
+      "rotationDeg": 354,
+      "storeys": 1,
+      "eavesHeight": 2.4,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "sty_lane",
+      "note": "A row of four privies over a common pit, emptied into the midden outside the Cinder Tower."
+    },
+    {
+      "n": 54,
+      "id": "hm.slot.54.cottage_l",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "G3",
+        "G4"
+      ],
+      "centre": [
+        10.8,
+        -45.4
+      ],
+      "footprint": {
+        "w": 7.0,
+        "d": 7.0
+      },
+      "polygon": [
+        [
+          8.18,
+          -41.2
+        ],
+        [
+          6.6,
+          -48.02
+        ],
+        [
+          13.42,
+          -49.6
+        ],
+        [
+          15.0,
+          -42.78
+        ]
+      ],
+      "rotationDeg": 257,
+      "storeys": 1,
+      "eavesHeight": 4.2,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "mill_lane",
+      "note": "Cottage on Ford Road's east side in the north quarter, wedged into the last gap between the road and Kirkgate. Two rooms, a loft, and a yard four paces deep."
+    },
+    {
+      "n": 55,
+      "id": "hm.slot.55.cottage_m",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "D2",
+        "D3"
+      ],
+      "centre": [
+        -40.3,
+        -62.5
+      ],
+      "footprint": {
+        "w": 8.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -43.3,
+          -67.3
+        ],
+        [
+          -35.5,
+          -65.5
+        ],
+        [
+          -37.3,
+          -57.7
+        ],
+        [
+          -45.1,
+          -59.5
+        ]
+      ],
+      "rotationDeg": 13,
+      "storeys": 1,
+      "eavesHeight": 4.2,
+      "ridge": "along",
+      "groundY": -1.85,
+      "outsideWall": false,
+      "fronts": "mill_lane",
+      "note": "Cottage in the mill quarter, flour-dusted for four months of the year and never entirely clean of it."
+    },
+    {
+      "n": 56,
+      "id": "hm.slot.56.cottage_n",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "E2",
+        "F2"
+      ],
+      "centre": [
+        -11.9,
+        -73.2
+      ],
+      "footprint": {
+        "w": 8.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -8.57,
+          -68.62
+        ],
+        [
+          -16.48,
+          -69.87
+        ],
+        [
+          -15.23,
+          -77.78
+        ],
+        [
+          -7.32,
+          -76.53
+        ]
+      ],
+      "rotationDeg": 189,
+      "storeys": 1,
+      "eavesHeight": 4.2,
+      "ridge": "along",
+      "groundY": -1.85,
+      "outsideWall": false,
+      "fronts": "mill_lane",
+      "note": "Cottage on Mill Lane by the north wall, its threshold two courses below the lane because the lane has been re-metalled over itself."
+    },
+    {
+      "n": 57,
+      "id": "hm.slot.57.dovecote",
+      "kit": "dovecote",
+      "role": "secondary",
+      "venue": "dovecote",
+      "cells": [
+        "J5",
+        "J6",
+        "K5",
+        "K6"
+      ],
+      "centre": [
+        65.2,
+        -17.8
+      ],
+      "footprint": {
+        "w": 5.4,
+        "d": 5.4
+      },
+      "polygon": [
+        [
+          67.44,
+          -20.89
+        ],
+        [
+          68.29,
+          -15.56
+        ],
+        [
+          62.96,
+          -14.71
+        ],
+        [
+          62.11,
+          -20.04
+        ]
+      ],
+      "rotationDeg": 81,
+      "storeys": 1,
+      "eavesHeight": 6.2,
+      "ridge": "cone",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Glebe dovecote. Circular, coursed rubble, conical tiled roof to 7.6 m with a lantern. 240 nest boxes. The only round building in Hearthmere and worth the whole quarter for silhouette."
+    },
+    {
+      "n": 58,
+      "id": "hm.slot.58.tithe_barn",
+      "kit": "warehouse",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "H5",
+        "I5"
+      ],
+      "centre": [
+        35.5,
+        -24.9
+      ],
+      "footprint": {
+        "w": 13.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          31.06,
+          -18.69
+        ],
+        [
+          31.96,
+          -31.66
+        ],
+        [
+          39.94,
+          -31.11
+        ],
+        [
+          39.04,
+          -18.14
+        ]
+      ],
+      "rotationDeg": 274,
+      "storeys": 1,
+      "eavesHeight": 5.8,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "kirkgate",
+      "note": "Tithe barn. Cart doors on both long sides with a threshing floor between them, so the draught blows the chaff clear. Aisled, five bays, the biggest single roof in the town after the church."
+    },
+    {
+      "n": 59,
+      "id": "hm.slot.59.warehouse_a",
+      "kit": "warehouse",
+      "role": "secondary",
+      "venue": null,
+      "cells": [
+        "I11",
+        "J11"
+      ],
+      "centre": [
+        40.4,
+        72.3
+      ],
+      "footprint": {
+        "w": 14.0,
+        "d": 7.0
+      },
+      "polygon": [
+        [
+          32.64,
+          71.27
+        ],
+        [
+          45.88,
+          66.71
+        ],
+        [
+          48.16,
+          73.33
+        ],
+        [
+          34.92,
+          77.89
+        ]
+      ],
+      "rotationDeg": 341,
+      "storeys": 2,
+      "eavesHeight": 7.2,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Warehouse on the Bailey: the carriers' bonded store, the oldest timber frame in Hearthmere and underpinned twice. Loading door at first floor with a gibbet beam and a block over it."
+    },
+    {
+      "n": 60,
+      "id": "hm.slot.60.netloft",
+      "kit": "warehouse",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "H2",
+        "I2"
+      ],
+      "centre": [
+        30.6,
+        -68.5
+      ],
+      "footprint": {
+        "w": 10.0,
+        "d": 5.5
+      },
+      "polygon": [
+        [
+          35.17,
+          -65.08
+        ],
+        [
+          25.27,
+          -66.47
+        ],
+        [
+          26.03,
+          -71.92
+        ],
+        [
+          35.93,
+          -70.53
+        ]
+      ],
+      "rotationDeg": 188,
+      "storeys": 2,
+      "eavesHeight": 6.2,
+      "ridge": "along",
+      "groundY": -1.85,
+      "outsideWall": false,
+      "fronts": "wharf_lane",
+      "note": "Net loft over an open boat store. Tar barrel, floats, a half-mended net on trestles."
+    },
+    {
+      "n": 61,
+      "id": "hm.slot.61.customs",
+      "kit": "quay",
+      "role": "hero",
+      "venue": "quay",
+      "cells": [
+        "I3",
+        "I4",
+        "J3",
+        "J4"
+      ],
+      "centre": [
+        48.0,
+        -44.0
+      ],
+      "footprint": {
+        "w": 12.0,
+        "d": 10.0
+      },
+      "polygon": [
+        [
+          40.22,
+          -43.29
+        ],
+        [
+          48.71,
+          -51.78
+        ],
+        [
+          55.78,
+          -44.71
+        ],
+        [
+          47.29,
+          -36.22
+        ]
+      ],
+      "rotationDeg": 315,
+      "storeys": 2,
+      "eavesHeight": 7.0,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "wharf_lane",
+      "note": "Customs house. Faces north-west square onto the Water Gate so nothing lands without passing its window. Stone below, timber above, a stair turret, the town's weighbeam under a canopy on its north side."
+    },
+    {
+      "n": 62,
+      "id": "hm.slot.62.warehouse_b",
+      "kit": "warehouse",
+      "role": "secondary",
+      "venue": "warehouse",
+      "cells": [
+        "H4",
+        "I4"
+      ],
+      "centre": [
+        35.7,
+        -40.0
+      ],
+      "footprint": {
+        "w": 12.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          31.7,
+          -34.0
+        ],
+        [
+          31.7,
+          -46.0
+        ],
+        [
+          39.7,
+          -46.0
+        ],
+        [
+          39.7,
+          -34.0
+        ]
+      ],
+      "rotationDeg": 270,
+      "storeys": 2,
+      "eavesHeight": 7.4,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "kirkgate",
+      "note": "Warehouse. Grain below, wool above, both smells."
+    },
+    {
+      "n": 63,
+      "id": "hm.slot.63.warehouse_c",
+      "kit": "warehouse",
+      "role": "secondary",
+      "venue": null,
+      "cells": [
+        "B2",
+        "B3",
+        "C2",
+        "C3"
+      ],
+      "centre": [
+        -63.7,
+        -59.8
+      ],
+      "footprint": {
+        "w": 11.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -56.92,
+          -60.39
+        ],
+        [
+          -65.23,
+          -53.17
+        ],
+        [
+          -70.48,
+          -59.21
+        ],
+        [
+          -62.17,
+          -66.43
+        ]
+      ],
+      "rotationDeg": 139,
+      "storeys": 2,
+      "eavesHeight": 7.2,
+      "ridge": "along",
+      "groundY": -1.85,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Warehouse on the Bailey in the mill quarter: grain below, wool above, both smells. Its north wall is stained to head height by the leat."
+    },
+    {
+      "n": 64,
+      "id": "hm.slot.64.fish_eatery",
+      "kit": "fish_eatery",
+      "role": "secondary",
+      "venue": "fish_eatery",
+      "cells": [
+        "H3",
+        "H4",
+        "I3",
+        "I4"
+      ],
+      "centre": [
+        36.4,
+        -51.6
+      ],
+      "footprint": {
+        "w": 10.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          32.26,
+          -56.48
+        ],
+        [
+          42.07,
+          -54.57
+        ],
+        [
+          40.54,
+          -46.72
+        ],
+        [
+          30.73,
+          -48.63
+        ]
+      ],
+      "rotationDeg": 11,
+      "storeys": 1,
+      "eavesHeight": 5.0,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "wharf_lane",
+      "note": "Mere-fish eatery. Six trestles under an awning, a smoking shed behind, and a queue at noon. Faces north onto Wharf Lane, so it is lit."
+    },
+    {
+      "n": 65,
+      "id": "hm.slot.65.fisher_a",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "G3",
+        "H3"
+      ],
+      "centre": [
+        18.9,
+        -53.8
+      ],
+      "footprint": {
+        "w": 8.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          14.76,
+          -57.66
+        ],
+        [
+          22.76,
+          -57.94
+        ],
+        [
+          23.04,
+          -49.94
+        ],
+        [
+          15.04,
+          -49.66
+        ]
+      ],
+      "rotationDeg": 358,
+      "storeys": 1,
+      "eavesHeight": 4.2,
+      "ridge": "along",
+      "groundY": -1.61,
+      "outsideWall": false,
+      "fronts": "wharf_lane",
+      "note": "Cottage on Sty Lane behind the tithe barn. Nets over the fence and a punt upturned on trestles: a fisherman who walks to work."
+    },
+    {
+      "n": 66,
+      "id": "hm.slot.66.fisher_b",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "H10",
+        "H11"
+      ],
+      "centre": [
+        20.9,
+        63.4
+      ],
+      "footprint": {
+        "w": 8.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          25.48,
+          66.73
+        ],
+        [
+          17.57,
+          67.98
+        ],
+        [
+          16.32,
+          60.07
+        ],
+        [
+          24.23,
+          58.82
+        ]
+      ],
+      "rotationDeg": 171,
+      "storeys": 1,
+      "eavesHeight": 4.2,
+      "ridge": "along",
+      "groundY": 1.62,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Cottage on the Bailey; its gable window is a boat's transom reused, which is how you know who used to live in it."
+    },
+    {
+      "n": 67,
+      "id": "hm.slot.67.ropehouse",
+      "kit": "warehouse",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "I4",
+        "I5",
+        "J4",
+        "J5",
+        "K4",
+        "K5"
+      ],
+      "centre": [
+        52.0,
+        -31.0
+      ],
+      "footprint": {
+        "w": 24.0,
+        "d": 5.0
+      },
+      "polygon": [
+        [
+          39.87,
+          -29.24
+        ],
+        [
+          62.42,
+          -37.45
+        ],
+        [
+          64.13,
+          -32.76
+        ],
+        [
+          41.58,
+          -24.55
+        ]
+      ],
+      "rotationDeg": 340,
+      "storeys": 1,
+      "eavesHeight": 4.4,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "wharf_lane",
+      "note": "Rope house: 24 m long and 5 m wide because that is what laying rope needs. Its plan shape alone breaks the town's grain and is worth keeping exactly as drawn."
+    },
+    {
+      "n": 68,
+      "id": "hm.slot.68.cottage_o",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "G3",
+        "G4",
+        "H3",
+        "H4"
+      ],
+      "centre": [
+        19.1,
+        -45.1
+      ],
+      "footprint": {
+        "w": 8.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          22.96,
+          -49.24
+        ],
+        [
+          23.24,
+          -41.24
+        ],
+        [
+          15.24,
+          -40.96
+        ],
+        [
+          14.96,
+          -48.96
+        ]
+      ],
+      "rotationDeg": 88,
+      "storeys": 1,
+      "eavesHeight": 4.2,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "kirkgate",
+      "note": "Cottage on Kirkgate's west side, backing onto the Ford Road plots."
+    },
+    {
+      "n": 69,
+      "id": "hm.slot.69.cottage_p",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "G3"
+      ],
+      "centre": [
+        9.4,
+        -53.5
+      ],
+      "footprint": {
+        "w": 8.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          5.07,
+          -57.14
+        ],
+        [
+          13.04,
+          -57.83
+        ],
+        [
+          13.73,
+          -49.86
+        ],
+        [
+          5.76,
+          -49.17
+        ]
+      ],
+      "rotationDeg": 355,
+      "storeys": 1,
+      "eavesHeight": 4.2,
+      "ridge": "along",
+      "groundY": -1.84,
+      "outsideWall": false,
+      "fronts": "wharf_lane",
+      "note": "Cottage on Wharf Lane, its front step dished 40 mm by two hundred years of wet boots."
+    },
+    {
+      "n": 70,
+      "id": "hm.slot.70.stables",
+      "kit": "stables",
+      "role": "secondary",
+      "venue": "stables",
+      "cells": [
+        "E3",
+        "E4",
+        "F3",
+        "F4"
+      ],
+      "centre": [
+        -10.2,
+        -47.4
+      ],
+      "footprint": {
+        "w": 16.0,
+        "d": 12.0
+      },
+      "polygon": [
+        [
+          -5.68,
+          -56.32
+        ],
+        [
+          -2.9,
+          -40.56
+        ],
+        [
+          -14.72,
+          -38.48
+        ],
+        [
+          -17.5,
+          -54.24
+        ]
+      ],
+      "rotationDeg": 80,
+      "storeys": 1,
+      "eavesHeight": 5.4,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "ford_road",
+      "note": "Stables and waggon yard. Long range of eleven stalls with a hay loft over, tack on pegs, a mounting block at the yard gate. The yard itself is open to Ford Road and is where the carriers turn."
+    },
+    {
+      "n": 71,
+      "id": "hm.slot.71.farrier",
+      "kit": "blacksmith",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "D3",
+        "D4",
+        "E3",
+        "E4"
+      ],
+      "centre": [
+        -30.0,
+        -48.0
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -26.0,
+          -52.5
+        ],
+        [
+          -26.0,
+          -43.5
+        ],
+        [
+          -34.0,
+          -43.5
+        ],
+        [
+          -34.0,
+          -52.5
+        ]
+      ],
+      "rotationDeg": 90,
+      "storeys": 1,
+      "eavesHeight": 4.6,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "ford_road",
+      "note": "Farrier's forge, small and open-fronted. A second fire in the town, sited on the lowest, wettest ground 8 m from the wall and 12 m from the river, which is exactly why it is allowed."
+    },
+    {
+      "n": 72,
+      "id": "hm.slot.72.pub",
+      "kit": "pub",
+      "role": "hero",
+      "venue": "pub",
+      "cells": [
+        "G2",
+        "H2"
+      ],
+      "centre": [
+        19.0,
+        -70.0
+      ],
+      "footprint": {
+        "w": 12.0,
+        "d": 7.5
+      },
+      "polygon": [
+        [
+          25.0,
+          -66.25
+        ],
+        [
+          13.0,
+          -66.25
+        ],
+        [
+          13.0,
+          -73.75
+        ],
+        [
+          25.0,
+          -73.75
+        ]
+      ],
+      "rotationDeg": 180,
+      "storeys": 2,
+      "eavesHeight": 5.4,
+      "ridge": "along",
+      "groundY": -1.85,
+      "outsideWall": false,
+      "fronts": "wharf_lane",
+      "note": "THE FERRYMAN'S LAMP. Floor sunken 0.55 m below Wharf Lane because the lane has been re-metalled over itself for two hundred years. Low beams, small windows, the warmest interior in Hearthmere. Its sign is the actual iron ferry lamp on a bracket; the ferry stair it used to light is through the Ferry Postern behind."
+    },
+    {
+      "n": 73,
+      "id": "hm.slot.73.gateward_n",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "G2"
+      ],
+      "centre": [
+        6.9,
+        -69.7
+      ],
+      "footprint": {
+        "w": 8.0,
+        "d": 7.0
+      },
+      "polygon": [
+        [
+          11.19,
+          -66.56
+        ],
+        [
+          3.22,
+          -65.86
+        ],
+        [
+          2.61,
+          -72.84
+        ],
+        [
+          10.58,
+          -73.54
+        ]
+      ],
+      "rotationDeg": 175,
+      "storeys": 1,
+      "eavesHeight": 4.0,
+      "ridge": "along",
+      "groundY": -1.85,
+      "outsideWall": false,
+      "fronts": "wharf_lane",
+      "note": "North gate ward's house."
+    },
+    {
+      "n": 74,
+      "id": "hm.slot.74.cottage_q",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "C5"
+      ],
+      "centre": [
+        -55.1,
+        -20.5
+      ],
+      "footprint": {
+        "w": 8.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -50.96,
+          -16.64
+        ],
+        [
+          -58.96,
+          -16.36
+        ],
+        [
+          -59.24,
+          -24.36
+        ],
+        [
+          -51.24,
+          -24.64
+        ]
+      ],
+      "rotationDeg": 178,
+      "storeys": 1,
+      "eavesHeight": 4.2,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "mere_street",
+      "note": "Cottage on Mere Street, its wall splashed to 0.4 m by cart wheels."
+    },
+    {
+      "n": 75,
+      "id": "hm.slot.75.cottage_r",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "C6",
+        "C7"
+      ],
+      "centre": [
+        -55.9,
+        -3.0
+      ],
+      "footprint": {
+        "w": 8.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -60.04,
+          -6.86
+        ],
+        [
+          -52.04,
+          -7.14
+        ],
+        [
+          -51.76,
+          0.86
+        ],
+        [
+          -59.76,
+          1.14
+        ]
+      ],
+      "rotationDeg": 358,
+      "storeys": 1,
+      "eavesHeight": 4.2,
+      "ridge": "along",
+      "groundY": 0.0,
+      "outsideWall": false,
+      "fronts": "mere_street",
+      "note": "Cottage on Mere Street; the plot in front is a kitchen garden with a hurdle fence."
+    },
+    {
+      "n": 76,
+      "id": "hm.slot.76.shed_c",
+      "kit": "shed",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "C3",
+        "C4"
+      ],
+      "centre": [
+        -58.1,
+        -45.5
+      ],
+      "footprint": {
+        "w": 6.0,
+        "d": 5.0
+      },
+      "polygon": [
+        [
+          -61.9,
+          -44.61
+        ],
+        [
+          -58.29,
+          -49.4
+        ],
+        [
+          -54.3,
+          -46.39
+        ],
+        [
+          -57.91,
+          -41.6
+        ]
+      ],
+      "rotationDeg": 307,
+      "storeys": 1,
+      "eavesHeight": 3.0,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Handcart shed and a lean-to woodstore."
+    },
+    {
+      "n": 77,
+      "id": "hm.slot.77.watermill",
+      "kit": "watermill",
+      "role": "secondary",
+      "venue": "watermill",
+      "cells": [
+        "C1",
+        "C2",
+        "D1",
+        "D2"
+      ],
+      "centre": [
+        -49.0,
+        -79.5
+      ],
+      "footprint": {
+        "w": 13.0,
+        "d": 10.0
+      },
+      "polygon": [
+        [
+          -40.87,
+          -78.42
+        ],
+        [
+          -52.13,
+          -71.92
+        ],
+        [
+          -57.13,
+          -80.58
+        ],
+        [
+          -45.87,
+          -87.08
+        ]
+      ],
+      "rotationDeg": 150,
+      "storeys": 2,
+      "eavesHeight": 7.4,
+      "ridge": "along",
+      "groundY": -1.55,
+      "outsideWall": true,
+      "fronts": "mill_lane",
+      "note": "Watermill, OUTSIDE the wall on the leat. Breastshot wheel 3.6 m diameter on the north gable, axle at -2.10; leat sill -2.00, tailrace -3.30, so the head is 1.95 m and the wheel dips. Sack hoist and a lucam over the leat."
+    },
+    {
+      "n": 78,
+      "id": "hm.slot.78.granary",
+      "kit": "watermill",
+      "role": "secondary",
+      "venue": null,
+      "cells": [
+        "E1",
+        "E2"
+      ],
+      "centre": [
+        -22.9,
+        -75.4
+      ],
+      "footprint": {
+        "w": 12.0,
+        "d": 9.0
+      },
+      "polygon": [
+        [
+          -17.77,
+          -69.93
+        ],
+        [
+          -29.59,
+          -72.01
+        ],
+        [
+          -28.03,
+          -80.87
+        ],
+        [
+          -16.21,
+          -78.79
+        ]
+      ],
+      "rotationDeg": 190,
+      "storeys": 2,
+      "eavesHeight": 6.8,
+      "ridge": "along",
+      "groundY": -1.85,
+      "outsideWall": false,
+      "fronts": "mill_lane",
+      "note": "Granary on staddle stones, 0.6 m clear beneath, boarded, no ground floor at all. Part of venue `watermill`."
+    },
+    {
+      "n": 79,
+      "id": "hm.slot.79.miller",
+      "kit": "townhouse",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "D2",
+        "D3",
+        "E2",
+        "E3"
+      ],
+      "centre": [
+        -31.3,
+        -60.1
+      ],
+      "footprint": {
+        "w": 10.0,
+        "d": 9.0
+      },
+      "polygon": [
+        [
+          -35.44,
+          -65.4
+        ],
+        [
+          -25.59,
+          -63.66
+        ],
+        [
+          -27.16,
+          -54.8
+        ],
+        [
+          -37.01,
+          -56.54
+        ]
+      ],
+      "rotationDeg": 10,
+      "storeys": 2,
+      "eavesHeight": 6.4,
+      "ridge": "along",
+      "groundY": -1.85,
+      "outsideWall": false,
+      "fronts": "mill_lane",
+      "note": "Miller's house. Whitest plaster in town, for obvious reasons."
+    },
+    {
+      "n": 80,
+      "id": "hm.slot.80.malthouse",
+      "kit": "warehouse",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "B7",
+        "C7"
+      ],
+      "centre": [
+        -66.1,
+        7.1
+      ],
+      "footprint": {
+        "w": 11.0,
+        "d": 9.0
+      },
+      "polygon": [
+        [
+          -70.21,
+          12.9
+        ],
+        [
+          -70.97,
+          1.93
+        ],
+        [
+          -61.99,
+          1.3
+        ],
+        [
+          -61.23,
+          12.27
+        ]
+      ],
+      "rotationDeg": 266,
+      "storeys": 2,
+      "eavesHeight": 6.8,
+      "ridge": "along",
+      "groundY": 0.0,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Malt house. Kiln cowl on the ridge turning in the wind, and a floor you can smell from the lane."
+    },
+    {
+      "n": 81,
+      "id": "hm.slot.81.cottage_s",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "E3"
+      ],
+      "centre": [
+        -21.6,
+        -59.0
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -25.42,
+          -63.65
+        ],
+        [
+          -16.53,
+          -62.25
+        ],
+        [
+          -17.78,
+          -54.35
+        ],
+        [
+          -26.67,
+          -55.75
+        ]
+      ],
+      "rotationDeg": 9,
+      "storeys": 1,
+      "eavesHeight": 4.2,
+      "ridge": "along",
+      "groundY": -1.85,
+      "outsideWall": false,
+      "fronts": "mill_lane",
+      "note": "Cottage backing onto the stable yard."
+    },
+    {
+      "n": 82,
+      "id": "hm.slot.82.cottage_t",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "C3",
+        "C4",
+        "D3",
+        "D4"
+      ],
+      "centre": [
+        -51.2,
+        -50.7
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -57.22,
+          -50.77
+        ],
+        [
+          -50.43,
+          -56.67
+        ],
+        [
+          -45.18,
+          -50.63
+        ],
+        [
+          -51.97,
+          -44.73
+        ]
+      ],
+      "rotationDeg": 319,
+      "storeys": 1,
+      "eavesHeight": 4.2,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Cottage, kitchen garden, a plum tree older than the wall."
+    },
+    {
+      "n": 83,
+      "id": "hm.slot.83.cottage_u",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "B4",
+        "B5",
+        "C4",
+        "C5"
+      ],
+      "centre": [
+        -63.6,
+        -29.5
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -68.45,
+          -25.93
+        ],
+        [
+          -66.58,
+          -34.73
+        ],
+        [
+          -58.75,
+          -33.07
+        ],
+        [
+          -60.62,
+          -24.27
+        ]
+      ],
+      "rotationDeg": 282,
+      "storeys": 1,
+      "eavesHeight": 4.2,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Cottage on the Bailey."
+    },
+    {
+      "n": 84,
+      "id": "hm.slot.84.shed_d",
+      "kit": "shed",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "B4",
+        "C4"
+      ],
+      "centre": [
+        -62.4,
+        -38.1
+      ],
+      "footprint": {
+        "w": 7.0,
+        "d": 5.0
+      },
+      "polygon": [
+        [
+          -66.11,
+          -35.92
+        ],
+        [
+          -63.26,
+          -42.31
+        ],
+        [
+          -58.69,
+          -40.28
+        ],
+        [
+          -61.54,
+          -33.89
+        ]
+      ],
+      "rotationDeg": 294,
+      "storeys": 1,
+      "eavesHeight": 3.0,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Bailey shed: hurdles, a cart, a stack of wall-repair stone that has been there for a decade."
+    },
+    {
+      "n": 85,
+      "id": "hm.slot.85.cottage_v",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "C5",
+        "D5"
+      ],
+      "centre": [
+        -46.0,
+        -21.1
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -41.17,
+          -17.51
+        ],
+        [
+          -50.13,
+          -16.72
+        ],
+        [
+          -50.83,
+          -24.69
+        ],
+        [
+          -41.87,
+          -25.48
+        ]
+      ],
+      "rotationDeg": 175,
+      "storeys": 1,
+      "eavesHeight": 4.4,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "mere_street",
+      "note": "Cottage on Mere Street's north side."
+    },
+    {
+      "n": 86,
+      "id": "hm.slot.86.cottage_w",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "B5",
+        "C5"
+      ],
+      "centre": [
+        -64.4,
+        -20.5
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -60.27,
+          -16.12
+        ],
+        [
+          -69.23,
+          -16.91
+        ],
+        [
+          -68.53,
+          -24.88
+        ],
+        [
+          -59.57,
+          -24.09
+        ]
+      ],
+      "rotationDeg": 185,
+      "storeys": 1,
+      "eavesHeight": 4.4,
+      "ridge": "along",
+      "groundY": -1.05,
+      "outsideWall": false,
+      "fronts": "mere_street",
+      "note": "Cottage, its neighbour, sharing a chimney stack."
+    },
+    {
+      "n": 87,
+      "id": "hm.slot.87.gateward_w",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "B7",
+        "B8",
+        "C7",
+        "C8"
+      ],
+      "centre": [
+        -66.5,
+        16.2
+      ],
+      "footprint": {
+        "w": 7.0,
+        "d": 7.0
+      },
+      "polygon": [
+        [
+          -69.75,
+          19.94
+        ],
+        [
+          -70.24,
+          12.95
+        ],
+        [
+          -63.25,
+          12.46
+        ],
+        [
+          -62.76,
+          19.45
+        ]
+      ],
+      "rotationDeg": 266,
+      "storeys": 1,
+      "eavesHeight": 4.0,
+      "ridge": "along",
+      "groundY": 1.15,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "West gate ward's cottage, angled to watch the gate from its door."
+    },
+    {
+      "n": 88,
+      "id": "hm.slot.88.cottage_x",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "C6",
+        "C7",
+        "D6",
+        "D7"
+      ],
+      "centre": [
+        -47.0,
+        -3.5
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -51.83,
+          -7.09
+        ],
+        [
+          -42.87,
+          -7.88
+        ],
+        [
+          -42.17,
+          0.09
+        ],
+        [
+          -51.13,
+          0.88
+        ]
+      ],
+      "rotationDeg": 355,
+      "storeys": 1,
+      "eavesHeight": 4.4,
+      "ridge": "along",
+      "groundY": 0.0,
+      "outsideWall": false,
+      "fronts": "mere_street",
+      "note": "Cottage on Mere Street's south side, lit front, window boxes."
+    },
+    {
+      "n": 89,
+      "id": "hm.slot.89.cottage_y",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "B6",
+        "B7",
+        "C6",
+        "C7"
+      ],
+      "centre": [
+        -65.0,
+        -3.0
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -69.13,
+          -7.38
+        ],
+        [
+          -60.17,
+          -6.59
+        ],
+        [
+          -60.87,
+          1.38
+        ],
+        [
+          -69.83,
+          0.59
+        ]
+      ],
+      "rotationDeg": 5,
+      "storeys": 1,
+      "eavesHeight": 4.4,
+      "ridge": "along",
+      "groundY": 0.0,
+      "outsideWall": false,
+      "fronts": "mere_street",
+      "note": "Cottage; the party fence has been moved twice and the dispute is not over."
+    },
+    {
+      "n": 90,
+      "id": "hm.slot.90.wellhouse",
+      "kit": "wellhouse",
+      "role": "secondary",
+      "venue": "wellhouse",
+      "cells": [
+        "D8"
+      ],
+      "centre": [
+        -37.7,
+        26.5
+      ],
+      "footprint": {
+        "w": 5.6,
+        "d": 5.6
+      },
+      "polygon": [
+        [
+          -40.78,
+          24.01
+        ],
+        [
+          -35.21,
+          23.42
+        ],
+        [
+          -34.62,
+          28.99
+        ],
+        [
+          -40.19,
+          29.58
+        ]
+      ],
+      "rotationDeg": 354,
+      "storeys": 1,
+      "eavesHeight": 3.2,
+      "ridge": "along",
+      "groundY": 1.15,
+      "outsideWall": false,
+      "fronts": "well_lane",
+      "note": "Well-house over the town well and the conduit head that feeds the fountain. Open on all four sides, tiled pyramid roof, a windlass, a chained cup, and a stone trough the whole west quarter draws from."
+    },
+    {
+      "n": 91,
+      "id": "hm.slot.91.bathhouse",
+      "kit": "bathhouse",
+      "role": "secondary",
+      "venue": "bathhouse",
+      "cells": [
+        "C8",
+        "C9",
+        "D8",
+        "D9"
+      ],
+      "centre": [
+        -51.9,
+        30.3
+      ],
+      "footprint": {
+        "w": 14.0,
+        "d": 11.0
+      },
+      "polygon": [
+        [
+          -59.18,
+          25.17
+        ],
+        [
+          -45.2,
+          24.44
+        ],
+        [
+          -44.62,
+          35.43
+        ],
+        [
+          -58.6,
+          36.16
+        ]
+      ],
+      "rotationDeg": 357,
+      "storeys": 1,
+      "eavesHeight": 5.6,
+      "ridge": "along",
+      "groundY": 1.15,
+      "outsideWall": false,
+      "fronts": "well_lane",
+      "note": "Bathhouse, on the conduit and next to its own spring. Furnace and a 9.0 m flue at the west end; steam out of the roof louvres on a cold morning is one of the town's best ambient reads."
+    },
+    {
+      "n": 92,
+      "id": "hm.slot.92.cottage_z",
+      "kit": "cottage",
+      "role": "filler",
+      "venue": null,
+      "cells": [
+        "B8",
+        "C8"
+      ],
+      "centre": [
+        -64.2,
+        24.7
+      ],
+      "footprint": {
+        "w": 9.0,
+        "d": 8.0
+      },
+      "polygon": [
+        [
+          -67.09,
+          29.98
+        ],
+        [
+          -69.11,
+          21.22
+        ],
+        [
+          -61.31,
+          19.42
+        ],
+        [
+          -59.29,
+          28.18
+        ]
+      ],
+      "rotationDeg": 257,
+      "storeys": 1,
+      "eavesHeight": 4.4,
+      "ridge": "along",
+      "groundY": 1.15,
+      "outsideWall": false,
+      "fronts": "the_bailey",
+      "note": "Cottage against the Bailey below the Spring Tower."
+    },
+    {
+      "n": 93,
+      "id": "hm.slot.93.tannery",
+      "kit": "tannery",
+      "role": "secondary",
+      "venue": "tannery",
+      "cells": [
+        "K5",
+        "K6",
+        "L5",
+        "L6"
+      ],
+      "centre": [
+        86.0,
+        -16.0
+      ],
+      "footprint": {
+        "w": 14.0,
+        "d": 10.0
+      },
+      "polygon": [
+        [
+          87.41,
+          -7.51
+        ],
+        [
+          77.51,
+          -17.41
+        ],
+        [
+          84.59,
+          -24.49
+        ],
+        [
+          94.49,
+          -14.59
+        ]
+      ],
+      "rotationDeg": 225,
+      "storeys": 1,
+      "eavesHeight": 5.0,
+      "ridge": "along",
+      "groundY": 0.35,
+      "outsideWall": true,
+      "fronts": "quay_road",
+      "note": "Tannery and dye yard, OUTSIDE the wall, downstream of the quay and downwind of everything. Pit yard of 24 lime and tan pits, drying shed with louvred sides, a bark store. The single most defensible placement in the plan: it needs running water, it stinks, and it is 90 m from the nearest occupied window with the wind blowing away from town."
+    },
+    {
+      "n": 94,
+      "id": "hm.slot.94.crane_house",
+      "kit": "quay",
+      "role": "hero",
+      "venue": null,
+      "cells": [
+        "J3",
+        "K3"
+      ],
+      "centre": [
+        62.0,
+        -57.0
+      ],
+      "footprint": {
+        "w": 7.0,
+        "d": 7.0
+      },
+      "polygon": [
+        [
+          61.74,
+          -61.94
+        ],
+        [
+          66.94,
+          -57.26
+        ],
+        [
+          62.26,
+          -52.06
+        ],
+        [
+          57.06,
+          -56.74
+        ]
+      ],
+      "rotationDeg": 42,
+      "storeys": 1,
+      "eavesHeight": 5.6,
+      "ridge": "along",
+      "groundY": -1.55,
+      "outsideWall": true,
+      "fronts": "quay_road",
+      "note": "Treadwheel crane on the quay, OUTSIDE the wall. Timber tower with a slewing jib, a double treadwheel, and a stone counterweight box. Silhouette anchor of the whole waterfront."
     }
   ],
   "streets": [
@@ -311,38 +5431,106 @@
       "id": "ford_road",
       "name": "Ford Road",
       "width": 7.0,
-      "surface": "cobble",
-      "comment": "Main N-S artery. Worn to a shallow trough down the centre by cart traffic.",
+      "verge": 1.2,
+      "surface": "granite setts",
+      "cls": "primary",
+      "bridged": [
+        -95.0,
+        -78.0
+      ],
+      "note": "The spine, and the reason the town exists. Runs straight down the fall line, so it drains and so carts can brake. Worn to a shallow trough down the centre; kerbed both sides with a deep gutter on the east where the run-off goes. It bends twice: east round the old waggon yard, then east again round the market place, because the market place was there first.",
       "path": [
         [
-          0,
-          0,
-          -48
+          -4.0,
+          -96.0
         ],
         [
-          0,
-          0,
-          -24
+          -4.0,
+          -89.0
         ],
         [
-          0,
-          0,
-          -16
+          -3.4,
+          -80.5
         ],
         [
-          0,
-          0,
-          16
+          -2.4,
+          -76.0
         ],
         [
-          0,
-          0,
-          32
+          -1.6,
+          -68.0
         ],
         [
-          0,
-          0,
-          48
+          -0.6,
+          -60.0
+        ],
+        [
+          0.6,
+          -52.0
+        ],
+        [
+          2.0,
+          -44.0
+        ],
+        [
+          3.8,
+          -36.0
+        ],
+        [
+          5.6,
+          -28.0
+        ],
+        [
+          7.4,
+          -20.0
+        ],
+        [
+          8.8,
+          -11.0
+        ],
+        [
+          9.5,
+          -2.0
+        ],
+        [
+          9.2,
+          6.0
+        ],
+        [
+          8.0,
+          16.0
+        ],
+        [
+          6.6,
+          28.0
+        ],
+        [
+          5.2,
+          40.0
+        ],
+        [
+          3.8,
+          52.0
+        ],
+        [
+          2.4,
+          64.0
+        ],
+        [
+          1.4,
+          73.0
+        ],
+        [
+          1.0,
+          78.5
+        ],
+        [
+          0.6,
+          88.0
+        ],
+        [
+          0.0,
+          96.0
         ]
       ]
     },
@@ -350,88 +5538,1494 @@
       "id": "mere_street",
       "name": "Mere Street",
       "width": 6.0,
+      "verge": 1.0,
       "surface": "cobble",
+      "cls": "primary",
+      "note": "The contour road, and older than Ford Road: it is the drove track to the mere-side pastures and it holds the -0.3 m contour for its whole length, which is why it is the only level street in Hearthmere and why the carters use it.",
       "path": [
         [
-          -32,
-          0,
-          2
+          9.2,
+          -8.5
         ],
         [
-          -16,
-          0,
-          1
+          0.0,
+          -10.0
         ],
         [
-          16,
-          0,
-          1
+          -12.0,
+          -12.5
         ],
         [
-          32,
-          0,
-          2
+          -24.0,
+          -14.0
+        ],
+        [
+          -38.0,
+          -13.0
+        ],
+        [
+          -50.0,
+          -12.0
+        ],
+        [
+          -62.0,
+          -11.5
+        ],
+        [
+          -72.0,
+          -12.4
+        ],
+        [
+          -79.0,
+          -13.0
+        ]
+      ]
+    },
+    {
+      "id": "kirk_green",
+      "name": "Kirk Green",
+      "width": 10.0,
+      "verge": 1.0,
+      "surface": "squared cobble",
+      "cls": "primary",
+      "note": "Not a street so much as the church's forecourt, driven west through the burgage plots when the perron was rebuilt. It is the arrival axis: church door, perron, green, Ford Road, market place, fountain.",
+      "path": [
+        [
+          24.0,
+          -0.5
+        ],
+        [
+          19.0,
+          -0.5
+        ],
+        [
+          13.5,
+          -0.5
+        ]
+      ]
+    },
+    {
+      "id": "wharf_lane",
+      "name": "Wharf Lane",
+      "width": 5.5,
+      "verge": 1.0,
+      "surface": "granite setts",
+      "cls": "secondary",
+      "note": "The bulk-goods road: everything that arrives by water crosses it. Setts laid on edge to take iron tyres, kerbs 0.22 m high, gutters wide enough to lose a boot in.",
+      "path": [
+        [
+          -0.8,
+          -61.0
+        ],
+        [
+          10.0,
+          -62.0
+        ],
+        [
+          22.0,
+          -62.4
+        ],
+        [
+          32.0,
+          -61.0
+        ],
+        [
+          40.0,
+          -59.5
+        ],
+        [
+          46.0,
+          -58.5
+        ],
+        [
+          50.0,
+          -57.0
+        ]
+      ]
+    },
+    {
+      "id": "mill_lane",
+      "name": "Mill Lane",
+      "width": 4.5,
+      "verge": 0.8,
+      "surface": "gravel, stone edged",
+      "cls": "secondary",
+      "note": "Runs along the inside of the north wall to the mill postern. Flour-dusted for its last thirty metres and rutted the rest.",
+      "path": [
+        [
+          -1.2,
+          -63.4
+        ],
+        [
+          -12.0,
+          -65.4
+        ],
+        [
+          -24.0,
+          -67.2
+        ],
+        [
+          -34.0,
+          -69.0
+        ],
+        [
+          -42.0,
+          -70.8
+        ],
+        [
+          -46.0,
+          -71.6
+        ]
+      ]
+    },
+    {
+      "id": "kirkgate",
+      "name": "Kirkgate",
+      "width": 5.0,
+      "verge": 1.0,
+      "surface": "cobble",
+      "cls": "secondary",
+      "note": "Links the waterfront to the church, along the churchyard's west wall. Climbs 2.0 m over its length at a steady 4%, which is what a coffin bearer can manage and a laden cart cannot, so carts go round by Ford Road. Ends at the churchyard's north gate and six steps; there is no cart way through.",
+      "path": [
+        [
+          26.0,
+          -62.4
+        ],
+        [
+          27.0,
+          -52.0
+        ],
+        [
+          27.5,
+          -40.0
+        ],
+        [
+          27.5,
+          -28.0
+        ],
+        [
+          27.0,
+          -21.0
+        ]
+      ]
+    },
+    {
+      "id": "bakers_row",
+      "name": "Bakers' Row",
+      "width": 4.5,
+      "verge": 0.9,
+      "surface": "cobble, worn to dust",
+      "cls": "secondary",
+      "note": "The fire lane. Every trade on it burns something \u2014 oven, tallow pan, glue pot, charcoal \u2014 and the wall is 20 m downwind of the last of them.",
+      "path": [
+        [
+          7.4,
+          22.0
+        ],
+        [
+          18.0,
+          23.6
+        ],
+        [
+          30.0,
+          24.8
+        ],
+        [
+          42.0,
+          25.5
+        ],
+        [
+          53.0,
+          25.0
+        ],
+        [
+          62.0,
+          23.5
         ]
       ]
     },
     {
       "id": "smiths_lane",
-      "name": "Smith's Lane",
-      "width": 3.5,
-      "surface": "dirt",
-      "comment": "Narrows toward the forge; unpaved past the midpoint (fire risk is why the smithy sits out here).",
+      "name": "Smiths' Lane",
+      "width": 4.0,
+      "verge": 0.8,
+      "surface": "dirt and cinder",
+      "cls": "secondary",
+      "note": "Paved for 12 m off Ford Road and then not paved at all. The surface change is the junction: past it the lane is black cinder rolled hard, and it narrows to 3.2 m at the yard gate.",
       "path": [
         [
-          -24,
-          0,
-          6
+          3.4,
+          53.0
         ],
         [
-          -23,
-          0,
-          16
+          -8.0,
+          55.4
         ],
         [
-          -22,
-          0,
-          26
+          -18.0,
+          58.0
+        ],
+        [
+          -23.0,
+          59.0
+        ]
+      ]
+    },
+    {
+      "id": "well_lane",
+      "name": "Well Lane",
+      "width": 4.0,
+      "verge": 0.8,
+      "surface": "cobble",
+      "cls": "secondary",
+      "note": "Runs from the market place to the well-house and the spring head under the west wall. The conduit that feeds the fountain is buried under its crown; the manhole slabs are the only dressed stone in the surface.",
+      "path": [
+        [
+          -27.0,
+          18.5
+        ],
+        [
+          -36.0,
+          20.0
+        ],
+        [
+          -46.0,
+          21.0
+        ],
+        [
+          -56.0,
+          21.5
+        ]
+      ]
+    },
+    {
+      "id": "the_bailey",
+      "name": "The Bailey",
+      "width": 4.5,
+      "verge": 0.6,
+      "surface": "gravel and grass",
+      "cls": "secondary",
+      "note": "The intramural lane. Never planned, simply what was left when the wall went up outside the back fences. Gives every wall stair, every back plot and every midden its access, and it is where the town keeps its woodpiles.",
+      "path": [
+        [
+          -52.0,
+          -60.0
+        ],
+        [
+          -60.0,
+          -53.0
+        ],
+        [
+          -66.0,
+          -45.0
+        ],
+        [
+          -70.0,
+          -36.0
+        ],
+        [
+          -72.5,
+          -24.0
+        ],
+        [
+          -74.0,
+          -12.0
+        ],
+        [
+          -74.5,
+          2.0
+        ],
+        [
+          -73.5,
+          18.0
+        ],
+        [
+          -70.0,
+          33.0
+        ],
+        [
+          -64.5,
+          46.0
+        ],
+        [
+          -56.5,
+          57.0
+        ],
+        [
+          -46.0,
+          65.0
+        ],
+        [
+          -32.0,
+          70.0
+        ],
+        [
+          -18.0,
+          72.4
+        ],
+        [
+          -4.0,
+          73.4
+        ],
+        [
+          10.0,
+          72.8
+        ],
+        [
+          24.0,
+          70.6
+        ],
+        [
+          36.0,
+          66.4
+        ],
+        [
+          49.0,
+          62.0
+        ],
+        [
+          58.0,
+          53.0
+        ],
+        [
+          65.0,
+          40.0
+        ],
+        [
+          70.0,
+          28.0
+        ],
+        [
+          72.0,
+          15.0
+        ],
+        [
+          72.5,
+          2.0
+        ],
+        [
+          72.5,
+          -12.0
+        ],
+        [
+          70.5,
+          -24.0
+        ]
+      ]
+    },
+    {
+      "id": "tenter_lane",
+      "name": "Tenter Lane",
+      "width": 3.0,
+      "verge": 0.4,
+      "surface": "dirt",
+      "cls": "lane",
+      "note": "South off Well Lane to the tenter ground, where cloth is stretched to dry. Ends in the frames, which is worth walking toward when they are full.",
+      "path": [
+        [
+          -30.0,
+          24.0
+        ],
+        [
+          -30.0,
+          30.0
+        ],
+        [
+          -30.0,
+          36.0
+        ]
+      ]
+    },
+    {
+      "id": "bell_alley",
+      "name": "Bell Alley",
+      "width": 2.5,
+      "verge": 0.25,
+      "surface": "beaten earth",
+      "cls": "alley",
+      "note": "The back lane behind the Ford Road frontage. Laundry across it at first-floor height, privies at the far ends of the plots, and never dry.",
+      "path": [
+        [
+          -17.0,
+          31.0
+        ],
+        [
+          -17.6,
+          41.0
+        ],
+        [
+          -18.2,
+          52.0
+        ]
+      ]
+    },
+    {
+      "id": "sty_lane",
+      "name": "Sty Lane",
+      "width": 3.0,
+      "verge": 0.4,
+      "surface": "beaten earth",
+      "cls": "lane",
+      "note": "The back lane of the fire quarter, serving the yards, the sawpit, the sties and the privies. Ends at the wall stair under the Cinder Tower and the midden beyond it.",
+      "path": [
+        [
+          4.6,
+          45.0
+        ],
+        [
+          16.0,
+          45.6
+        ],
+        [
+          28.0,
+          45.6
+        ],
+        [
+          40.0,
+          44.4
+        ],
+        [
+          50.0,
+          42.4
+        ]
+      ]
+    },
+    {
+      "id": "tan_road",
+      "name": "Tan Road",
+      "width": 4.0,
+      "verge": 0.8,
+      "surface": "dirt, tan-black",
+      "cls": "lane",
+      "outside": true,
+      "note": "OUTSIDE the wall. From the Water Gate along the mere shore to the tannery. Nobody walks it who does not have to.",
+      "path": [
+        [
+          50.0,
+          -57.0
+        ],
+        [
+          58.0,
+          -49.0
+        ],
+        [
+          64.0,
+          -41.0
+        ],
+        [
+          70.0,
+          -34.0
+        ],
+        [
+          75.0,
+          -28.0
+        ]
+      ]
+    },
+    {
+      "id": "fishers_steps",
+      "name": "Fishers' Steps",
+      "width": 2.5,
+      "verge": 0.25,
+      "surface": "stone steps",
+      "cls": "steps",
+      "note": "9 risers of 0.155 m taking the 1.4 m from Wharf Lane up to the Rope Walk terrace. Worn into a hollow on the left-hand side, because a man carrying a basket carries it on his right.",
+      "path": [
+        [
+          51.0,
+          -58.0
+        ],
+        [
+          55.0,
+          -62.0
         ]
       ]
     }
   ],
-  "landmarks": [
-    {
-      "id": "hm.gate.north",
-      "name": "North Gate",
-      "pos": [
-        0,
-        0,
-        -46
+  "wall": {
+    "comment": "Low customs wall: 6.0 m to the wall-walk, 1.2 m parapet, 1.4 m thick battering to 1.1 m \u2014 but the height varies stretch by stretch with the ground and with the wall's history (see venues/wall.py _stretches: robbed garden wall 2.35, oldest north-west run 4.9, the collapse rebuilt in sandstone 6.9, the sixty-year-old ashlar south-east 7.6, the Mere frontage 7.9). The eleven towers are the OLDER burh turrets the curtain was strung between, which is why they run 10.6-18.4 m. Irregular oval following the river and the contour. Its outer face is 0.8-4.0 m inside the mere's shoreline from the Crane Tower to the Heron Tower, with the berm and Tan Road on the strip between. Path is [x, z]; take the level from terrain.",
+    "path": [
+      [
+        -2.4,
+        -76.0
       ],
-      "comment": "The player's arrival frame. Must show: the gate arch framing the shot, Ford Road leading the eye, the fountain as focal point at centre, the guild tower rising on the RIGHT (facing +Z, screen-right is -X, and the guild sits west at x=-12.5), the inn's roofline on the left, stall colour, and NPCs moving."
+      [
+        10.0,
+        -75.6
+      ],
+      [
+        20.0,
+        -74.4
+      ],
+      [
+        28.0,
+        -72.4
+      ],
+      [
+        34.0,
+        -70.0
+      ],
+      [
+        40.0,
+        -66.8
+      ],
+      [
+        45.0,
+        -62.6
+      ],
+      [
+        50.0,
+        -57.0
+      ],
+      [
+        55.0,
+        -51.4
+      ],
+      [
+        60.0,
+        -43.4
+      ],
+      [
+        66.0,
+        -35.0
+      ],
+      [
+        71.0,
+        -29.0
+      ],
+      [
+        75.0,
+        -20.0
+      ],
+      [
+        77.5,
+        -8.0
+      ],
+      [
+        78.0,
+        5.0
+      ],
+      [
+        77.0,
+        20.0
+      ],
+      [
+        75.0,
+        34.0
+      ],
+      [
+        70.0,
+        48.0
+      ],
+      [
+        62.0,
+        60.0
+      ],
+      [
+        50.0,
+        69.0
+      ],
+      [
+        34.0,
+        74.5
+      ],
+      [
+        18.0,
+        77.6
+      ],
+      [
+        1.0,
+        78.5
+      ],
+      [
+        -14.0,
+        78.0
+      ],
+      [
+        -30.0,
+        75.6
+      ],
+      [
+        -45.0,
+        71.0
+      ],
+      [
+        -58.0,
+        64.0
+      ],
+      [
+        -68.0,
+        53.0
+      ],
+      [
+        -75.0,
+        39.0
+      ],
+      [
+        -79.0,
+        23.0
+      ],
+      [
+        -80.0,
+        7.0
+      ],
+      [
+        -79.4,
+        -6.0
+      ],
+      [
+        -79.0,
+        -13.0
+      ],
+      [
+        -78.0,
+        -26.0
+      ],
+      [
+        -75.0,
+        -40.0
+      ],
+      [
+        -70.0,
+        -52.0
+      ],
+      [
+        -62.0,
+        -62.0
+      ],
+      [
+        -52.0,
+        -68.6
+      ],
+      [
+        -38.0,
+        -73.2
+      ],
+      [
+        -24.0,
+        -75.4
+      ],
+      [
+        -12.0,
+        -76.2
+      ]
+    ],
+    "walkHeight": 6.0,
+    "parapet": 1.2,
+    "thicknessBase": 1.4,
+    "nearWater": [
+      [
+        45.0,
+        -62.6
+      ],
+      [
+        66.0,
+        -35.0
+      ]
+    ],
+    "gates": [
+      {
+        "id": "hm.wall.gate.north",
+        "name": "North Gate",
+        "kind": "gate",
+        "pos": [
+          -2.4,
+          -76.0
+        ],
+        "rot": 0,
+        "clear": 4.2,
+        "head": 5.0,
+        "note": "Ford Road and the bridge. Twin drum towers, 12.8 m overall, spur stones scored by nave hubs, the town's heron carved on the keystone. Departure and return frame."
+      },
+      {
+        "id": "hm.wall.gate.south",
+        "name": "South Gate",
+        "kind": "gate",
+        "pos": [
+          1.0,
+          78.5
+        ],
+        "rot": 180,
+        "clear": 4.0,
+        "head": 4.8,
+        "note": "Ford Road climbing away to the quest zones. Single square gatehouse, 10.5 m, ward's chamber over the arch."
+      },
+      {
+        "id": "hm.wall.gate.west",
+        "name": "West Gate",
+        "kind": "gate",
+        "pos": [
+          -79.0,
+          -13.0
+        ],
+        "rot": 270,
+        "clear": 3.8,
+        "head": 4.6,
+        "note": "Mere Street to the west pastures. The oldest gate, its arch settled 0.2 m out of plumb and pinned with iron cramps."
+      },
+      {
+        "id": "hm.wall.gate.water",
+        "name": "Water Gate",
+        "kind": "water",
+        "pos": [
+          50.0,
+          -57.0
+        ],
+        "rot": 42,
+        "clear": 4.6,
+        "head": 5.4,
+        "note": "Wharf Lane onto the wharf. Wide cart arch with a portcullis groove never fitted, plus a 1.6 m boat wicket at the north jamb. A 0.8 m ramp inside the arch takes the drop to the deck, with a cart-brake groove worn 60 mm into the threshold stone."
+      },
+      {
+        "id": "hm.wall.postern.mill",
+        "name": "Mill Postern",
+        "kind": "postern",
+        "pos": [
+          -46.5,
+          -71.6
+        ],
+        "rot": 315,
+        "clear": 2.2,
+        "head": 2.9,
+        "note": "Mill Lane to the watermill and the leat. Foot and handcart only."
+      },
+      {
+        "id": "hm.wall.postern.ferry",
+        "name": "Ferry Postern",
+        "kind": "postern",
+        "pos": [
+          17.0,
+          -74.9
+        ],
+        "rot": 0,
+        "clear": 1.9,
+        "head": 2.6,
+        "note": "The old ferry stair, behind the Ferryman's Lamp. The stair is still there; the ferry has not run since the bridge was built."
+      },
+      {
+        "id": "hm.wall.postern.east",
+        "name": "East Postern",
+        "kind": "postern",
+        "pos": [
+          78.0,
+          4.0
+        ],
+        "rot": 90,
+        "clear": 2.0,
+        "head": 2.7,
+        "note": "Onto the orchard and the graveyard extension. Kept locked at dusk."
+      }
+    ],
+    "towers": [
+      {
+        "id": "hm.wall.tower.01",
+        "name": "Mill Tower",
+        "pos": [
+          -52.0,
+          -68.6
+        ],
+        "shape": "round",
+        "height": 13.6,
+        "roof": "cone"
+      },
+      {
+        "id": "hm.wall.tower.02",
+        "name": "Bridgefoot Tower",
+        "pos": [
+          -12.0,
+          -76.2
+        ],
+        "shape": "round",
+        "height": 15.8,
+        "roof": "cone",
+        "note": "Flanks the North Gate on the departure frame, so it is the tallest of the drums and carries a weathervane."
+      },
+      {
+        "id": "hm.wall.tower.03",
+        "name": "Ferry Tower",
+        "pos": [
+          20.0,
+          -74.4
+        ],
+        "shape": "round",
+        "height": 12.8,
+        "roof": "cone"
+      },
+      {
+        "id": "hm.wall.tower.04",
+        "name": "Crane Tower",
+        "pos": [
+          45.0,
+          -62.6
+        ],
+        "shape": "round",
+        "height": 15.2,
+        "roof": "cone",
+        "note": "The waterfront anchor beside the Water Gate; reads from the Mere with the crane."
+      },
+      {
+        "id": "hm.wall.tower.05",
+        "name": "Heron Tower",
+        "pos": [
+          66.0,
+          -35.0
+        ],
+        "shape": "square",
+        "height": 18.4,
+        "roof": "pyramid",
+        "note": "The north-east angle. The town's profile from a boat is this turret, the crane and the church spire, in that order."
+      },
+      {
+        "id": "hm.wall.tower.06",
+        "name": "Orchard Tower",
+        "pos": [
+          77.0,
+          20.0
+        ],
+        "shape": "round",
+        "height": 11.4,
+        "roof": "open",
+        "note": "Never re-roofed. Open crown, an ash growing out of it, and the orchard has been allowed up to its foot."
+      },
+      {
+        "id": "hm.wall.tower.07",
+        "name": "Cinder Tower",
+        "pos": [
+          62.0,
+          60.0
+        ],
+        "shape": "round",
+        "height": 14.0,
+        "roof": "cone"
+      },
+      {
+        "id": "hm.wall.tower.08",
+        "name": "Southgate Tower",
+        "pos": [
+          -30.0,
+          75.6
+        ],
+        "shape": "round",
+        "height": 15.0,
+        "roof": "cone"
+      },
+      {
+        "id": "hm.wall.tower.09",
+        "name": "Tenter Tower",
+        "pos": [
+          -68.0,
+          53.0
+        ],
+        "shape": "square",
+        "height": 17.2,
+        "roof": "pyramid"
+      },
+      {
+        "id": "hm.wall.tower.10",
+        "name": "Spring Tower",
+        "pos": [
+          -80.0,
+          7.0
+        ],
+        "shape": "round",
+        "height": 10.6,
+        "roof": "open",
+        "note": "Robbed with the garden stretch beside it. The lowest thing on the circuit and the reason the west profile dips."
+      },
+      {
+        "id": "hm.wall.tower.11",
+        "name": "Pasture Tower",
+        "pos": [
+          -78.0,
+          -26.0
+        ],
+        "shape": "round",
+        "height": 13.2,
+        "roof": "cone"
+      }
+    ],
+    "stairs": [
+      [
+        -6.0,
+        -74.6
+      ],
+      [
+        52.5,
+        -53.0
+      ],
+      [
+        74.5,
+        22.0
+      ],
+      [
+        -6.0,
+        76.6
+      ],
+      [
+        -79.4,
+        -6.0
+      ]
+    ]
+  },
+  "water": {
+    "source": "content/town/terrain.json",
+    "comment": "The water is the ground: the same height field that carves the channel and the basin is the one the client walks on and the terrain venue renders. This block used to carry its own polygons for the Emberflow, the Mere, a mill leat and the wharf, at a surface 0.20 m off the real one \u2014 see D-022 and D-024. Read water.channels in terrain.json; take the surface from terrain.waterLevel().",
+    "surfaceY": -3.1,
+    "bodies": [
+      {
+        "id": "hm.water.emberflow",
+        "name": "The Emberflow",
+        "kind": "channel"
+      },
+      {
+        "id": "hm.water.ford",
+        "name": "The old ford",
+        "kind": "channel"
+      },
+      {
+        "id": "hm.water.mere",
+        "name": "The Mere",
+        "kind": "basin"
+      },
+      {
+        "id": "hm.water.mere_deep",
+        "name": "The Mere \u00e2\u20ac\u201d deep water",
+        "kind": "basin"
+      },
+      {
+        "id": "hm.water.harbour",
+        "name": "The harbour basin",
+        "kind": "basin"
+      }
+    ],
+    "wharf": [
+      [
+        42.75,
+        -66.63
+      ],
+      [
+        60.09,
+        -47.21
+      ],
+      [
+        72.04,
+        -57.88
+      ],
+      [
+        54.7,
+        -77.3
+      ]
+    ]
+  },
+  "marketPlace": {
+    "polygon": [
+      [
+        5.5,
+        -28.0
+      ],
+      [
+        -8.0,
+        -28.6
+      ],
+      [
+        -15.2,
+        -28.4
+      ],
+      [
+        -15.9,
+        -32.8
+      ],
+      [
+        -26.2,
+        -32.2
+      ],
+      [
+        -26.4,
+        -24.5
+      ],
+      [
+        -25.0,
+        -16.0
+      ],
+      [
+        -25.0,
+        -4.0
+      ],
+      [
+        -27.5,
+        8.0
+      ],
+      [
+        -24.0,
+        18.0
+      ],
+      [
+        -6.0,
+        19.5
+      ],
+      [
+        3.0,
+        16.0
+      ],
+      [
+        5.0,
+        2.0
+      ],
+      [
+        6.5,
+        -13.0
+      ]
+    ],
+    "step": {
+      "a": [
+        -24.0,
+        0.6
+      ],
+      "b": [
+        4.0,
+        0.6
+      ],
+      "risers": 3,
+      "rise": 0.16,
+      "note": "Three risers and a bench-wall across the market place, separating the upper market (dry goods, south) from the lower (fish and greens, north, where the wash-down drains). Traders sit on it. Mounting block at its west end."
+    }
+  },
+  "openLots": [
+    {
+      "id": "hm.lot.graveyard",
+      "name": "Churchyard & graveyard",
+      "kind": "graveyard",
+      "poly": [
+        [
+          24,
+          -20
+        ],
+        [
+          58.5,
+          -20
+        ],
+        [
+          58.5,
+          23
+        ],
+        [
+          24,
+          23
+        ]
+      ],
+      "note": "Wrapped round the church on the terrace. Yew at the north-west angle, older stones leaning north, newer ground to the east."
     },
+    {
+      "id": "hm.lot.orchard",
+      "name": "Glebe orchard",
+      "kind": "orchard",
+      "poly": [
+        [
+          80,
+          2
+        ],
+        [
+          96,
+          6
+        ],
+        [
+          96,
+          34
+        ],
+        [
+          78,
+          28
+        ]
+      ],
+      "note": "Outside the east postern. Twelve old apples, grass long under them."
+    },
+    {
+      "id": "hm.lot.tenter",
+      "name": "Tenter ground",
+      "kind": "yard",
+      "poly": [
+        [
+          -46,
+          34
+        ],
+        [
+          -30,
+          36
+        ],
+        [
+          -32,
+          52
+        ],
+        [
+          -48,
+          50
+        ]
+      ],
+      "note": "Cloth stretched on frames. Reads as colour from the wall-walk."
+    },
+    {
+      "id": "hm.lot.waggonyard",
+      "name": "Southgate waggon yard",
+      "kind": "yard",
+      "poly": [
+        [
+          6,
+          54
+        ],
+        [
+          22,
+          54
+        ],
+        [
+          22,
+          70
+        ],
+        [
+          6,
+          70
+        ]
+      ],
+      "note": "Turning circle, waggon poles, a spare wheel leaning on the shed."
+    },
+    {
+      "id": "hm.lot.stableyard",
+      "name": "Grey Heron stable yard",
+      "kind": "yard",
+      "poly": [
+        [
+          -58,
+          -34
+        ],
+        [
+          -42,
+          -34
+        ],
+        [
+          -42,
+          -18
+        ],
+        [
+          -58,
+          -18
+        ]
+      ],
+      "note": "Muck heap, water trough, tack on pegs, two hunters and a mule."
+    },
+    {
+      "id": "hm.lot.smithyard",
+      "name": "Blacksmith's yard",
+      "kind": "yard",
+      "poly": [
+        [
+          -44,
+          48
+        ],
+        [
+          -22,
+          52
+        ],
+        [
+          -24,
+          66
+        ],
+        [
+          -46,
+          64
+        ]
+      ],
+      "note": "Cut platform, 1.1 m revetment on the north side, iron stock, horseshoes in a pile, scale ground into the dirt."
+    },
+    {
+      "id": "hm.lot.midden",
+      "name": "The midden",
+      "kind": "midden",
+      "poly": [
+        [
+          62,
+          64
+        ],
+        [
+          74,
+          58
+        ],
+        [
+          82,
+          70
+        ],
+        [
+          70,
+          78
+        ]
+      ],
+      "note": "Outside the Cinder Tower, downwind. Kites over it."
+    },
+    {
+      "id": "hm.lot.quay",
+      "name": "The quay",
+      "kind": "quay",
+      "poly": [
+        [
+          42.75,
+          -66.63
+        ],
+        [
+          60.09,
+          -47.21
+        ],
+        [
+          72.04,
+          -57.88
+        ],
+        [
+          54.7,
+          -77.3
+        ]
+      ],
+      "note": "Wharf deck at -1.55 with a lower stage at -2.85 reached by the quay stair and a slipway. Bollards, mooring rings, fish drying racks, four flat-bottomed lighters, crane at slot 94."
+    },
+    {
+      "id": "hm.lot.gardens_west",
+      "name": "West kitchen gardens",
+      "kind": "garden",
+      "poly": [
+        [
+          -74,
+          -14
+        ],
+        [
+          -58,
+          -13
+        ],
+        [
+          -58,
+          0
+        ],
+        [
+          -74,
+          -1
+        ]
+      ],
+      "note": "Beans, leeks, a beehive, hurdle fences that lean."
+    },
+    {
+      "id": "hm.lot.gardens_ne",
+      "name": "Kirkgate gardens",
+      "kind": "garden",
+      "poly": [
+        [
+          24,
+          -46
+        ],
+        [
+          34,
+          -46
+        ],
+        [
+          34,
+          -34
+        ],
+        [
+          24,
+          -34
+        ]
+      ],
+      "note": "Cabbage, a rain butt, washing lines."
+    },
+    {
+      "id": "hm.lot.ford",
+      "name": "The old ford",
+      "kind": "water",
+      "poly": [
+        [
+          7.0,
+          -79.5
+        ],
+        [
+          14.0,
+          -78.8
+        ],
+        [
+          19.0,
+          -83.0
+        ],
+        [
+          19.0,
+          -93.0
+        ],
+        [
+          13.0,
+          -96.0
+        ],
+        [
+          7.0,
+          -92.0
+        ]
+      ],
+      "note": "The reason the town exists, now silted and disused. A gravel bar under 0.45 m of water 16 m east of the bridge, with a shelving bay in the south bank where the approach ramp still runs into the river \u2014 kerb broken, cart ruts filled with weed. Visible from the bridge parapet, which is the point of it."
+    }
+  ],
+  "landmarks": [
     {
       "id": "hm.fountain",
       "name": "Heron Fountain",
       "pos": [
-        0,
-        0,
-        0
-      ]
+        0.0,
+        0.0
+      ],
+      "groundY": 0.0,
+      "comment": "Octagonal basin 6.8 m across the flats, kerb 0.52 m, worn dish where buckets scrape. Central pier with a heron spout at 2.9 m, total 4.4 m. Built over the old town well; that is why it is off-centre in the market place and why the conduit runs in from Well Lane."
     },
     {
-      "id": "hm.road.south",
-      "name": "South Road",
+      "id": "hm.market.cross",
+      "name": "Market Cross",
       "pos": [
-        0,
-        0,
-        46
+        -6.0,
+        8.0
       ],
-      "comment": "Exit to the quest zones. Every street must terminate in something worth walking toward."
+      "groundY": 0.0,
+      "comment": "Stepped octagonal base, shaft to 5.2 m, weather-worn heron finial. Proclamations are read from the second step."
+    },
+    {
+      "id": "hm.bridge",
+      "name": "Emberflow Bridge",
+      "pos": [
+        -3.7,
+        -86.0
+      ],
+      "groundY": -5.6,
+      "comment": "Three segmental arches, cutwaters upstream with triangular refuges over them, deck 5.6 m between parapets, crown at -0.90 \u2014 2.2 m of headroom over the water. The parapet is 0.3 m lower on the east because it was knocked out by a barge and rebuilt cheaply. It stands 10 m outside the north gate and 13 m of open water wide, because the north abutment's causeway narrows the channel: the departure frame is gate, causeway, bridge, and the silted ford beside it."
+    },
+    {
+      "id": "hm.altar",
+      "name": "The Summoning Altar",
+      "pos": [
+        43.0,
+        -0.5
+      ],
+      "groundY": 0.0,
+      "comment": "Player spawn. Dais 0.90 m, three steps, worn stone floor reading as a path from the dais to the west door."
+    }
+  ],
+  "sightlines": [
+    {
+      "id": "hm.sightline.arrival",
+      "name": "The arrival frame",
+      "eye": [
+        43.0,
+        4.92,
+        -0.5
+      ],
+      "facingDeg": 270.0,
+      "aperture": {
+        "plane": [
+          "x",
+          32.0
+        ],
+        "halfWidth": 3.2,
+        "head": 10.4,
+        "halfTangent": 0.2909
+      },
+      "mustBeVisible": [
+        {
+          "what": "fountain",
+          "pos": [
+            0.0,
+            0.0
+          ],
+          "topY": 4.4,
+          "rangeM": 43.0,
+          "offAxisDeg": 0.7
+        },
+        {
+          "what": "guild tower",
+          "pos": [
+            -28.5,
+            -4.5
+          ],
+          "topY": 21.5,
+          "rangeM": 71.6,
+          "offAxisDeg": -3.2
+        },
+        {
+          "what": "moot hall bell-cote",
+          "pos": [
+            -9.3,
+            12.6
+          ],
+          "topY": 15.8,
+          "rangeM": 53.9,
+          "offAxisDeg": 14.1
+        },
+        {
+          "what": "Grey Heron Inn, south-east angle",
+          "pos": [
+            -27.0,
+            -18.0
+          ],
+          "topY": 14.2,
+          "rangeM": 72.2,
+          "offAxisDeg": -14.0
+        },
+        {
+          "what": "market cross",
+          "pos": [
+            -6.0,
+            8.0
+          ],
+          "topY": 5.2,
+          "rangeM": 49.7,
+          "offAxisDeg": 9.8
+        }
+      ],
+      "comment": "Standing on the altar and looking west through the open great west door. Verified by tools/plan/townplan.py --check: every anchor lies inside the portal cone, under the door head, and is unblocked by any building slot."
+    },
+    {
+      "id": "hm.sightline.gate.north",
+      "name": "North Gate frame",
+      "eye": [
+        -2.4,
+        -0.23,
+        -76.0
+      ],
+      "facingDeg": 180,
+      "comment": "See docs/TOWN_PLAN.md section 7."
+    },
+    {
+      "id": "hm.sightline.gate.south",
+      "name": "South Gate frame",
+      "eye": [
+        1.0,
+        3.52,
+        78.5
+      ],
+      "facingDeg": 0,
+      "comment": "See docs/TOWN_PLAN.md section 7."
+    },
+    {
+      "id": "hm.sightline.gate.west",
+      "name": "West Gate frame",
+      "eye": [
+        -79.0,
+        2.02,
+        -13.0
+      ],
+      "facingDeg": 90,
+      "comment": "See docs/TOWN_PLAN.md section 7."
+    },
+    {
+      "id": "hm.sightline.gate.water",
+      "name": "Water Gate frame",
+      "eye": [
+        50.0,
+        0.55,
+        -57.0
+      ],
+      "facingDeg": 222,
+      "comment": "See docs/TOWN_PLAN.md section 7."
     }
   ],
   "ambient": {
-    "comment": "Art Bible \u00a77: static worlds read as dioramas. These drive the client's motion systems.",
+    "comment": "Art Bible \u00a77: static worlds read as dioramas. These drive the client's motion systems. Authoritative copy is tools/plan/plan_data.py:AMBIENT.",
     "wind": {
       "direction": [
         0.82,

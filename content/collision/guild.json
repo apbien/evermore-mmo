@@ -1,0 +1,289 @@
+{
+  "$schema": "../schemas/collision.schema.json",
+  "venue": "guild",
+  "cells": [
+    "D6",
+    "D7",
+    "E6",
+    "E7"
+  ],
+  "space": "venue-local",
+  "volumes": [
+    {
+      "shape": "box",
+      "center": [
+        -0.0,
+        0.16,
+        0.0
+      ],
+      "half": [
+        8.0,
+        0.26,
+        8.0
+      ],
+      "rotY": -3.1416,
+      "kind": "surface",
+      "tag": "stylobate"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        0.525,
+        5.85
+      ],
+      "half": [
+        7.7,
+        0.105,
+        0.4
+      ],
+      "rotY": 0.0,
+      "kind": "surface",
+      "tag": "step"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        0.63,
+        6.05
+      ],
+      "half": [
+        7.7,
+        0.21,
+        0.2
+      ],
+      "rotY": 0.0,
+      "kind": "surface",
+      "tag": "step"
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.64,
+        0.21,
+        7.1
+      ],
+      "half": [
+        0.42,
+        0.252,
+        0.9
+      ],
+      "rotY": -3.1416,
+      "tag": "step_cheek"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -7.64,
+        0.21,
+        7.1
+      ],
+      "half": [
+        0.42,
+        0.252,
+        0.9
+      ],
+      "rotY": -3.1416,
+      "tag": "step_cheek"
+    },
+    {
+      "shape": "box",
+      "center": [
+        3.0,
+        4.41,
+        3.6
+      ],
+      "half": [
+        4.4,
+        3.99,
+        0.31
+      ],
+      "tag": "hall",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.2,
+        4.41,
+        3.6
+      ],
+      "half": [
+        1.2,
+        3.99,
+        0.31
+      ],
+      "tag": "hall",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.0,
+        4.41,
+        -7.4
+      ],
+      "half": [
+        7.4,
+        3.99,
+        0.31
+      ],
+      "tag": "hall",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.4,
+        4.41,
+        -1.9
+      ],
+      "half": [
+        0.31,
+        3.99,
+        5.5
+      ],
+      "tag": "hall",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -7.4,
+        4.41,
+        -1.9
+      ],
+      "half": [
+        0.31,
+        3.99,
+        5.5
+      ],
+      "tag": "hall",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.31,
+        3.27,
+        4.25
+      ],
+      "half": [
+        0.36,
+        2.85,
+        0.75
+      ],
+      "tag": "porch",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.09,
+        3.27,
+        4.25
+      ],
+      "half": [
+        0.36,
+        2.85,
+        0.75
+      ],
+      "tag": "porch",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.85,
+        1.82,
+        4.02
+      ],
+      "half": [
+        1.42,
+        1.4,
+        0.16
+      ],
+      "tag": "quest_board",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.2,
+        0.99,
+        -1.5
+      ],
+      "half": [
+        2.2,
+        0.55,
+        0.45
+      ],
+      "tag": "counter",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        4.5,
+        8.985,
+        4.5
+      ],
+      "half": [
+        3.84,
+        8.765,
+        3.84
+      ],
+      "tag": "tower",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -6.1,
+        1.31,
+        5.9
+      ],
+      "radius": 0.24,
+      "height": 1.78,
+      "tag": "pell"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -7.05,
+        1.23,
+        4.2
+      ],
+      "radius": 0.24,
+      "height": 1.62,
+      "tag": "pell"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.7,
+        1.37,
+        4.15
+      ],
+      "half": [
+        1.45,
+        0.95,
+        0.22
+      ],
+      "rotY": 3.0416,
+      "tag": "rack"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -7.25,
+        1.84,
+        6.55
+      ],
+      "radius": 0.2,
+      "height": 2.85,
+      "tag": "bell_post"
+    }
+  ]
+}

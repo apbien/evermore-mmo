@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "collision.schema.json",
+  "title": "Venue collision",
+  "description": "Authored collision volumes for one venue, in VENUE-LOCAL space. The client composes the venue's origin and Y rotation from content/town/*.json, exactly as it does for the mesh, so collision can never drift from geometry by a transform. Build Directive section 6 rule 4: deriving collision from a venue's bounding box is banned.",
+  "type": "object",
+  "required": ["venue", "volumes"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "venue": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "description": "Venue id; matches assets/meshes/<venue>.gltf and the town's venues[].id."
+    },
+    "cells": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[A-L](1[0-2]|[1-9])$" },
+      "description": "16 m grid cells the venue occupies (ARCHITECTURE section 3)."
+    },
+    "space": {
+      "type": "string",
+      "enum": ["venue-local"],
+      "description": "Reserved. World-space collision is not accepted: it would let a venue's collision and mesh be placed differently."
+    },
+    "volumes": {
+      "type": "array",
+      "description": "Convex, Y-extruded volumes. Empty is legal but means 'this venue is genuinely walk-through' and is reported by validate.py.",
+      "items": { "$ref": "#/definitions/volume" }
+    }
+  },
+  "definitions": {
+    "vec3": {
+      "type": "array",
+      "items": { "type": "number" },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "common": {
+      "id": { "type": "string" },
+      "tag": {
+        "type": "string",
+        "description": "Authoring label (wall, plinth, road, prop). Not gameplay state."
+      },
+      "kind": {
+        "type": "string",
+        "enum": ["solid", "surface"],
+        "default": "solid",
+        "description": "solid blocks movement. surface only offers a standing height: roads, plazas and yard floors are raised walkable ground, never walls."
+      }
+    },
+    "volume": {
+      "type": "object",
+      "required": ["shape"],
+      "oneOf": [
+        {
+          "properties": {
+            "shape": { "const": "box" },
+            "center": { "$ref": "#/definitions/vec3" },
+            "half": {
+              "type": "array",
+              "items": { "type": "number", "exclusiveMinimum": 0 },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "rotY": {
+              "type": "number",
+              "description": "Radians about +Y. x' = cos*x + sin*z, z' = -sin*x + cos*z — the same convention as Mesh.rotate_y and three.js rotation.y."
+            },
+            "id": { "$ref": "#/definitions/common/id" },
+            "tag": { "$ref": "#/definitions/common/tag" },
+            "kind": { "$ref": "#/definitions/common/kind" }
+          },
+          "required": ["shape", "center", "half"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "shape": { "const": "cylinder" },
+            "center": {
+              "$ref": "#/definitions/vec3",
+              "description": "Centre of the VOLUME, not the base — same convention as box."
+            },
+            "radius": { "type": "number", "exclusiveMinimum": 0 },
+            "height": { "type": "number", "exclusiveMinimum": 0 },
+            "id": { "$ref": "#/definitions/common/id" },
+            "tag": { "$ref": "#/definitions/common/tag" },
+            "kind": { "$ref": "#/definitions/common/kind" }
+          },
+          "required": ["shape", "center", "radius", "height"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "shape": { "const": "hull" },
+            "points": {
+              "type": "array",
+              "minItems": 3,
+              "items": {
+                "type": "array",
+                "items": { "type": "number" },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "description": "Convex ring in XZ, counter-clockwise, extruded between minY and maxY."
+            },
+            "minY": { "type": "number" },
+            "maxY": { "type": "number" },
+            "id": { "$ref": "#/definitions/common/id" },
+            "tag": { "$ref": "#/definitions/common/tag" },
+            "kind": { "$ref": "#/definitions/common/kind" }
+          },
+          "required": ["shape", "points", "minY", "maxY"],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

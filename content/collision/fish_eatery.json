@@ -1,0 +1,150 @@
+{
+  "$schema": "../schemas/collision.schema.json",
+  "venue": "fish_eatery",
+  "cells": [
+    "H3",
+    "H4",
+    "I3",
+    "I4"
+  ],
+  "space": "venue-local",
+  "volumes": [
+    {
+      "shape": "box",
+      "center": [
+        36.4,
+        -1.1753,
+        -51.6
+      ],
+      "half": [
+        5.0991,
+        0.1853,
+        4.1004
+      ],
+      "rotY": -0.192,
+      "tag": "plinth"
+    },
+    {
+      "shape": "box",
+      "center": [
+        32.9204,
+        1.4451,
+        -56.3516
+      ],
+      "half": [
+        0.6768,
+        2.4351,
+        0.18
+      ],
+      "rotY": -0.192,
+      "tag": "wall.hm.slot.64.fish_eatery"
+    },
+    {
+      "shape": "box",
+      "center": [
+        38.5639,
+        1.4451,
+        -55.2546
+      ],
+      "half": [
+        3.5723,
+        2.4351,
+        0.18
+      ],
+      "rotY": -0.192,
+      "tag": "wall.hm.slot.64.fish_eatery"
+    },
+    {
+      "shape": "box",
+      "center": [
+        35.6367,
+        1.4451,
+        -47.6731
+      ],
+      "half": [
+        4.9991,
+        2.4351,
+        0.18
+      ],
+      "rotY": -0.192,
+      "tag": "wall.hm.slot.64.fish_eatery"
+    },
+    {
+      "shape": "box",
+      "center": [
+        31.4927,
+        1.4451,
+        -52.5539
+      ],
+      "half": [
+        0.18,
+        2.4351,
+        4.0004
+      ],
+      "rotY": -0.192,
+      "tag": "wall.hm.slot.64.fish_eatery"
+    },
+    {
+      "shape": "box",
+      "center": [
+        41.3073,
+        1.4451,
+        -50.6461
+      ],
+      "half": [
+        0.18,
+        2.4351,
+        4.0004
+      ],
+      "rotY": -0.192,
+      "tag": "wall.hm.slot.64.fish_eatery"
+    },
+    {
+      "shape": "box",
+      "center": [
+        34.3973,
+        -1.268,
+        -56.472
+      ],
+      "half": [
+        0.925,
+        0.0927,
+        0.34
+      ],
+      "rotY": -0.192,
+      "kind": "surface",
+      "tag": "step"
+    },
+    {
+      "shape": "box",
+      "center": [
+        34.3649,
+        -1.1753,
+        -56.3052
+      ],
+      "half": [
+        0.925,
+        0.1853,
+        0.17
+      ],
+      "rotY": -0.192,
+      "kind": "surface",
+      "tag": "step"
+    },
+    {
+      "shape": "box",
+      "center": [
+        35.7813,
+        0.325,
+        -44.487
+      ],
+      "half": [
+        2.2,
+        1.375,
+        1.8
+      ],
+      "rotY": -0.192,
+      "tag": "smoke_shed"
+    }
+  ]
+}

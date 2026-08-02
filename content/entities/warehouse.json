@@ -1,0 +1,494 @@
+{
+  "venue": "warehouse",
+  "cells": [
+    "B2",
+    "B3",
+    "B7",
+    "C2",
+    "C3",
+    "C7",
+    "H2",
+    "H4",
+    "H5",
+    "I11",
+    "I2",
+    "I4",
+    "I5",
+    "J11",
+    "J4",
+    "J5",
+    "K4",
+    "K5"
+  ],
+  "entities": [
+    {
+      "id": "hm.townhouse.door.58",
+      "archetype": "door.warehouse",
+      "cell": "H5",
+      "transform": {
+        "pos": [
+          31.3811,
+          0.86,
+          -23.382
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.slot.58.tithe_barn.store",
+      "archetype": "container.warehouse",
+      "cell": "H5",
+      "transform": {
+        "pos": [
+          35.5,
+          0.86,
+          -24.9
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.59",
+      "archetype": "door.warehouse",
+      "cell": "I11",
+      "transform": {
+        "pos": [
+          37.3705,
+          1.68,
+          69.6401
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.slot.59.warehouse_a.store",
+      "archetype": "container.warehouse",
+      "cell": "I11",
+      "transform": {
+        "pos": [
+          40.4,
+          1.68,
+          72.3
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.60",
+      "archetype": "door.warehouse",
+      "cell": "H2",
+      "transform": {
+        "pos": [
+          31.4645,
+          -1.7864,
+          -65.5994
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.slot.60.netloft.store",
+      "archetype": "container.warehouse",
+      "cell": "H2",
+      "transform": {
+        "pos": [
+          30.6,
+          -1.7864,
+          -68.5
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.62",
+      "archetype": "door.warehouse",
+      "cell": "H4",
+      "transform": {
+        "pos": [
+          31.7,
+          -0.99,
+          -37.6044
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.slot.62.warehouse_b.store",
+      "archetype": "container.warehouse",
+      "cell": "H4",
+      "transform": {
+        "pos": [
+          35.7,
+          -0.99,
+          -40.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.63",
+      "archetype": "door.warehouse",
+      "cell": "C3",
+      "transform": {
+        "pos": [
+          -58.7239,
+          -0.7092,
+          -58.8219
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.slot.63.warehouse_c.store",
+      "archetype": "container.warehouse",
+      "cell": "B2",
+      "transform": {
+        "pos": [
+          -63.7,
+          -0.7092,
+          -59.8
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.67",
+      "archetype": "door.warehouse",
+      "cell": "I5",
+      "transform": {
+        "pos": [
+          45.8665,
+          -0.99,
+          -31.425
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.slot.67.ropehouse.store",
+      "archetype": "container.warehouse",
+      "cell": "I4",
+      "transform": {
+        "pos": [
+          52.0,
+          -0.99,
+          -31.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.80",
+      "archetype": "door.warehouse",
+      "cell": "B7",
+      "transform": {
+        "pos": [
+          -70.4886,
+          0.06,
+          8.9155
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.slot.80.malthouse.cowl",
+      "archetype": "prop.kiln_cowl",
+      "cell": "B2",
+      "transform": {
+        "pos": [
+          -66.2726,
+          11.6044,
+          4.6314
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        },
+        "smoke": {
+          "rate": 0.35,
+          "drift": [
+            0.8,
+            0,
+            0.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.slot.80.malthouse.store",
+      "archetype": "container.warehouse",
+      "cell": "B7",
+      "transform": {
+        "pos": [
+          -66.1,
+          0.06,
+          7.1
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    }
+  ]
+}

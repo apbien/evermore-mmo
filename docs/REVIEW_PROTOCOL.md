@@ -60,10 +60,10 @@ Some limitations are recorded scope boundaries, not defects. **Do not block a
 verdict on them.** Report them separately so environment findings stay
 actionable.
 
-Currently in force:
-- **NPC / character fidelity** — D-011. Figures are primitives without
-  skinning. Score the architecture; note character findings apart from the
-  venue verdict.
+Currently in force: **none.** D-011 scoped NPC fidelity as an exception; the
+characters have since been deleted outright (D-012), so there is nothing left
+to except. The town is now the whole of the work and every part of it is in
+scope. Do not report character findings at all — there are no characters.
 
 ## Verdicts
 

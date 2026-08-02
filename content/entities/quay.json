@@ -1,0 +1,377 @@
+{
+  "venue": "quay",
+  "cells": [
+    "I3",
+    "I4",
+    "J3",
+    "J4",
+    "J2",
+    "K3",
+    "K4"
+  ],
+  "entities": [
+    {
+      "id": "hm.quay.mooring.00",
+      "archetype": "prop.mooring_bollard",
+      "cell": "J3",
+      "transform": {
+        "pos": [
+          70.4149,
+          -1.5466,
+          -58.574
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.quay.mooring.01",
+      "archetype": "prop.mooring_bollard",
+      "cell": "J3",
+      "transform": {
+        "pos": [
+          68.0172,
+          -1.5466,
+          -61.2593
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.quay.mooring.02",
+      "archetype": "prop.mooring_bollard",
+      "cell": "J3",
+      "transform": {
+        "pos": [
+          65.6195,
+          -1.5466,
+          -63.9446
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.quay.mooring.03",
+      "archetype": "prop.mooring_bollard",
+      "cell": "J3",
+      "transform": {
+        "pos": [
+          63.2218,
+          -1.5466,
+          -66.63
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.quay.mooring.04",
+      "archetype": "prop.mooring_bollard",
+      "cell": "J3",
+      "transform": {
+        "pos": [
+          60.824,
+          -1.5466,
+          -69.3153
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.quay.mooring.05",
+      "archetype": "prop.mooring_bollard",
+      "cell": "J3",
+      "transform": {
+        "pos": [
+          58.4263,
+          -1.5466,
+          -72.0006
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.quay.mooring.06",
+      "archetype": "prop.mooring_bollard",
+      "cell": "J3",
+      "transform": {
+        "pos": [
+          56.0286,
+          -1.5466,
+          -74.6859
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.quay.boat.01",
+      "archetype": "prop.boat",
+      "cell": "J3",
+      "transform": {
+        "pos": [
+          69.1617,
+          -3.1,
+          -64.1815
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.quay.boat.02",
+      "archetype": "prop.boat",
+      "cell": "J3",
+      "transform": {
+        "pos": [
+          62.7092,
+          -3.1,
+          -71.5581
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.quay.drying",
+      "archetype": "prop.drying_rack",
+      "cell": "J3",
+      "transform": {
+        "pos": [
+          49.131,
+          -1.449,
+          -66.4054
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.quay.crane.01",
+      "archetype": "prop.crane",
+      "cell": "J3",
+      "transform": {
+        "pos": [
+          61.9917,
+          -1.4414,
+          -57.0018
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        },
+        "landmark": {
+          "name": "The Wharf Crane",
+          "topY": 10.56
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.61",
+      "archetype": "door.cottage",
+      "cell": "I4",
+      "transform": {
+        "pos": [
+          42.8681,
+          -0.99,
+          -45.9381
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.quay.weighbeam.01",
+      "archetype": "prop.weighbeam",
+      "cell": "I4",
+      "transform": {
+        "pos": [
+          43.8286,
+          -1.05,
+          -50.4341
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    }
+  ]
+}

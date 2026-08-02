@@ -1,19 +1,21 @@
 {
   "venue": "inn",
   "cells": [
-    "E3",
-    "E4"
+    "D4",
+    "D5",
+    "E4",
+    "E5"
   ],
   "entities": [
     {
-      "id": "hm.inn.door.01",
+      "id": "hm.slot.01.inn.door.01",
       "archetype": "door.inn",
-      "cell": "E3",
+      "cell": "E5",
       "transform": {
         "pos": [
-          -2.65,
+          1.1,
           0.45,
-          -4.62
+          6.2
         ],
         "rot": [
           0,
@@ -39,14 +41,14 @@
       }
     },
     {
-      "id": "hm.inn.chimney.01",
+      "id": "hm.slot.01.inn.chimney.01",
       "archetype": "prop.chimney",
-      "cell": "E3",
+      "cell": "D5",
       "transform": {
         "pos": [
-          -4.1638,
-          15.6455,
-          0.0
+          5.0,
+          15.9832,
+          -3.9
         ],
         "rot": [
           0,
@@ -58,7 +60,7 @@
       },
       "components": {
         "smoke": {
-          "rate": 0.6,
+          "rate": 0.7,
           "drift": [
             0.8,
             0,
@@ -68,14 +70,14 @@
       }
     },
     {
-      "id": "hm.inn.chimney.02",
+      "id": "hm.slot.01.inn.chimney.02",
       "archetype": "prop.chimney",
-      "cell": "E3",
+      "cell": "E5",
       "transform": {
         "pos": [
-          4.4241,
-          15.9955,
-          0.0
+          1.0,
+          16.3332,
+          3.6
         ],
         "rot": [
           0,
@@ -87,7 +89,7 @@
       },
       "components": {
         "smoke": {
-          "rate": 0.6,
+          "rate": 0.7,
           "drift": [
             0.8,
             0,
@@ -97,14 +99,135 @@
       }
     },
     {
-      "id": "hm.inn.lantern.01",
+      "id": "hm.slot.01.inn.sign.01",
+      "archetype": "prop.inn_sign",
+      "cell": "E5",
+      "transform": {
+        "pos": [
+          4.65,
+          4.15,
+          6.56
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        },
+        "landmark": {
+          "name": "The Grey Heron"
+        }
+      }
+    },
+    {
+      "id": "hm.slot.01.inn.hearth.01",
+      "archetype": "prop.hearth",
+      "cell": "D5",
+      "transform": {
+        "pos": [
+          5.0,
+          0.82,
+          -5.25
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        },
+        "light": {
+          "color": "#FF9A4C",
+          "intensity": 3.4,
+          "range": 13.0,
+          "flickerHz": [
+            6,
+            10
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.slot.01.inn.bar.01",
+      "archetype": "vendor.innkeeper",
+      "cell": "D5",
+      "transform": {
+        "pos": [
+          1.25,
+          1.42,
+          -5.1
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk",
+            "buy"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.01.inn.stable.01",
+      "archetype": "prop.stable",
+      "cell": "D5",
+      "transform": {
+        "pos": [
+          -5.375,
+          0.3,
+          0.9
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.01.inn.lantern.01",
       "archetype": "prop.lantern",
-      "cell": "E3",
+      "cell": "E5",
       "transform": {
         "pos": [
-          -3.6,
-          2.8,
-          -4.62
+          -7.1,
+          2.55,
+          6.2
         ],
         "rot": [
           0,
@@ -117,8 +240,60 @@
       "components": {
         "light": {
           "color": "#FFB35C",
-          "intensity": 1.8,
-          "range": 7.0
+          "intensity": 2.0,
+          "range": 9.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.01.inn.lantern.02",
+      "archetype": "prop.lantern",
+      "cell": "E5",
+      "transform": {
+        "pos": [
+          0.05,
+          2.9,
+          6.08
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 2.2,
+          "range": 8.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.01.inn.lantern.03",
+      "archetype": "prop.lantern",
+      "cell": "E5",
+      "transform": {
+        "pos": [
+          2.25,
+          2.9,
+          6.08
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 2.2,
+          "range": 8.0
         }
       }
     }

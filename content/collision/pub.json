@@ -1,0 +1,141 @@
+{
+  "$schema": "../schemas/collision.schema.json",
+  "venue": "pub",
+  "cells": [
+    "B3",
+    "B4"
+  ],
+  "space": "venue-local",
+  "volumes": [
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        0.15,
+        -5.9
+      ],
+      "half": [
+        7.0,
+        0.15,
+        1.2
+      ],
+      "kind": "surface",
+      "tag": "apron"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.6,
+        0.15,
+        0.0
+      ],
+      "half": [
+        1.2,
+        0.15,
+        6.0
+      ],
+      "kind": "surface",
+      "tag": "apron"
+    },
+    {
+      "shape": "box",
+      "center": [
+        6.6,
+        0.15,
+        0.0
+      ],
+      "half": [
+        1.2,
+        0.15,
+        6.0
+      ],
+      "kind": "surface",
+      "tag": "apron"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        -0.025,
+        0.0
+      ],
+      "half": [
+        5.2,
+        0.275,
+        4.2
+      ],
+      "kind": "surface",
+      "tag": "plinth"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.6625,
+        1.525,
+        -4.0
+      ],
+      "half": [
+        1.3375,
+        1.275,
+        0.15
+      ],
+      "tag": "wall"
+    },
+    {
+      "shape": "box",
+      "center": [
+        2.0625,
+        1.525,
+        -4.0
+      ],
+      "half": [
+        2.9375,
+        1.275,
+        0.15
+      ],
+      "tag": "wall"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        1.525,
+        4.0
+      ],
+      "half": [
+        5.0,
+        1.275,
+        0.15
+      ],
+      "tag": "wall"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.0,
+        1.525,
+        0.0
+      ],
+      "half": [
+        0.15,
+        1.275,
+        4.0
+      ],
+      "tag": "wall"
+    },
+    {
+      "shape": "box",
+      "center": [
+        5.0,
+        1.525,
+        0.0
+      ],
+      "half": [
+        0.15,
+        1.275,
+        4.0
+      ],
+      "tag": "wall"
+    }
+  ]
+}

@@ -19,9 +19,12 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(__dirname, '../..');
 
-// Pinned browser: the npm playwright build and the preinstalled Chromium in
-// this environment are different revisions, so we point at the real binary.
-const CHROME = process.env.CHROME_BIN || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+// Browser resolution: some environments preinstall a Chromium at a fixed path
+// whose revision does not match the npm playwright build, so an explicit path
+// wins. Where that path does not exist (any normal machine, Windows included),
+// fall through to playwright's own managed download.
+const PINNED = process.env.CHROME_BIN || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+const CHROME = fs.existsSync(PINNED) ? PINNED : undefined;
 
 function arg(name, dflt = null) {
   const i = process.argv.indexOf(`--${name}`);
@@ -36,6 +39,13 @@ const W = +arg('w', 1600), H = +arg('h', 900);
 const figure = arg('no-figure') ? '0' : '1';
 const ground = arg('no-ground') ? '0' : '1';
 const label  = arg('label', path.basename(outDir));
+// Where in the town this venue actually stands. The viewer shifts the real
+// terrain so this point is under the asset's origin, so a venue is reviewed
+// standing on the ground it will actually stand on.
+const site   = arg('site', null);
+// Framing volume override, "x0,y0,z0,x1,y1,z1". Only needed for subjects whose
+// bounds are not their subject — the terrain, and later the assembled town.
+const box    = arg('box', null);
 
 const MIME = {
   '.html':'text/html', '.js':'text/javascript', '.mjs':'text/javascript',
@@ -81,6 +91,13 @@ page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
 
 const params = new URLSearchParams({ w: W, h: H, figure, ground });
 if (asset) params.set('asset', '/' + path.relative(REPO, path.resolve(asset)).replace(/\\/g, '/'));
+if (site) params.set('site', String(site));
+if (box) params.set('box', String(box));
+// `--views free --from x,y,z --to x,y,z` places the camera explicitly.
+for (const k of ['from', 'to', 'fov', 'figureAt']) {
+  const v = arg(k, null);
+  if (v) params.set(k, String(v));
+}
 
 await page.goto(`http://localhost:${port}/viewer.html?${params}`);
 try {

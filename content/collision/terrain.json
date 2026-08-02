@@ -1,0 +1,1080 @@
+{
+  "$schema": "../schemas/collision.schema.json",
+  "venue": "terrain",
+  "cells": [],
+  "space": "venue-local",
+  "volumes": [
+    {
+      "shape": "box",
+      "center": [
+        -32.25,
+        0.645,
+        16.325
+      ],
+      "half": [
+        5.75,
+        0.645,
+        0.325
+      ],
+      "tag": "retaining",
+      "id": "hm.wall.upper_n_a"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.15,
+        0.645,
+        16.325
+      ],
+      "half": [
+        5.35,
+        0.645,
+        0.325
+      ],
+      "tag": "retaining",
+      "id": "hm.wall.upper_n_b"
+    },
+    {
+      "shape": "box",
+      "center": [
+        26.9,
+        0.645,
+        16.325
+      ],
+      "half": [
+        13.1,
+        0.645,
+        0.325
+      ],
+      "tag": "retaining",
+      "id": "hm.wall.upper_n_c"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -37.0,
+        -0.455,
+        -15.7
+      ],
+      "half": [
+        5.0,
+        0.595,
+        0.3
+      ],
+      "tag": "retaining",
+      "id": "hm.wall.market_n_a"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -12.9,
+        -0.455,
+        -15.7
+      ],
+      "half": [
+        15.1,
+        0.595,
+        0.3
+      ],
+      "tag": "retaining",
+      "id": "hm.wall.market_n_b"
+    },
+    {
+      "shape": "box",
+      "center": [
+        20.9,
+        -0.455,
+        -15.7
+      ],
+      "half": [
+        7.1,
+        0.595,
+        0.3
+      ],
+      "tag": "retaining",
+      "id": "hm.wall.market_n_c"
+    },
+    {
+      "shape": "box",
+      "center": [
+        37.0,
+        -0.455,
+        -15.7
+      ],
+      "half": [
+        5.0,
+        0.595,
+        0.3
+      ],
+      "tag": "retaining",
+      "id": "hm.wall.market_n_d"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -33.875,
+        -1.38,
+        -51.7
+      ],
+      "half": [
+        6.125,
+        0.47,
+        0.3
+      ],
+      "tag": "retaining",
+      "id": "hm.wall.lower_n_a"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -14.625,
+        -1.38,
+        -51.7
+      ],
+      "half": [
+        9.625,
+        0.47,
+        0.3
+      ],
+      "tag": "retaining",
+      "id": "hm.wall.lower_n_b"
+    },
+    {
+      "shape": "box",
+      "center": [
+        15.325,
+        -1.38,
+        -51.7
+      ],
+      "half": [
+        8.925,
+        0.47,
+        0.3
+      ],
+      "tag": "retaining",
+      "id": "hm.wall.lower_n_c"
+    },
+    {
+      "shape": "box",
+      "center": [
+        33.875,
+        -1.38,
+        -51.7
+      ],
+      "half": [
+        6.125,
+        0.47,
+        0.3
+      ],
+      "tag": "retaining",
+      "id": "hm.wall.lower_n_d"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -34.875,
+        1.455,
+        44.275
+      ],
+      "half": [
+        7.125,
+        0.305,
+        0.275
+      ],
+      "tag": "retaining",
+      "id": "hm.wall.smiths_n_a"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -12.375,
+        1.455,
+        44.275
+      ],
+      "half": [
+        11.875,
+        0.305,
+        0.275
+      ],
+      "tag": "retaining",
+      "id": "hm.wall.smiths_n_b"
+    },
+    {
+      "shape": "box",
+      "center": [
+        19.375,
+        1.455,
+        44.275
+      ],
+      "half": [
+        8.875,
+        0.305,
+        0.275
+      ],
+      "tag": "retaining",
+      "id": "hm.wall.smiths_n_c"
+    },
+    {
+      "shape": "box",
+      "center": [
+        35.875,
+        1.455,
+        44.275
+      ],
+      "half": [
+        4.125,
+        0.305,
+        0.275
+      ],
+      "tag": "retaining",
+      "id": "hm.wall.smiths_n_d"
+    },
+    {
+      "shape": "box",
+      "center": [
+        58.4547,
+        -3.38,
+        -72.2688
+      ],
+      "half": [
+        5.758,
+        1.97,
+        0.55
+      ],
+      "rotY": -0.8419,
+      "tag": "retaining",
+      "id": "hm.wall.quay_face_a"
+    },
+    {
+      "shape": "box",
+      "center": [
+        67.7997,
+        -3.38,
+        -61.8088
+      ],
+      "half": [
+        5.2589,
+        1.97,
+        0.55
+      ],
+      "rotY": -0.8426,
+      "tag": "retaining",
+      "id": "hm.wall.quay_face_b"
+    },
+    {
+      "shape": "box",
+      "center": [
+        49.0579,
+        -2.905,
+        -71.592
+      ],
+      "half": [
+        7.0045,
+        1.495,
+        0.5
+      ],
+      "rotY": 0.7288,
+      "tag": "retaining",
+      "id": "hm.wall.quay_end"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -17.5,
+        0.8336,
+        15.825
+      ],
+      "half": [
+        5.5,
+        0.1521,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.church.00"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -17.5,
+        0.6693,
+        15.525
+      ],
+      "half": [
+        5.5,
+        0.1521,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.church.01"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -17.5,
+        0.505,
+        15.225
+      ],
+      "half": [
+        5.5,
+        0.1521,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.church.02"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -17.5,
+        0.3407,
+        14.925
+      ],
+      "half": [
+        5.5,
+        0.1521,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.church.03"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -17.5,
+        0.1764,
+        14.625
+      ],
+      "half": [
+        5.5,
+        0.1521,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.church.04"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -17.5,
+        0.0121,
+        14.325
+      ],
+      "half": [
+        5.5,
+        0.1521,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.church.05"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -17.5,
+        -0.1521,
+        14.025
+      ],
+      "half": [
+        5.5,
+        0.1521,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.church.06"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -30.0,
+        -0.3325,
+        -16.175
+      ],
+      "half": [
+        2.0,
+        0.1575,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.market_nw.00"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -30.0,
+        -0.5075,
+        -16.475
+      ],
+      "half": [
+        2.0,
+        0.1575,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.market_nw.01"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -30.0,
+        -0.6825,
+        -16.775
+      ],
+      "half": [
+        2.0,
+        0.1575,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.market_nw.02"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -30.0,
+        -0.8575,
+        -17.075
+      ],
+      "half": [
+        2.0,
+        0.1575,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.market_nw.03"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -30.0,
+        -1.0325,
+        -17.375
+      ],
+      "half": [
+        2.0,
+        0.1575,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.market_nw.04"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -30.0,
+        -1.2075,
+        -17.675
+      ],
+      "half": [
+        2.0,
+        0.1575,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.market_nw.05"
+    },
+    {
+      "shape": "box",
+      "center": [
+        30.0,
+        -0.3325,
+        -16.175
+      ],
+      "half": [
+        2.0,
+        0.1575,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.market_ne.00"
+    },
+    {
+      "shape": "box",
+      "center": [
+        30.0,
+        -0.5075,
+        -16.475
+      ],
+      "half": [
+        2.0,
+        0.1575,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.market_ne.01"
+    },
+    {
+      "shape": "box",
+      "center": [
+        30.0,
+        -0.6825,
+        -16.775
+      ],
+      "half": [
+        2.0,
+        0.1575,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.market_ne.02"
+    },
+    {
+      "shape": "box",
+      "center": [
+        30.0,
+        -0.8575,
+        -17.075
+      ],
+      "half": [
+        2.0,
+        0.1575,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.market_ne.03"
+    },
+    {
+      "shape": "box",
+      "center": [
+        30.0,
+        -1.0325,
+        -17.375
+      ],
+      "half": [
+        2.0,
+        0.1575,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.market_ne.04"
+    },
+    {
+      "shape": "box",
+      "center": [
+        30.0,
+        -1.2075,
+        -17.675
+      ],
+      "half": [
+        2.0,
+        0.1575,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.market_ne.05"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -26.0,
+        -1.36,
+        -52.175
+      ],
+      "half": [
+        1.75,
+        0.15,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.lower_w.00"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -26.0,
+        -1.52,
+        -52.475
+      ],
+      "half": [
+        1.75,
+        0.15,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.lower_w.01"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -26.0,
+        -1.68,
+        -52.775
+      ],
+      "half": [
+        1.75,
+        0.15,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.lower_w.02"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -26.0,
+        -1.84,
+        -53.075
+      ],
+      "half": [
+        1.75,
+        0.15,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.lower_w.03"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -26.0,
+        -2.0,
+        -53.375
+      ],
+      "half": [
+        1.75,
+        0.15,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.lower_w.04"
+    },
+    {
+      "shape": "box",
+      "center": [
+        26.0,
+        -1.36,
+        -52.175
+      ],
+      "half": [
+        1.75,
+        0.15,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.lower_e.00"
+    },
+    {
+      "shape": "box",
+      "center": [
+        26.0,
+        -1.52,
+        -52.475
+      ],
+      "half": [
+        1.75,
+        0.15,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.lower_e.01"
+    },
+    {
+      "shape": "box",
+      "center": [
+        26.0,
+        -1.68,
+        -52.775
+      ],
+      "half": [
+        1.75,
+        0.15,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.lower_e.02"
+    },
+    {
+      "shape": "box",
+      "center": [
+        26.0,
+        -1.84,
+        -53.075
+      ],
+      "half": [
+        1.75,
+        0.15,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.lower_e.03"
+    },
+    {
+      "shape": "box",
+      "center": [
+        26.0,
+        -2.0,
+        -53.375
+      ],
+      "half": [
+        1.75,
+        0.15,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.lower_e.04"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -26.0,
+        1.315,
+        43.825
+      ],
+      "half": [
+        1.75,
+        0.1483,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.smiths_w.00"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -26.0,
+        1.1583,
+        43.525
+      ],
+      "half": [
+        1.75,
+        0.1483,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.smiths_w.01"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -26.0,
+        1.0017,
+        43.225
+      ],
+      "half": [
+        1.75,
+        0.1483,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.smiths_w.02"
+    },
+    {
+      "shape": "box",
+      "center": [
+        30.0,
+        1.315,
+        43.825
+      ],
+      "half": [
+        1.75,
+        0.1483,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.smiths_e.00"
+    },
+    {
+      "shape": "box",
+      "center": [
+        30.0,
+        1.1583,
+        43.525
+      ],
+      "half": [
+        1.75,
+        0.1483,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.smiths_e.01"
+    },
+    {
+      "shape": "box",
+      "center": [
+        30.0,
+        1.0017,
+        43.225
+      ],
+      "half": [
+        1.75,
+        0.1483,
+        0.175
+      ],
+      "rotY": 3.1416,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.smiths_e.02"
+    },
+    {
+      "shape": "box",
+      "center": [
+        63.8306,
+        -1.8888,
+        -67.3365
+      ],
+      "half": [
+        1.5,
+        0.1596,
+        0.175
+      ],
+      "rotY": 2.2995,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.quay.00"
+    },
+    {
+      "shape": "box",
+      "center": [
+        64.0544,
+        -2.0679,
+        -67.5363
+      ],
+      "half": [
+        1.5,
+        0.1596,
+        0.175
+      ],
+      "rotY": 2.2995,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.quay.01"
+    },
+    {
+      "shape": "box",
+      "center": [
+        64.2782,
+        -2.2471,
+        -67.7361
+      ],
+      "half": [
+        1.5,
+        0.1596,
+        0.175
+      ],
+      "rotY": 2.2995,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.quay.02"
+    },
+    {
+      "shape": "box",
+      "center": [
+        64.502,
+        -2.4263,
+        -67.9358
+      ],
+      "half": [
+        1.5,
+        0.1596,
+        0.175
+      ],
+      "rotY": 2.2995,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.quay.03"
+    },
+    {
+      "shape": "box",
+      "center": [
+        64.7258,
+        -2.6054,
+        -68.1356
+      ],
+      "half": [
+        1.5,
+        0.1596,
+        0.175
+      ],
+      "rotY": 2.2995,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.quay.04"
+    },
+    {
+      "shape": "box",
+      "center": [
+        64.9496,
+        -2.7846,
+        -68.3354
+      ],
+      "half": [
+        1.5,
+        0.1596,
+        0.175
+      ],
+      "rotY": 2.2995,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.quay.05"
+    },
+    {
+      "shape": "box",
+      "center": [
+        65.1735,
+        -2.9638,
+        -68.5351
+      ],
+      "half": [
+        1.5,
+        0.1596,
+        0.175
+      ],
+      "rotY": 2.2995,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.quay.06"
+    },
+    {
+      "shape": "box",
+      "center": [
+        65.3973,
+        -3.1429,
+        -68.7349
+      ],
+      "half": [
+        1.5,
+        0.1596,
+        0.175
+      ],
+      "rotY": 2.2995,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.quay.07"
+    },
+    {
+      "shape": "box",
+      "center": [
+        65.6211,
+        -3.3221,
+        -68.9346
+      ],
+      "half": [
+        1.5,
+        0.1596,
+        0.175
+      ],
+      "rotY": 2.2995,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.quay.08"
+    },
+    {
+      "shape": "box",
+      "center": [
+        65.8449,
+        -3.5013,
+        -69.1344
+      ],
+      "half": [
+        1.5,
+        0.1596,
+        0.175
+      ],
+      "rotY": 2.2995,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.quay.09"
+    },
+    {
+      "shape": "box",
+      "center": [
+        66.0687,
+        -3.6804,
+        -69.3342
+      ],
+      "half": [
+        1.5,
+        0.1596,
+        0.175
+      ],
+      "rotY": 2.2995,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.quay.10"
+    },
+    {
+      "shape": "box",
+      "center": [
+        66.2925,
+        -3.8596,
+        -69.5339
+      ],
+      "half": [
+        1.5,
+        0.1596,
+        0.175
+      ],
+      "rotY": 2.2995,
+      "kind": "surface",
+      "tag": "steps",
+      "id": "hm.steps.quay.11"
+    }
+  ]
+}

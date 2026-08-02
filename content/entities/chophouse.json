@@ -1,0 +1,177 @@
+{
+  "venue": "chophouse",
+  "cells": [
+    "E4"
+  ],
+  "entities": [
+    {
+      "id": "hm.slot.07.chophouse.stack.01",
+      "archetype": "prop.chimney",
+      "cell": "E4",
+      "transform": {
+        "pos": [
+          1.85,
+          8.2832,
+          -4.6
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "smoke": {
+          "rate": 1.4,
+          "drift": [
+            0.85,
+            0.0,
+            0.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.slot.07.chophouse.fire.01",
+      "archetype": "prop.hearth",
+      "cell": "E4",
+      "transform": {
+        "pos": [
+          1.85,
+          0.85,
+          -4.65
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        },
+        "light": {
+          "color": "#FF8034",
+          "intensity": 5.2,
+          "range": 14.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.07.chophouse.table.01",
+      "archetype": "prop.table",
+      "cell": "E5",
+      "transform": {
+        "pos": [
+          -3.35,
+          0.74,
+          -6.68
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "sit"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.07.chophouse.table.02",
+      "archetype": "prop.table",
+      "cell": "E5",
+      "transform": {
+        "pos": [
+          -0.75,
+          0.74,
+          -6.3
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "sit"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.07.chophouse.menu.01",
+      "archetype": "prop.menu_board",
+      "cell": "E4",
+      "transform": {
+        "pos": [
+          -0.95,
+          2.07,
+          -4.9
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.07.chophouse.door.01",
+      "archetype": "door.chophouse",
+      "cell": "E4",
+      "transform": {
+        "pos": [
+          -2.55,
+          0.4,
+          -4.92
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "enter"
+          ],
+          "range": 2.0
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "venue": "bowyer",
+  "cells": [
+    "I10",
+    "I9",
+    "J10",
+    "J9"
+  ],
+  "entities": [
+    {
+      "id": "hm.bowyer.station.01",
+      "archetype": "crafting_station.bowyer",
+      "cell": "J10",
+      "transform": {
+        "pos": [
+          0.2632,
+          0.3,
+          0.9183
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        },
+        "crafting_station": {
+          "profession": "bowyer",
+          "tier": 1
+        }
+      }
+    },
+    {
+      "id": "hm.bowyer.glue.01",
+      "archetype": "prop.hearth",
+      "cell": "J10",
+      "transform": {
+        "pos": [
+          1.18,
+          0.3,
+          2.9206
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FF9A4A",
+          "intensity": 1.1,
+          "range": 3.6,
+          "flickerHz": [
+            7,
+            12
+          ]
+        }
+      }
+    }
+  ]
+}

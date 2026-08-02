@@ -1,19 +1,21 @@
 {
   "venue": "guild",
   "cells": [
-    "C2",
-    "D2"
+    "D6",
+    "D7",
+    "E6",
+    "E7"
   ],
   "entities": [
     {
-      "id": "hm.guild.door.01",
+      "id": "hm.slot.02.guild.door.01",
       "archetype": "door.guild",
-      "cell": "C2",
+      "cell": "E7",
       "transform": {
         "pos": [
-          0.0,
-          0.62,
-          -5.75
+          -3.2,
+          0.42,
+          3.8
         ],
         "rot": [
           0,
@@ -33,14 +35,14 @@
       }
     },
     {
-      "id": "hm.guild.questboard.01",
+      "id": "hm.slot.02.guild.questboard.01",
       "archetype": "quest_board",
-      "cell": "C2",
+      "cell": "E6",
       "transform": {
         "pos": [
-          0.0,
-          0.0,
-          0.0
+          1.85,
+          1.97,
+          4.04
         ],
         "rot": [
           0,
@@ -59,56 +61,30 @@
         },
         "quest_board": {
           "notices": [],
-          "capacity": 20
+          "capacity": 24
+        },
+        "landmark": {
+          "name": "The Guild Board"
         },
         "collider": {
           "shape": "box",
           "half": [
-            1.35,
-            1.3,
-            0.12
+            1.42,
+            1.42,
+            0.14
           ]
         }
       }
     },
     {
-      "id": "hm.guild.chimney.01",
-      "archetype": "prop.chimney",
-      "cell": "C2",
-      "transform": {
-        "pos": [
-          -4.94,
-          12.45,
-          0.7
-        ],
-        "rot": [
-          0,
-          0,
-          0,
-          1
-        ],
-        "scale": 1.0
-      },
-      "components": {
-        "smoke": {
-          "rate": 0.5,
-          "drift": [
-            0.8,
-            0,
-            0.5
-          ]
-        }
-      }
-    },
-    {
-      "id": "hm.guild.lantern.01",
+      "id": "hm.slot.02.guild.lantern.a",
       "archetype": "prop.lantern",
-      "cell": "C2",
+      "cell": "E7",
       "transform": {
         "pos": [
-          2.15,
-          3.05,
-          -7.7
+          -0.42,
+          3.32,
+          4.9
         ],
         "rot": [
           0,
@@ -121,20 +97,219 @@
       "components": {
         "light": {
           "color": "#FFB35C",
-          "intensity": 1.8,
-          "range": 6.0
+          "intensity": 2.0,
+          "range": 8.0
         }
       }
     },
     {
-      "id": "hm.guild.trainingyard.01",
-      "archetype": "prop.training_yard",
-      "cell": "D2",
+      "id": "hm.slot.02.guild.lantern.b",
+      "archetype": "prop.lantern",
+      "cell": "E7",
       "transform": {
         "pos": [
-          13.5,
-          0.0,
-          -2.6
+          -5.98,
+          3.32,
+          4.9
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 2.0,
+          "range": 8.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.02.guild.chimney.01",
+      "archetype": "prop.chimney",
+      "cell": "D6",
+      "transform": {
+        "pos": [
+          4.6,
+          13.41,
+          -1.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "smoke": {
+          "rate": 0.55,
+          "drift": [
+            0.8,
+            0,
+            0.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.slot.02.guild.chimney.02",
+      "archetype": "prop.chimney",
+      "cell": "D7",
+      "transform": {
+        "pos": [
+          -5.1,
+          13.71,
+          -2.8
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "smoke": {
+          "rate": 0.55,
+          "drift": [
+            0.8,
+            0,
+            0.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.slot.02.guild.counter.01",
+      "archetype": "vendor.guild",
+      "cell": "D7",
+      "transform": {
+        "pos": [
+          -3.2,
+          1.54,
+          -0.9
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.02.guild.map.01",
+      "archetype": "prop.guild_map",
+      "cell": "D7",
+      "transform": {
+        "pos": [
+          -2.8,
+          2.99,
+          -6.6
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.02.guild.hearth.01",
+      "archetype": "prop.hearth",
+      "cell": "D7",
+      "transform": {
+        "pos": [
+          -7.5,
+          0.74,
+          -6.16
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FF9A4C",
+          "intensity": 2.6,
+          "range": 11.0,
+          "flickerHz": [
+            6,
+            9
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.slot.02.guild.tower.01",
+      "archetype": "landmark.guild_tower",
+      "cell": "E6",
+      "transform": {
+        "pos": [
+          4.5,
+          18.6,
+          4.5
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        },
+        "landmark": {
+          "name": "The Guild Tower",
+          "silhouette": true
+        }
+      }
+    },
+    {
+      "id": "hm.slot.02.guild.rack.01",
+      "archetype": "prop.weapon_rack",
+      "cell": "E7",
+      "transform": {
+        "pos": [
+          -1.7,
+          1.37,
+          4.15
         ],
         "rot": [
           0,
@@ -158,14 +333,14 @@
       }
     },
     {
-      "id": "hm.guild.counter.01",
-      "archetype": "vendor.guild",
-      "cell": "C2",
+      "id": "hm.slot.02.guild.bell.01",
+      "archetype": "prop.muster_bell",
+      "cell": "E7",
       "transform": {
         "pos": [
-          0.6,
-          1.08,
-          -2.15
+          -7.25,
+          3.02,
+          6.55
         ],
         "rot": [
           0,
@@ -178,7 +353,7 @@
       "components": {
         "interactable": {
           "verbs": [
-            "talk"
+            "use"
           ],
           "range": 2.0
         }

@@ -12,11 +12,9 @@
 <script type="module">
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-import { SSAOPass } from 'three/addons/postprocessing/SSAOPass.js';
-import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { installAtmosphere, makePostChain } from '/client/src/atmosphere.js';
+import { SunRig } from '/client/src/shadows.js';
+import { Water } from '/client/src/water.js';
 
 // --- Locked review setup, docs/ART_BIBLE.md §4 -----------------------------
 // Time of day is fixed at 09:30 so that every review screenshot across every
@@ -25,7 +23,8 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 // file used to declare its own constants here under a comment citing §4 and
 // then never use them, while the lights below carried different values. Dead
 // constants that make a file pass inspection are worse than none.
-const LIGHTING = (await (await fetch('/content/town/hearthmere.json')).json()).lighting;
+const TOWN = await (await fetch('/content/town/hearthmere.json')).json();
+const LIGHTING = TOWN.lighting;
 const SUN_ELEV = LIGHTING.sunElevationDeg, SUN_AZI = LIGHTING.sunAzimuthDeg;
 
 const q = new URLSearchParams(location.search);
@@ -43,45 +42,55 @@ document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 
-// --- Sky ------------------------------------------------------------------
-// Gradient dome doubles as the IBL source. Without image-based lighting,
-// metals read as flat grey and the whole scene loses its material truth.
-const skyGeo = new THREE.SphereGeometry(500, 32, 16);
-const skyMat = new THREE.ShaderMaterial({
-  side: THREE.BackSide,
-  uniforms: {
-    top:    { value: new THREE.Color('#5B9BD9') },
-    mid:    { value: new THREE.Color('#A8CDEC') },
-    bottom: { value: new THREE.Color('#E5DCC8') },
-  },
-  vertexShader: `varying vec3 vP; void main(){ vP = position; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0);} `,
-  fragmentShader: `
-    varying vec3 vP; uniform vec3 top, mid, bottom;
-    void main(){
-      float h = normalize(vP).y;
-      vec3 c = h > 0.0 ? mix(mid, top, pow(h,0.65)) : mix(mid, bottom, pow(-h,0.5));
-      gl_FragColor = vec4(c,1.0);
-    }`
-});
-const skyMesh = new THREE.Mesh(skyGeo, skyMat);
-scene.add(skyMesh);
+// --- Sky, IBL and aerial perspective --------------------------------------
+// From client/src/atmosphere.js, driven by `atmosphere` in
+// content/town/hearthmere.json. This file used to carry its own gradient dome
+// and its own PMREM; town.html and client/src/main.js carried two more, and by
+// the time review/reports/ad-town-02.md was written only this one had any
+// ambient occlusion at all — and it was neutral grey where Art Bible §1
+// requires warm. One module now. See D-049.
+//
+// The horizon skirt is added to the ground group rather than to the scene: a
+// venue viewer SHIFTS the terrain so the venue's site sits under the origin
+// (see below), and a skirt left in world coordinates would stitch to the plate
+// edge in the wrong place by exactly that shift.
+const ENV = installAtmosphere({ renderer, scene, town: TOWN });
+const skyMesh = ENV.sky;
+const ATMOS = ENV.atmos;
+scene.remove(ENV.horizon);
 
-const pmrem = new THREE.PMREMGenerator(renderer);
-const envScene = new THREE.Scene();
-envScene.add(new THREE.Mesh(skyGeo.clone(), skyMat.clone()));
-scene.environment = pmrem.fromScene(envScene, 0.04).texture;
+// --- Water ----------------------------------------------------------------
+// The SAME module the client and tools/render/town.html run, handed the SAME
+// two authored blocks. Before this, viewer.html was the one harness with no
+// water code at all: the fountain basin, the horse troughs, the tannery pits
+// and the mill race were reviewed as sheets of still green glass with no
+// flow, no Fresnel and no specular shoulder, and signed off against a picture
+// the game cannot produce. That is precisely the divergence D-009 forbids and
+// it is why the fountain's water has been called dry in two passes.
+// WATER_PHASE is a fixed number of seconds of flow, so a render diff between
+// two iterations shows an intentional change and not a different wave.
+const WATER_PHASE = 12.0;
+const water = new Water(ATMOS.water, (TOWN.ambient || {}).wind);
 
 // --- Lighting -------------------------------------------------------------
 const el = SUN_ELEV * Math.PI/180, az = SUN_AZI * Math.PI/180;
-const sun = new THREE.DirectionalLight(new THREE.Color(LIGHTING.sun.color), LIGHTING.sun.intensity);
-sun.position.set(Math.cos(el)*Math.sin(az)*60, Math.sin(el)*60, Math.cos(el)*Math.cos(az)*60);
-sun.castShadow = true;
-sun.shadow.mapSize.set(4096, 4096);
-sun.shadow.bias = -0.0004;
-sun.shadow.normalBias = 0.02;
-const sc = sun.shadow.camera;
-sc.near = 0.5; sc.far = 220; sc.left = -45; sc.right = 45; sc.top = 45; sc.bottom = -45;
-scene.add(sun, sun.target);
+
+// The sun is `client/src/shadows.js SunRig` — the same cascaded rig, from the
+// same authored `lighting.shadows` block, as the client and tools/render/town.html.
+//
+// What was here was a fourth hand-typed copy of the single-box rig, and it had
+// already drifted from the other three: `sc.far = 220`, `left = -45` against
+// the client's 200 and 46. A venue signed off in this viewer was signed off
+// under shadows the game does not draw. `docs/ARCHITECTURE.md` §5 specified
+// cascades; `review/reports/ad-town-04.md` §1 is the picture of what one box
+// does to a floor at 2 m. One class now, three renderers, D-009's rule.
+//
+// The camera is created further down, so the rig is seeded with the review
+// camera's own parameters and re-fitted per view in __setView.
+const sunRig = new SunRig({
+  scene, lighting: LIGHTING,
+  camera: new THREE.PerspectiveCamera(45, W/H, 0.1, 2000),
+});
 
 // Ambient floor. Art Bible §1: shadows are warm and LIFTED — never crushed,
 // never neutral grey. Cast-shadow regions (under eaves, jetties, awnings) see
@@ -109,24 +118,32 @@ rim.position.set(-Math.sin(az)*40, 14, -Math.cos(az)*40);
 scene.add(rim);
 
 // --- Ground ---------------------------------------------------------------
-// Textured, not a constant colour. A flat-colour ground plane is on the
-// anti-reference list in docs/REFERENCES.md, and it also makes ground-contact
-// wear impossible to judge in any review render.
-// Earth, not cobble: paved venues must read against the ground, not vanish
-// into it.
-const _gtex = new THREE.TextureLoader().load('/assets/textures/dirt_albedo.png');
-_gtex.wrapS = _gtex.wrapT = THREE.RepeatWrapping;
-_gtex.repeat.set(200, 200);
-_gtex.colorSpace = THREE.SRGBColorSpace;
-const _gnrm = new THREE.TextureLoader().load('/assets/textures/dirt_normal.png');
-_gnrm.wrapS = _gnrm.wrapT = THREE.RepeatWrapping;
-_gnrm.repeat.set(200, 200);
-const ground = new THREE.Mesh(
-  new THREE.PlaneGeometry(400, 400).rotateX(-Math.PI/2),
-  new THREE.MeshStandardMaterial({ map: _gtex, normalMap: _gnrm, roughness: 0.95 }));
-ground.receiveShadow = true;
-ground.position.y = -0.002;
-if (q.get('ground') !== '0') scene.add(ground);
+// The REAL ground: assets/meshes/terrain.gltf, generated from
+// content/town/terrain.json. Not a plane, and not a second implementation of
+// the height function either — a venue reviewed against a flat plane is
+// reviewed against ground that does not exist, which is how v1 signed off
+// buildings that turn out to float once the town is assembled.
+//
+// A venue mesh is authored about its own origin, so the terrain is SHIFTED so
+// that the venue's real site sits under the origin: pass `site=x,z` (the
+// venue's entry in content/town/hearthmere.json). The vertical shift puts
+// site height at y = 0, which is where the venue's floor plate is authored.
+const _site = String(q.get('site') || '0,0').split(',').map(Number);
+const ground = new THREE.Group();
+const _wantsGround = q.get('ground') !== '0' && !String(q.get('asset') || '').endsWith('terrain.gltf');
+if (_wantsGround) {
+  const T = (await import('/client/src/terrain.js'));
+  const gl = new GLTFLoader();
+  await new Promise(res => gl.load('/assets/meshes/terrain.gltf', g => {
+    g.scene.traverse(o => { if (o.isMesh) { o.castShadow = false; o.receiveShadow = true; } });
+    ground.add(g.scene);
+    water.harvest(g.scene);
+    res();
+  }, undefined, () => res()));
+  ground.add(ENV.horizon);
+  ground.position.set(-_site[0], -T.height(_site[0], _site[1]), -_site[1]);
+  scene.add(ground);
+}
 
 // --- Scale reference ------------------------------------------------------
 // CLAUDE.md requires a 1.75m human reference in review renders. Scale error is
@@ -243,6 +260,34 @@ function frameFor(view, box){
       return { pos:new THREE.Vector3(c.x, s.y*0.45, c.z - d), look:new THREE.Vector3(c.x, s.y*0.45, c.z), fov:42 };
     }
     case 'top':      return { pos:new THREE.Vector3(c.x, s.y + r*1.5, c.z + 0.01), look:c, fov:50 };
+    // Explicit camera: `from=x,y,z` and `to=x,y,z` in world metres. The only
+    // way to judge a landscape at eye height at a chosen spot — every other
+    // view here frames the subject's bounding box, which for terrain means
+    // framing the distance ring.
+    case 'free': {
+      const f = String(q.get('from') || '0,1.62,-20').split(',').map(Number);
+      const t = String(q.get('to')   || '0,1.2,0').split(',').map(Number);
+      const stand = new THREE.Vector3(f[0], 0, f[2]);
+      return { pos:new THREE.Vector3(f[0], f[1], f[2]),
+               look:new THREE.Vector3(t[0], t[1], t[2]),
+               fov:+(q.get('fov') || 55), player: q.get('figureAt') ? stand : null };
+    }
+    // Aerial oblique. The only view that can judge a LANDSCAPE — terrain,
+    // drainage, how the terraces step down to the water. A ground-level camera
+    // cannot see a 4 m fall across 190 m; it reads as level from every eye
+    // height in the town, which is exactly why v1's flat plane survived.
+    case 'aerial': {
+      const d = Math.max(s.x, s.z);
+      return { pos:new THREE.Vector3(c.x + d*0.42, c.y + d*0.52, c.z - d*0.80),
+               look:new THREE.Vector3(c.x, c.y - d*0.02, c.z), fov:48 };
+    }
+    // Low aerial from the north, over the water, looking back at the town —
+    // the departure/return frame, and the one that shows the fall in profile.
+    case 'waterside': {
+      const d = Math.max(s.x, s.z);
+      return { pos:new THREE.Vector3(c.x + d*0.10, c.y + d*0.13, c.z - d*0.72),
+               look:new THREE.Vector3(c.x, c.y + d*0.01, c.z + d*0.10), fov:52 };
+    }
     default: {
       const d = fitDist(s.x, s.y, 45, aspect);
       return { pos:new THREE.Vector3(c.x + d*0.5, s.y*0.8, c.z - d*0.8), look:new THREE.Vector3(c.x, s.y*0.4, c.z), fov:45 };
@@ -250,19 +295,20 @@ function frameFor(view, box){
   }
 }
 
-const camera = new THREE.PerspectiveCamera(45, W/H, 0.1, 1000);
+// Far plane at 2000 m to match tools/render/town.html and the client: the
+// horizon skirt reaches 1200 m and a 1000 m far plane clipped it away.
+const camera = new THREE.PerspectiveCamera(45, W/H, 0.1, 2000);
 
-// --- Post chain, Art Bible §5 order ---------------------------------------
-const composer = new EffectComposer(renderer);
-composer.addPass(new RenderPass(scene, camera));
-if (q.get('ssao') !== '0'){
-  const ssao = new SSAOPass(scene, camera, W, H);
-  ssao.kernelRadius = 0.35; ssao.minDistance = 0.0008; ssao.maxDistance = 0.08;
-  composer.addPass(ssao);
-}
-const bloom = new UnrealBloomPass(new THREE.Vector2(W,H), 0.34, 0.55, 1.0);
-composer.addPass(bloom);
-composer.addPass(new OutputPass());
+// --- Post chain, docs/ARCHITECTURE.md §5 order ----------------------------
+// SSAO -> bloom -> ACES -> grade -> vignette, from the shared module. What was
+// here was three's SSAOPass with a 0.35 m kernel and NEUTRAL occlusion; §5's
+// grade did not exist at all, so a venue signed off in this viewer was signed
+// off against a picture the town render could not reproduce.
+const post = makePostChain({
+  renderer, scene, camera, width: W, height: H, atmos: ATMOS,
+  ao: q.get('ssao') !== '0',
+});
+const composer = post.composer;
 
 let playerFig = null, refFig = null;
 
@@ -299,10 +345,11 @@ window.__setView = (view, silhouette) => {
       playerFig.rotation.y = 0;
     }
   }
-  // Keep the shadow frustum tight on the subject or shadows go soft and wrong.
-  const c = bbox.getCenter(new THREE.Vector3());
-  sun.target.position.copy(c); sun.target.updateMatrixWorld();
-  sun.position.set(c.x + Math.cos(el)*Math.sin(az)*60, c.y + Math.sin(el)*60, c.z + Math.cos(el)*Math.cos(az)*60);
+  // The cascades, fitted to the review camera by the same code the client runs
+  // per frame. A venue viewer's cameras ARE perspective eye-level cameras, so
+  // `fitCascades` is the right mode for all of them; the silhouette overrides
+  // every material to flat black and does not care either way.
+  sunRig.fitCascades(camera);
   // The ground plane and sky must be EXCLUDED from the black override, or the
   // silhouette is ~46% solid black ground and everything below eaves level is
   // swallowed — which makes the Art Bible §6 black-on-white test impossible to
@@ -313,10 +360,18 @@ window.__setView = (view, silhouette) => {
     scene.background = new THREE.Color(0xffffff);
     ground.visible = false;
     skyMesh.visible = false;
+    // Haze would grey the far edge of the subject toward the background and
+    // destroy the separation a black-on-white elevation exists to measure.
+    scene.fog = null;
+    post.setAO(false);
+    post.grade.enabled = false;
   } else {
     scene.background = null;
-    ground.visible = (q.get('ground') !== '0');
+    ground.visible = _wantsGround;
     skyMesh.visible = true;
+    scene.fog = ENV.fog;
+    post.setAO(q.get('ssao') !== '0');
+    post.grade.enabled = true;
   }
   composer.render();
 };
@@ -329,7 +384,13 @@ function finish(){
     refFig.visible = false;
     scene.add(refFig);
   }
+  // Everything sun-lit — ground, horizon skirt, both reference figures and
+  // whatever the venue brought. An unregistered material renders at `cascades`x
+  // the sun, which in a venue viewer is a blown white asset and no clue why.
+  sunRig.register(scene);
+  window.__shadows = () => sunRig.stats();
   window.__setView(q.get('view') || 'gameplay', false);
+  water.setTime(WATER_PHASE);
   window.__ready = true;
 }
 
@@ -342,7 +403,19 @@ if (url){
       }
     });
     scene.add(g.scene);
+    water.harvest(g.scene);
+    water.setTime(WATER_PHASE);
+    sunRig.register(g.scene);
     bbox = new THREE.Box3().setFromObject(g.scene);
+    // `box=x0,y0,z0,x1,y1,z1` overrides the framing volume. Needed for the
+    // terrain, whose bounds are the 576 m distance ring: framed on that, every
+    // view is a satellite photo and the town is nine pixels wide. The subject
+    // of a terrain review is the town footprint, not the extent of the mesh.
+    const bq = q.get('box');
+    if (bq) {
+      const b = bq.split(',').map(Number);
+      bbox = new THREE.Box3(new THREE.Vector3(b[0], b[1], b[2]), new THREE.Vector3(b[3], b[4], b[5]));
+    }
     finish();
   }, undefined, (e) => { window.__error = String(e); window.__ready = true; });
 } else {

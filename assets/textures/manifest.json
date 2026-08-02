@@ -1,0 +1,1326 @@
+{
+ "atlases": {
+  "kit": {
+   "cell": 512,
+   "gutter": 4,
+   "page": 5120,
+   "rects": {
+    "beeswax": [
+     0.600781,
+     0.800781,
+     0.098437,
+     0.098437
+    ],
+    "brass": [
+     0.800781,
+     0.600781,
+     0.098437,
+     0.098437
+    ],
+    "bread": [
+     0.900781,
+     0.800781,
+     0.098437,
+     0.098437
+    ],
+    "canvas": [
+     0.800781,
+     0.400781,
+     0.198437,
+     0.198437
+    ],
+    "canvas_plain": [
+     0.000781,
+     0.600781,
+     0.198437,
+     0.198437
+    ],
+    "cloth_brown": [
+     0.200781,
+     0.800781,
+     0.098437,
+     0.098437
+    ],
+    "cloth_cream": [
+     0.300781,
+     0.800781,
+     0.098437,
+     0.098437
+    ],
+    "cloth_rust": [
+     0.400781,
+     0.800781,
+     0.098437,
+     0.098437
+    ],
+    "copper": [
+     0.800781,
+     0.200781,
+     0.198437,
+     0.198437
+    ],
+    "elm": [
+     0.800781,
+     0.000781,
+     0.198437,
+     0.198437
+    ],
+    "endgrain": [
+     0.600781,
+     0.600781,
+     0.098437,
+     0.098437
+    ],
+    "fish": [
+     0.800781,
+     0.800781,
+     0.098437,
+     0.098437
+    ],
+    "fleece": [
+     0.000781,
+     0.800781,
+     0.098437,
+     0.098437
+    ],
+    "hide_raw": [
+     0.900781,
+     0.700781,
+     0.098437,
+     0.098437
+    ],
+    "iron": [
+     0.200781,
+     0.200781,
+     0.198437,
+     0.198437
+    ],
+    "iron_pitted": [
+     0.400781,
+     0.200781,
+     0.198437,
+     0.198437
+    ],
+    "lead": [
+     0.600781,
+     0.200781,
+     0.198437,
+     0.198437
+    ],
+    "leather": [
+     0.800781,
+     0.700781,
+     0.098437,
+     0.098437
+    ],
+    "linen": [
+     0.700781,
+     0.700781,
+     0.098437,
+     0.098437
+    ],
+    "oak": [
+     0.000781,
+     0.000781,
+     0.198437,
+     0.198437
+    ],
+    "oak_dark": [
+     0.200781,
+     0.000781,
+     0.198437,
+     0.198437
+    ],
+    "oak_weathered": [
+     0.400781,
+     0.000781,
+     0.198437,
+     0.198437
+    ],
+    "painted": [
+     0.000781,
+     0.400781,
+     0.198437,
+     0.198437
+    ],
+    "painted_amber": [
+     0.900781,
+     0.600781,
+     0.098437,
+     0.098437
+    ],
+    "painted_crimson": [
+     0.200781,
+     0.400781,
+     0.198437,
+     0.198437
+    ],
+    "pine_tarred": [
+     0.000781,
+     0.200781,
+     0.198437,
+     0.198437
+    ],
+    "pottery": [
+     0.500781,
+     0.800781,
+     0.098437,
+     0.098437
+    ],
+    "reed": [
+     0.400781,
+     0.600781,
+     0.198437,
+     0.198437
+    ],
+    "ridge": [
+     0.600781,
+     0.400781,
+     0.198437,
+     0.198437
+    ],
+    "sacking": [
+     0.600781,
+     0.700781,
+     0.098437,
+     0.098437
+    ],
+    "sandstone": [
+     0.400781,
+     0.400781,
+     0.198437,
+     0.198437
+    ],
+    "steel_blued": [
+     0.700781,
+     0.600781,
+     0.098437,
+     0.098437
+    ],
+    "straw": [
+     0.200781,
+     0.600781,
+     0.198437,
+     0.198437
+    ],
+    "tallow": [
+     0.700781,
+     0.800781,
+     0.098437,
+     0.098437
+    ],
+    "timber_grey": [
+     0.600781,
+     0.000781,
+     0.198437,
+     0.198437
+    ],
+    "wool_undyed": [
+     0.100781,
+     0.800781,
+     0.098437,
+     0.098437
+    ]
+   }
+  },
+  "street_props": {
+   "cell": 512,
+   "gutter": 4,
+   "page": 2560,
+   "rects": {
+    "algae": [
+     0.601562,
+     0.401562,
+     0.196875,
+     0.196875
+    ],
+    "canvas": [
+     0.201563,
+     0.401562,
+     0.196875,
+     0.196875
+    ],
+    "cloth_cream": [
+     0.801562,
+     0.601562,
+     0.196875,
+     0.196875
+    ],
+    "cloth_rust": [
+     0.001563,
+     0.801562,
+     0.196875,
+     0.196875
+    ],
+    "dirt": [
+     0.801562,
+     0.401562,
+     0.196875,
+     0.196875
+    ],
+    "earth": [
+     0.001563,
+     0.601562,
+     0.196875,
+     0.196875
+    ],
+    "elm": [
+     0.601562,
+     0.201563,
+     0.196875,
+     0.196875
+    ],
+    "endgrain": [
+     0.401562,
+     0.201563,
+     0.196875,
+     0.196875
+    ],
+    "foliage": [
+     0.201563,
+     0.601562,
+     0.196875,
+     0.196875
+    ],
+    "foliage_flower": [
+     0.401562,
+     0.601562,
+     0.196875,
+     0.196875
+    ],
+    "iron": [
+     0.201563,
+     0.201563,
+     0.196875,
+     0.196875
+    ],
+    "linen": [
+     0.601562,
+     0.601562,
+     0.196875,
+     0.196875
+    ],
+    "moss": [
+     0.401562,
+     0.401562,
+     0.196875,
+     0.196875
+    ],
+    "oak": [
+     0.601562,
+     0.001563,
+     0.196875,
+     0.196875
+    ],
+    "oak_dark": [
+     0.001563,
+     0.201563,
+     0.196875,
+     0.196875
+    ],
+    "oak_weathered": [
+     0.801562,
+     0.001563,
+     0.196875,
+     0.196875
+    ],
+    "sandstone": [
+     0.401562,
+     0.001563,
+     0.196875,
+     0.196875
+    ],
+    "sett": [
+     0.201563,
+     0.001563,
+     0.196875,
+     0.196875
+    ],
+    "stone": [
+     0.001563,
+     0.001563,
+     0.196875,
+     0.196875
+    ],
+    "straw": [
+     0.001563,
+     0.401562,
+     0.196875,
+     0.196875
+    ],
+    "timber_grey": [
+     0.801562,
+     0.201563,
+     0.196875,
+     0.196875
+    ]
+   }
+  }
+ },
+ "materials": {
+  "alabaster": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "algae": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "ashlar": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "ashlar_civic": {
+   "class": "hero",
+   "coverage": 2.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 1024
+  },
+  "banner": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double"
+   ],
+   "size": 512
+  },
+  "beeswax": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "brass": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "bread": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "brick": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "bronze": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "canvas": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double"
+   ],
+   "size": 512
+  },
+  "canvas_amber": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double"
+   ],
+   "size": 512
+  },
+  "canvas_crimson": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double"
+   ],
+   "size": 512
+  },
+  "canvas_green": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double"
+   ],
+   "size": 512
+  },
+  "canvas_plain": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double"
+   ],
+   "size": 512
+  },
+  "canvas_slate": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double"
+   ],
+   "size": 512
+  },
+  "cinder": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "cloth_blue": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double"
+   ],
+   "size": 512
+  },
+  "cloth_brown": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double"
+   ],
+   "size": 512
+  },
+  "cloth_cream": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double"
+   ],
+   "size": 512
+  },
+  "cloth_green": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double"
+   ],
+   "size": 512
+  },
+  "cloth_rust": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double"
+   ],
+   "size": 512
+  },
+  "coal": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": true,
+   "flags": [
+    "emissive"
+   ],
+   "size": 512
+  },
+  "cobble": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "cobble_wall": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "copper": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "dirt": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "earth": {
+   "class": "standard",
+   "coverage": 4.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 1024
+  },
+  "elm": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "endgrain": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "fish": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "flag": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "fleece": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "flour": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "foam": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double",
+    "mask"
+   ],
+   "size": 512
+  },
+  "foliage": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double"
+   ],
+   "size": 512
+  },
+  "foliage_flower": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double"
+   ],
+   "size": 512
+  },
+  "glass": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": true,
+   "flags": [
+    "blend",
+    "double",
+    "emissive"
+   ],
+   "size": 512
+  },
+  "glass_lit": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": true,
+   "flags": [
+    "double",
+    "emissive"
+   ],
+   "size": 512
+  },
+  "grass": {
+   "class": "large",
+   "coverage": 6.0,
+   "density": 170.7,
+   "emissive": false,
+   "flags": [],
+   "size": 1024
+  },
+  "grass_dry": {
+   "class": "large",
+   "coverage": 6.0,
+   "density": 170.7,
+   "emissive": false,
+   "flags": [],
+   "size": 1024
+  },
+  "grass_lush": {
+   "class": "large",
+   "coverage": 6.0,
+   "density": 170.7,
+   "emissive": false,
+   "flags": [],
+   "size": 1024
+  },
+  "grass_worn": {
+   "class": "large",
+   "coverage": 6.0,
+   "density": 170.7,
+   "emissive": false,
+   "flags": [],
+   "size": 1024
+  },
+  "gravel": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "hedge": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double",
+    "mask"
+   ],
+   "size": 512
+  },
+  "hide_raw": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "iron": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "iron_pitted": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "ivy": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double",
+    "mask"
+   ],
+   "size": 512
+  },
+  "lead": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "leaf_apple": {
+   "class": "hero",
+   "coverage": 2.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [
+    "double",
+    "mask"
+   ],
+   "size": 1024
+  },
+  "leaf_ash": {
+   "class": "hero",
+   "coverage": 2.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [
+    "double",
+    "mask"
+   ],
+   "size": 1024
+  },
+  "leaf_oak": {
+   "class": "hero",
+   "coverage": 2.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [
+    "double",
+    "mask"
+   ],
+   "size": 1024
+  },
+  "leaf_willow": {
+   "class": "hero",
+   "coverage": 2.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [
+    "double",
+    "mask"
+   ],
+   "size": 1024
+  },
+  "leaf_yew": {
+   "class": "hero",
+   "coverage": 2.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [
+    "double",
+    "mask"
+   ],
+   "size": 1024
+  },
+  "leather": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "limewash": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "linen": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double"
+   ],
+   "size": 512
+  },
+  "marble": {
+   "class": "hero",
+   "coverage": 2.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 1024
+  },
+  "moss": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "mud": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "mud_wet": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "nogging": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "oak": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "oak_dark": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "oak_weathered": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "painted": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "painted_amber": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "painted_crimson": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "parchment": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "pine_tarred": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "plaster": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "plaster_shade": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "pottery": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "pottery_slip": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "reed": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "ridge": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "riverbed": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "rubble": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "sacking": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "sailcloth": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double"
+   ],
+   "size": 512
+  },
+  "sand": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "sandstone": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "sett": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "slate": {
+   "class": "standard",
+   "coverage": 4.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 1024
+  },
+  "stained": {
+   "class": "hero",
+   "coverage": 2.0,
+   "density": 512.0,
+   "emissive": true,
+   "flags": [
+    "double",
+    "emissive"
+   ],
+   "size": 1024
+  },
+  "stained_dark": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": true,
+   "flags": [
+    "double",
+    "emissive"
+   ],
+   "size": 512
+  },
+  "steel_blued": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "stone": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "straw": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "sugar": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "tallow": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "terracotta": {
+   "class": "standard",
+   "coverage": 4.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 1024
+  },
+  "thatch": {
+   "class": "standard",
+   "coverage": 4.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 1024
+  },
+  "thatch_new": {
+   "class": "standard",
+   "coverage": 4.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 1024
+  },
+  "thatch_old": {
+   "class": "standard",
+   "coverage": 4.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 1024
+  },
+  "timber_charred": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "timber_grey": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "tree_far": {
+   "class": "impostor",
+   "coverage": 16.0,
+   "density": 32.0,
+   "emissive": false,
+   "flags": [
+    "double",
+    "mask"
+   ],
+   "size": 512
+  },
+  "water": {
+   "class": "standard",
+   "coverage": 2.5,
+   "density": 204.8,
+   "emissive": false,
+   "flags": [
+    "blend"
+   ],
+   "size": 512
+  },
+  "water_fall": {
+   "class": "standard",
+   "coverage": 1.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "blend",
+    "double"
+   ],
+   "size": 256
+  },
+  "water_flow": {
+   "class": "standard",
+   "coverage": 2.5,
+   "density": 204.8,
+   "emissive": false,
+   "flags": [
+    "blend"
+   ],
+   "size": 512
+  },
+  "wax": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "weeds": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [
+    "double",
+    "mask"
+   ],
+   "size": 512
+  },
+  "wool_amber": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "wool_blue": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "wool_crimson": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "wool_green": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "wool_undyed": {
+   "class": "hero",
+   "coverage": 1.0,
+   "density": 512.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  },
+  "yard": {
+   "class": "standard",
+   "coverage": 2.0,
+   "density": 256.0,
+   "emissive": false,
+   "flags": [],
+   "size": 512
+  }
+ }
+}

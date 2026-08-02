@@ -17,6 +17,15 @@ ms-playwright/
 playwright-report/
 test-results/
 
+# Review renders. Seven art-director passes produced 1.9 GB of PNGs, and every
+# one is regenerable: the build is deterministic and gated by tools/determinism.py,
+# so `node tools/render/town.mjs` reproduces any frame exactly. The reports in
+# review/reports/ ARE tracked — they are the argument, and they cite the frames.
+review/shots/
+
+# Local Claude Code settings
+.claude/settings.local.json
+
 # OS
 .DS_Store
 Thumbs.db

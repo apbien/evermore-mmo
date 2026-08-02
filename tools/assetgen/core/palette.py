@@ -79,9 +79,44 @@ def rgb(h):
     return srgb_to_linear(hex_to_rgb(h))
 
 
+def as_rgb(c):
+    """Accept either a palette hex or an already-linear triple.
+
+    Exists so a builder can be authored from a *derived* palette colour
+    (`mix(SLATE, IRON, .3)`, `shade(VERDIGRIS, .5)`) without first round-
+    tripping it through a hex literal. Hex literals in a builder are how §4
+    drift starts — the checker in tools/validate.py measures exactly that — so
+    the derivation has to be as cheap to write as the literal it replaces.
+    """
+    if isinstance(c, str):
+        return rgb(c)
+    a = np.asarray(c, np.float32)
+    if a.shape[-1] != 3:
+        raise ValueError(f"colour must be hex or an RGB triple, got shape {a.shape}")
+    return a
+
+
 def mix(a, b, t):
-    """Blend two palette hexes in linear space, returning a linear triple."""
-    return rgb(a) * (1.0 - t) + rgb(b) * t
+    """Blend two palette colours in linear space, returning a linear triple."""
+    return as_rgb(a) * (1.0 - t) + as_rgb(b) * t
+
+
+def shade(c, factor):
+    """Scale a palette colour's value, keeping hue and saturation ratio.
+
+    A dark version of a locked colour is still that colour: §4 constrains hue
+    and forbids over-saturation, and lightness is a wear/lighting property
+    (Art Bible §5 requires it to vary). This is the sanctioned way to author
+    "the same family, darker" — deep water from verdigris, blued steel from
+    steel — instead of reaching for a new literal.
+    """
+    return np.clip(as_rgb(c) * float(factor), 0.0, 1.0)
+
+
+def to_hex(c):
+    """Linear triple -> sRGB hex. For reporting, not for authoring."""
+    s = np.clip(linear_to_srgb(as_rgb(c)), 0, 1)
+    return "#" + "".join(f"{int(round(v * 255)):02X}" for v in s)
 
 
 # Roughness / metalness pairs for the metals table in Art Bible §4.

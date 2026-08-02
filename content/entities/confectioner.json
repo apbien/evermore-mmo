@@ -1,0 +1,115 @@
+{
+  "venue": "confectioner",
+  "cells": [
+    "H7",
+    "H8"
+  ],
+  "entities": [
+    {
+      "id": "hm.slot.21.confectioner.counter.01",
+      "archetype": "vendor.confectioner",
+      "cell": "H7",
+      "transform": {
+        "pos": [
+          -1.05,
+          1.4,
+          -5.5
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "buy"
+          ],
+          "range": 2.0
+        },
+        "vendor": {
+          "currency": "copper",
+          "stock": [
+            {
+              "item": "sugar_comfits",
+              "price": 14,
+              "qty": 30
+            },
+            {
+              "item": "candied_quince",
+              "price": 22,
+              "qty": 12
+            },
+            {
+              "item": "honeycomb",
+              "price": 9,
+              "qty": -1
+            },
+            {
+              "item": "marchpane_subtlety",
+              "price": 96,
+              "qty": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.slot.21.confectioner.sign.01",
+      "archetype": "prop.sign",
+      "cell": "H7",
+      "transform": {
+        "pos": [
+          2.84,
+          2.79,
+          -5.1
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.21.confectioner.door.01",
+      "archetype": "door.confectioner",
+      "cell": "H7",
+      "transform": {
+        "pos": [
+          1.72,
+          0.44,
+          -5.2
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "enter"
+          ],
+          "range": 2.0
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,654 @@
+{
+  "venue": "wall",
+  "cells": [],
+  "entities": [
+    {
+      "id": "hm.wall.tower.01",
+      "archetype": "landmark.tower",
+      "cell": null,
+      "transform": {
+        "pos": [
+          -52.0,
+          -1.85,
+          -68.6
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.tower.02",
+      "archetype": "landmark.tower",
+      "cell": null,
+      "transform": {
+        "pos": [
+          -12.0,
+          -1.85,
+          -76.2
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.tower.03",
+      "archetype": "landmark.tower",
+      "cell": null,
+      "transform": {
+        "pos": [
+          20.0,
+          -1.85,
+          -74.4
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.tower.04",
+      "archetype": "landmark.tower",
+      "cell": null,
+      "transform": {
+        "pos": [
+          45.0,
+          -1.85,
+          -62.6
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.tower.05",
+      "archetype": "landmark.tower",
+      "cell": null,
+      "transform": {
+        "pos": [
+          66.0,
+          -1.05,
+          -35.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.tower.06",
+      "archetype": "landmark.tower",
+      "cell": null,
+      "transform": {
+        "pos": [
+          77.0,
+          1.0659,
+          20.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.tower.07",
+      "archetype": "landmark.tower",
+      "cell": null,
+      "transform": {
+        "pos": [
+          62.0,
+          1.62,
+          60.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.tower.08",
+      "archetype": "landmark.tower",
+      "cell": null,
+      "transform": {
+        "pos": [
+          -30.0,
+          1.62,
+          75.6
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.tower.09",
+      "archetype": "landmark.tower",
+      "cell": null,
+      "transform": {
+        "pos": [
+          -68.0,
+          1.62,
+          53.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.tower.10",
+      "archetype": "landmark.tower",
+      "cell": null,
+      "transform": {
+        "pos": [
+          -80.0,
+          0.8476,
+          7.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.tower.11",
+      "archetype": "landmark.tower",
+      "cell": null,
+      "transform": {
+        "pos": [
+          -78.0,
+          0.1239,
+          -26.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.stair.01",
+      "archetype": "landmark.wall_stair",
+      "cell": null,
+      "transform": {
+        "pos": [
+          -11.8521,
+          -1.85,
+          -74.4532
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.stair.02",
+      "archetype": "landmark.wall_stair",
+      "cell": null,
+      "transform": {
+        "pos": [
+          44.1027,
+          -1.85,
+          -61.0483
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.stair.03",
+      "archetype": "landmark.wall_stair",
+      "cell": null,
+      "transform": {
+        "pos": [
+          74.4476,
+          1.1994,
+          25.4945
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.stair.04",
+      "archetype": "landmark.wall_stair",
+      "cell": null,
+      "transform": {
+        "pos": [
+          -5.9701,
+          1.9,
+          76.5169
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.stair.05",
+      "archetype": "landmark.wall_stair",
+      "cell": null,
+      "transform": {
+        "pos": [
+          -77.6519,
+          0.5398,
+          -5.9193
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.gate.south",
+      "archetype": "landmark.gate",
+      "cell": null,
+      "transform": {
+        "pos": [
+          1.0,
+          1.9,
+          78.5
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.gate.west",
+      "archetype": "landmark.gate",
+      "cell": null,
+      "transform": {
+        "pos": [
+          -79.0,
+          0.4019,
+          -13.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.gate.water",
+      "archetype": "landmark.gate",
+      "cell": null,
+      "transform": {
+        "pos": [
+          50.0,
+          -1.0663,
+          -57.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.postern.mill",
+      "archetype": "door.postern",
+      "cell": null,
+      "transform": {
+        "pos": [
+          -45.7795,
+          -1.85,
+          -69.4071
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.postern.ferry",
+      "archetype": "door.postern",
+      "cell": null,
+      "transform": {
+        "pos": [
+          16.8434,
+          -1.85,
+          -73.5954
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.postern.east",
+      "archetype": "door.postern",
+      "cell": null,
+      "transform": {
+        "pos": [
+          76.7875,
+          0.7309,
+          4.0466
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.firebucket",
+      "archetype": "prop.bucket",
+      "cell": null,
+      "transform": {
+        "pos": [
+          66.5658,
+          9.7,
+          52.6105
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.wall.circuit",
+      "archetype": "landmark.wall",
+      "cell": "F6",
+      "transform": {
+        "pos": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    }
+  ]
+}

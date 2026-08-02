@@ -1,0 +1,224 @@
+{
+  "venue": "chandler",
+  "cells": [
+    "I7",
+    "I8"
+  ],
+  "entities": [
+    {
+      "id": "hm.chandler.door.01",
+      "archetype": "door.chandler",
+      "cell": "I8",
+      "transform": {
+        "pos": [
+          0.7237,
+          0.48,
+          -4.3984
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "enter"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.chandler.counter.01",
+      "archetype": "vendor.chandler",
+      "cell": "I8",
+      "transform": {
+        "pos": [
+          -2.167,
+          1.28,
+          -5.3659
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "buy"
+          ],
+          "range": 2.0
+        },
+        "vendor": {
+          "currency": "copper",
+          "stock": [
+            {
+              "item": "tallow_candle",
+              "price": 3,
+              "qty": -1
+            },
+            {
+              "item": "rushlight_bundle",
+              "price": 1,
+              "qty": -1
+            },
+            {
+              "item": "beeswax_taper",
+              "price": 34,
+              "qty": 6
+            },
+            {
+              "item": "lamp_oil",
+              "price": 12,
+              "qty": 14
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.chandler.vat.00",
+      "archetype": "prop.hearth",
+      "cell": "I7",
+      "transform": {
+        "pos": [
+          3.2431,
+          0.1,
+          3.106
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FF8A3C",
+          "intensity": 1.8,
+          "range": 5.0,
+          "flickerHz": [
+            5,
+            9
+          ]
+        },
+        "smoke": {
+          "rate": 0.6,
+          "drift": [
+            0.9,
+            0,
+            0.6
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.chandler.vat.01",
+      "archetype": "prop.hearth",
+      "cell": "I7",
+      "transform": {
+        "pos": [
+          1.5263,
+          0.1,
+          3.1769
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FF8A3C",
+          "intensity": 1.8,
+          "range": 5.0,
+          "flickerHz": [
+            5,
+            9
+          ]
+        },
+        "smoke": {
+          "rate": 0.6,
+          "drift": [
+            0.9,
+            0,
+            0.6
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.chandler.station.01",
+      "archetype": "crafting_station.chandler",
+      "cell": "I7",
+      "transform": {
+        "pos": [
+          2.4918,
+          0.1,
+          2.1221
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        },
+        "crafting_station": {
+          "profession": "chandler",
+          "tier": 1
+        }
+      }
+    },
+    {
+      "id": "hm.chandler.chimney.01",
+      "archetype": "prop.chimney",
+      "cell": "I7",
+      "transform": {
+        "pos": [
+          2.4633,
+          9.0,
+          3.8285
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "smoke": {
+          "rate": 1.0,
+          "drift": [
+            1.4,
+            0,
+            0.9
+          ]
+        }
+      }
+    }
+  ]
+}

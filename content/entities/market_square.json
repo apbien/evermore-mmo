@@ -33,10 +33,14 @@
           ],
           "range": 2.0
         },
+        "landmark": {
+          "name": "The Heron Fountain",
+          "silhouette": true
+        },
         "collider": {
           "shape": "cylinder",
-          "radius": 2.5,
-          "height": 0.9
+          "radius": 3.05,
+          "height": 1.02
         }
       }
     },

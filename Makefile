@@ -1,7 +1,7 @@
 # Hearthmere build commands. See docs/ASSET_PIPELINE.md.
 V ?=
 
-.PHONY: setup assets textures shots validate serve clean help
+.PHONY: setup assets textures shots validate walkable playable serve clean help
 
 help:
 	@grep -E '^[a-z-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  %-14s %s\n", $$1, $$2}'
@@ -28,6 +28,12 @@ shots:  ## render review screenshots (V=<venue> for one)
 
 validate:  ## schema + scale + palette + anachronism checks
 	python3 tools/validate.py
+
+walkable:  ## flood the town from the spawn; fails if Ford Road is severed
+	node tools/check_walkable.mjs
+
+playable:  ## boot the real client headless and walk it down Ford Road
+	node tools/check_client.mjs
 
 serve:  ## run the playable client at :8080
 	node client/serve.mjs

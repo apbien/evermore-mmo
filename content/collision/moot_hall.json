@@ -1,0 +1,530 @@
+{
+  "$schema": "../schemas/collision.schema.json",
+  "venue": "moot_hall",
+  "cells": [
+    "E7",
+    "E8",
+    "F7",
+    "F8"
+  ],
+  "space": "venue-local",
+  "volumes": [
+    {
+      "shape": "box",
+      "center": [
+        -0.0,
+        0.16,
+        0.0
+      ],
+      "half": [
+        7.15,
+        0.26,
+        4.65
+      ],
+      "rotY": -2.0944,
+      "kind": "surface",
+      "tag": "stylobate"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.9223,
+        0.785,
+        0.7377
+      ],
+      "half": [
+        0.8,
+        0.365,
+        0.62
+      ],
+      "rotY": -2.0944,
+      "kind": "surface",
+      "tag": "bank_steps"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.1923,
+        1.87,
+        5.567
+      ],
+      "half": [
+        1.625,
+        1.45,
+        0.17
+      ],
+      "tag": "lockup",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.6967,
+        1.87,
+        2.167
+      ],
+      "half": [
+        1.625,
+        1.45,
+        0.17
+      ],
+      "tag": "lockup",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.9397,
+        1.87,
+        2.4597
+      ],
+      "half": [
+        0.17,
+        1.45,
+        3.4
+      ],
+      "tag": "lockup",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.5647,
+        1.87,
+        5.2743
+      ],
+      "half": [
+        0.17,
+        1.45,
+        3.4
+      ],
+      "tag": "lockup",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        5.9628,
+        1.87,
+        -3.4279
+      ],
+      "radius": 0.24,
+      "height": 2.9,
+      "tag": "arcade_post"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        3.9795,
+        1.87,
+        0.0074
+      ],
+      "radius": 0.24,
+      "height": 2.9,
+      "tag": "arcade_post"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        1.9961,
+        1.87,
+        3.4426
+      ],
+      "radius": 0.24,
+      "height": 2.9,
+      "tag": "arcade_post"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        0.0128,
+        1.87,
+        6.8779
+      ],
+      "radius": 0.24,
+      "height": 2.9,
+      "tag": "arcade_post"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -0.0128,
+        1.87,
+        -6.8779
+      ],
+      "radius": 0.24,
+      "height": 2.9,
+      "tag": "arcade_post"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -1.9961,
+        1.87,
+        -3.4426
+      ],
+      "radius": 0.24,
+      "height": 2.9,
+      "tag": "arcade_post"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -3.9795,
+        1.87,
+        -0.0074
+      ],
+      "radius": 0.24,
+      "height": 2.9,
+      "tag": "arcade_post"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        2.975,
+        1.87,
+        -5.1529
+      ],
+      "radius": 0.24,
+      "height": 2.9,
+      "tag": "arcade_post"
+    },
+    {
+      "shape": "box",
+      "center": [
+        3.9204,
+        0.73,
+        -2.9904
+      ],
+      "half": [
+        1.55,
+        0.31,
+        0.53
+      ],
+      "rotY": -2.0944,
+      "tag": "standing"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.6296,
+        0.73,
+        -4.8904
+      ],
+      "half": [
+        1.55,
+        0.31,
+        0.53
+      ],
+      "rotY": -2.0944,
+      "tag": "standing"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.5004,
+        0.73,
+        -1.5013
+      ],
+      "half": [
+        1.6,
+        0.31,
+        0.53
+      ],
+      "rotY": -2.0944,
+      "tag": "standing"
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.0878,
+        5.43,
+        -3.4365
+      ],
+      "half": [
+        0.4,
+        1.77,
+        0.15
+      ],
+      "tag": "chamber",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        3.3028,
+        5.43,
+        3.1193
+      ],
+      "half": [
+        5.87,
+        1.77,
+        0.15
+      ],
+      "tag": "chamber",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.8278,
+        5.43,
+        -2.21
+      ],
+      "half": [
+        6.92,
+        1.77,
+        0.15
+      ],
+      "tag": "chamber",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        3.46,
+        5.43,
+        -5.9929
+      ],
+      "half": [
+        0.15,
+        1.77,
+        4.42
+      ],
+      "tag": "chamber",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.46,
+        5.43,
+        5.9929
+      ],
+      "half": [
+        0.15,
+        1.77,
+        4.42
+      ],
+      "tag": "chamber",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        6.2278,
+        1.554,
+        0.2932
+      ],
+      "half": [
+        2.81,
+        1.134,
+        0.18
+      ],
+      "rotY": -2.0944,
+      "tag": "stair_wall"
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.0426,
+        3.822,
+        -0.5181
+      ],
+      "half": [
+        0.65,
+        0.162,
+        1.5
+      ],
+      "rotY": 2.618,
+      "kind": "surface",
+      "tag": "step"
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.1176,
+        3.984,
+        -0.648
+      ],
+      "half": [
+        0.65,
+        0.324,
+        1.35
+      ],
+      "rotY": 2.618,
+      "kind": "surface",
+      "tag": "step"
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.1926,
+        4.146,
+        -0.7779
+      ],
+      "half": [
+        0.65,
+        0.486,
+        1.2
+      ],
+      "rotY": 2.618,
+      "kind": "surface",
+      "tag": "step"
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.2676,
+        4.308,
+        -0.9078
+      ],
+      "half": [
+        0.65,
+        0.648,
+        1.05
+      ],
+      "rotY": 2.618,
+      "kind": "surface",
+      "tag": "step"
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.3426,
+        4.47,
+        -1.0377
+      ],
+      "half": [
+        0.65,
+        0.81,
+        0.9
+      ],
+      "rotY": 2.618,
+      "kind": "surface",
+      "tag": "step"
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.4176,
+        4.632,
+        -1.1676
+      ],
+      "half": [
+        0.65,
+        0.972,
+        0.75
+      ],
+      "rotY": 2.618,
+      "kind": "surface",
+      "tag": "step"
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.4926,
+        4.794,
+        -1.2975
+      ],
+      "half": [
+        0.65,
+        1.134,
+        0.6
+      ],
+      "rotY": 2.618,
+      "kind": "surface",
+      "tag": "step"
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.5676,
+        4.956,
+        -1.4274
+      ],
+      "half": [
+        0.65,
+        1.296,
+        0.45
+      ],
+      "rotY": 2.618,
+      "kind": "surface",
+      "tag": "step"
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.6426,
+        5.118,
+        -1.5574
+      ],
+      "half": [
+        0.65,
+        1.458,
+        0.3
+      ],
+      "rotY": 2.618,
+      "kind": "surface",
+      "tag": "step"
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.7176,
+        5.28,
+        -1.6873
+      ],
+      "half": [
+        0.65,
+        1.62,
+        0.15
+      ],
+      "rotY": 2.618,
+      "kind": "surface",
+      "tag": "step"
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.3076,
+        3.53,
+        -2.0972
+      ],
+      "half": [
+        0.9,
+        0.13,
+        0.81
+      ],
+      "rotY": -2.0944,
+      "kind": "surface",
+      "tag": "landing"
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.0938,
+        2.54,
+        0.7932
+      ],
+      "half": [
+        2.81,
+        2.12,
+        0.12
+      ],
+      "rotY": -2.0944,
+      "tag": "stair_balustrade"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        8.7743,
+        1.57,
+        -2.4975
+      ],
+      "radius": 0.22,
+      "height": 2.3,
+      "tag": "whipping_post"
+    }
+  ]
+}

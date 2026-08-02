@@ -1,0 +1,218 @@
+{
+  "$schema": "../schemas/collision.schema.json",
+  "venue": "bathhouse",
+  "cells": [
+    "C8",
+    "C9",
+    "D8",
+    "D9"
+  ],
+  "space": "venue-local",
+  "volumes": [
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        0.16,
+        0.0
+      ],
+      "half": [
+        7.15,
+        0.26,
+        5.65
+      ],
+      "rotY": 0.1047,
+      "kind": "surface",
+      "tag": "plinth"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -4.7047,
+        2.945,
+        -5.0358
+      ],
+      "half": [
+        2.8475,
+        2.525,
+        0.17
+      ],
+      "tag": "bathhouse",
+      "rotY": 0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        2.9581,
+        2.945,
+        -5.8412
+      ],
+      "half": [
+        3.4475,
+        2.525,
+        0.17
+      ],
+      "tag": "bathhouse",
+      "rotY": 0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.5749,
+        2.945,
+        5.4699
+      ],
+      "half": [
+        7.0,
+        2.525,
+        0.17
+      ],
+      "tag": "bathhouse",
+      "rotY": 0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.9617,
+        2.945,
+        0.7317
+      ],
+      "half": [
+        0.17,
+        2.525,
+        5.5
+      ],
+      "tag": "bathhouse",
+      "rotY": 0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        6.9617,
+        2.945,
+        -0.7317
+      ],
+      "half": [
+        0.17,
+        2.525,
+        5.5
+      ],
+      "tag": "bathhouse",
+      "rotY": 0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.2406,
+        0.105,
+        -6.0635
+      ],
+      "half": [
+        0.7,
+        0.105,
+        0.5
+      ],
+      "kind": "surface",
+      "tag": "step",
+      "rotY": 0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.2145,
+        0.21,
+        -5.8149
+      ],
+      "half": [
+        0.7,
+        0.21,
+        0.25
+      ],
+      "kind": "surface",
+      "tag": "step",
+      "rotY": 0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -8.0727,
+        2.32,
+        -3.5255
+      ],
+      "half": [
+        0.6,
+        1.9,
+        0.55
+      ],
+      "rotY": 0.1047,
+      "tag": "flue"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.2803,
+        0.68,
+        -5.2221
+      ],
+      "half": [
+        1.18,
+        0.68,
+        0.27
+      ],
+      "rotY": 0.1047,
+      "tag": "woodpile"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.8437,
+        0.68,
+        -5.4782
+      ],
+      "half": [
+        1.18,
+        0.68,
+        0.27
+      ],
+      "rotY": 0.1047,
+      "tag": "woodpile"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -6.5653,
+        0.24,
+        -6.4993
+      ],
+      "radius": 0.32,
+      "height": 0.48,
+      "tag": "chopping_block"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        7.2848,
+        1.6,
+        -8.6589
+      ],
+      "radius": 0.1,
+      "height": 3.2,
+      "tag": "laundry_prop"
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.2547,
+        0.22,
+        -6.7179
+      ],
+      "half": [
+        1.05,
+        0.22,
+        0.2
+      ],
+      "rotY": 0.1047,
+      "tag": "bench"
+    }
+  ]
+}

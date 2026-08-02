@@ -1,0 +1,69 @@
+{
+  "venue": "dovecote",
+  "cells": [
+    "J5",
+    "J6",
+    "K5",
+    "K6"
+  ],
+  "entities": [
+    {
+      "id": "hm.dovecote.door.01",
+      "archetype": "door.dovecote",
+      "cell": "K5",
+      "transform": {
+        "pos": [
+          0.856,
+          0.3,
+          2.6344
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "enter"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.dovecote.cote.01",
+      "archetype": "resource.dovecote",
+      "cell": "K5",
+      "transform": {
+        "pos": [
+          -0.0,
+          0.3,
+          0.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "gather"
+          ],
+          "range": 2.0
+        },
+        "resource": {
+          "kind": "squab",
+          "respawnMin": 45
+        }
+      }
+    }
+  ]
+}

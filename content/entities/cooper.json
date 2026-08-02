@@ -1,0 +1,104 @@
+{
+  "venue": "cooper",
+  "cells": [
+    "I8",
+    "I9"
+  ],
+  "entities": [
+    {
+      "id": "hm.cooper.station.01",
+      "archetype": "crafting_station.cooper",
+      "cell": "I9",
+      "transform": {
+        "pos": [
+          -0.3481,
+          0.25,
+          -0.0366
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        },
+        "crafting_station": {
+          "profession": "cooper",
+          "tier": 1
+        }
+      }
+    },
+    {
+      "id": "hm.cooper.lamp.01",
+      "archetype": "prop.lantern",
+      "cell": "I9",
+      "transform": {
+        "pos": [
+          -0.3638,
+          2.71,
+          0.1126
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB566",
+          "intensity": 1.4,
+          "range": 5.5
+        }
+      }
+    },
+    {
+      "id": "hm.cooper.fire.01",
+      "archetype": "prop.hearth",
+      "cell": "I9",
+      "transform": {
+        "pos": [
+          1.7558,
+          0.09,
+          -1.8768
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FF7A2E",
+          "intensity": 2.6,
+          "range": 6.5,
+          "flickerHz": [
+            6,
+            11
+          ]
+        },
+        "smoke": {
+          "rate": 0.35,
+          "drift": [
+            0.7,
+            0,
+            0.4
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "$schema": "../schemas/collision.schema.json",
+  "venue": "chophouse",
+  "cells": [
+    "E4"
+  ],
+  "space": "venue-local",
+  "volumes": [
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        0.15,
+        0.0
+      ],
+      "half": [
+        4.83,
+        0.25,
+        4.83
+      ],
+      "kind": "surface",
+      "tag": "plinth"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.9825,
+        3.27,
+        -4.7
+      ],
+      "half": [
+        0.7175,
+        2.87,
+        0.15
+      ],
+      "tag": "chophouse"
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.4325,
+        3.27,
+        -4.7
+      ],
+      "half": [
+        3.2675,
+        2.87,
+        0.15
+      ],
+      "tag": "chophouse"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        3.27,
+        4.7
+      ],
+      "half": [
+        4.7,
+        2.87,
+        0.15
+      ],
+      "tag": "chophouse"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -4.7,
+        3.27,
+        0.0
+      ],
+      "half": [
+        0.15,
+        2.87,
+        4.7
+      ],
+      "tag": "chophouse"
+    },
+    {
+      "shape": "box",
+      "center": [
+        4.7,
+        3.27,
+        0.0
+      ],
+      "half": [
+        0.15,
+        2.87,
+        4.7
+      ],
+      "tag": "chophouse"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -2.55,
+        0.1,
+        -5.33
+      ],
+      "half": [
+        0.7,
+        0.1,
+        0.5
+      ],
+      "kind": "surface",
+      "tag": "step"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -2.55,
+        0.2,
+        -5.08
+      ],
+      "half": [
+        0.7,
+        0.2,
+        0.25
+      ],
+      "kind": "surface",
+      "tag": "step"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -5.1,
+        1.15,
+        -7.4
+      ],
+      "radius": 0.1,
+      "height": 2.3,
+      "tag": "awning_post"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        0.0,
+        1.15,
+        -7.4
+      ],
+      "radius": 0.1,
+      "height": 2.3,
+      "tag": "awning_post"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.35,
+        0.37,
+        -6.68
+      ],
+      "half": [
+        1.3,
+        0.37,
+        0.42
+      ],
+      "rotY": 0.075,
+      "tag": "table"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.75,
+        0.37,
+        -6.3
+      ],
+      "half": [
+        1.3,
+        0.37,
+        0.42
+      ],
+      "rotY": -0.1,
+      "tag": "table"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        1.3,
+        0.41,
+        -6.05
+      ],
+      "radius": 0.36,
+      "height": 0.82,
+      "tag": "carving_block"
+    },
+    {
+      "shape": "box",
+      "center": [
+        3.95,
+        0.62,
+        -5.75
+      ],
+      "half": [
+        0.5,
+        0.62,
+        0.42
+      ],
+      "tag": "stillage"
+    }
+  ]
+}

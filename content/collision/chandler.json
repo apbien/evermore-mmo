@@ -1,0 +1,452 @@
+{
+  "$schema": "../schemas/collision.schema.json",
+  "venue": "chandler",
+  "cells": [
+    "I7",
+    "I8"
+  ],
+  "space": "venue-local",
+  "volumes": [
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        0.05,
+        0.0
+      ],
+      "half": [
+        5.3,
+        0.05,
+        4.8
+      ],
+      "kind": "surface",
+      "tag": "yard",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -2.098,
+        2.265,
+        -4.7453
+      ],
+      "half": [
+        2.1175,
+        1.785,
+        0.15
+      ],
+      "tag": "wall",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.7061,
+        2.265,
+        -4.3455
+      ],
+      "half": [
+        0.2575,
+        1.785,
+        0.15
+      ],
+      "tag": "wall",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.539,
+        2.265,
+        -0.6645
+      ],
+      "half": [
+        3.1,
+        1.785,
+        0.15
+      ],
+      "tag": "wall",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -4.4129,
+        2.265,
+        -2.9776
+      ],
+      "half": [
+        0.15,
+        1.785,
+        2.0
+      ],
+      "tag": "wall",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.7531,
+        2.265,
+        -2.3295
+      ],
+      "half": [
+        0.15,
+        1.785,
+        2.0
+      ],
+      "tag": "wall",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.3299,
+        0.29,
+        -2.6536
+      ],
+      "half": [
+        3.2,
+        0.19,
+        2.1
+      ],
+      "kind": "surface",
+      "tag": "plinth",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.7844,
+        0.195,
+        -4.9753
+      ],
+      "half": [
+        0.75,
+        0.095,
+        0.42
+      ],
+      "kind": "surface",
+      "tag": "step",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.7624,
+        0.29,
+        -4.7664
+      ],
+      "half": [
+        0.75,
+        0.19,
+        0.21
+      ],
+      "kind": "surface",
+      "tag": "step",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -2.167,
+        0.86,
+        -5.3659
+      ],
+      "half": [
+        1.125,
+        0.42,
+        0.4
+      ],
+      "tag": "counter",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -2.9839,
+        1.43,
+        -5.5724
+      ],
+      "half": [
+        0.85,
+        0.95,
+        0.34
+      ],
+      "tag": "dipping_frame",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.4599,
+        1.875,
+        4.3759
+      ],
+      "half": [
+        4.3,
+        1.775,
+        0.11
+      ],
+      "tag": "shed_wall",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -4.3078,
+        1.875,
+        -0.1511
+      ],
+      "half": [
+        0.16,
+        1.775,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -4.7468,
+        1.875,
+        4.0259
+      ],
+      "half": [
+        0.16,
+        1.775,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.4568,
+        1.875,
+        0.1485
+      ],
+      "half": [
+        0.16,
+        1.775,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.8958,
+        1.875,
+        4.3255
+      ],
+      "half": [
+        0.16,
+        1.775,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.3941,
+        1.875,
+        0.4482
+      ],
+      "half": [
+        0.16,
+        1.775,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.9551,
+        1.875,
+        4.6252
+      ],
+      "half": [
+        0.16,
+        1.775,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        4.2451,
+        1.875,
+        0.7478
+      ],
+      "half": [
+        0.16,
+        1.775,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        3.8061,
+        1.875,
+        4.9248
+      ],
+      "half": [
+        0.16,
+        1.775,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        3.2431,
+        0.7,
+        3.106
+      ],
+      "radius": 0.94,
+      "height": 1.2,
+      "tag": "tallow_vat"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        1.5263,
+        0.7,
+        3.1769
+      ],
+      "radius": 0.84,
+      "height": 1.2,
+      "tag": "tallow_vat"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -0.2298,
+        0.62,
+        3.1432
+      ],
+      "radius": 0.44,
+      "height": 1.05,
+      "tag": "settling_tub"
+    },
+    {
+      "shape": "box",
+      "center": [
+        2.2528,
+        1.28,
+        -3.735
+      ],
+      "half": [
+        0.16,
+        1.18,
+        0.16
+      ],
+      "tag": "gate_post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        5.0374,
+        1.28,
+        -3.4423
+      ],
+      "half": [
+        0.16,
+        1.18,
+        0.16
+      ],
+      "tag": "gate_post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -3.9016,
+        0.51,
+        3.1595
+      ],
+      "radius": 0.31,
+      "height": 0.82,
+      "tag": "tallow_cask"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -4.4356,
+        0.51,
+        2.5
+      ],
+      "radius": 0.31,
+      "height": 0.82,
+      "tag": "tallow_cask"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -3.3207,
+        0.51,
+        2.4161
+      ],
+      "radius": 0.31,
+      "height": 0.82,
+      "tag": "tallow_cask"
+    },
+    {
+      "shape": "box",
+      "center": [
+        3.2138,
+        0.65,
+        0.0361
+      ],
+      "half": [
+        0.8,
+        0.55,
+        0.8
+      ],
+      "tag": "handcart",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.1184,
+        0.68,
+        4.135
+      ],
+      "half": [
+        1.35,
+        0.58,
+        0.26
+      ],
+      "tag": "woodpile",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -4.0363,
+        0.39,
+        -4.6474
+      ],
+      "radius": 0.21,
+      "height": 0.58,
+      "tag": "spur_stone"
+    }
+  ]
+}

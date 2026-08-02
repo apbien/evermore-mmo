@@ -1,0 +1,318 @@
+{
+  "$schema": "../schemas/collision.schema.json",
+  "venue": "inn",
+  "cells": [
+    "D4",
+    "D5",
+    "E4",
+    "E5"
+  ],
+  "space": "venue-local",
+  "volumes": [
+    {
+      "shape": "box",
+      "center": [
+        2.7,
+        0.175,
+        -0.225
+      ],
+      "half": [
+        3.92,
+        0.275,
+        6.395
+      ],
+      "rotY": -3.1416,
+      "kind": "surface",
+      "tag": "inn_plinth"
+    },
+    {
+      "shape": "box",
+      "center": [
+        4.175,
+        3.9,
+        5.95
+      ],
+      "half": [
+        2.225,
+        3.45,
+        0.15
+      ],
+      "tag": "inn",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.375,
+        3.9,
+        5.95
+      ],
+      "half": [
+        0.625,
+        3.45,
+        0.15
+      ],
+      "tag": "inn",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        2.7,
+        3.9,
+        -6.4
+      ],
+      "half": [
+        3.7,
+        3.45,
+        0.15
+      ],
+      "tag": "inn",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        6.4,
+        3.9,
+        -0.225
+      ],
+      "half": [
+        0.15,
+        3.45,
+        6.175
+      ],
+      "tag": "inn",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.0,
+        3.9,
+        -0.225
+      ],
+      "half": [
+        0.15,
+        3.45,
+        6.175
+      ],
+      "tag": "inn",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.1,
+        0.1125,
+        6.67
+      ],
+      "half": [
+        1.025,
+        0.1125,
+        0.42
+      ],
+      "kind": "surface",
+      "tag": "step",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.1,
+        0.225,
+        6.46
+      ],
+      "half": [
+        1.025,
+        0.225,
+        0.21
+      ],
+      "kind": "surface",
+      "tag": "step",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.65,
+        0.93,
+        -5.1
+      ],
+      "half": [
+        0.48,
+        0.46,
+        1.85
+      ],
+      "tag": "bar",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.375,
+        0.1,
+        -2.9
+      ],
+      "half": [
+        2.705,
+        0.2,
+        3.68
+      ],
+      "rotY": -3.1416,
+      "kind": "surface",
+      "tag": "stable_floor"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -2.9,
+        2.5,
+        0.6
+      ],
+      "half": [
+        0.05,
+        2.2,
+        0.13
+      ],
+      "tag": "stable",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.375,
+        2.5,
+        0.6
+      ],
+      "half": [
+        0.975,
+        2.2,
+        0.13
+      ],
+      "tag": "stable",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -7.85,
+        2.5,
+        0.6
+      ],
+      "half": [
+        0.05,
+        2.2,
+        0.13
+      ],
+      "tag": "stable",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.375,
+        2.5,
+        -6.4
+      ],
+      "half": [
+        2.525,
+        2.2,
+        0.13
+      ],
+      "tag": "stable",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -2.85,
+        2.5,
+        -2.9
+      ],
+      "half": [
+        0.13,
+        2.2,
+        3.5
+      ],
+      "tag": "stable",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -7.9,
+        2.5,
+        -2.9
+      ],
+      "half": [
+        0.13,
+        2.2,
+        3.5
+      ],
+      "tag": "stable",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -4.6,
+        0.0,
+        3.95
+      ],
+      "half": [
+        3.4,
+        0.06,
+        3.05
+      ],
+      "rotY": -3.1416,
+      "kind": "surface",
+      "tag": "inn_yard"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -7.3,
+        0.34,
+        3.65
+      ],
+      "half": [
+        0.36,
+        0.3,
+        1.08
+      ],
+      "tag": "trough",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.75,
+        0.55,
+        4.55
+      ],
+      "half": [
+        0.14,
+        0.55,
+        1.5
+      ],
+      "tag": "hitching_rail",
+      "rotY": -3.1416
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.25,
+        0.75,
+        5.3
+      ],
+      "half": [
+        0.9,
+        0.75,
+        1.75
+      ],
+      "rotY": 1.42,
+      "tag": "waggon"
+    }
+  ]
+}
