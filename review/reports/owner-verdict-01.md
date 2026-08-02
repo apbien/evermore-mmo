@@ -71,3 +71,97 @@ consistent surface treatment, believable joins, and light that grounds objects
 to what they stand on — not because of triangle counts. Every one of those is a
 cohesion property, and cohesion is what all five reported defects have in
 common.
+
+---
+
+## Addendum A — the wind on the foliage (owner, same session)
+
+**Reported:** the wind on the leaves is too dramatic; the leaves look like they
+would blow off.
+
+**Diagnosed in `client/src/ambient.js`, `harvestFoliage()`.** The shader itself
+is well built — height-weighted so the base of a stem stays planted, phase
+offset by world position so neighbours do not move in lockstep, two
+incommensurate frequencies under a slow gust envelope. The architecture is not
+the problem. The amplitude is:
+
+```
+a = uWindAmp * k * gust * uWindSpan
+uWindAmp = 0.055 * stiffness * windSpeed        // 0.077 for a generic leaf
+uWindSpan = boundingBox.max.y - boundingBox.min.y
+```
+
+`uWindSpan` is taken from the **merged mesh's** bounding box, and scenery is
+merged per material per cell. So the span is not the plant's height — it is the
+vertical extent of every card sharing that material in that batch. Two
+consequences, both wrong:
+
+1. On a 9 m oak the tip displacement reaches roughly **0.69 m horizontally**. A
+   leaf in a 1.4 m/s breeze moves centimetres; a whole branch might move 10–20.
+   Two thirds of a metre is a gale, and it is applied to a leaf.
+2. A low hedge merged into the same batch as a tall tree inherits the *tree's*
+   span, so the shortest plants swing hardest relative to their own size.
+
+And because the displacement translates the whole leaf card along the wind
+vector, the card slides through space rather than a twig bending under it —
+which is precisely the "about to blow off" read.
+
+**Fix:** scale amplitude by the individual plant's height, not the batch's.
+The per-plant height is known at generation time in `core/vegetation.py` and
+should be baked into a vertex attribute or instance attribute, so the shader
+stops inferring it from a bounding box that describes a batch. Then retune
+against a real reference: at the authored 1.4 m/s the canopy should shimmer and
+the branch tips drift, not sway.
+
+Diagnosed from source and arithmetic, **not yet confirmed in a render** — the
+next agent should reproduce it in motion before and after.
+
+---
+
+## Addendum B — does lighting and shading affect how this looks?
+
+The owner asked. Yes — for "does this look like a current AAA game" it is
+arguably a larger lever than geometry, and it is directly implicated in the
+"floating / not connected / not cohesive" complaint, because contact darkening
+is what visually glues an object to the ground it stands on.
+
+**What the client actually runs today** (verified, not assumed — `main.js`
+installs the chain from `client/src/atmosphere.js`): sun with cascaded shadow
+maps, hemisphere ambient, a PMREM environment from the sky dome, warm-tinted
+GTAO, height- and distance-based aerial perspective, ACES tonemap, bloom, and
+the warm colour grade. That is a real chain, and it is why this question needed
+checking rather than answering from instinct.
+
+**The three weakest parts, in order:**
+
+1. **There is no indirect light.** The "bounce" is a second directional light
+   pointed back from the sun — a stand-in for light reflecting off the ground
+   and off facing walls. Real bounce picks up the colour of what it bounced
+   from: a white wall beside a terracotta roof takes warmth from it. A constant
+   directional cannot do that, so every shadowed surface in Hearthmere is lit
+   by the same flat fill regardless of what is next to it. This reads as
+   objects pasted onto a backdrop rather than sitting in a place, and it is a
+   strong candidate for the gap the owner feels against Skyrim, which bakes
+   its indirect light.
+2. **The rim light is a fake, and it is the Art Bible's single strongest anime
+   tell** (§1 lists it first). D-010 records that it ships as a directional
+   light, which lights every face turned toward it instead of only grazing
+   edges — draining saturation from curved objects rather than separating them
+   from the background. D-010 is still open, and the rim ships at 1.15 against
+   §1's authored 1.4. A true Fresnel rim pass is named in ARCHITECTURE §5 as
+   the target implementation and does not exist.
+3. **AO is screen-space only.** GTAO can only occlude from what is on screen
+   and is thin by nature. The deep contact darkening where a barrel meets a
+   cobble, or a wall meets the ground, wants baked or capsule occlusion in
+   addition. This is the specific lighting contribution to "things look like
+   they are floating" — an object with no darkening beneath it reads as
+   hovering even when its geometry is seated perfectly.
+
+**Also relevant:** the world is locked to one hour (09:30, Art Bible §4). That
+lock is deliberate and correct for review — it removes a variable — but it
+means nothing in the build has ever been lit dramatically, and D-078 has now
+committed day and night as design. Time of day is where a lot of a modern
+game's visual impact comes from.
+
+None of this contradicts the geometry work. It sits alongside it, and the
+lighting items are cheap relative to their effect on every frame at once.
