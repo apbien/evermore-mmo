@@ -187,7 +187,38 @@ Both glTF extensions are fallback-safe and never listed in
 `extensionsRequired`: a consumer that ignores them renders a correct, merely
 expensive town.
 
-### Lighting
+### Quality settings (Low → Ultra)
+
+Designed here, implemented as a client-side profile the renderer reads at
+boot (D-066; implementation pending). The principle: **quality tiers reuse
+shipping mechanisms — there are no separate low-spec assets.** Every venue
+already exports a four-step `MSFT_lod` chain and per-cell batches; a tier
+only changes when and how much of that reaches the GPU. Initial values,
+to be tuned on real hardware:
+
+| Lever | Low | Medium | High | Ultra |
+| --- | --- | --- | --- | --- |
+| LOD switch distances (m) | 8 / 20 / 50 | 12 / 30 / 75 | 15 / 40 / 100 | 15 / 40 / 100 |
+| Render scale | 0.66 | 0.85 | 1.0 | native DPR |
+| Shadow map / local shadow lights | 1024 / sun only | 2048 / sun + 2 | 4096 / sun + 4 | 4096 / sun + 8 |
+| SSAO (GTAO) | off — vertex AO carries it | half-res | full | full |
+| Bloom | off | on | on | on |
+| Clutter screen-size cull | 2× threshold | 1.5× | ship | ship |
+| Texture budget | skip top mip (¼ memory) | full | full | full |
+| Anti-aliasing | FXAA | FXAA | TAA | TAA |
+
+Rules that keep tiers honest:
+
+- **Baked vertex AO and the ACES grade are identity, not quality.** Never
+  disabled — Low must still look like Evermore, just coarser.
+- **The perf budget gate runs at Ultra.** Lower tiers are player headroom,
+  never an excuse to blow the §5 budget.
+- **Gameplay is identical at every tier.** Collision, entities, interaction
+  ranges, and sightline legibility do not change with settings; a Low player
+  sees every interactable an Ultra player sees.
+- **The review harness renders at Ultra**, and a venue may not depend on a
+  tier effect (bloom, GTAO) to read correctly — each cohesion round includes
+  one Low-tier spot render to prove it.
 
 - One directional key (sun) with cascaded shadow maps
 - Hemisphere ambient approximating sky/ground bounce

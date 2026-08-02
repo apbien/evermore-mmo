@@ -35,6 +35,13 @@ Interiors are in scope only where they are visible from the street through an
 open door or window. Full walkable interiors are out of scope for v2 except the
 Church of Summoning, which the player spawns inside.
 
+**Upper storeys are sealed** (owner direction, D-065). Unless a venue's brief
+says otherwise, nothing grants second-storey access: stairs to upper floors
+are scenery or omitted, upper rooms are never furnished or decorated, and an
+upper window reads as shutters, curtains, or warm lamp spill — never a
+modelled room. The visible-through-door rule above is ground floor only. The
+Church of Summoning's one tall volume remains the only full interior.
+
 **NPCs are out of scope and are being removed.** The town comes first. Do not
 add characters, do not preserve `townsfolk`.
 

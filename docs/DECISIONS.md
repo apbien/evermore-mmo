@@ -2837,3 +2837,71 @@ Measured `temperatureSwing`: `gate-south` 25.5 → 47.1, `approach-w` 26.3 → 3
 **Numbering note.** D-057 to D-062 were assigned by the build session. Per the
 owner's ruling on the D-036/D-040 collision, a documentation session's entries win
 an ID clash and these renumber at reconciliation.
+
+## D-063 — The look is anchored: Echoes of Aincrad and DragonSword: Awakening
+
+**Context.** Owner direction, 2026-08-02: the look to go for is "how you would
+describe the art direction and details of games like Echoes of Aincrad or
+Dragonsword: Awakening." Both are 2026 UE5 releases; both are anime worlds
+that deliberately reject the stock-photoreal UE5 look.
+
+**Decision.** `REFERENCES.md` gains "The look anchors": the warmth,
+saturation, and clean painterly surfacing of both worlds anchor Art Bible
+§1's axis, which now cites them. The environment does **not** adopt their
+cel-shading — materials stay stylised PBR and the anime read stays §1's five
+tells. Both anchors cel-shade *characters* against a softer world; that
+convention is recorded now for whenever characters return (D-012).
+
+**Why.** "Semi-realistic anime" drifts with every reader; two named, shipped
+games do not. A critic can hold a render beside a screenshot of either anchor
+and ask the feel question concretely.
+
+## D-064 — Variety is typed, not jittered
+
+**Context.** Owner direction, 2026-08-02: "ensure variety of textures even if
+it's for the same buildings. Like 5 different varieties of tudor houses,
+single floor, double floor, etc., some with different materials but all
+cohesively the same." The kit review had already named the failure:
+"sixty-three shuffles of one house" (`review/reports/building-kit-01.md`).
+
+**Decision.** Art Bible §1's idiom section gains "Variety within the idiom":
+at least five distinct domestic house types (own plan, roof form, framing
+rhythm) and at least three material dressings dealt across them by seed with
+an adjacency constraint (neighbours differ). Jitter is explicitly not
+variety: §6's variance stops repetition being detected, types and dressings
+stop it being felt.
+
+**Cost.** Kit work — but D-034's covering dealer already deals materials by
+seed, so dressings extend an existing mechanism rather than adding a system.
+
+## D-065 — Upper storeys are sealed
+
+**Context.** Owner direction, 2026-08-02: "unless specified, all 2nd story
+access is prohibited, so there's no need to interiorly decorate them."
+
+**Decision.** BUILD_DIRECTIVE §1: no venue grants second-storey access —
+stairs to upper floors are scenery or omitted, upper rooms are never
+furnished, and upper windows read as shutters, curtains, or warm lamp spill,
+never a modelled room. Ground-floor visible-through-door is unchanged; the
+church's single tall volume remains the only full interior.
+
+**Why.** Upper interiors are the most expensive space in the town and the
+least seen. Sealing them by rule turns the "empty room" anti-reference into
+a scope guarantee instead of a defect class.
+
+## D-066 — Quality tiers reuse shipping mechanisms
+
+**Context.** Owner question, 2026-08-02: how do Low→Ultra graphics settings
+work so players without the specs can still run the town?
+
+**Decision.** ARCHITECTURE §5 gains "Quality settings (Low → Ultra)": tiers
+are a client-side profile over mechanisms that already ship — `MSFT_lod`
+switch distances pull in, render scale drops, shadow resolution and local
+shadow-light count step down, GTAO/bloom toggle, the clutter cull tightens,
+and Low skips the top texture mip. No separate low-spec assets exist or are
+authored. Vertex AO and the ACES grade are identity, never disabled. The
+perf budget gate and the review harness run at Ultra; each cohesion round
+includes one Low-tier spot render so no venue depends on a tier effect to
+read.
+
+**Status:** designed; client implementation pending.

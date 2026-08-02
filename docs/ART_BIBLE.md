@@ -14,6 +14,11 @@ between *Sword Art Online* (Town of Beginnings), *Shangri-La Frontier*, and
 XIV* (Gridania / Ul'dah), *Guild Wars 2* (Divinity's Reach), and *World of
 Warcraft* (post-Legion art standard).
 
+The owner has anchored the look (D-063): **Echoes of Aincrad** and
+**DragonSword: Awakening** are the definitive feel — see "The look anchors"
+in `REFERENCES.md` for what is taken from each and what is not (their
+cel-shading is not).
+
 Concretely, that means:
 
 | Axis | Target | Not this |
@@ -72,6 +77,29 @@ with its gates and towers, and the bridge stay masonry per their World Bible
 and Town Plan briefs. Timber town, stone institutions — the contrast is the
 founding logic made visible, and it is what keeps Tudor from becoming a
 theme park.
+
+### Variety within the idiom (owner direction, D-064)
+
+One idiom must never read as one house. The domestic kit ships **distinct
+types, not jittered clones**:
+
+- **At least five house types**, each with its own plan, roof form, and
+  framing rhythm: single-storey cottage, storey-and-a-half with dormers,
+  two-storey jettied townhouse, gable-end-to-street, and eaves-to-street.
+- **At least three material dressings** dealt across every type: close
+  studding with limewash infill, square panelling with brick nogging, and
+  plaster-dominant with exposed corner posts — roof coverings dealt
+  separately per the covering rules.
+- **Dealt by seed, constrained by adjacency:** neighbours differ in type or
+  dressing. A uniform run needs a recorded reason — a terrace built as one
+  campaign is such a reason.
+- **Jitter is not variety.** §6's ±3% variance stops repetition from being
+  *detected*; types and dressings stop it from being *felt*. "Sixty-three
+  shuffles of one house" (`review/reports/building-kit-01.md`) is the named
+  failure.
+
+Cohesion still wins: every type and dressing draws from §4's palette and
+this idiom. Five houses, one town.
 
 ---
 

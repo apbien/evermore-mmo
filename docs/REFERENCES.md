@@ -3,6 +3,30 @@
 The blind comparison bar from `docs/REVIEW_PROTOCOL.md` needs specific
 reference points, not a vague sense of "AAA". These are the targets.
 
+## The look anchors (owner direction, D-063)
+
+The production bar below says how *good* the town must be. These two say what
+it must *feel like* — the owner named them as the definitive look:
+
+- **Echoes of Aincrad** (UE5, 2026) — SAO's Town of Beginnings realized at
+  scale. What defines it: a warm, stylized-clean world that deliberately
+  avoids the stock-UE5 photoreal look; simplified, painterly surfaces that
+  still light physically; a town that reads bustling and MMO-convincing at
+  street level. This is the closest existing image of what Hearthmere
+  should be.
+- **DragonSword: Awakening** (UE5, 2026) — colour identity over photoreal
+  ambition. What defines it: a warm, vibrant, saturated open world; clean
+  value structure; polished subculture-style character design that pops
+  against the softer world.
+
+What we take: the warmth, saturation, and clean painterly surfacing of both
+worlds — which is Art Bible §1's axis, now anchored to shipped games. What we
+do not take: neither anchor's **cel-shading** applies to Hearthmere's
+environment. Our materials stay stylised PBR; the anime read comes from §1's
+five tells (rim, warm AO, sky bounce, tight specular, plane separation), not
+from toon ramps or outlines. Both anchors cel-shade *characters* against a
+softer world — when characters return (D-012), they follow that convention.
+
 ## Primary references
 
 | Game | Location | What we take from it |
