@@ -173,9 +173,10 @@ These are not suggestions:
 | Crate | 0.55 m cube |
 | Cart wheel diameter | 1.15 m |
 
-**Camera reference:** third-person, camera at 1.62 m orbiting at 3.5 m, 55° FOV.
-Every asset is judged from that camera, not from a hero close-up. If it only
-looks good at 0.5 m, it is not finished.
+**Camera reference:** the gameplay rig — third-person, boom 3.6 m, camera
+height 2.05 m, 55° FOV (single source: ARCHITECTURE §5 "The gameplay
+camera", D-069). Every asset is judged from that camera, not from a hero
+close-up. If it only looks good at 0.5 m, it is not finished.
 
 ---
 

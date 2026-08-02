@@ -220,6 +220,56 @@ Rules that keep tiers honest:
   tier effect (bloom, GTAO) to read correctly — each cohesion round includes
   one Low-tier spot render to prove it.
 
+### The gameplay camera
+
+The single source of camera policy (owner ruling, D-069). Other documents
+cite this section; none may restate its numbers.
+
+**One camera, one zoom axis.** Third person is the default: boom 3.6 m,
+camera height 2.05 m, 55° FOV — the rig `client/src/player.js` ships and the
+review harness's `gameplay` view reproduces. The mouse wheel dollies the boom
+9.0 m → 0: below about 0.9 m the avatar fades out, and at 0 the camera is
+the character's own eyes (1.62 m). First person is the inner end of the same
+dolly, not a mode switch — which is what makes every transition seamless by
+construction.
+
+**Indoors, the camera adapts — never the world.** Interiors are built at
+Art Bible §3 scale, are never oversized for the camera, and roofs are never
+removed. When the *player* (not the camera eye) stands inside a declared
+interior volume (`ctx.interior`), the boom's maximum becomes what the room
+affords along the boom ray:
+
+- A tall volume — the church nave at 12.2 m to the ridge — affords third
+  person with a shortened indoor profile.
+- A standard 2.70 m room smoothly collapses the cap toward first person; a
+  genuinely cramped space lands there. The cap eases in and out with the
+  camera's existing asymmetric smoothing, so crossing a doorway reads as one
+  continuous dolly.
+- The cap only lowers the *maximum*. The player may always dolly inward
+  voluntarily, anywhere, indoors or out.
+
+**Design consequence for venue briefs:** rooms meant for gathering — the inn
+common hall, the guild hall, the church — are designed as open volumes,
+which the period supplies honestly: Tudor halls were open to the rafters.
+Players keep seeing their characters exactly where they socialise; small
+private rooms accept first person, where closeness reads as intimacy rather
+than loss.
+
+**Camera collision respects interior floors.** The boom probe must treat
+walkable-surface tops as camera blockers (today `probe()` filters to
+`solid` volumes only), and the camera floor guard must use composed ground
+height, not the raw terrain field. The motivating defect: at the spawn
+altar, pitching down drives the camera through the church floor
+(`kind="surface"`, at 2.40 m) into the podium masonry, because the only
+floor guard is terrain (~0.45 m) plus a margin.
+
+**Status:** policy is law now. Client implementation lands with the church
+interior polish pass (PROMPT.md §6 priority (b)): extended zoom-to-first-
+person with avatar fade, the player-indoors state and affordance cap, and
+the floor-collision fix.
+
+### Lighting
+
 - One directional key (sun) with cascaded shadow maps
 - Hemisphere ambient approximating sky/ground bounce
 - Baked AO in the mesh vertex colours plus AO maps in indirect

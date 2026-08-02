@@ -53,8 +53,9 @@ If an instruction here conflicts with the Art Bible, **the Art Bible wins.**
   An asset you have not seen is not finished.
 - **Include a 1.75 m scale reference** in review renders. Scale errors are the
   most common and most immersion-breaking defect.
-- **Judge from the gameplay camera** (1.62 m eye, 3.5 m orbit, 55° FOV), not
-  from a hero close-up.
+- **Judge from the gameplay camera** (boom 3.6 m, camera height 2.05 m, 55°
+  FOV — single source: ARCHITECTURE §5 "The gameplay camera"), not from a
+  hero close-up.
 - **Residue over polish.** Evidence of use — a half-finished job, a cloak on a
   chair, spilled grain — buys more life per unit effort than another 10k tris.
 

@@ -2950,3 +2950,45 @@ Hearthmere-scoped sections (§2, §4, the idiom and variety sections).
 the regenerated `content/town/hearthmere.json` carries the new paths.
 Historical records (`docs/DECISIONS.md` entries, `review/reports/`) keep
 their old paths on purpose — they describe the repo as it was.
+
+## D-069 — The camera adapts indoors; the world never does
+
+**Context.** Owner direction, 2026-08-02. Third person is the game's default,
+but at Art Bible §3 scale a 3.6 m boom does not fit a 2.70 m room. The owner
+rejected both industry defaults — oversized interiors (which would break the
+locked scale and the "Scale truth" review axis) and roof removal — and
+proposed a seamless third-to-first-person transition on entering buildings.
+Considered as a blanket rule and refined: in an MMO, seeing your character is
+the game, and the social rooms (inn common hall, guild hall, church) are
+exactly where that matters most.
+
+**Decision.** ARCHITECTURE §5 gains "The gameplay camera", the single source
+of camera policy: one zoom axis extended to true first person (avatar fades
+below ~0.9 m); indoors, the boom's maximum becomes what the room affords —
+**graded by room volume**, not binary. Tall halls keep third person; standard
+rooms collapse smoothly to first person; the player may always dolly in
+voluntarily. Venue briefs answer with period-honest architecture: gathering
+rooms are open Tudor halls, so third person survives where players
+socialise.
+
+**Recorded with it, honestly:**
+
+1. The camera is interior-naive today — at the spawn altar, pitching down
+   drives it through the church floor into the podium masonry
+   (`collision.js` `probe()` is solid-only; the floor is `kind="surface"`;
+   the floor guard reads raw terrain). The fix is specified in the new
+   section and scheduled.
+2. The arrival composition's perron was sized from a standing first-person
+   eye 2.52 m above the church floor (`church.py:56-64`), while the shipped
+   camera rides 3.6 m behind and ~1.5 m higher. Discrepancy recorded per the
+   rules of evidence; resolution belongs to the composition's next review,
+   not to this entry.
+3. The review-camera numbers disagreed across documents — Art Bible §8 and
+   the Build Directive said "3.5 m orbit at 1.62 m", the pipeline doc and
+   `player.js` ship 3.6 m at 2.05 m. Harmonized to the shipped rig; the
+   numbers now live in ARCHITECTURE §5 only.
+
+**Status:** policy is law now; client implementation is scheduled with the
+church interior polish pass (extended zoom, indoors state and affordance
+cap, floor-collision fix). No generator or client code changes in this
+entry.

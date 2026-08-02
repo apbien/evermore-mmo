@@ -185,7 +185,8 @@ outside. All of these map 1:1 onto Unreal/Unity equivalents — see
   placement, floating, road blocking, or sightlines must be backed by one of
   these images.
 - Every review render includes a 1.75 m scale reference.
-- Judge from the gameplay camera: 1.62 m eye, 3.5 m orbit, 55° FOV.
+- Judge from the gameplay camera: boom 3.6 m, camera height 2.05 m, 55° FOV
+  (single source: ARCHITECTURE §5 "The gameplay camera", D-069).
 - The bar is Art Bible §8's last line, and it is a blind side-by-side, not a
   self-assessment.
 
