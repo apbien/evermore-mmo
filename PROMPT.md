@@ -204,6 +204,26 @@ stops mid-venue, end the last commit message with a `NEXT:` line naming the
 immediate next step — the successor session reads it in step 1 of the
 ritual (§5), which is the resume procedure.
 
+**Every sub-agent writes its report as it works, never at the end.** A
+builder or critic that saves its findings for a closing message loses all of
+them when the window cuts it off, and its code lands unverified with nobody
+knowing what it did or meant to do. Writing `review/reports/<name>.md`
+incrementally is what makes an interrupted agent recoverable instead of
+wreckage. Measured: one wave of nine agents was cut off having written real
+code and no reports, and the next session had to re-derive from the diff what
+every one of them had been doing.
+
+**Four or five sub-agents at a time, not nine.** Measured across eight waves
+(Aug 2026): a wave of four to six costs roughly one 5-hour window and
+completes; waves of nine and twelve were cut off every time, returning
+nothing. This is the concrete form of "never fan out wider than can reach a
+committed checkpoint." A wave that cannot finish inside one window is not
+ambitious, it is a wave that produces no reviewable work.
+
+**A wave ends in a commit.** Not the day's work, not the venue's — the
+wave's. Two windows spent re-running agents whose work was already on disk,
+because nothing between them had been committed and nobody could tell.
+
 ## 8. Definition of done
 
 Hearthmere is done, and this standing order satisfied, when all of the
