@@ -64,6 +64,8 @@ from memory — read its owner.
 | Framerate & optimization (draw calls, tris, memory) | `docs/ARCHITECTURE.md` §5 budget (16.6 ms); perf gate in `tools/render/town.mjs` vs `review/perf-baseline.json` |
 | Graphics settings for weaker PCs (Low → Ultra) | `docs/ARCHITECTURE.md` §5 "Quality settings"; D-066 |
 | Camera (third person, interiors, first-person transition) | `docs/ARCHITECTURE.md` §5 "The gameplay camera"; D-069 |
+| Crowd & character budget (~100 visible players) | `docs/ARCHITECTURE.md` §5 performance shares; D-072 |
+| Audio, netcode, persistence, characters, combat, economy (not yet owned) | The systems-design phase backlog: `review/reports/docs-audit-synthesis-01.md` (D-070, D-074) |
 | Level of detail, batching, instancing | `docs/ARCHITECTURE.md` §5; `tools/assetgen/core/batch.py`; D-027/D-028 |
 | Lighting (locked 09:30 rig, post chain) | Art Bible §4; single source `content/town/hearthmere.json`; D-009 |
 | Textures & materials (full PBR, texel density, roughness, wear) | Art Bible §5; the material registry in `tools/assetgen/core/materials.py` |
