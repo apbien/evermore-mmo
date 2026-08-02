@@ -20,6 +20,7 @@ export class Ambient {
     this.swayers = [];
     this.smokes = [];
     this.fires = [];
+    this.foliage = [];
 
     this._wind = new THREE.Vector3(...(this.cfg.wind?.direction || [0.8, 0, 0.5])).normalize();
     this._windSpeed = this.cfg.wind?.speed ?? 1.4;
@@ -114,6 +115,93 @@ export class Ambient {
       const name = o.material.name || '';
       if (CLOTH.test(name)) this.addSwayer(o, null, 'z');
     });
+    this.harvestFoliage(root);
+  }
+
+  // -- vegetation ------------------------------------------------------------
+
+  /**
+   * Wind sway for anything that grows.
+   *
+   * Art Bible §7 lists vegetation under required motion, and the natural layer
+   * is now the largest single thing in the scene — a still hedge next to a
+   * swaying awning reads worse than no motion at all.
+   *
+   * Two things make this different from the cloth swayers above, and both are
+   * forced by how the town is built:
+   *
+   *  - It is a VERTEX shader, not a node rotation. `core/venue.py` merges every
+   *    primitive in a 48 m cell into one mesh and puts four hundred trees into
+   *    one GPU instance batch, so there is no per-plant node left to rotate by
+   *    the time this sees it. There never will be: that merge is what keeps the
+   *    town inside the §7 draw-call budget.
+   *  - Amplitude comes from height above the PRIMITIVE's own base, which is why
+   *    `tools/assetgen/core/vegetation.py` splits a tree into a `timber_grey`
+   *    trunk and a `leaf_*` canopy. The trunk's material is not in this list, so
+   *    it stands still; the canopy's is, and the canopy starts above the fork.
+   *    The split is the rig.
+   *
+   * The contract is the material NAME, which is the library key — see
+   * `vegetation.SWAY_MATERIALS`. A venue gets sway by using one of those
+   * materials and needs no client change.
+   */
+  harvestFoliage(root) {
+    const FOLIAGE = /^(leaf_|hedge$|ivy$|foliage|reed$)/;
+    root.traverse(o => {
+      if (!o.isMesh || !o.material) return;
+      const mats = Array.isArray(o.material) ? o.material : [o.material];
+      for (const m of mats) {
+        if (!FOLIAGE.test(m.name || '') || m.userData.__windPatched) continue;
+        o.geometry.computeBoundingBox();
+        const bb = o.geometry.boundingBox;
+        // Stiffness: ivy on a wall barely moves, a willow moves a lot. Keyed off
+        // the material because that is all this layer knows about the plant.
+        const stiff = /^ivy$/.test(m.name) ? 0.25
+                    : /^hedge$/.test(m.name) ? 0.45
+                    : /^reed$/.test(m.name) ? 1.35
+                    : /^leaf_willow$/.test(m.name) ? 1.5 : 1.0;
+        const u = {
+          uWindTime: { value: 0 },
+          uWindDir: { value: new THREE.Vector2(this._wind.x, this._wind.z) },
+          uWindAmp: { value: 0.055 * stiff * this._windSpeed },
+          uWindBase: { value: bb.min.y },
+          uWindSpan: { value: Math.max(0.35, bb.max.y - bb.min.y) },
+        };
+        m.userData.__windPatched = true;
+        m.onBeforeCompile = (shader) => {
+          Object.assign(shader.uniforms, u);
+          shader.vertexShader = shader.vertexShader
+            .replace('#include <common>', `#include <common>
+              uniform float uWindTime; uniform vec2 uWindDir;
+              uniform float uWindAmp; uniform float uWindBase; uniform float uWindSpan;`)
+            .replace('#include <begin_vertex>', `#include <begin_vertex>
+              {
+                // World position, so neighbouring plants in one merged batch do
+                // not all move in phase — which is the thing that makes
+                // procedural wind read as a single wobbling object.
+                vec4 wp = modelMatrix * vec4(transformed, 1.0);
+                float h = clamp((wp.y - uWindBase) / uWindSpan, 0.0, 1.0);
+                // Squared, so the base of a stem is planted and the tip is not.
+                float k = h * h;
+                float ph = wp.x * 0.21 + wp.z * 0.17;
+                // Two incommensurate frequencies plus a slow gust envelope: one
+                // sine is a metronome, and a metronome is worse than stillness.
+                float gust = 0.62 + 0.38 * sin(uWindTime * 0.55 + ph * 0.15);
+                float s = sin(uWindTime * 1.6 + ph) * 0.65
+                        + sin(uWindTime * 3.7 + ph * 2.3) * 0.35;
+                float a = uWindAmp * k * gust * uWindSpan;
+                transformed.x += uWindDir.x * s * a;
+                transformed.z += uWindDir.y * s * a;
+                // Lift with the sway rather than stretching, so a card does not
+                // shear its own length.
+                transformed.y -= abs(s) * a * 0.22;
+              }`);
+          m.userData.__windUniforms = shader.uniforms;
+        };
+        m.needsUpdate = true;
+        this.foliage.push(u);
+      }
+    });
   }
 
   // -- dust motes ----------------------------------------------------------
@@ -153,6 +241,10 @@ export class Ambient {
       s.obj.rotation[s.axis] = s.base +
         Math.sin(this.t * Math.PI * 2 * s.hz + s.phase) * s.amp * gust;
     }
+
+    // One uniform write per foliage material, not per plant: every hedge in the
+    // town shares a material and therefore shares this clock.
+    for (const f of this.foliage) f.uWindTime.value = this.t;
 
     for (const f of this.fires) {
       // Two incommensurate frequencies: a single sine reads as a pulse, not

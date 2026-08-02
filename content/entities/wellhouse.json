@@ -1,0 +1,65 @@
+{
+  "venue": "wellhouse",
+  "cells": [
+    "D8"
+  ],
+  "entities": [
+    {
+      "id": "hm.slot.90.wellhouse.well.01",
+      "archetype": "prop.well",
+      "cell": "D8",
+      "transform": {
+        "pos": [
+          0.0,
+          0.84,
+          0.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "draw"
+          ],
+          "range": 2.0
+        },
+        "landmark": {
+          "name": "The Town Well"
+        }
+      }
+    },
+    {
+      "id": "hm.slot.90.wellhouse.bench.01",
+      "archetype": "prop.bench",
+      "cell": "D8",
+      "transform": {
+        "pos": [
+          -0.4581,
+          0.75,
+          -3.8386
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "sit"
+          ],
+          "range": 2.0
+        }
+      }
+    }
+  ]
+}

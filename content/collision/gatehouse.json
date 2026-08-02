@@ -1,0 +1,752 @@
+{
+  "$schema": "../schemas/collision.schema.json",
+  "venue": "gatehouse",
+  "cells": [
+    "F2"
+  ],
+  "space": "venue-local",
+  "volumes": [
+    {
+      "shape": "box",
+      "center": [
+        -3.9,
+        -2.0377,
+        -78.1583
+      ],
+      "half": [
+        1.1583,
+        0.6,
+        2.8
+      ],
+      "rotY": 1.5708,
+      "kind": "surface",
+      "tag": "bridge_deck"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.925,
+        -1.0589,
+        -78.1583
+      ],
+      "half": [
+        1.1583,
+        0.5711,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.875,
+        -1.2089,
+        -78.1583
+      ],
+      "half": [
+        1.1583,
+        0.4211,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.9,
+        -1.8748,
+        -79.675
+      ],
+      "half": [
+        1.1583,
+        0.6,
+        2.8
+      ],
+      "rotY": 1.5708,
+      "kind": "surface",
+      "tag": "bridge_deck"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.925,
+        -0.8812,
+        -79.675
+      ],
+      "half": [
+        1.1583,
+        0.5565,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.875,
+        -1.0312,
+        -79.675
+      ],
+      "half": [
+        1.1583,
+        0.4065,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.9,
+        -1.7412,
+        -81.1917
+      ],
+      "half": [
+        1.1583,
+        0.6,
+        2.8
+      ],
+      "rotY": 1.5708,
+      "kind": "surface",
+      "tag": "bridge_deck"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.925,
+        -0.733,
+        -81.1917
+      ],
+      "half": [
+        1.1583,
+        0.5418,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.875,
+        -0.883,
+        -81.1917
+      ],
+      "half": [
+        1.1583,
+        0.3918,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.9,
+        -1.6369,
+        -82.7083
+      ],
+      "half": [
+        1.1583,
+        0.6,
+        2.8
+      ],
+      "rotY": 1.5708,
+      "kind": "surface",
+      "tag": "bridge_deck"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.925,
+        -0.614,
+        -82.7083
+      ],
+      "half": [
+        1.1583,
+        0.5271,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.875,
+        -0.764,
+        -82.7083
+      ],
+      "half": [
+        1.1583,
+        0.3771,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.9,
+        -1.5619,
+        -84.225
+      ],
+      "half": [
+        1.1583,
+        0.6,
+        2.8
+      ],
+      "rotY": 1.5708,
+      "kind": "surface",
+      "tag": "bridge_deck"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.925,
+        -0.5244,
+        -84.225
+      ],
+      "half": [
+        1.1583,
+        0.5125,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.875,
+        -0.6744,
+        -84.225
+      ],
+      "half": [
+        1.1583,
+        0.3625,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.9,
+        -1.5163,
+        -85.7417
+      ],
+      "half": [
+        1.1583,
+        0.6,
+        2.8
+      ],
+      "rotY": 1.5708,
+      "kind": "surface",
+      "tag": "bridge_deck"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.925,
+        -0.4641,
+        -85.7417
+      ],
+      "half": [
+        1.1583,
+        0.4978,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.875,
+        -0.6141,
+        -85.7417
+      ],
+      "half": [
+        1.1583,
+        0.3478,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.9,
+        -1.5,
+        -87.2583
+      ],
+      "half": [
+        1.1583,
+        0.6,
+        2.8
+      ],
+      "rotY": 1.5708,
+      "kind": "surface",
+      "tag": "bridge_deck"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.925,
+        -0.4332,
+        -87.2583
+      ],
+      "half": [
+        1.1583,
+        0.4831,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.875,
+        -0.5832,
+        -87.2583
+      ],
+      "half": [
+        1.1583,
+        0.3331,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.9,
+        -1.5,
+        -88.775
+      ],
+      "half": [
+        1.1583,
+        0.6,
+        2.8
+      ],
+      "rotY": 1.5708,
+      "kind": "surface",
+      "tag": "bridge_deck"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.925,
+        -0.433,
+        -88.775
+      ],
+      "half": [
+        1.1583,
+        0.483,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.875,
+        -0.583,
+        -88.775
+      ],
+      "half": [
+        1.1583,
+        0.333,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.9,
+        -1.516,
+        -90.2917
+      ],
+      "half": [
+        1.1583,
+        0.6,
+        2.8
+      ],
+      "rotY": 1.5708,
+      "kind": "surface",
+      "tag": "bridge_deck"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.925,
+        -0.4669,
+        -90.2917
+      ],
+      "half": [
+        1.1583,
+        0.5009,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.875,
+        -0.6169,
+        -90.2917
+      ],
+      "half": [
+        1.1583,
+        0.3509,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.9,
+        -1.5677,
+        -91.8083
+      ],
+      "half": [
+        1.1583,
+        0.6,
+        2.8
+      ],
+      "rotY": 1.5708,
+      "kind": "surface",
+      "tag": "bridge_deck"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.925,
+        -0.5365,
+        -91.8083
+      ],
+      "half": [
+        1.1583,
+        0.5188,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.875,
+        -0.6865,
+        -91.8083
+      ],
+      "half": [
+        1.1583,
+        0.3688,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.9,
+        -1.6553,
+        -93.325
+      ],
+      "half": [
+        1.1583,
+        0.6,
+        2.8
+      ],
+      "rotY": 1.5708,
+      "kind": "surface",
+      "tag": "bridge_deck"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.925,
+        -0.6419,
+        -93.325
+      ],
+      "half": [
+        1.1583,
+        0.5367,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.875,
+        -0.7919,
+        -93.325
+      ],
+      "half": [
+        1.1583,
+        0.3867,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.9,
+        -1.7786,
+        -94.8417
+      ],
+      "half": [
+        1.1583,
+        0.6,
+        2.8
+      ],
+      "rotY": 1.5708,
+      "kind": "surface",
+      "tag": "bridge_deck"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.925,
+        -0.7832,
+        -94.8417
+      ],
+      "half": [
+        1.1583,
+        0.5546,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.875,
+        -0.9332,
+        -94.8417
+      ],
+      "half": [
+        1.1583,
+        0.4046,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.9,
+        -1.9378,
+        -96.3583
+      ],
+      "half": [
+        1.1583,
+        0.6,
+        2.8
+      ],
+      "rotY": 1.5708,
+      "kind": "surface",
+      "tag": "bridge_deck"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.925,
+        -0.9602,
+        -96.3583
+      ],
+      "half": [
+        1.1583,
+        0.5725,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.875,
+        -1.1102,
+        -96.3583
+      ],
+      "half": [
+        1.1583,
+        0.4225,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.9,
+        -2.1327,
+        -97.875
+      ],
+      "half": [
+        1.1583,
+        0.6,
+        2.8
+      ],
+      "rotY": 1.5708,
+      "kind": "surface",
+      "tag": "bridge_deck"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.925,
+        -1.1731,
+        -97.875
+      ],
+      "half": [
+        1.1583,
+        0.5904,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.875,
+        -1.3231,
+        -97.875
+      ],
+      "half": [
+        1.1583,
+        0.4404,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.9,
+        -2.3634,
+        -99.3917
+      ],
+      "half": [
+        1.1583,
+        0.6,
+        2.8
+      ],
+      "rotY": 1.5708,
+      "kind": "surface",
+      "tag": "bridge_deck"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.925,
+        -1.4217,
+        -99.3917
+      ],
+      "half": [
+        1.1583,
+        0.6083,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.875,
+        -1.5717,
+        -99.3917
+      ],
+      "half": [
+        1.1583,
+        0.4583,
+        0.225
+      ],
+      "rotY": 1.5708,
+      "tag": "bridge_parapet"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -6.3779,
+        4.55,
+        -76.1283
+      ],
+      "radius": 2.9,
+      "height": 13.7,
+      "tag": "gate_drum"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.3984,
+        -0.4,
+        -76.0967
+      ],
+      "half": [
+        0.9,
+        1.45,
+        2.2
+      ],
+      "rotY": -0.0322,
+      "tag": "gate_jamb"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        1.5779,
+        4.55,
+        -75.8717
+      ],
+      "radius": 2.9,
+      "height": 13.7,
+      "tag": "gate_drum"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.5984,
+        -0.4,
+        -75.9033
+      ],
+      "half": [
+        0.9,
+        1.45,
+        2.2
+      ],
+      "rotY": -0.0322,
+      "tag": "gate_jamb"
+    }
+  ]
+}

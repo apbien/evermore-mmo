@@ -1,0 +1,236 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Hearthmere Material Contact Sheet</title>
+<style>
+  html,body{margin:0;background:#15130F;color:#E8DCC4;
+            font:13px/1.45 "Segoe UI",system-ui,sans-serif}
+  #stage{position:fixed;left:-4000px;top:0}
+  header{padding:26px 30px 14px}
+  h1{margin:0 0 4px;font-size:21px;font-weight:600;letter-spacing:.02em}
+  .sub{opacity:.62;font-size:12.5px;max-width:1180px}
+  .sub b{color:#DCC9A0;font-weight:600}
+  h2{margin:30px 30px 10px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+     opacity:.55;border-bottom:1px solid #3A342B;padding-bottom:7px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));
+        gap:14px;padding:0 30px}
+  figure{margin:0;background:#1E1B16;border:1px solid #332E26;border-radius:5px;
+         overflow:hidden}
+  figure img{display:block;width:100%;height:auto}
+  figcaption{padding:7px 10px 9px;border-top:1px solid #332E26}
+  .k{font-weight:600;font-size:13.5px;color:#F0E6D0}
+  .m{opacity:.55;font-size:11.5px;margin-top:2px;font-variant-numeric:tabular-nums}
+  .tag{display:inline-block;margin-left:6px;padding:0 5px;border-radius:3px;
+       font-size:10px;letter-spacing:.06em;background:#3A342B;color:#C9B896;
+       vertical-align:1px}
+  footer{padding:24px 30px 40px;opacity:.45;font-size:11.5px}
+</style></head>
+<body>
+<canvas id="stage"></canvas>
+<div id="out"></div>
+
+<script type="importmap">
+{"imports":{"three":"/vendor/three.module.js","three/addons/":"/vendor/addons/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+
+// --- Locked review setup, docs/ART_BIBLE.md §4 -----------------------------
+// Read from content/town/hearthmere.json, the ONE authoritative copy of the
+// rig, exactly as tools/render/viewer.html does. A swatch lit differently from
+// the town is a swatch that lies about the town (D-009).
+const TOWN = await (await fetch('/content/town/hearthmere.json')).json();
+const L = TOWN.lighting;
+const MANIFEST = await (await fetch('/assets/textures/manifest.json')).json();
+
+const q = new URLSearchParams(location.search);
+const TILE_W = +(q.get('tw') || 268), TILE_H = +(q.get('th') || 168);
+const only = (q.get('keys') || '').split(',').filter(Boolean);
+
+const canvas = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true,
+                                           preserveDrawingBuffer:true });
+renderer.setSize(TILE_W * 2, TILE_H * 2);          // 2x supersample, downscaled by CSS
+renderer.setPixelRatio(1);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = L.exposure;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+const scene = new THREE.Scene();
+
+// Sky dome doubles as the IBL source — without image-based lighting every
+// metal in the library reads as flat grey and half the set is metal.
+const skyGeo = new THREE.SphereGeometry(60, 32, 16);
+const skyMat = new THREE.ShaderMaterial({
+  side: THREE.BackSide,
+  uniforms: { top:{value:new THREE.Color('#5B9BD9')}, mid:{value:new THREE.Color('#A8CDEC')},
+              bottom:{value:new THREE.Color('#E5DCC8')} },
+  vertexShader:`varying vec3 vP; void main(){vP=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+  fragmentShader:`varying vec3 vP; uniform vec3 top,mid,bottom;
+    void main(){ float h=normalize(vP).y;
+      vec3 c = h>0.0 ? mix(mid,top,pow(h,0.65)) : mix(mid,bottom,pow(-h,0.5));
+      gl_FragColor=vec4(c,1.0);} `
+});
+scene.add(new THREE.Mesh(skyGeo, skyMat));
+const pmrem = new THREE.PMREMGenerator(renderer);
+const envScene = new THREE.Scene();
+envScene.add(new THREE.Mesh(skyGeo.clone(), skyMat.clone()));
+scene.environment = pmrem.fromScene(envScene, 0.04).texture;
+
+const el = L.sunElevationDeg * Math.PI/180, az = L.sunAzimuthDeg * Math.PI/180;
+const sun = new THREE.DirectionalLight(new THREE.Color(L.sun.color), L.sun.intensity);
+sun.position.set(Math.cos(el)*Math.sin(az)*8, Math.sin(el)*8, Math.cos(el)*Math.cos(az)*8);
+sun.castShadow = true;
+sun.shadow.mapSize.set(1024,1024);
+sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.01;
+Object.assign(sun.shadow.camera, { near:0.5, far:24, left:-2.4, right:2.4, top:2.4, bottom:-2.4 });
+sun.shadow.camera.updateProjectionMatrix();
+scene.add(sun, sun.target);
+scene.add(new THREE.HemisphereLight(new THREE.Color(L.hemisphere.sky),
+          new THREE.Color(L.hemisphere.ground), L.hemisphere.intensity));
+scene.add(new THREE.AmbientLight(new THREE.Color(L.ambient.color), L.ambient.intensity));
+const bounce = new THREE.DirectionalLight(new THREE.Color(L.bounce.color), L.bounce.intensity);
+bounce.position.set(-Math.cos(el)*Math.sin(az)*5, 1.6, -Math.cos(el)*Math.cos(az)*5);
+scene.add(bounce);
+const rim = new THREE.DirectionalLight(new THREE.Color(L.rim.color), L.rim.intensity);
+rim.position.set(-Math.sin(az)*6, 2.4, -Math.cos(az)*6);
+scene.add(rim);
+
+// --- Subjects --------------------------------------------------------------
+// A 1.000 m chamfered cube and a 0.500 m sphere, on a small ground plate. The
+// cube is the scale reference: every dimension in it is exactly known, which is
+// what makes a claim about texel density and feature size checkable by eye.
+// Its bevel is 15 mm — the Art Bible §6 architectural chamfer — so the sheet
+// also shows whether a material's specular actually catches a chamfer.
+const CUBE_M = 1.0, SPHERE_R = 0.5, CHAMFER = 0.015;
+const cube = new THREE.Mesh(new RoundedBoxGeometry(CUBE_M, CUBE_M, CUBE_M, 3, CHAMFER),
+                            new THREE.MeshStandardMaterial());
+cube.position.set(-0.72, CUBE_M*0.5, 0);
+cube.castShadow = cube.receiveShadow = true;
+const ball = new THREE.Mesh(new THREE.SphereGeometry(SPHERE_R, 64, 48),
+                            new THREE.MeshStandardMaterial());
+ball.position.set(0.72, SPHERE_R, 0);
+ball.castShadow = ball.receiveShadow = true;
+scene.add(cube, ball);
+
+const plate = new THREE.Mesh(new THREE.PlaneGeometry(9, 9),
+  new THREE.MeshStandardMaterial({ color:0x6B5A46, roughness:0.95 }));
+plate.rotation.x = -Math.PI/2; plate.receiveShadow = true;
+scene.add(plate);
+
+const camera = new THREE.PerspectiveCamera(34, TILE_W/TILE_H, 0.05, 200);
+camera.position.set(0.62, 1.30, 2.62);
+camera.lookAt(0, 0.46, 0);
+
+// --- Texture plumbing ------------------------------------------------------
+// AWAITED, not fire-and-forget. `TextureLoader.load` returns an unpopulated
+// Texture and fills it in later; rendering a tile immediately after issuing the
+// loads samples an empty texture and produces a BLACK cube. The first run of
+// this sheet did exactly that for every material except the last two, which had
+// simply had enough wall-clock time to finish — a failure mode that looks like
+// a material bug and is not one.
+const loader = new THREE.TextureLoader();
+const cache = new Map();
+async function tex(url, srgb, repU, repV){
+  const k = `${url}|${srgb}|${repU}|${repV}`;
+  if (cache.has(k)) return cache.get(k);
+  const t = await loader.loadAsync(url);
+  t.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace;
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(repU, repV);
+  t.anisotropy = 8;
+  t.needsUpdate = true;
+  cache.set(k, t);
+  return t;
+}
+
+async function makeMaterial(key, info, repU, repV){
+  const p = `/assets/textures/${key}`;
+  const orm = await tex(`${p}_orm.png`, false, repU, repV);
+  const m = new THREE.MeshStandardMaterial({
+    map: await tex(`${p}_albedo.png`, true, repU, repV),
+    // ORM packing: R=occlusion, G=roughness, B=metalness — one image, three
+    // channels, exactly as core/gltf.py writes it and as glTF reads it back.
+    aoMap: orm, roughnessMap: orm, metalnessMap: orm,
+    normalMap: await tex(`${p}_normal.png`, false, repU, repV),
+    // Factors are 1.0; the ORM map carries the values. Anything else silently
+    // multiplies the authored roughness and the swatch stops being the truth.
+    roughness: 1.0, metalness: 1.0,
+    side: info.flags.includes('double') ? THREE.DoubleSide : THREE.FrontSide,
+  });
+  if (m.aoMap) m.aoMap.channel = 0;
+  if (info.emissive){
+    m.emissiveMap = await tex(`${p}_emissive.png`, true, repU, repV);
+    m.emissive = new THREE.Color(0xffffff);
+    m.emissiveIntensity = 1.0;
+  }
+  if (info.flags.includes('mask')){ m.transparent = false; m.alphaTest = 0.5; }
+  else if (info.flags.includes('blend')){ m.transparent = true; m.depthWrite = false; }
+  return m;
+}
+
+// --- Sheet -----------------------------------------------------------------
+const out = document.getElementById('out');
+const keys = (only.length ? only : Object.keys(MANIFEST.materials))
+  .filter(k => MANIFEST.materials[k]);
+const ORDER = { hero:0, standard:1, large:2 };
+keys.sort((a,b) => (ORDER[MANIFEST.materials[a]['class']] - ORDER[MANIFEST.materials[b]['class']])
+                   || a.localeCompare(b));
+
+const head = document.createElement('header');
+head.innerHTML = `<h1>Hearthmere — procedural material library</h1>
+  <div class="sub">${keys.length} full PBR sets (albedo + ORM + normal, emissive where it
+  applies) on a <b>1.000 m chamfered cube</b> and a <b>0.500 m sphere</b>, at the locked
+  09:30 rig from <b>content/town/hearthmere.json</b> — sun ${L.sunElevationDeg}&deg; elevation /
+  ${L.sunAzimuthDeg}&deg; azimuth, exposure ${L.exposure}. The cube is the scale reference and
+  its bevel is the Art&nbsp;Bible &sect;6 architectural chamfer, 15&nbsp;mm. Every texture is shown
+  <b>tiled at its declared world coverage</b>, so feature size on the cube is feature size
+  in the town.</div>`;
+out.appendChild(head);
+
+let lastClass = null, grid = null;
+for (const key of keys){
+  const info = MANIFEST.materials[key];
+  if (info['class'] !== lastClass){
+    lastClass = info['class'];
+    const h = document.createElement('h2');
+    const target = { hero:512, standard:256, large:128 }[lastClass];
+    h.textContent = `${lastClass} — Art Bible §5 target ${target} px/m`;
+    out.appendChild(h);
+    grid = document.createElement('div');
+    grid.className = 'grid';
+    out.appendChild(grid);
+  }
+  const cov = info.coverage;
+  cube.material = await makeMaterial(key, info, CUBE_M/cov, CUBE_M/cov);
+  // A sphere's UVs run once around and once pole-to-pole, so the repeats are
+  // its circumference and its half-circumference in metres.
+  ball.material = await makeMaterial(key, info, (2*Math.PI*SPHERE_R)/cov, (Math.PI*SPHERE_R)/cov);
+  await new Promise(r => setTimeout(r, 0));
+  renderer.render(scene, camera);
+
+  const fig = document.createElement('figure');
+  const img = new Image();
+  img.src = canvas.toDataURL('image/png');
+  img.width = TILE_W; img.height = TILE_H;
+  const cap = document.createElement('figcaption');
+  const tags = info.flags.map(f => `<span class="tag">${f}</span>`).join('');
+  cap.innerHTML = `<div class="k">${key}${tags}</div>
+    <div class="m">${info.size}px · ${cov}&thinsp;m/tile · ${info.density}&thinsp;px/m</div>`;
+  fig.appendChild(img); fig.appendChild(cap);
+  grid.appendChild(fig);
+}
+
+const foot = document.createElement('footer');
+foot.textContent = 'tools/render/swatches.mjs — regenerate with: '
+  + 'node tools/render/swatches.mjs --out review/shots/materials';
+out.appendChild(foot);
+
+await new Promise(r => setTimeout(r, 250));
+window.__count = keys.length;
+window.__ready = true;
+</script>
+</body>
+</html>

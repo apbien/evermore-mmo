@@ -48,9 +48,65 @@ less for a project whose defining constraints are world scale and player count.
 | `ctx.entity` component records | Actor Components | MonoBehaviours |
 | Intents (`net.js`) | Client→Server RPC (`Server_RequestPurchase`) | ServerRpc |
 | `Sim` (`server/src/sim.js`) | Dedicated server `AGameModeBase` + authoritative subsystem | NetworkBehaviour server logic |
-| Repeated props | `InstancedStaticMeshComponent` | `Graphics.DrawMeshInstanced` |
+| `ctx.instance` → `EXT_mesh_gpu_instancing` | `HierarchicalInstancedStaticMeshComponent` | `Graphics.DrawMeshInstanced` |
+| `ctx.lod` / auto chain → `MSFT_lod` | StaticMesh LOD0–3 (Interchange reads it) | LODGroup |
+| `cullAt` (screen-size cull) | ISM `CullDistances` / Cull Distance Volume | LODGroup culled % |
+| `ctx.interior` + portals | Level Instance + Precomputed Visibility / Data Layer | Occlusion Portal |
+| Per-cell batch node (`venue#cell`) | World Partition cell / HLOD proxy | Custom spatial hash |
 | Locked 09:30 lighting | Directional Light + Sky Light, values in Art Bible §4 | Same |
 | Post chain | Post Process Volume (ACES, bloom 0.32, SSAO) | Volume profile |
+
+## Batching, LOD and instancing (Directive §7)
+
+These are not runtime tricks the three.js client happens to do. They are baked
+into the exported glTF by `tools/assetgen/core/venue.py`, in forms both engines
+read natively, and they are the reason a 90-building town fits in 900 draw
+calls.
+
+### What is in the file
+
+1. **One node per (16 m cell, LOD level)**, named `venue#cell` /
+   `venue#cell$lod1`, holding one primitive per material. That is one draw call
+   per material per cell, and the cell is also the culling unit — so batching
+   and culling agree by construction.
+2. **`MSFT_lod`** on each level-0 node, listing levels 1–3 as alternates.
+   Alternates are referenced *only* from the extension and are never scene
+   roots, so a consumer that ignores it renders a correct, merely expensive
+   town. Switch distances are 15 / 40 / 100 m; `MSFT_screencoverage` carries
+   the same decision as coverage fractions for importers that prefer it.
+3. **`EXT_mesh_gpu_instancing`** on instance batches, one node per (prototype,
+   cell). The prototype geometry is written once and shared by every cell's
+   node, and the LOD alternates re-use the same instance accessors.
+4. **A manifest at `extras.hm`** — cells, bounds, per-level triangle and
+   primitive counts, instance batches, cull distances, interiors and portals.
+   Interchange discards it, so `engine/unreal/import_town.py` reads it out of
+   the JSON directly. Recording the batching as *data* rather than leaving it
+   implicit in the node graph is what makes that possible.
+
+### Unreal specifics
+
+- Import with **Combine Meshes off**. Combining merges the per-cell split and
+  destroys both the culling granularity and the LOD chain.
+- Interchange reads `MSFT_lod` into StaticMesh LODs and
+  `EXT_mesh_gpu_instancing` into instanced components. `import_town.py` then
+  re-forms the instance batches as `HierarchicalInstancedStaticMeshComponent`s
+  so the build's `cullAt` becomes `SetCullDistances`, which Interchange has no
+  way to know about.
+- Fold each `venue#cell` actor into a **World Partition** cell of the same 16 m
+  module. The grid is already aligned to `content/town/hearthmere.json`, so the
+  streaming partition, the replication graph nodes and the client's culling
+  partition are one grid rather than three.
+- `MIN_COVERAGE` in `core/venue.py` (0.008 of frame height) is the same
+  threshold a Cull Distance Volume expresses in metres; the exported `cullAt`
+  is that threshold already resolved to a distance, so it transfers verbatim.
+
+### Unity specifics
+
+- glTFast reads `EXT_mesh_gpu_instancing`; it does **not** read `MSFT_lod`.
+  Build `LODGroup`s from the manifest's `lodDistances` and `cells[].lodPrims`
+  in the importer rather than expecting them for free.
+- `cullAt` becomes the LODGroup's culled percentage — convert with the same
+  `radius / (distance * tan(fov/2))` the exporter used.
 
 **The instancing key maps 1:1.** The batching strategy in
 `docs/ARCHITECTURE.md` §5 was chosen so that per-material, per-cell batches
@@ -92,10 +148,15 @@ Being honest about the boundary:
 
 ## Known gaps before a real port
 
-From `docs/ASSET_PIPELINE.md`, these need doing regardless of engine:
-
-- No LOD chain generated (specified in Art Bible §6, not built)
-- No collision meshes — colliders are declared as primitives per entity
-- No texture atlasing, so draw calls exceed the §5 budget
-- No vertex-colour export, so position-dependent wear is specified but unwired
-- No skeletal meshes or animation — NPCs and the player are placeholder capsules
+- No collision meshes — colliders are declared as primitives per venue in
+  `content/collision/`, which an importer must turn into simple collision.
+- **Mesh memory, not draw calls, is now the binding constraint.** The four-step
+  LOD chain adds ~76% to every venue's vertex buffer, and the town's `.bin`
+  files total ~180 MB. That is fine for a packaged Unreal build and painful for
+  a web client. The fixes are ordinary and none of them is done: quantised
+  vertex attributes (`KHR_mesh_quantization`), Draco or Meshopt compression,
+  and streaming the coarse levels separately from LOD0.
+- No skeletal meshes or animation — the player is a placeholder capsule, and
+  characters are out of scope for v2 entirely (D-012).
+- Interiors are authored (`ctx.interior`) and culled by the client, but no
+  venue declares one yet; the church will be the first.

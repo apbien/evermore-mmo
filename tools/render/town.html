@@ -1,0 +1,1569 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Hearthmere Whole-Town Viewer</title>
+<style>
+  html,body{margin:0;padding:0;overflow:hidden;background:#000}
+  canvas{display:block;position:absolute;left:0;top:0}
+  #gl{z-index:0}
+  #ui{z-index:1;pointer-events:none}
+</style></head>
+<body>
+<script type="importmap">
+{"imports":{
+  "three":"/vendor/three.module.js",
+  "three/addons/":"/vendor/addons/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { Water } from '/client/src/water.js';
+import { installAtmosphere, makePostChain } from '/client/src/atmosphere.js';
+import { SunRig } from '/client/src/shadows.js';
+import { VisibilitySet, prepareLods } from '/client/src/lod.js';
+import { FrameProbe, BUDGET } from '/client/src/perf.js';
+
+/* ===========================================================================
+ * Whole-town review viewer.
+ *
+ * tools/render/shoot.mjs renders ONE venue against a flat plane. That is why
+ * v1 shipped a town whose main street was sealed by a collider and whose
+ * venues had never been seen next to each other (docs/BUILD_DIRECTIVE.md §0).
+ * This viewer assembles the ENTIRE town from content/town/hearthmere.json and
+ * renders it at the locked 09:30 rig read from that same file.
+ *
+ * Nothing about the layout, the grid, the lighting or the spawn is hardcoded
+ * here. Every number comes from content/. See D-009: one authoritative copy.
+ *
+ * Driven headlessly by tools/render/town.mjs. Open it directly in a browser
+ * with ?view=plan for interactive poking.
+ * ======================================================================== */
+
+const q = new URLSearchParams(location.search);
+const W = +(q.get('w') || 1600), H = +(q.get('h') || 900);
+const TOWN_URL = q.get('town') || '/content/town/hearthmere.json';
+const WANT_FIGURE = q.get('figure') !== '0';
+const WANT_FOOTPRINTS = q.get('footprints') === '1';
+const SKIP = new Set(String(q.get('skip') || '').split(',').filter(Boolean));
+
+const TOWN = await (await fetch(TOWN_URL)).json();
+const LIGHTING = TOWN.lighting;
+const GRID = TOWN.grid || { cellSize: 16, cols: [], rows: [] };
+const CELL = GRID.cellSize || 16;
+
+// Grid extent. Cell (i,j) spans x[(i-cols/2)*S, ...], z[(j-rows/2)*S, ...] —
+// i.e. the grid is centred on the world origin, which content/ defines as the
+// market square fountain. Derived, never assumed: a 6x6/16m town and a
+// 12x12/16m town both fall out of this.
+const NCOL = (GRID.cols || []).length || 6;
+const NROW = (GRID.rows || []).length || 6;
+const GRID_MIN_X = -NCOL * CELL / 2, GRID_MAX_X = NCOL * CELL / 2;
+const GRID_MIN_Z = -NROW * CELL / 2, GRID_MAX_Z = NROW * CELL / 2;
+const cellX = i => GRID_MIN_X + i * CELL;
+const cellZ = j => GRID_MIN_Z + j * CELL;
+
+const warnings = [];
+
+/** Venues that are the LAND, not buildings on it. They are excluded from the
+ *  framing box, from the floating test, and from the overlap table, and are
+ *  drawn in grey rather than black in the silhouette — the ground is under
+ *  everything by definition, so treating it as a mass makes every whole-town
+ *  measurement meaningless.
+ *
+ *  `landscape` belongs here for the same reason `terrain` does, and leaving it
+ *  out cost exactly what the framing-box comment below predicts. Its hedged
+ *  field system and distance wood reach x,z = +/-270 m, so unioning its AABB
+ *  into `townBox` framed plan and silhouette on a 550 m square: the 192 m town
+ *  became a sliver, the skyline read was a solid black tree line with no
+ *  roofline in it, and it added nine phantom `landscape x <venue>` GEOMETRY
+ *  rows to the overlap table — one against every building in the town, all of
+ *  them a tree standing next to a house. */
+const LANDSCAPE = new Set(['terrain', 'water', 'landscape']);
+
+/** Venues that are one continuous network across the whole town rather than an
+ *  object standing on a site. Their bounding boxes — and, once their geometry is
+ *  properly batched, their per-material boxes too — legitimately cross every
+ *  building, so an AABB overlap against one carries no information. */
+const SPRAWLING = new Set(['streets', 'wall']);
+
+/** Ground height.
+ *
+ *  BUILD_DIRECTIVE §6.3 makes ONE deterministic height field the owner of the
+ *  ground, and forbids anything disagreeing with it. `client/src/terrain.js` is
+ *  the browser-side port of `core/terrain.py`, proved sample-for-sample equal by
+ *  `tools/render/terrain_parity.mjs`, so this imports it rather than
+ *  reimplementing the curve — a second copy of the curve is exactly the class of
+ *  divergence the rule exists to prevent.
+ *
+ *  This is used for ANALYSIS and for CAMERA heights only. Venue placement uses
+ *  `origin[1]` verbatim, because that is what `client/src/main.js` does and a
+ *  renderer that places venues differently from the client is measuring a town
+ *  nobody will ever play. */
+let groundY = () => 0;
+let waterLevel = -Infinity;
+let terrainSource = 'flat y=0 (no height field loaded)';
+try {
+  const T = await import('/client/src/terrain.js');
+  // Sample the ends of the fall, not the origin: the market pad is authored at
+  // exactly 0.0, so a probe there cannot tell a loaded field from a missing one.
+  if (Math.abs(T.height(0, 90) - T.height(0, -90)) > 1e-9) {
+    groundY = (x, z) => T.height(x, z);
+    terrainSource = 'client/src/terrain.js height() — the shared field';
+    // See `standY` below. `waterLevel()` is -Infinity when no field is loaded,
+    // so the max is a no-op in the fallback case.
+    const _wl = T.waterLevel();
+    if (Number.isFinite(_wl)) waterLevel = _wl;
+  }
+} catch (e) {
+  warnings.push(`could not import /client/src/terrain.js (${e.message})`);
+}
+/** The authored WALKING surfaces of the town — roads, plazas, aprons, steps and
+ *  the bridge deck — as a collision world containing nothing else.
+ *
+ *  `standY` below needs to answer "what is under the player's feet here?", and
+ *  the height field cannot: over the Emberflow it returns the CHANNEL BED, and
+ *  the thing a player actually stands on at z = -92 is a bridge. Five review
+ *  passes of `spine-walk-01` have been shot from inside that deck.
+ *
+ *  Read from `content/collision/*.json` through `client/src/collision.js` — the
+ *  same class, the same documents and the same composition of venue origin and
+ *  rotation the client and `tools/check_walkable.mjs` use. A second copy of
+ *  "where is the deck" is exactly the divergence D-009 exists to forbid.
+ *
+ *  ONLY `kind: "surface"` volumes are loaded. A solid is a thing you walk into,
+ *  not on; loading them would park the camera on top of the nearest wall. */
+let deckY = () => -Infinity;
+try {
+  const { CollisionWorld } = await import('/client/src/collision.js');
+  const decks = await CollisionWorld.load(TOWN, async (p) => {
+    const r = await fetch(p);
+    if (!r.ok) return null;
+    const doc = await r.json();
+    return { ...doc, volumes: (doc.volumes || []).filter(v => (v.kind || 'solid') === 'surface') };
+  });
+  // How far above the ground an authored surface may lift a camera. A bridge
+  // deck at the north gate stands 2.1 m over the water it spans. The WALL WALK
+  // stands 6-7 m over the bailey the `bailey` route walks along, and a camera
+  // teleported up onto that would be a new defect of the same shape as the one
+  // this fixes — so the reach stops short of it deliberately.
+  const MAX_DECK_LIFT = 5.0;
+  deckY = (x, z, base) => decks.groundAt(x, z, base + MAX_DECK_LIFT, base, 0);
+} catch (e) {
+  warnings.push(`could not import /client/src/collision.js (${e.message}): camera ` +
+                `heights ignore authored decks, so any frame over the bridge is ` +
+                `shot from inside it`);
+}
+
+if (terrainSource.startsWith('flat')) {
+  warnings.push(`NO HEIGHT FIELD: every placement claim in this report is measured against ` +
+                `y=0, and BUILD_DIRECTIVE §6.3 forbids that. THESE IMAGES ARE NOT A VALID ` +
+                `CHECK OF PLACEMENT HEIGHT. Fix client/src/terrain.js before trusting them.`);
+}
+
+// --- Renderer ---------------------------------------------------------------
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.domElement.id = 'gl';
+renderer.setSize(W, H);
+renderer.setPixelRatio(1);
+// `?shadows=0` renders the town with the sun's shadow map switched off and
+// nothing else changed. It exists because `review/reports/ad-town-04.md` §1
+// attributed a stepped edge on the church floor to the shadow map by reading
+// `client/src/main.js:83` rather than by testing it, and an artefact nobody can
+// switch off is an artefact nobody can attribute. This is the A/B that settles
+// "is that edge light, or is it geometry?" in one frame.
+const SHADOWS_ON = q.get('shadows') !== '0';
+renderer.shadowMap.enabled = SHADOWS_ON;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;      // Art Bible §5
+renderer.toneMappingExposure = LIGHTING.exposure;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+// HTML/canvas annotation layer: grid, cell labels, scale legend, captions.
+const ui = document.createElement('canvas');
+ui.id = 'ui'; ui.width = W; ui.height = H;
+document.body.appendChild(ui);
+const ctx = ui.getContext('2d');
+
+const scene = new THREE.Scene();
+
+// --- The shared environmental layer -----------------------------------------
+//
+// Sky, IBL, aerial perspective and the horizon skirt, all from
+// `client/src/atmosphere.js` driven by `atmosphere` in the same town file the
+// lighting rig comes from. This file used to carry its own copy of a two-stop
+// gradient dome; `viewer.html` and `client/src/main.js` carried two more, and
+// the three had already drifted — only the venue viewer had any ambient
+// occlusion at all, and it was neutral grey where Art Bible §1 requires warm.
+// `review/reports/ad-town-02.md` §5/§11/§13 is what that drift looked like in
+// the frame. One module now, imported by all three. See D-049.
+//
+// `groundY` is handed over so the horizon skirt stitches to the real plate edge
+// rather than to a guessed level.
+const ATMOS_ON = q.get('atmos') !== '0';
+const ENV = installAtmosphere({
+  renderer, scene, town: TOWN, heightAt: (x, z) => groundY(x, z),
+});
+const ATMOS = ENV.atmos;
+const skyMesh = ENV.sky;
+const horizonMesh = ENV.horizon;
+// Registered further down, once the sun rig exists — it is a MeshStandardMaterial
+// filling the bottom of every approach frame and would otherwise render at
+// `cascades`x the sun.
+if (!ATMOS.__authored) {
+  warnings.push('content/town/hearthmere.json has no `atmosphere` block: the ' +
+                'renderer fell back to client/src/atmosphere.js ATMOSPHERE_DEFAULTS, ' +
+                'so these images are NOT a check of the authored atmosphere.');
+}
+// `--atmos 0` renders the pre-atmosphere world, which is the only honest way to
+// put a before and an after side by side out of one build.
+if (!ATMOS_ON) {
+  scene.fog = null;
+  horizonMesh.visible = false;
+}
+
+// --- Lighting: the authoritative 09:30 rig, read from content (D-009) -------
+const EL = LIGHTING.sunElevationDeg * Math.PI / 180;
+const AZ = LIGHTING.sunAzimuthDeg   * Math.PI / 180;
+
+scene.add(new THREE.HemisphereLight(new THREE.Color(LIGHTING.hemisphere.sky),
+                                    new THREE.Color(LIGHTING.hemisphere.ground),
+                                    LIGHTING.hemisphere.intensity));
+scene.add(new THREE.AmbientLight(new THREE.Color(LIGHTING.ambient.color), LIGHTING.ambient.intensity));
+
+const bounce = new THREE.DirectionalLight(new THREE.Color(LIGHTING.bounce.color), LIGHTING.bounce.intensity);
+bounce.position.set(-Math.cos(EL) * Math.sin(AZ) * 30, 8, -Math.cos(EL) * Math.cos(AZ) * 30);
+scene.add(bounce);
+
+const rim = new THREE.DirectionalLight(new THREE.Color(LIGHTING.rim.color), LIGHTING.rim.intensity);
+rim.position.set(-Math.sin(AZ) * 40, 14, -Math.cos(AZ) * 40);
+scene.add(rim);
+
+/** The sun: `client/src/shadows.js SunRig`, the SAME class and the same
+ *  authored `lighting.shadows` block the client runs.
+ *
+ *  What was here was a single DirectionalLight plus a `CLIENT_SHADOW =
+ *  { half: 46, dist: 70 }` constant transcribed by hand from
+ *  `client/src/main.js:83`, with a comment explaining that it had to be kept
+ *  identical or the harness would not be measuring the client. It was kept
+ *  identical, and it was a hand-maintained copy of four numbers in a third
+ *  file, which is the D-009 failure waiting to happen. It is now one object
+ *  constructed from content in both places, and the rig is derived from the
+ *  CAMERA — so the harness and the client cannot disagree about the shadows
+ *  without disagreeing about the camera, which is the thing they are supposed
+ *  to share.
+ *
+ *  Two modes. `fitCascades` for gameplay cameras — the only ones a player has
+ *  and the only ones §7 budgets. `fitSingle` for the plan, the aerials and the
+ *  silhouette, where a cascade split on view depth is meaningless because no
+ *  player is standing there. */
+// CSM reads `camera.near`/`camera.far` in its own constructor, and the harness
+// builds its cameras below the venue loop (which has to register materials).
+// Seeded with the gameplay camera's parameters so the very first fit is the
+// right one; `fitCascades`/`fitSingle` re-point it per view.
+const sunRig = new SunRig({
+  scene, lighting: LIGHTING,
+  camera: new THREE.PerspectiveCamera(55, W / H, 0.1, 2000),
+});
+if (!sunRig.cfg.__authored) {
+  warnings.push('content/town/hearthmere.json has no `lighting.shadows` block: ' +
+                'the harness fell back to client/src/shadows.js SHADOW_DEFAULTS, ' +
+                'so these images are NOT a check of the authored shadow rig.');
+}
+sunRig.register(horizonMesh);
+
+// --- Ground -----------------------------------------------------------------
+//
+// There is no helper ground plane any more, and its removal is the point.
+//
+// This file used to add a flat 576 m dirt plane at y = -0.012 as a stand-in for
+// terrain that did not exist. `content/town/terrain.json` and the `terrain`
+// venue now ARE the ground, and `client/src/main.js` dropped its equivalent
+// `buildGround()` when they landed — but this harness kept its plane, so every
+// review render was drawn with a phantom flat slab laid over the real graded
+// ground. The consequences were not subtle, and each was mistaken for a
+// different defect before the plane was found:
+//
+//   - The town falls ~4 m south to north, so everything north of the datum sat
+//     BELOW the plane and was simply not visible. Ford Road, Kirkgate and the
+//     whole northern arc of the Bailey were rendered as bare earth with only
+//     their dashed centrelines showing — read at the time as "the roads were
+//     never built north of the square".
+//   - The market square paving sits 0.014 m above its pad; the plane was at
+//     -0.012. Two surfaces 26 mm apart z-fought, and the plaza rendered as pale
+//     slabs scattered on mud — read as "the paving is texture, not construction".
+//   - Every eye-level frame stood the camera on a flat slab, so the 4 m fall the
+//     whole layout is organised around never appeared in a single image.
+//
+// If a flat stand-in is ever wanted again it must be OPT-IN and named in the
+// report, because a review harness that quietly draws something the game does
+// not have is worse than no review harness.
+const ground = new THREE.Object3D();      // kept as an inert handle for applyMode
+ground.userData.helper = true;
+if (terrainSource.startsWith('flat')) {
+  warnings.push('no terrain venue and no height field: these images have no ground at all');
+}
+
+// --- 1.75 m scale reference -------------------------------------------------
+function scaleFigure() {
+  const g = new THREE.Group();
+  const skin = new THREE.MeshStandardMaterial({ color: 0xB0503A, roughness: 0.85 });
+  const mk = (geo, y) => { const m = new THREE.Mesh(geo, skin); m.position.y = y; m.castShadow = true; g.add(m); return m; };
+  mk(new THREE.CapsuleGeometry(0.17, 0.44, 4, 12), 1.16);   // torso
+  mk(new THREE.SphereGeometry(0.115, 16, 12), 1.62);        // head — eye height
+  mk(new THREE.CapsuleGeometry(0.075, 0.62, 4, 8), 0.47).position.x = -0.10;
+  mk(new THREE.CapsuleGeometry(0.075, 0.62, 4, 8), 0.47).position.x = 0.10;
+  const la = mk(new THREE.CapsuleGeometry(0.055, 0.52, 4, 8), 1.18); la.position.x = -0.26; la.rotation.z = 0.12;
+  const ra = mk(new THREE.CapsuleGeometry(0.055, 0.52, 4, 8), 1.18); ra.position.x = 0.26; ra.rotation.z = -0.12;
+  g.userData.figure = true;
+  return g;
+}
+const figures = new THREE.Group();
+figures.userData.figures = true;
+scene.add(figures);
+const figPool = [];
+function placeFigures(spots) {
+  figPool.forEach(f => { f.visible = false; });
+  if (!WANT_FIGURE) return;
+  spots.forEach((s, i) => {
+    // Registered on creation. The 1.75 m reference is the ONE object in the
+    // frame whose shading a reviewer reads as an absolute — an unregistered
+    // figure is lit by all three cascades at once, i.e. at 3x the sun, and
+    // would read as a blown white body in every gameplay frame.
+    while (figPool.length <= i) { const f = scaleFigure(); sunRig.register(f); figPool.push(f); figures.add(f); }
+    const f = figPool[i];
+    f.visible = true;
+    // `standY`, not `groundY`: over the Emberflow the height field returns the
+    // channel bed 2.5 m under the surface, and the 1.75 m reference on the
+    // bridge camera was placed IN the river — `ad-town-05` §2 names it. A
+    // scale reference that is under the water is not a scale reference.
+    f.position.set(s.x, standY(s.x, s.z), s.z);
+    f.rotation.y = s.rot || 0;
+  });
+}
+
+// --- Load the town ----------------------------------------------------------
+// Mesh file naming is `assets/meshes/<venue.id>.gltf`, exactly as
+// client/src/main.js resolves it. If those two ever disagree the harness stops
+// verifying the thing that ships.
+const loader = new GLTFLoader();
+const meshCache = new Map();
+const report = {
+  town: TOWN.id, townUrl: TOWN_URL,
+  grid: { cellSize: CELL, cols: NCOL, rows: NROW,
+          extent: [GRID_MIN_X, GRID_MIN_Z, GRID_MAX_X, GRID_MAX_Z] },
+  lighting: { timeOfDay: LIGHTING.timeOfDay, exposure: LIGHTING.exposure,
+              sunElevationDeg: LIGHTING.sunElevationDeg, sunAzimuthDeg: LIGHTING.sunAzimuthDeg },
+  playerSpawn: TOWN.playerSpawn || null,
+  venues: [], missing: [], skipped: [], overlaps: [], floating: [],
+  totalTris: 0, drawCalls: 0, gameplayDrawCalls: 0, gameplayTriangles: 0,
+  budget: { drawCalls: BUDGET.drawCalls, triangles: BUDGET.triangles },
+  viewStats: [], warnings, bounds: null, terrainSource,
+};
+
+/** Batch metadata for a leaf mesh, from the nearest ancestor that carries it.
+ *  glTF splits a multi-material mesh into one THREE.Mesh per primitive, and the
+ *  extras live on the NODE above those. */
+function metaOf(o) {
+  for (let p = o; p; p = p.parent) {
+    const hm = p.userData?.hm;
+    if (hm && hm.venue !== undefined) return hm;
+  }
+  return null;
+}
+const lodOf = o => metaOf(o)?.lod ?? 0;
+const triCount = o => {
+  const g = o.geometry;
+  if (!g) return 0;
+  const n = (g.index ? g.index.count : (g.attributes.position?.count || 0)) / 3;
+  return n * (o.isInstancedMesh ? o.count : 1);
+};
+
+/** Source triangles at ONE LOD level. Level 0 unless asked otherwise — since
+ *  the LOD alternates now live in the scene graph (hidden), a naive traverse
+ *  reports every venue at 1.76x its real size. */
+function countTris(obj, level = 0) {
+  let t = 0;
+  obj.traverse(o => {
+    if ((!o.isMesh && !o.isInstancedMesh) || lodOf(o) !== level) return;
+    t += triCount(o);
+  });
+  return Math.round(t);
+}
+
+/** World-space AABB of every leaf mesh at LOD0. These are per-(cell, material)
+ *  batches — tighter than the venue box and enough to tell "two buildings
+ *  interpenetrate" from "two sprawling layers have crossing bounding boxes". */
+function partBoxes(root) {
+  const out = [];
+  root.traverse(o => {
+    if ((!o.isMesh && !o.isInstancedMesh) || lodOf(o) !== 0) return;
+    out.push({ name: o.name || o.parent?.name || 'part', box: new THREE.Box3().setFromObject(o) });
+  });
+  return out;
+}
+
+// --- Per-venue / per-cell draw attribution ---------------------------------
+//
+// `client/src/perf.js`, the same module `client/src/main.js` measures with.
+// This file used to carry its own tally, and it was wrong in a way nobody could
+// see from the output: it discarded any draw made into a render target as "the
+// shadow pass", and it read `renderer.info` with `autoReset` left ON — which in
+// three r180 resets AFTER `shadowMap.render()`, so the shadow pass had already
+// been wiped from the counter before it was read. The `shadow` column printed
+// 16 and meant "helpers my tally could not see". Against the client's 2,153 the
+// harness reported 727 for the same town, and the project spent a wave not
+// knowing which was true. Neither was: one counted the beauty pass, the other
+// counted the whole frame.
+const probe = new FrameProbe(renderer);
+
+const townRoot = new THREE.Group();
+scene.add(townRoot);
+
+// Culling / LOD / portals. Imported from client/src/lod.js rather than
+// reimplemented, for the reason D-023 exists: the number this harness prints
+// has to be the number the client gets, and the only way to guarantee that is
+// for it to be the same code. `visibility.update()` runs before every shot.
+// `shadowDistance` from the authored shadow rig, exactly as client/src/main.js
+// does it: the caster radius and the cascades' reach are one number.
+const visibility = new VisibilitySet({ grid: GRID, shadowDistance: sunRig.cfg.distance });
+// Per-cascade caster culling, and the per-cascade breakdown of the shadow pass
+// that proves what it bought. Both are `client/src/` code, so the client gets
+// the identical rig — see SunRig.bindCasters.
+// `--query cascadecull=0` turns it off, so the before and the after come out of
+// ONE build rather than out of two checkouts. Same rule as `atmos=0`.
+if (q.get('cascadecull') !== '0') sunRig.bindCasters(visibility, renderer);
+visibility.shadowProxies = q.get('shadowproxy') !== '0';
+if (q.get('proxyfrom')) visibility.proxyFromCascade = +q.get('proxyfrom');
+// A proxy is created lazily, long after the placement walk, so it has to be
+// handed to the probe as it is born or its draws land in the `post` remainder
+// and the shadow row under-reports itself.
+visibility.onProxyBuilt = (mesh, g) =>
+  probe.instrument(mesh, g.venue, (x, z) => visibility.cellLabel(x, z), THREE);
+probe.setShadowCameras(sunRig.lights.map(l => l.shadow.camera));
+// WATER_PHASE is a fixed number of seconds of flow. Any value works;
+// what matters is that it never changes, so a render diff between two
+// iterations shows an intentional change and not a different wave.
+const WATER_PHASE = 12.0;
+// Same two authored blocks the client hands it — atmosphere.water and
+// ambient.wind. The harness contains no water code of its own (D-009).
+const water = new Water(ATMOS.water, (TOWN.ambient || {}).wind);
+
+for (const v of TOWN.venues || []) {
+  const key = v.instance || v.id;
+  if (SKIP.has(v.id) || SKIP.has(key)) { report.skipped.push(key); continue; }
+  const file = `/assets/meshes/${v.id}.gltf`;
+  let src = meshCache.get(v.id);
+  if (src === undefined) {
+    src = await loader.loadAsync(file).then(g => prepareLods(g))
+      .catch(e => { report.loadErrors = report.loadErrors || []; report.loadErrors.push(`${file}: ${e.message}`); return null; });
+    meshCache.set(v.id, src);
+  }
+  if (!src) {
+    report.missing.push({ key, id: v.id, file, role: v.role || null });
+    report.venues.push({ key, id: v.id, file, ok: false, tris: 0, origin: v.origin, role: v.role || null });
+    continue;
+  }
+  // clone(true) AFTER prepareLods, so a venue placed twice gets two full LOD
+  // chains from one parse.
+  const root = (meshCache.get(v.id + ':used') ? src.scene.clone(true) : src.scene);
+  meshCache.set(v.id + ':used', true);
+  // origin[1] is an ABSOLUTE world Y, not an offset from the ground — that is
+  // how client/src/main.js and client/src/collision.js both read it. Adding
+  // groundY here would double-count the terrain and render a town the client
+  // does not have.
+  root.position.set(v.origin[0], v.origin[1], v.origin[2]);
+  root.rotation.y = (v.rotationDeg || 0) * Math.PI / 180;
+  root.updateMatrixWorld(true);
+  // `castShadow` matches client/src/main.js exactly, terrain included: the
+  // ground is a 576 m heightfield that cannot usefully shadow itself, the
+  // client opts it out, and a harness that opts it IN renders a shadow pass the
+  // game never renders and reports a cost the game never pays.
+  const isGround = v.id === 'terrain';
+  root.traverse(o => {
+    if (!o.isMesh && !o.isInstancedMesh) return;
+    o.castShadow = !isGround; o.receiveShadow = true;
+    if (o.material) o.material.envMapIntensity = 1.0;
+  });
+  townRoot.add(root);
+  // The same flowing-water shader the client runs. A review render that draws
+  // still water is judging a material the game does not have — the review
+  // harness drawing something the client does not is exactly D-023 — so it is
+  // installed here too and frozen at a fixed phase, which also keeps the
+  // images deterministic between runs.
+  water.harvest(root);
+  // AFTER water.harvest, exactly as client/src/main.js loadVenue does it: both
+  // install an `onBeforeCompile`, and SunRig.register captures and chains
+  // whatever is already there. The other order silently drops the CSM hook and
+  // every fragment falls into cascade 0.
+  sunRig.register(root);
+  // Two kinds of "not a building", and the silhouette has to tell them apart.
+  // `ground` is terrain and water: a surface the town stands ON, so in an
+  // elevation it legitimately hides whatever is buried in it. `landscape` is
+  // the field system, the hedges, the orchard and the distance wood: SCENERY,
+  // which in an architectural elevation is drawn behind the subject and never
+  // in front of it. Lumping them together is what made the silhouette eat its
+  // own town — see `applyMode`.
+  if (LANDSCAPE.has(v.id)) {
+    const ground = v.id !== 'landscape';
+    root.traverse(o => { o.userData.landscape = true; o.userData.silGround = ground; });
+  }
+  visibility.addPlacement(root, src.userData?.hm || null, key);
+  probe.instrument(root, key, (x, z) => visibility.cellLabel(x, z), THREE);
+  // Measured with every LOD level visible, then corrected: this is the SOURCE
+  // tri count of the venue, not what a frame draws. The drawn number is
+  // measured per view further down, where culling and LOD are in force.
+  const box = new THREE.Box3().setFromObject(root);
+  const tris = countTris(root, 0);
+  report.totalTris += tris;
+  const hm = src.userData?.hm || null;
+  report.venues.push({
+    key, id: v.id, file, ok: true, tris, role: v.role || null,
+    batches: hm ? hm.stats.groups : null,
+    lodPrims: hm ? hm.stats.lodPrims : null,
+    lodTris: hm ? hm.stats.lodTris : null,
+    batchCells: hm ? new Set(hm.cells.map(c => c.key)).size : null,
+    instances: hm ? hm.instanced.reduce((a, i) => a + i.count, 0) : 0,
+    interiors: hm ? hm.interiors.length : 0,
+    cells: v.cells || [], origin: v.origin, rotationDeg: v.rotationDeg || 0,
+    box: { min: box.min.toArray().map(n => +n.toFixed(2)), max: box.max.toArray().map(n => +n.toFixed(2)) },
+    footprintM2: +((box.max.x - box.min.x) * (box.max.z - box.min.z)).toFixed(1),
+    box3: box, parts: partBoxes(root),
+  });
+}
+
+water.setTime(WATER_PHASE);
+report.waterMaterials = water.materials.size;
+
+// Whole-town bounds, union of the authored grid and the BUILT MASSES on it.
+//
+// Landscape layers are excluded from the union on purpose. The terrain plate is
+// 576 m square because the distance ring has to reach the horizon; letting it
+// into the framing box pushed every plan and aerial out to 576 m, which put the
+// entire 192 m town in the middle ninth of the frame and made the whole-town
+// render — the one thing v1 did not have — useless for review. The town is the
+// grid plus whatever buildings stand on it, and nothing else.
+const townBox = new THREE.Box3(
+  new THREE.Vector3(GRID_MIN_X, 0, GRID_MIN_Z),
+  new THREE.Vector3(GRID_MAX_X, 0.01, GRID_MAX_Z));
+report.venues.filter(v => v.box3 && !LANDSCAPE.has(v.id)).forEach(v => townBox.union(v.box3));
+report.bounds = { min: townBox.min.toArray().map(n => +n.toFixed(2)), max: townBox.max.toArray().map(n => +n.toFixed(2)) };
+const townCenter = townBox.getCenter(new THREE.Vector3());
+const townSize = townBox.getSize(new THREE.Vector3());
+
+// --- Floating smell test ----------------------------------------------------
+// BUILD_DIRECTIVE §6.1: nothing floats. A venue whose entire bounding box sits
+// clear of the ground is either misplaced in Y or carrying an origin offset it
+// should not have. This cannot see a single floating barrel inside a venue —
+// that is what the eye-level views are for — but it catches whole-mass errors.
+// Measured against the TERRAIN under the venue, not against y=0. The ground
+// falls ~4 m across the town, so a flat-plane comparison reports the blacksmith
+// on the high south terrace as floating 1.89 m and the pub on the waterfront as
+// sunk 1.62 m when both are sitting correctly on their pads.
+for (const v of report.venues) {
+  if (!v.box3 || LANDSCAPE.has(v.id)) continue;
+  // Sampled across the whole footprint, and the two directions use opposite
+  // ends of that range, because they are different claims:
+  //   floating — the mass bottom clears even the HIGHEST ground beneath it, so
+  //              nothing anywhere under it can be touching.
+  //   sunk     — the mass bottom is under even the LOWEST ground beneath it.
+  // Using one number for both reported `streets` as floating 7.37 m, because
+  // its footprint includes the river bed 7 m down at the far end.
+  const b = v.box3;
+  let lo = Infinity, hi = -Infinity;
+  const N = 8;
+  for (let i = 0; i <= N; i++)
+    for (let j = 0; j <= N; j++) {
+      const g = groundY(b.min.x + (b.max.x - b.min.x) * i / N,
+                        b.min.z + (b.max.z - b.min.z) * j / N);
+      if (g < lo) lo = g;
+      if (g > hi) hi = g;
+    }
+  const air = +(b.min.y - hi).toFixed(2);     // > 0 ⇒ nothing under it at all
+  const dug = +(b.min.y - lo).toFixed(2);     // < 0 ⇒ below the lowest ground
+  if (air > 0.35) report.floating.push({ key: v.key, minY: +b.min.y.toFixed(2), groundY: +hi.toFixed(2), gap: air, kind: 'above ground' });
+  else if (dug < -0.80) report.floating.push({ key: v.key, minY: +b.min.y.toFixed(2), groundY: +lo.toFixed(2), gap: dug, kind: 'sunk below ground' });
+}
+
+// --- Bounding-box overlap smell test ---------------------------------------
+// Two solid masses whose AABBs interpenetrate in all three axes are either
+// interpenetrating geometry or a placement error. Flat ground layers (paving,
+// roads) legitimately underlie everything, so anything under 0.6m tall is
+// excluded rather than drowning the signal.
+//
+// A venue AABB overlap is only a SMELL: a venue like `streets` spans the whole
+// town, so its box crosses everything. Each pair is therefore re-tested at
+// per-material-batch level, and pairs where actual geometry occupies the same
+// space are flagged `geometry: true`. Those are the real defects.
+{
+  // Landscape is excluded: the ground is under everything by definition, so
+  // pairing it produced nine GEOMETRY rows (terrain × every building) that were
+  // all correct behaviour and buried the one real interpenetration.
+  const solid = report.venues.filter(v => v.box3 && !LANDSCAPE.has(v.id) &&
+                                          (v.box3.max.y - Math.max(0, v.box3.min.y)) > 0.6);
+  for (let i = 0; i < solid.length; i++) {
+    for (let j = i + 1; j < solid.length; j++) {
+      const A = solid[i], B = solid[j];
+      const a = A.box3, b = B.box3;
+      const ox = Math.min(a.max.x, b.max.x) - Math.max(a.min.x, b.min.x);
+      const oz = Math.min(a.max.z, b.max.z) - Math.max(a.min.z, b.min.z);
+      const oy = Math.min(a.max.y, b.max.y) - Math.max(a.min.y, b.min.y);
+      if (!(ox > 0.05 && oz > 0.05 && oy > 0.05 && ox * oz > 1.0)) continue;
+
+      // Deep test. Require a real vertical bite (>0.5 m) so that a road slab
+      // grazing a wall footing does not read as two buildings inside each other.
+      let worst = null;
+      for (const pa of A.parts) {
+        for (const pb of B.parts) {
+          const dx = Math.min(pa.box.max.x, pb.box.max.x) - Math.max(pa.box.min.x, pb.box.min.x);
+          const dz = Math.min(pa.box.max.z, pb.box.max.z) - Math.max(pa.box.min.z, pb.box.min.z);
+          const dy = Math.min(pa.box.max.y, pb.box.max.y) - Math.max(pa.box.min.y, pb.box.min.y);
+          if (dx <= 0 || dz <= 0 || dy <= 0.5 || dx * dz < 0.5) continue;
+          const vol = dx * dy * dz;
+          if (!worst || vol > worst.volM3) worst = { volM3: +vol.toFixed(1), a: pa.name, b: pb.name };
+        }
+      }
+      // The deep test assumes a per-material batch is a TIGHT box. That holds
+      // for a building and fails for a town-wide layer: `streets` merges its
+      // whole network into 54 primitives, so one "batch" is 190 m across and
+      // intersects every building in Hearthmere at some depth. Reporting those
+      // as GEOMETRY is a false positive per building, and it would hide a real
+      // one. The authoritative test for "something stands in the road" is
+      // `tools/check_walkable.mjs`, which walks every street at body height
+      // with the real controller and names the obstruction — so these rows are
+      // labelled as a layer crossing and deferred there rather than guessed at.
+      const layer = SPRAWLING.has(A.id) || SPRAWLING.has(B.id);
+      report.overlaps.push({
+        a: A.key, b: B.key, roles: [A.role, B.role],
+        areaM2: +(ox * oz).toFixed(1),
+        spanX: +ox.toFixed(2), spanZ: +oz.toFixed(2), spanY: +oy.toFixed(2),
+        layer, geometry: !!worst && !layer, deep: layer ? null : worst,
+      });
+    }
+  }
+  // Real geometry interpenetration first, then by area.
+  report.overlaps.sort((p, r) => (r.geometry - p.geometry) || (r.areaM2 - p.areaM2));
+}
+
+// --- Post chain — same as client/src/main.js --------------------------------
+const camera = new THREE.PerspectiveCamera(55, W / H, 0.1, 2000);
+const orthoCam = new THREE.OrthographicCamera(-1, 1, 1, -1, -400, 2000);
+
+// docs/ARCHITECTURE.md §5 order: SSAO -> bloom -> ACES -> grade -> vignette.
+// Built by the shared module so the harness and the client cannot grade
+// differently — a review render that is graded and a game that is not is a
+// review of something nobody will play.
+const post = makePostChain({
+  renderer, scene, camera, width: W, height: H, atmos: ATMOS, ao: ATMOS_ON,
+});
+const composer = post.composer;
+// Each pass renders under its own stage name, so the AO pass's full normal+depth
+// G-buffer is counted as AO rather than as a second beauty pass.
+probe.wrapComposer(composer);
+if (!ATMOS_ON) post.grade.enabled = false;
+
+// --- Landmarks / spawn ------------------------------------------------------
+const landmark = id => (TOWN.landmarks || []).find(l => l.id === id || l.id.endsWith('.' + id));
+
+/** Ground position of an authored point, tolerant of `[x, z]` and `[x, y, z]`.
+ *
+ *  D-024 stripped the decorative Y out of `hearthmere.json` — landmarks and
+ *  street paths are two components now, and the level comes from
+ *  `core/terrain.py`. This file still read `pos[2]`, which is `undefined` for a
+ *  two-component point, so `defaultRoute()` handed the camera a NaN and every
+ *  walk frame rendered from the same broken viewpoint with a frustum that
+ *  contained the entire town. The report duly stated that all six frames cost
+ *  389 draw calls and that nothing anywhere was culled.
+ *
+ *  Reading the LAST component is the same rule `venues/streets.py` uses
+ *  (`p[-1]`), and it keeps working whichever form the file is in. */
+const xz = p => [+p[0], +p[p.length - 1]];
+const EYE = 1.62;                                  // Art Bible §3
+const spawn = TOWN.playerSpawn || { pos: [0, 0, GRID_MIN_Z + 4], facingDeg: 180 };
+
+/** COMPASS heading -> direction, the one convention content is authored in.
+ *
+ *  docs/TOWN_PLAN.md §6 and core/building.py's Footprint both define
+ *  forward = (sin θ, 0, -cos θ): 0 = north (-Z), 90 = east (+X), 180 = south,
+ *  270 = west. Every `rotationDeg` and every `facingDeg` in content/ means
+ *  that.
+ *
+ *  This used to return (-sin, 0, -cos) — the MIRROR — "to match
+ *  client/src/player.js". It did match the client, and both were wrong: the
+ *  church's playerSpawn is `facingDeg 270`, i.e. due west down the nave and
+ *  out through the great west door, and the arrival frame was rendering due
+ *  EAST into the back wall. The single most important composition in the build
+ *  (BUILD_DIRECTIVE §3.2) was pointed 180° the wrong way, which is why the
+ *  baseline arrival shot is the bede houses. player.js's free-running mouse
+ *  yaw keeps its own sign; client/src/main.js negates when it seeds it from
+ *  content. */
+function dirFromDeg(deg) {
+  const y = deg * Math.PI / 180;
+  return new THREE.Vector3(Math.sin(y), 0, -Math.cos(y));
+}
+
+/** The elevation a camera STANDS on, as opposed to the elevation the ground
+ *  is at. They differ in exactly one place and it matters in exactly one way:
+ *  over water, `terrain.height()` returns the CHANNEL BED, which at the
+ *  Emberflow is -5.6 m against a water surface of -3.1 m. A camera that takes
+ *  its Y from the bed and adds an eye height stands 0.9 m UNDER the river, and
+ *  because the water sheet is single-sided the river then disappears
+ *  altogether: `t-bridge` in `review/shots/ad-town-05/` shows daylight through
+ *  all three arches, the piers standing on dry ground, the figure standing in
+ *  the channel, and a pure black unlit wedge on the east bank. `spine-walk-01`
+ *  is the same bug on the walk route.
+ *
+ *  A player cannot stand below the water surface either, so this is also what
+ *  the client does. One function, both fixes, and it is the water level that
+ *  is authoritative — `client/src/terrain.js` reads it from the same
+ *  `content/town/terrain.json` the generator carves the channel from. */
+const standY = (x, z) => {
+  // Water first: over the Emberflow the height field returns the channel bed at
+  // -5.6 against a -3.1 surface, and a camera on the bed is under the river.
+  const base = Math.max(groundY(x, z), waterLevel);
+  // Then anything the town has AUTHORED to stand on above that — which over the
+  // bridge is the deck. `ad-town-06` §2: `spine-walk-01` has been shot from
+  // inside that deck in five consecutive reviews, 45% of the frame unlit black,
+  // because the water fix landed on `t-bridge`'s free camera and this line was
+  // the other half of it. It is one function, so it is now both.
+  return Math.max(base, deckY(x, z, base));
+};
+
+function eyeView(at, look, eye = EYE, fov = 55) {
+  return {
+    kind: 'persp', fov,
+    // The only views a player ever has, and therefore the only ones the §7
+    // budget is about. Art Bible §3: 1.62 m eye, 55° FOV.
+    gameplayCamera: true,
+    pos: new THREE.Vector3(at.x, standY(at.x, at.z) + eye, at.z),
+    look: new THREE.Vector3(look.x, standY(look.x, look.z) + eye * 0.92, look.z),
+    // Ignored for gameplay cameras: `SunRig.fitCascades` derives the whole rig
+    // from the camera frustum, which is the point. Kept so a non-gameplay
+    // caller — and `fitSingle`'s fallback — still has a centre and a radius.
+    shadow: { at: new THREE.Vector3(at.x, groundY(at.x, at.z), at.z), r: 42 },
+    figures: figuresForEye(at, look),
+  };
+}
+
+/** A reference body placed ahead of the lens and off-axis, so it reads at
+ *  known size without covering the composition. */
+function figuresForEye(at, look) {
+  const d = new THREE.Vector3(look.x - at.x, 0, look.z - at.z);
+  if (d.lengthSq() < 1e-6) d.set(0, 0, 1);
+  d.normalize();
+  const right = new THREE.Vector3(-d.z, 0, d.x);
+  // 5 m ahead and 1.5 m off-axis is the default. But `bridge` and half the
+  // wharf walk look ACROSS WATER, and 5 m ahead of those is the middle of the
+  // Emberflow: `ad-town-05` §2 records the 1.75 m reference standing in the
+  // river. A figure in 2.5 m of water is not a scale reference, and one
+  // standing on the surface is worse. So walk the offsets and take the first
+  // that is on dry land OR ON AN AUTHORED DECK; if the whole fan is open water,
+  // the figure is dropped and the frame keeps its metre bar.
+  //
+  // The deck clause matters: `spine-walk-01` to `-03` cross the Emberflow on the
+  // bridge, so every candidate is over the channel and the review's own scale
+  // reference was being dropped from the three frames of the town's spine that
+  // most need one.
+  for (const reach of [5.0, 4.0, 3.2, 6.5, 8.0, 10.0, 2.4]) {
+    for (const side of [1.5, -1.5, 2.6, -2.6]) {
+      const p = new THREE.Vector3(at.x, 0, at.z)
+        .addScaledVector(d, reach).addScaledVector(right, side);
+      if (standY(p.x, p.z) > waterLevel + 0.05) {
+        return [{ x: p.x, z: p.z, rot: Math.atan2(-d.x, -d.z) }];
+      }
+    }
+  }
+  return [];
+}
+
+function aerialView(dirX, dirZ, dist) {
+  const r = Math.max(townSize.x, townSize.z);
+  const d = dist || Math.max(110, r * 1.35);
+  const h = d * Math.sin(45 * Math.PI / 180);
+  const l = d * Math.cos(45 * Math.PI / 180);
+  const n = Math.hypot(dirX, dirZ) || 1;
+  const pos = new THREE.Vector3(townCenter.x + dirX / n * l, h, townCenter.z + dirZ / n * l);
+  // Figures at the centre and on every landmark: at 120 m an oblique flattens
+  // scale badly, and a body on the square is the only thing that says how big
+  // the square is.
+  const spots = [{ x: townCenter.x, z: townCenter.z, rot: 0 }];
+  (TOWN.landmarks || []).forEach(lm => spots.push({ x: xz(lm.pos)[0], z: xz(lm.pos)[1], rot: 0 }));
+  return {
+    kind: 'persp', fov: 42, pos,
+    // Not a gameplay camera: no player ever stands 180 m up. The distance cull
+    // is disabled for it, but LOD is left to run naturally — an aerial SHOULD
+    // show the far side of the town at the level the far side is drawn at, or
+    // the image is not a check of the LOD chain at all.
+    cull: { cullDistance: Infinity },
+    look: new THREE.Vector3(townCenter.x, townSize.y * 0.28, townCenter.z),
+    shadow: { at: townCenter.clone(), r: r * 0.62 },
+    figures: spots,
+  };
+}
+
+const NAMED = new Set(['plan', 'aerial-ne', 'aerial-nw', 'aerial-sw', 'aerial-se',
+                       'arrival', 'gate-north', 'gate-south', 'square', 'walk', 'silhouette',
+                       'approach-s', 'approach-ne', 'approach-w', 'bridge']);
+
+/** The three approach cameras, promoted from hand-typed `--at/--look` to named
+ *  views (`review/reports/ad-town-03.md` §3 fix (iv), and its item 10: "add the
+ *  three approach silhouettes to the standard set").
+ *
+ *  The art director authored these by hand because `silhouette` was unusable,
+ *  and then judged the town's most-cited defect — "the town has no skyline" —
+ *  from them. A camera that a review verdict rests on cannot live in a shell
+ *  command in a report; typed slightly differently next wave it measures a
+ *  different town and the comparison is worthless. These are the exact numbers
+ *  from `review/shots/ad-town-03/approach-*-report.json`.
+ *
+ *  They ARE gameplay cameras: eye height on the approach roads and the water,
+ *  55° FOV, distance culling in force. A player arriving from the quest zones
+ *  gets `approach-s` and nothing else. */
+const APPROACHES = {
+  'approach-s':  { at: [0, 138],    look: [0, 0],     eye: 6,
+                   note: 'the canonical return from the quest zones' },
+  'approach-ne': { at: [95, -125],  look: [10, -30],  eye: 5,
+                   note: 'across the Mere — the best profile in the build' },
+  'approach-w':  { at: [-130, -30], look: [0, -10],   eye: 5,
+                   note: 'the western field approach' },
+};
+
+// --- View table -------------------------------------------------------------
+function buildView(name, o = {}) {
+  const eye = o.eye != null ? +o.eye : EYE;
+
+  // Free camera: --at x,z [--look x,z] [--eye 1.62]. Only claims the frame for
+  // `free` (or an unknown name) so that `--views plan --at ...` still plans.
+  if (o.at && (name === 'free' || !NAMED.has(name))) {
+    const at = { x: +o.at[0], z: +o.at[1] };
+    const look = o.look ? { x: +o.look[0], z: +o.look[1] } : { x: townCenter.x, z: townCenter.z };
+    const v = eyeView(at, look, eye, o.fov ? +o.fov : 55);
+    v.title = `free — eye ${eye} m at ${at.x}, ${at.z} looking ${look.x}, ${look.z}`;
+    return v;
+  }
+
+  switch (name) {
+    case 'plan': {
+      const pad = CELL * 0.35;
+      const halfW = (townSize.x / 2 + pad), halfH = (townSize.z / 2 + pad);
+      return {
+        kind: 'ortho', center: townCenter, halfW, halfH,
+        shadow: { at: townCenter.clone(), r: Math.max(halfW, halfH) * 1.1 },
+        figures: [], grid: true, title: 'plan — orthographic, north up',
+      };
+    }
+    case 'aerial-ne': return Object.assign(aerialView(+1, -1, o.dist), { title: 'aerial from the north-east' });
+    case 'aerial-nw': return Object.assign(aerialView(-1, -1, o.dist), { title: 'aerial from the north-west' });
+    case 'aerial-sw': return Object.assign(aerialView(-1, +1, o.dist), { title: 'aerial from the south-west' });
+    case 'aerial-se': return Object.assign(aerialView(+1, +1, o.dist), { title: 'aerial from the south-east' });
+
+    case 'arrival': {
+      // Reads playerSpawn from content. When the planner moves spawn to the
+      // church altar this frame follows it with no code change (BUILD_DIRECTIVE §3).
+      const p = spawn.pos, f = dirFromDeg(spawn.facingDeg ?? 180);
+      const at = { x: p[0], z: p[2] };
+      const look = { x: p[0] + f.x * 40, z: p[2] + f.z * 40 };
+      // playerSpawn.pos[1] is an ABSOLUTE world Y — the altar dais top, which
+      // may be several metres above the ground it stands on. So the eye is
+      // spawn Y + eye height, and groundY must not be added on top of it.
+      const v = eyeView(at, look, eye, 55);
+      v.pos.y = (p[1] || 0) + eye;
+      v.title = `arrival — playerSpawn ${p[0]}, ${p[1]}, ${p[2]} facing ${spawn.facingDeg ?? 180}°`;
+      return v;
+    }
+
+    case 'gate-north': {
+      const lm = landmark('hm.gate.north');
+      const at = lm ? { x: xz(lm.pos)[0], z: xz(lm.pos)[1] - 3 } : { x: 0, z: GRID_MIN_Z - 1 };
+      const v = eyeView(at, { x: townCenter.x, z: townCenter.z }, eye, 55);
+      v.title = 'gate-north — looking south into the town';
+      return v;
+    }
+    case 'gate-south': {
+      const lm = landmark('hm.road.south');
+      const at = lm ? { x: xz(lm.pos)[0], z: xz(lm.pos)[1] + 3 } : { x: 0, z: GRID_MAX_Z + 1 };
+      const v = eyeView(at, { x: townCenter.x, z: townCenter.z }, eye, 55);
+      v.title = 'gate-south — looking north into the town';
+      return v;
+    }
+    case 'square': {
+      const lm = landmark('hm.fountain');
+      const c = lm ? { x: xz(lm.pos)[0], z: xz(lm.pos)[1] } : { x: 0, z: 0 };
+      const at = { x: c.x - CELL * 0.62, z: c.z - CELL * 0.62 };
+      const v = eyeView(at, c, eye, 55);
+      v.title = 'square — the market square from its north-west corner';
+      return v;
+    }
+
+    case 'walk': {
+      const route = o.route && o.route.length > 1 ? o.route : defaultRoute();
+      const n = Math.max(2, o.frames || 6);
+      const i = Math.min(n - 1, Math.max(0, o.index || 0));
+      const { p, d } = sampleRoute(route, i / (n - 1));
+      const at = { x: p.x, z: p.z };
+      const look = { x: p.x + d.x * 25, z: p.z + d.z * 25 };
+      const v = eyeView(at, look, eye, 55);
+      v.title = `walk ${i + 1}/${n} — at ${at.x.toFixed(1)}, ${at.z.toFixed(1)} heading ${(Math.atan2(d.x, -d.z) * 180 / Math.PI).toFixed(0)}°`;
+      v.frameIndex = i;
+      return v;
+    }
+
+    case 'silhouette': {
+      function silhouetteDatum() {
+        const ring = (TOWN.wall && TOWN.wall.path) || [];
+        let lo = Infinity;
+        if (ring.length > 2) {
+          for (const p of ring) lo = Math.min(lo, groundY(+p[0], +p[1]));
+        }
+        // Fall back to a coarse sweep of the built box if the circuit is not
+        // authored — the datum must never come out as a magic number.
+        if (!Number.isFinite(lo)) {
+          for (let i = 0; i <= 12; i++) for (let j = 0; j <= 12; j++) {
+            lo = Math.min(lo, groundY(
+              townBox.min.x + (townSize.x * i) / 12,
+              townBox.min.z + (townSize.z * j) / 12));
+          }
+        }
+        return lo - 0.9;   // foundations, plinths and the wall's own 0.70 m
+      }
+
+      // Orthographic elevation from the north (the approach side), black on
+      // white — the Art Bible §6 skyline read, and the image this project
+      // judges its most-cited defect from.
+      //
+      // TWO DEFECTS FIXED HERE. Both made the image worse than useless, because
+      // it looked like an answer.
+      //
+      // 1. THE TOWN WAS BEHIND ITS OWN LANDSCAPE. A true elevation needs the
+      //    lens far outside the subject, so the camera stands 400 m north. The
+      //    terrain plate is 576 m square and `landscape` carries the field
+      //    system and distance wood out to 270 m, so ~190 m of hedge, tree and
+      //    ground sat BETWEEN the lens and the town — painted SIL_LAND grey,
+      //    with the black roofline behind it. In the pre-fix frame the grey
+      //    mass fills the bottom third and the only black shapes clearing it
+      //    are the moot bell-cote and the dovecote cone. The art director's
+      //    note names the consequence exactly: "whether the tower is genuinely
+      //    detached or its stem is hidden behind nearer terrain, THE INSTRUMENT
+      //    CANNOT TELL ME." An orthographic camera has no perspective to
+      //    disambiguate it either — the only fix is to clip.
+      //    The near plane now sits at the town's own north edge, so by
+      //    construction nothing outside the town can stand in front of the
+      //    skyline; the far plane stops short of the southern distance wood so
+      //    the backdrop is ground, not forest.
+      // 2. THE FRAME WAS 60% DEAD WHITE. The camera sat at 0.72 x halfH = 41 m
+      //    with a town 0-22 m tall, so the skyline hugged the bottom edge.
+      //    Centred on the built band now.
+      //
+      // Aspect note for the reviewer: at 192 m wide the vertical extent is
+      // pinned to 192/aspect by square pixels, so a 16:9 canvas can only ever
+      // give the town a fifth of the frame height. Shoot it letterboxed —
+      // `--views silhouette --w 1800 --h 520` — for the tightest read. The
+      // scale bar in the HUD reports px/m either way.
+      // THE DRAWING DATUM. Third pass for this one: `ad-town-06` §(b) —
+      // "the two black boxes below the ground line are still there ... the
+      // quay and the watermill, legitimately sunk, reading as detached masses
+      // under the town. Clip sunk geometry at the datum in the silhouette
+      // view." An elevation is drawn to a datum, and anything below it is a
+      // section, not an elevation.
+      //
+      // The datum is the LOWEST natural ground inside the wall, less a margin
+      // for foundations and plinths — not a guessed constant and not y = 0,
+      // because the town falls 4 m south to north and a level datum at the
+      // market pad would cut the whole northern arc off at the knee. Sampled
+      // from the one height field, so nothing standing on real ground is ever
+      // touched: only the quay's sunk deck and the mill's wheel pit, which are
+      // below the ground everywhere in the town, fall under it.
+      const datum = silhouetteDatum();
+      const STANDOFF = 400;
+      const halfW = townSize.x / 2 + CELL * 0.3;
+      const base = Math.min(0, townBox.min.y), top = townBox.max.y;
+      return {
+        kind: 'ortho-elev',
+        center: new THREE.Vector3(townCenter.x, (base + top) / 2, townCenter.z),
+        halfW, halfH: Math.max(townSize.y * 0.62, 12),
+        standoff: STANDOFF,
+        // 6 m of margin so the north gatehouse and the bridge parapet — which
+        // ARE part of the skyline — are not clipped along with the fields.
+        near: STANDOFF - 6,
+        far: STANDOFF + (townBox.max.z - townBox.min.z) + 30,
+        shadow: { at: townCenter.clone(), r: Math.max(townSize.x, townSize.z) * 0.62 },
+        figures: [{ x: townBox.min.x + 4.0, z: townBox.min.z + 3.0, rot: 0 }],
+        silhouette: true,
+        silDatum: datum,
+        title: `silhouette — north elevation, black on white, town only, datum ${datum.toFixed(2)} m`,
+      };
+    }
+
+    case 'bridge': {
+      // THE EMBERFLOW BRIDGE, WHICH NOTHING HAS EVER POINTED A CAMERA AT.
+      //
+      // BUILD_DIRECTIVE §3.3 makes this the departure and return frame, and
+      // for four passes the only camera near it was `spine-walk-01`, which
+      // takes its Y from `terrain.height()` and therefore stood INSIDE the
+      // deck: three consecutive reports recorded an entirely brown frame and
+      // called the bridge a defect. The art director finally authored a free
+      // camera off the bank in pass 04 and found the asset is good — three
+      // segmental arches with voussoirs and a keystone, cutwaters, refuges,
+      // a string course, a coped parapet, a timber revetment and a weir.
+      //
+      // So it gets a name. Off the south-west bank at eye height, three
+      // quarters on to the crown, which is the angle that shows the arch
+      // series, the cutwaters, the water under them and the gate beyond in
+      // one frame — none of which the on-deck walk camera can ever see.
+      const lm = landmark('hm.bridge');
+      const c = lm ? { x: xz(lm.pos)[0], z: xz(lm.pos)[1] } : { x: -3.7, z: -86 };
+      const v = eyeView({ x: c.x - 19, z: c.z - 3.5 }, c, o.eye != null ? +o.eye : 2.2, 55);
+      v.title = 'bridge — the Emberflow crossing from the south-west bank';
+      return v;
+    }
+
+    case 'approach-s': case 'approach-ne': case 'approach-w': {
+      const a = APPROACHES[name];
+      const v = eyeView({ x: a.at[0], z: a.at[1] }, { x: a.look[0], z: a.look[1] },
+                        a.eye, 55);
+      v.title = `${name} — eye ${a.eye} m at ${a.at.join(', ')} looking ` +
+                `${a.look.join(', ')} · ${a.note}`;
+      return v;
+    }
+
+    default: return Object.assign(aerialView(+1, -1, o.dist), { title: `unknown view "${name}" — fell back to aerial-ne` });
+  }
+}
+
+/** North gate -> fountain -> south road, if those landmarks exist. */
+function defaultRoute() {
+  const g = landmark('hm.gate.north'), f = landmark('hm.fountain'), s = landmark('hm.road.south');
+  const pts = [];
+  if (g) pts.push(xz(g.pos)); else pts.push([0, GRID_MIN_Z + 2]);
+  if (f) pts.push(xz(f.pos)); else pts.push([0, 0]);
+  if (s) pts.push(xz(s.pos)); else pts.push([0, GRID_MAX_Z - 2]);
+  return pts;
+}
+
+function sampleRoute(route, t) {
+  const pts = route.map(p => new THREE.Vector2(+p[0], +p[1]));
+  const segs = [];
+  let total = 0;
+  for (let i = 0; i + 1 < pts.length; i++) {
+    const L = pts[i].distanceTo(pts[i + 1]);
+    segs.push(L); total += L;
+  }
+  let want = t * total;
+  for (let i = 0; i < segs.length; i++) {
+    if (want <= segs[i] || i === segs.length - 1) {
+      const u = segs[i] > 1e-6 ? Math.min(1, want / segs[i]) : 0;
+      const a = pts[i], b = pts[i + 1];
+      const p = a.clone().lerp(b, u);
+      const dv = b.clone().sub(a);
+      if (dv.lengthSq() < 1e-9) dv.set(0, 1);
+      dv.normalize();
+      return { p: { x: p.x, z: p.y }, d: { x: dv.x, z: dv.y } };
+    }
+    want -= segs[i];
+  }
+  return { p: { x: pts[0].x, z: pts[0].y }, d: { x: 0, z: 1 } };
+}
+
+// --- Annotation layer -------------------------------------------------------
+function project(x, y, z, cam) {
+  const v = new THREE.Vector3(x, y, z).project(cam);
+  return [(v.x * 0.5 + 0.5) * W, (-v.y * 0.5 + 0.5) * H];
+}
+
+function drawPlanOverlay(cam) {
+  ctx.save();
+  ctx.lineWidth = 1;
+  ctx.font = '11px ui-monospace, Consolas, monospace';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+
+  // 16 m cell grid.
+  ctx.strokeStyle = 'rgba(255,255,255,0.20)';
+  ctx.beginPath();
+  for (let i = 0; i <= NCOL; i++) {
+    const [x0, y0] = project(cellX(i), 0, GRID_MIN_Z, cam);
+    const [x1, y1] = project(cellX(i), 0, GRID_MAX_Z, cam);
+    ctx.moveTo(x0, y0); ctx.lineTo(x1, y1);
+  }
+  for (let j = 0; j <= NROW; j++) {
+    const [x0, y0] = project(GRID_MIN_X, 0, cellZ(j), cam);
+    const [x1, y1] = project(GRID_MAX_X, 0, cellZ(j), cam);
+    ctx.moveTo(x0, y0); ctx.lineTo(x1, y1);
+  }
+  ctx.stroke();
+
+  // Cell labels at cell centres.
+  ctx.fillStyle = 'rgba(255,255,255,0.55)';
+  for (let i = 0; i < NCOL; i++) {
+    for (let j = 0; j < NROW; j++) {
+      const [px, py] = project(cellX(i) + CELL / 2, 0, cellZ(j) + CELL / 2, cam);
+      ctx.fillText(`${(GRID.cols || [])[i] ?? i}${(GRID.rows || [])[j] ?? j + 1}`, px, py);
+    }
+  }
+
+  // Optional venue footprints (--footprints). Off by default: the point of the
+  // plan is to read the RENDERED town, not a wireframe of the manifest.
+  if (WANT_FOOTPRINTS) {
+    ctx.strokeStyle = 'rgba(90,220,255,0.75)'; ctx.lineWidth = 1.2;
+    ctx.fillStyle = 'rgba(90,220,255,0.95)';
+    ctx.textAlign = 'left';
+    for (const v of report.venues) {
+      if (!v.box) continue;
+      const [x0, y0] = project(v.box.min[0], 0, v.box.min[2], cam);
+      const [x1, y1] = project(v.box.max[0], 0, v.box.max[2], cam);
+      ctx.strokeRect(Math.min(x0, x1), Math.min(y0, y1), Math.abs(x1 - x0), Math.abs(y1 - y0));
+      ctx.fillText(v.key, Math.min(x0, x1) + 3, Math.min(y0, y1) + 8);
+    }
+    ctx.textAlign = 'center';
+  }
+
+  // Authored street centrelines from content — DASHED, so they can never be
+  // mistaken for rendered geometry. A dashed line with no cobble under it is
+  // exactly the defect this image exists to catch.
+  if (q.get('streets') !== '0' && (TOWN.streets || []).length) {
+    ctx.setLineDash([7, 6]);
+    ctx.strokeStyle = 'rgba(255,120,190,0.85)';
+    ctx.lineWidth = 1.6;
+    for (const s of TOWN.streets) {
+      ctx.beginPath();
+      s.path.forEach((p, i) => {
+        const [px, py] = project(p[0], 0, p[1], cam);   // street paths are [x, z]
+        i ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+      });
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+  }
+
+  // Landmarks.
+  ctx.fillStyle = 'rgba(120,255,210,0.95)';
+  ctx.textAlign = 'left';
+  for (const lm of TOWN.landmarks || []) {
+    const [px, py] = project(xz(lm.pos)[0], 0, xz(lm.pos)[1], cam);
+    ctx.beginPath(); ctx.arc(px, py, 3.5, 0, Math.PI * 2); ctx.fill();
+    ctx.fillText(' ' + (lm.name || lm.id), px + 4, py);
+  }
+
+  // Spawn.
+  const [sx, sy] = project(spawn.pos[0], 0, spawn.pos[2], cam);
+  ctx.strokeStyle = 'rgba(255,230,90,0.95)'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(sx, sy, 6, 0, Math.PI * 2); ctx.stroke();
+  ctx.fillStyle = 'rgba(255,230,90,0.95)';
+  ctx.fillText(' spawn', sx + 7, sy);
+
+  // Metric scale: one cell, measured off the projection rather than assumed.
+  const [gx0] = project(0, 0, 0, cam), [gx1] = project(CELL, 0, 0, cam);
+  const cellPx = Math.abs(gx1 - gx0);
+  const bx = 26, by = H - 30;
+  ctx.fillStyle = 'rgba(0,0,0,0.45)'; ctx.fillRect(14, by - 20, cellPx + 26, 34);
+  ctx.strokeStyle = 'rgba(255,255,255,0.95)'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(bx, by); ctx.lineTo(bx + cellPx, by);
+  ctx.moveTo(bx, by - 5); ctx.lineTo(bx, by + 5);
+  ctx.moveTo(bx + cellPx, by - 5); ctx.lineTo(bx + cellPx, by + 5);
+  ctx.stroke();
+  ctx.fillStyle = 'rgba(255,255,255,0.95)';
+  ctx.font = '12px ui-monospace, Consolas, monospace';
+  ctx.fillText(`${CELL} m — one cell`, bx + 2, by - 10);
+
+  // Compass.
+  ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(255,255,255,0.9)';
+  ctx.font = 'bold 15px ui-monospace, Consolas, monospace';
+  ctx.fillText('N ^', W - 46, 26);
+  ctx.restore();
+}
+
+function drawHud(view, cam) {
+  ctx.clearRect(0, 0, W, H);
+  if (view.grid) drawPlanOverlay(cam);
+
+  const light = view.silhouette;
+  const ink = light ? 'rgba(20,20,20,0.9)' : 'rgba(255,255,255,0.92)';
+  const pad = light ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,0.45)';
+
+  // Caption.
+  ctx.save();
+  ctx.font = '13px ui-monospace, Consolas, monospace';
+  const cap = `${TOWN.displayName || TOWN.id} · ${view.title} · ${LIGHTING.timeOfDay} locked rig`;
+  const wpx = ctx.measureText(cap).width;
+  ctx.fillStyle = pad; ctx.fillRect(10, 10, wpx + 16, 24);
+  ctx.fillStyle = ink; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+  ctx.fillText(cap, 18, 22);
+
+  // Scale legend: a bar exactly 1.75 m tall as projected at the focal distance,
+  // next to the 1.75 m figure standing in the frame.
+  if (!view.grid) {
+    let px;
+    if (cam.isOrthographicCamera) {
+      px = H * 1.75 / (cam.top - cam.bottom);
+    } else {
+      const focal = cam.position.distanceTo(view.look || new THREE.Vector3());
+      px = H * (1.75 / (2 * focal * Math.tan(cam.fov * Math.PI / 360)));
+    }
+    px = Math.max(4, Math.min(H * 0.6, px));
+    const bx = 26, by = H - 26;
+    ctx.fillStyle = pad; ctx.fillRect(12, by - px - 26, 118, px + 34);
+    ctx.strokeStyle = ink; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(bx, by); ctx.lineTo(bx, by - px);
+    ctx.moveTo(bx - 5, by); ctx.lineTo(bx + 5, by);
+    ctx.moveTo(bx - 5, by - px); ctx.lineTo(bx + 5, by - px);
+    ctx.stroke();
+    ctx.fillStyle = ink;
+    ctx.font = '12px ui-monospace, Consolas, monospace';
+    ctx.fillText('1.75 m', bx + 10, by - px / 2);
+    ctx.fillText(`${px.toFixed(0)} px`, bx + 10, by - px / 2 + 14);
+  }
+  ctx.restore();
+}
+
+// --- Render -----------------------------------------------------------------
+// Two tones, not one. `scene.overrideMaterial` painted the 576 m terrain plate
+// black along with everything else, and since the plate is taller than the town
+// from an elevation camera the result was a solid black rectangle with no
+// skyline in it at all. The land goes mid-grey so the roofline reads against it,
+// which is the whole point of an elevation.
+const SIL_BUILT = new THREE.MeshBasicMaterial({ color: 0x000000 });
+const SIL_LAND  = new THREE.MeshBasicMaterial({ color: 0xc8c8c8 });
+// SCENERY: the field system, hedges, orchard and distance wood. Grey like the
+// ground, but it may not OCCLUDE, and that distinction is the whole of
+// ad-town-06 §(b)'s "the town's own elevation drawing terminates in scrub" and
+// "the wall never appears in t-silhouette at all".
+//
+// The near-plane clip added last pass fixed the terrain plate and could never
+// fix this: `landscape`'s trees and hedges stand INSIDE the town's own z range —
+// in the orchard, the kitchen gardens, along Tan Road — so they are between the
+// lens and the buildings and no clipping plane can separate them. Painted grey
+// with a depth test they punched grey holes straight through the black
+// roofline and along the whole bottom edge. Measured on the same build: the
+// east end of the town (x +56..+81 world) rendered 9,300 black pixels with
+// scenery on and 15,706 with `--skip landscape` — the instrument was deleting
+// 40 % of the mass it exists to measure, including the wall turret and the
+// curtain line the art director could not find.
+//
+// So scenery is drawn FIRST, with no depth write and no depth test, and
+// everything else is drawn over it. An elevation is the union of the subject's
+// outline over a backdrop, which is exactly what that ordering produces.
+const SIL_SCENERY = new THREE.MeshBasicMaterial({
+  color: 0xc8c8c8, depthWrite: false, depthTest: false,
+});
+const silSaved = new Map();
+
+function applyMode(silhouette, datum) {
+  if (silhouette) {
+    scene.background = new THREE.Color(0xffffff);
+    scene.overrideMaterial = null;
+    // Local clipping, so only the BUILT material is cut: the ground and the
+    // water keep drawing below the datum and go on carrying the ground line.
+    renderer.localClippingEnabled = true;
+    SIL_BUILT.clippingPlanes = Number.isFinite(datum)
+      ? [new THREE.Plane(new THREE.Vector3(0, 1, 0), -datum)] : null;
+    SIL_BUILT.needsUpdate = true;
+    townRoot.traverse(o => {
+      if (!o.isMesh) return;
+      if (!silSaved.has(o)) silSaved.set(o, o.material);
+      if (!o.userData.landscape) { o.material = SIL_BUILT; o.renderOrder = 0; }
+      else if (o.userData.silGround) { o.material = SIL_LAND; o.renderOrder = 0; }
+      else { o.material = SIL_SCENERY; o.renderOrder = -2; }
+    });
+    ground.visible = false; skyMesh.visible = false;
+    // A silhouette is a two-tone read of the skyline, so the environmental
+    // layer is stripped out of it entirely: haze would grey the far masses
+    // toward the background and destroy the very separation the image is
+    // measuring, AO would bite into the black, and the grade would lift it.
+    horizonMesh.visible = false;
+    scene.fog = null;
+    post.setAO(false);
+    post.grade.enabled = false;
+  } else {
+    scene.background = null;
+    scene.overrideMaterial = null;
+    for (const [o, m] of silSaved) { o.material = m; o.renderOrder = 0; }
+    silSaved.clear();
+    SIL_BUILT.clippingPlanes = null;
+    ground.visible = true; skyMesh.visible = true;
+    horizonMesh.visible = ATMOS_ON;
+    scene.fog = ATMOS_ON ? ENV.fog : null;
+    post.setAO(ATMOS_ON);
+    post.grade.enabled = ATMOS_ON;
+  }
+}
+
+let lastCam = camera, lastStats = null;
+
+// AO output modes, for looking at the buffer rather than guessing at it:
+// `?ao=off` · `?ao=raw` (the AO term alone) · `?ao=normal` · `?ao=depth`.
+const AO_DEBUG = { off: -1, raw: 5, ao: 4, normal: 3, depth: 2 }[String(q.get('ao') || '')];
+if (AO_DEBUG !== undefined && post.gtao) post.gtao.output = AO_DEBUG;
+
+window.__setView = (name, opts = {}) => {
+  const v = buildView(name, opts);
+  let cam;
+  if (v.kind === 'ortho') {
+    // Top-down, north up: camera up is -Z so that -Z (north) points to the top
+    // of the frame.
+    const asp = W / H;
+    let hw = v.halfW, hh = v.halfH;
+    if (hw / hh < asp) hw = hh * asp; else hh = hw / asp;
+    orthoCam.left = -hw; orthoCam.right = hw; orthoCam.top = hh; orthoCam.bottom = -hh;
+    orthoCam.near = 0.1; orthoCam.far = 4000;
+    orthoCam.up.set(0, 0, -1);
+    orthoCam.position.set(v.center.x, 600, v.center.z);
+    orthoCam.lookAt(v.center.x, 0, v.center.z);
+    orthoCam.updateProjectionMatrix(); orthoCam.updateMatrixWorld(true);
+    cam = orthoCam;
+  } else if (v.kind === 'ortho-elev') {
+    let hw = v.halfW, hh = v.halfH;
+    const asp = W / H;
+    if (hw / hh < asp) hw = hh * asp; else hh = hw / asp;
+    orthoCam.left = -hw; orthoCam.right = hw; orthoCam.top = hh; orthoCam.bottom = -hh;
+    const standoff = v.standoff ?? 400;
+    // near/far are the whole fix for the occlusion: an orthographic elevation
+    // draws everything in the column, however far in front of the subject it
+    // is, and 190 m of the landscape venue was in that column.
+    orthoCam.near = v.near ?? 0.1;
+    orthoCam.far = v.far ?? 4000;
+    orthoCam.up.set(0, 1, 0);
+    orthoCam.position.set(v.center.x, v.center.y, townBox.min.z - standoff);
+    orthoCam.lookAt(v.center.x, v.center.y, v.center.z);
+    orthoCam.updateProjectionMatrix(); orthoCam.updateMatrixWorld(true);
+    cam = orthoCam;
+  } else {
+    camera.fov = v.fov; camera.up.set(0, 1, 0);
+    camera.position.copy(v.pos); camera.lookAt(v.look);
+    camera.near = 0.1; camera.far = 2000;
+    camera.updateProjectionMatrix(); camera.updateMatrixWorld(true);
+    cam = camera;
+  }
+  post.setCamera(cam);
+  lastCam = cam;
+
+  // Figure in every view except plan — a top-down at 96 m across cannot show a
+  // body usefully, and the cell grid carries the scale there instead.
+  placeFigures(v.grid ? [] : (v.figures || []));
+
+  // The shadow rig, from the camera. A gameplay view gets the cascades the
+  // client runs, fitted to the identical frustum by the identical code — which
+  // is what makes `hm.shoot()` parity a property of the design rather than of
+  // two expressions somebody keeps in step. Everything else — the plan 600 m
+  // up, the aerials, the north elevation — is a camera no player holds, where a
+  // split on view depth means nothing, so it gets one box over the town.
+  if (v.gameplayCamera && cam.isPerspectiveCamera) sunRig.fitCascades(cam);
+  else sunRig.fitSingle(cam, v.shadow.at, v.shadow.r);
+  applyMode(!!v.silhouette, v.silDatum);
+  // GTAO bakes PERSPECTIVE_CAMERA into its shader at construction, so pointing
+  // it at the plan's orthographic camera reconstructs positions with the wrong
+  // projection and returns noise. It is also meaningless 600 m up. Off for
+  // every camera no player has.
+  if (post.gtao && AO_DEBUG === undefined) {
+    post.gtao.enabled = ATMOS_ON && !v.silhouette && !cam.isOrthographicCamera;
+  }
+
+  // Culling and LOD, from the same module the client runs.
+  //
+  // A review camera is not a gameplay camera, and pretending otherwise makes
+  // the report lie in both directions. An orthographic plan sits 600 m up, so
+  // real distance culling would return an empty image; an aerial at 260 m would
+  // draw the whole town at LOD3 and report a wonderful, meaningless number. So
+  // whole-town views disable the distance cull and pin the level, and only the
+  // EYE-LEVEL views — the ones a player actually has — are measured against the
+  // §7 budget. `gameplayCamera` marks which is which, and the report says so.
+  const cullOpts = v.cull ||
+    (v.gameplayCamera ? {} : { cullDistance: Infinity, forceLod: 0 });
+  const vis = visibility.update(cam, cullOpts);
+
+  // ONE render, and it is the composed frame the client draws — not a bare
+  // scene pass measured beside it. The old code rendered the scene twice: once
+  // with `renderer.render(scene, cam)` to read the counters off, then again
+  // through the composer to make the picture. The measured render had no post
+  // chain and no AO G-buffer in it, so the number in the report was the cost of
+  // a frame this project does not ship.
+  probe.beginFrame();
+  if (v.silhouette) {
+    // The silhouette deliberately skips the composer: bloom hazes the edge the
+    // image exists to measure. It is not a gameplay frame and is not budgeted.
+    renderer.setRenderTarget(null);
+    renderer.render(scene, cam);
+  } else {
+    composer.render();
+  }
+  const frame = probe.endFrame();
+  const stats = {
+    view: name + (v.frameIndex != null ? `#${v.frameIndex + 1}` : ''),
+    title: v.title,
+    gameplayCamera: !!v.gameplayCamera,
+    ...frame,
+    trianglesDrawn: frame.triangles,
+    sceneCalls: frame.stages.scene.draws,
+    shadowCalls: frame.stages.shadow.draws,
+    aoCalls: frame.stages.ao.draws,
+    postCalls: frame.stages.post.draws,
+    sceneTris: Math.round(frame.stages.scene.tris),
+    instancesDrawn: frame.instances,
+    batches: { total: vis.groups, drawn: vis.drawn,
+               culledDistance: vis.culledDistance, culledFrustum: vis.culledFrustum,
+               culledPortal: vis.culledPortal,
+               // The ELIGIBLE caster set — distance, LOD and greeble only. It
+               // is the ceiling per-cascade culling works down from, and
+               // without it a per-cascade count cannot be read as a saving.
+               shadowCasters: vis.shadowCasters },
+    // Measured off the live shadow cameras after the fit, not read back off the
+    // config: three silently clamps `mapSize` to the driver's maxTextureSize,
+    // and a report quoting the requested size can be wrong by a factor of eight
+    // without saying so.
+    shadows: sunRig.stats(),
+  };
+  report.drawCalls = Math.max(report.drawCalls, stats.drawCalls);
+  if (stats.gameplayCamera) {
+    report.gameplayDrawCalls = Math.max(report.gameplayDrawCalls, stats.drawCalls);
+    report.gameplayTriangles = Math.max(report.gameplayTriangles, stats.trianglesDrawn);
+  }
+  report.viewStats.push(stats);
+  lastStats = stats;
+  drawHud(v, cam);
+  return stats;
+};
+
+/** Measured value separation between the depth planes of the current frame.
+ *
+ *  Art Bible §1 asks for "colour separation between planes — foreground /
+ *  midground / background pushed apart in value and temperature so the frame
+ *  reads instantly", and `review/reports/ad-town-02.md` §5 rejected on the
+ *  absence of it: "the distant roofs in t-arrival sit in the same value band as
+ *  the church piers 2 m away". That is a measurable claim and this measures it,
+ *  so the next iteration argues with a number instead of an impression.
+ *
+ *  Method: render the frame, read the COMPOSITED canvas back (which is what the
+ *  reviewer's eye gets — after AO, bloom, ACES and the grade), then render the
+ *  same camera again with a packed depth material and bucket every pixel by its
+ *  real distance in metres. Sky is excluded: it is not a plane of the town, and
+ *  including it drags the far band toward the sky's own value and hides exactly
+ *  the effect being measured.
+ */
+const depthRT = new THREE.WebGLRenderTarget(W, H, { depthBuffer: true });
+const DEPTH_MAT = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking });
+const BANDS = [
+  { name: 'foreground', lo: 0, hi: 22 },
+  { name: 'midground', lo: 22, hi: 75 },
+  { name: 'background', lo: 75, hi: 1e9 },
+];
+
+window.__valueBands = () => {
+  const cam = lastCam;
+  if (!lastStats) return null;
+  const gl = renderer.getContext();
+
+  // The beauty frame, straight off the drawing buffer (preserveDrawingBuffer).
+  const rgba = new Uint8Array(W * H * 4);
+  gl.readPixels(0, 0, W, H, gl.RGBA, gl.UNSIGNED_BYTE, rgba);
+
+  // Depth of the same frame. Helpers are hidden so the sky dome, the horizon
+  // skirt and the 1.75 m reference body do not enter the measurement.
+  const hidden = [];
+  scene.traverse(o => { if (o.userData.helper && o.visible) { o.visible = false; hidden.push(o); } });
+  figures.visible = false;
+  const savedClear = new THREE.Color();
+  renderer.getClearColor(savedClear);
+  const savedAlpha = renderer.getClearAlpha();
+  scene.overrideMaterial = DEPTH_MAT;
+  renderer.setRenderTarget(depthRT);
+  renderer.setClearColor(0xffffff, 1.0);
+  renderer.render(scene, cam);
+  const dpx = new Uint8Array(W * H * 4);
+  renderer.readRenderTargetPixels(depthRT, 0, 0, W, H, dpx);
+  renderer.setRenderTarget(null);
+  renderer.setClearColor(savedClear, savedAlpha);
+  scene.overrideMaterial = null;
+  hidden.forEach(o => { o.visible = true; });
+  figures.visible = true;
+
+  const near = cam.near, far = cam.far;
+  const ortho = !!cam.isOrthographicCamera;
+  const acc = BANDS.map(b => ({ band: b.name, rangeM: [b.lo, b.hi === 1e9 ? null : b.hi],
+                                px: 0, sum: 0, sum2: 0, r: 0, g: 0, bl: 0 }));
+  for (let i = 0; i < W * H; i++) {
+    const o = i * 4;
+    // Nothing drawn. `packDepthToRGBA` returns exactly (1,1,1,1) for v >= 1 and
+    // the target is cleared to white, so this is the sky and the clear colour,
+    // tested exactly rather than against an epsilon.
+    if (dpx[o] === 255 && dpx[o + 1] === 255 && dpx[o + 2] === 255 && dpx[o + 3] === 255) continue;
+    // three's UnpackFactors4, in bytes: R is the most significant channel and
+    // the 255/256 downscale is already folded into the divisors.
+    const d = dpx[o] / 256 + dpx[o + 1] / 65536 + dpx[o + 2] / 16777216 +
+              dpx[o + 3] / 4278190080;
+    const dist = ortho ? near + d * (far - near)
+                       : (near * far) / (far - (far - near) * d);
+    const R = rgba[o], G = rgba[o + 1], B = rgba[o + 2];
+    const L = 0.2126 * R + 0.7152 * G + 0.0722 * B;
+    for (let k = 0; k < BANDS.length; k++) {
+      if (dist < BANDS[k].lo || dist >= BANDS[k].hi) continue;
+      const a = acc[k];
+      a.px++; a.sum += L; a.sum2 += L * L; a.r += R; a.g += G; a.bl += B;
+      break;
+    }
+  }
+  const bands = acc.map(a => {
+    if (!a.px) return { band: a.band, rangeM: a.rangeM, pixels: 0 };
+    const mean = a.sum / a.px;
+    return {
+      band: a.band, rangeM: a.rangeM, pixels: a.px,
+      coverage: +(a.px / (W * H) * 100).toFixed(1),
+      meanValue: +mean.toFixed(1),                                    // 0-255
+      sd: +Math.sqrt(Math.max(0, a.sum2 / a.px - mean * mean)).toFixed(1),
+      meanRGB: [Math.round(a.r / a.px), Math.round(a.g / a.px), Math.round(a.bl / a.px)],
+      // Positive = cooler (bluer) than neutral. The temperature half of §1.
+      blueMinusRed: +((a.bl - a.r) / a.px).toFixed(1),
+    };
+  });
+  const fg = bands[0], mg = bands[1], bg = bands[2];
+  return {
+    view: lastStats.view, title: lastStats.title, atmosphere: ATMOS_ON, bands,
+    separation: {
+      foregroundToBackground: fg.pixels && bg.pixels ? +(bg.meanValue - fg.meanValue).toFixed(1) : null,
+      foregroundToMidground: fg.pixels && mg.pixels ? +(mg.meanValue - fg.meanValue).toFixed(1) : null,
+      midgroundToBackground: mg.pixels && bg.pixels ? +(bg.meanValue - mg.meanValue).toFixed(1) : null,
+      temperatureSwing: fg.pixels && bg.pixels ? +(bg.blueMinusRed - fg.blueMinusRed).toFixed(1) : null,
+    },
+  };
+};
+
+// The shadow rig as configured, plus the audit. `missed` must be empty: a
+// sun-lit material the rig never registered takes three's stock lighting path,
+// which loops over every directional light — and the cascades are three copies
+// of one sun, so it renders at 3x the sun. That looks like an art bug and is
+// not one, so the harness names it rather than leaving it to be discovered.
+{
+  const a = sunRig.audit(scene);
+  report.shadows = { config: sunRig.cfg, registeredMaterials: a.registered, unregistered: a.missed };
+  if (a.missed.length) {
+    warnings.push(`SunRig: ${a.missed.length} sun-lit material(s) are not registered ` +
+                  `and render at ${sunRig.cfg.cascades}x the sun: ${a.missed.join(', ')}`);
+  }
+}
+
+report.atmosphere = {
+  applied: ATMOS_ON, authored: !!ATMOS.__authored,
+  scattering: ATMOS.scattering, aoTint: ATMOS.ao.tint, aoIntensity: ATMOS.ao.intensity,
+  grade: ATMOS.grade, horizonOuterRadius: ATMOS.horizon.outerRadius,
+};
+
+// Boxes are three.js objects; the driver reads this over the CDP bridge as JSON.
+report.venues.forEach(v => { delete v.box3; delete v.parts; });
+
+report.batching = {
+  groups: visibility.groups.length,
+  cellsOccupied: visibility.occupiedCells().length,
+  cells: visibility.occupiedCells(),
+  interiors: visibility.interiors.length,
+  cullDistance: visibility.cullDistance,
+  lodDistances: visibility.groups[0]?.distances || null,
+};
+
+window.__report = report;
+window.__visibility = visibility;
+window.__ready = true;
+
+// Interactive convenience: ?view=plan renders straight away when opened by hand.
+if (q.get('view')) window.__setView(q.get('view'));
+</script>
+</body>
+</html>

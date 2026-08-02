@@ -1,0 +1,118 @@
+{
+  "venue": "fish_eatery",
+  "cells": [
+    "H3",
+    "H4",
+    "I3",
+    "I4"
+  ],
+  "entities": [
+    {
+      "id": "hm.townhouse.door.64",
+      "archetype": "door.cottage",
+      "cell": "I3",
+      "transform": {
+        "pos": [
+          34.321,
+          -0.99,
+          -56.0794
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.fish_eatery.smokehouse.01",
+      "archetype": "prop.smokehouse",
+      "cell": "H3",
+      "transform": {
+        "pos": [
+          35.7813,
+          -1.05,
+          -44.487
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        },
+        "smoke": {
+          "rate": 0.9,
+          "drift": [
+            0.8,
+            0,
+            0.5
+          ]
+        },
+        "light": {
+          "color": "#C4531F",
+          "intensity": 1.2,
+          "range": 4.0,
+          "flickerHz": [
+            5,
+            9
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.fish_eatery.counter.01",
+      "archetype": "vendor.fish_eatery",
+      "cell": "H3",
+      "transform": {
+        "pos": [
+          38.7156,
+          -0.99,
+          -55.653
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "talk",
+            "buy"
+          ],
+          "range": 2.0
+        }
+      }
+    }
+  ]
+}

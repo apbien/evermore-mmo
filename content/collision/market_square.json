@@ -1,0 +1,1151 @@
+{
+  "$schema": "../schemas/collision.schema.json",
+  "venue": "market_square",
+  "cells": [
+    "C3",
+    "D3",
+    "C4",
+    "D4"
+  ],
+  "space": "venue-local",
+  "volumes": [
+    {
+      "shape": "box",
+      "center": [
+        -14.4375,
+        0.07,
+        -14.0
+      ],
+      "half": [
+        2.0625,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -10.3125,
+        0.07,
+        -14.0
+      ],
+      "half": [
+        2.0625,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.1875,
+        0.07,
+        -14.0
+      ],
+      "half": [
+        2.0625,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -2.0625,
+        0.07,
+        -14.0
+      ],
+      "half": [
+        2.0625,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        2.0625,
+        0.07,
+        -14.0
+      ],
+      "half": [
+        2.0625,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        6.1875,
+        -0.28,
+        -14.0
+      ],
+      "half": [
+        2.0625,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        10.3125,
+        -0.28,
+        -14.0
+      ],
+      "half": [
+        2.0625,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        14.4375,
+        0.07,
+        -14.0
+      ],
+      "half": [
+        2.0625,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -14.0,
+        0.07,
+        -10.0
+      ],
+      "half": [
+        2.0,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -10.0,
+        0.07,
+        -10.0
+      ],
+      "half": [
+        2.0,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.0,
+        0.07,
+        -10.0
+      ],
+      "half": [
+        2.0,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -2.0,
+        0.07,
+        -10.0
+      ],
+      "half": [
+        2.0,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        2.0,
+        0.07,
+        -10.0
+      ],
+      "half": [
+        2.0,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        6.0,
+        -0.0467,
+        -10.0
+      ],
+      "half": [
+        2.0,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        10.0,
+        -0.0467,
+        -10.0
+      ],
+      "half": [
+        2.0,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        14.0,
+        0.07,
+        -10.0
+      ],
+      "half": [
+        2.0,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -13.5625,
+        0.07,
+        -6.0
+      ],
+      "half": [
+        1.9375,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -9.6875,
+        0.07,
+        -6.0
+      ],
+      "half": [
+        1.9375,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.8125,
+        0.07,
+        -6.0
+      ],
+      "half": [
+        1.9375,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.9375,
+        0.07,
+        -6.0
+      ],
+      "half": [
+        1.9375,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.9375,
+        0.07,
+        -6.0
+      ],
+      "half": [
+        1.9375,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        5.8125,
+        0.07,
+        -6.0
+      ],
+      "half": [
+        1.9375,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        9.6875,
+        0.07,
+        -6.0
+      ],
+      "half": [
+        1.9375,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        13.5625,
+        0.07,
+        -6.0
+      ],
+      "half": [
+        1.9375,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -13.125,
+        0.07,
+        -2.0
+      ],
+      "half": [
+        1.875,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -9.375,
+        0.07,
+        -2.0
+      ],
+      "half": [
+        1.875,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.625,
+        0.07,
+        -2.0
+      ],
+      "half": [
+        1.875,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.875,
+        0.07,
+        -2.0
+      ],
+      "half": [
+        1.875,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.875,
+        0.07,
+        -2.0
+      ],
+      "half": [
+        1.875,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        5.625,
+        0.07,
+        -2.0
+      ],
+      "half": [
+        1.875,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        9.375,
+        0.07,
+        -2.0
+      ],
+      "half": [
+        1.875,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        13.125,
+        0.07,
+        -2.0
+      ],
+      "half": [
+        1.875,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -12.6875,
+        0.07,
+        2.0
+      ],
+      "half": [
+        1.8125,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -9.0625,
+        0.07,
+        2.0
+      ],
+      "half": [
+        1.8125,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.4375,
+        0.07,
+        2.0
+      ],
+      "half": [
+        1.8125,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.8125,
+        0.07,
+        2.0
+      ],
+      "half": [
+        1.8125,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.8125,
+        0.07,
+        2.0
+      ],
+      "half": [
+        1.8125,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        5.4375,
+        0.07,
+        2.0
+      ],
+      "half": [
+        1.8125,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        9.0625,
+        0.07,
+        2.0
+      ],
+      "half": [
+        1.8125,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        12.6875,
+        0.07,
+        2.0
+      ],
+      "half": [
+        1.8125,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -12.25,
+        0.07,
+        6.0
+      ],
+      "half": [
+        1.75,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -8.75,
+        0.07,
+        6.0
+      ],
+      "half": [
+        1.75,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.25,
+        0.07,
+        6.0
+      ],
+      "half": [
+        1.75,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.75,
+        0.07,
+        6.0
+      ],
+      "half": [
+        1.75,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.75,
+        0.07,
+        6.0
+      ],
+      "half": [
+        1.75,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        5.25,
+        0.07,
+        6.0
+      ],
+      "half": [
+        1.75,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        8.75,
+        0.07,
+        6.0
+      ],
+      "half": [
+        1.75,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        12.25,
+        0.07,
+        6.0
+      ],
+      "half": [
+        1.75,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -11.8125,
+        0.07,
+        10.0
+      ],
+      "half": [
+        1.6875,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -8.4375,
+        0.07,
+        10.0
+      ],
+      "half": [
+        1.6875,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.0625,
+        0.07,
+        10.0
+      ],
+      "half": [
+        1.6875,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.6875,
+        0.07,
+        10.0
+      ],
+      "half": [
+        1.6875,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.6875,
+        0.3256,
+        10.0
+      ],
+      "half": [
+        1.6875,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        5.0625,
+        0.3256,
+        10.0
+      ],
+      "half": [
+        1.6875,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        8.4375,
+        0.3256,
+        10.0
+      ],
+      "half": [
+        1.6875,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        11.8125,
+        0.3256,
+        10.0
+      ],
+      "half": [
+        1.6875,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -11.375,
+        0.07,
+        14.0
+      ],
+      "half": [
+        1.625,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -8.125,
+        0.07,
+        14.0
+      ],
+      "half": [
+        1.625,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -4.875,
+        0.07,
+        14.0
+      ],
+      "half": [
+        1.625,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.625,
+        0.07,
+        14.0
+      ],
+      "half": [
+        1.625,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.625,
+        0.5754,
+        14.0
+      ],
+      "half": [
+        1.625,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        4.875,
+        0.5811,
+        14.0
+      ],
+      "half": [
+        1.625,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        8.125,
+        0.5811,
+        14.0
+      ],
+      "half": [
+        1.625,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "box",
+      "center": [
+        11.375,
+        0.5811,
+        14.0
+      ],
+      "half": [
+        1.625,
+        0.15,
+        2.0
+      ],
+      "kind": "surface",
+      "tag": "plaza"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        0.0,
+        0.295,
+        0.0
+      ],
+      "radius": 4.05,
+      "height": 0.15,
+      "kind": "surface",
+      "tag": "fountain_step"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        0.0,
+        0.45,
+        0.0
+      ],
+      "radius": 3.66,
+      "height": 0.16,
+      "kind": "surface",
+      "tag": "fountain_step"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        0.0,
+        0.61,
+        0.0
+      ],
+      "radius": 3.3,
+      "height": 0.16,
+      "kind": "surface",
+      "tag": "fountain_step"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        0.0,
+        0.73,
+        0.0
+      ],
+      "radius": 3.05,
+      "height": 1.02,
+      "tag": "fountain"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -9.4,
+        0.53,
+        -10.2
+      ],
+      "half": [
+        1.15,
+        0.31,
+        0.43
+      ],
+      "rotY": 0.1,
+      "tag": "trough"
+    },
+    {
+      "shape": "box",
+      "center": [
+        6.8,
+        1.2217,
+        -11.6
+      ],
+      "half": [
+        0.14,
+        1.27,
+        0.14
+      ],
+      "rotY": -0.22,
+      "tag": "notice_post"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -12.5,
+        0.77,
+        -6.0
+      ],
+      "half": [
+        1.4,
+        0.55,
+        0.12
+      ],
+      "rotY": 0.08,
+      "tag": "hitching_rail"
+    },
+    {
+      "shape": "box",
+      "center": [
+        11.8,
+        0.7583,
+        -7.2
+      ],
+      "half": [
+        1.4,
+        0.55,
+        0.12
+      ],
+      "rotY": -0.12,
+      "tag": "hitching_rail"
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.6,
+        0.59,
+        -6.6
+      ],
+      "half": [
+        1.15,
+        0.37,
+        0.39
+      ],
+      "rotY": -0.42,
+      "tag": "trestle"
+    },
+    {
+      "shape": "box",
+      "center": [
+        5.6,
+        0.77,
+        -2.6
+      ],
+      "half": [
+        0.4,
+        0.55,
+        0.4
+      ],
+      "rotY": 0.35,
+      "tag": "crates"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        6.8,
+        0.66,
+        -1.9
+      ],
+      "radius": 0.33,
+      "height": 0.88,
+      "tag": "barrel"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -4.0,
+        0.67,
+        -13.0
+      ],
+      "half": [
+        0.85,
+        0.45,
+        0.55
+      ],
+      "rotY": 2.05,
+      "tag": "handcart"
+    },
+    {
+      "shape": "box",
+      "center": [
+        2.0,
+        0.4567,
+        -12.6
+      ],
+      "half": [
+        0.55,
+        0.4,
+        0.45
+      ],
+      "rotY": -0.5,
+      "tag": "sacks"
+    }
+  ]
+}

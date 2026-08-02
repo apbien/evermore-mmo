@@ -121,6 +121,7 @@ def worley(shape, cells, seed, metric="f1"):
 
     best = np.full(shape, 1e9, dtype=np.float32)
     second = np.full(shape, 1e9, dtype=np.float32)
+    ident = np.zeros(shape, dtype=np.float32) if metric == "id" else None
 
     for dy in (-1, 0, 1):
         for dx in (-1, 0, 1):
@@ -129,9 +130,25 @@ def worley(shape, cells, seed, metric="f1"):
             fy = ny + off[wy, wx, 0]      # unwrapped, so distance stays continuous
             fx = nx + off[wy, wx, 1]
             d = np.hypot(ys - fy, xs - fx).astype(np.float32)
+            if ident is not None:
+                # A stable 0..1 per CELL, carried by whichever feature point is
+                # nearest. Without it the only way to colour a Worley cell is an
+                # independent noise field at roughly the cell frequency, which
+                # blurs ACROSS cells instead of filling them — so every stone
+                # comes out the same value and the surface flattens past 4 m.
+                # That defect shipped in `cobblestone`, `foundation_stone`,
+                # `limewashed_stone` and `cobble_walling`, and it is most of
+                # what `ad-town-03` §1 was looking at. Quantising the DISTANCE
+                # field instead draws bullseyes; see `materials.per_unit`.
+                idn = ((wy.astype(np.float32) * 19.0 +
+                        wx.astype(np.float32) * 7.0 +
+                        off[wy, wx, 0] * 131.0) * 0.6180339887) % 1.0
+                ident = np.where(d < best, idn.astype(np.float32), ident)
             np.minimum(second, np.maximum(best, d), out=second)
             np.minimum(best, d, out=best)
 
+    if metric == "id":
+        return ident
     if metric == "f2f1":
         return np.clip(second - best, 0.0, 1.0)
     return np.clip(best, 0.0, 1.0)
@@ -148,7 +165,28 @@ def normalize01(a):
 
 
 def smoothstep(e0, e1, x):
-    t = np.clip((x - e0) / max(e1 - e0, 1e-9), 0.0, 1.0)
+    """Hermite ramp from 0 at `e0` to 1 at `e1`. Handles e0 > e1.
+
+    The descending case is not a nicety, it is the common case: half the masks
+    in `core/materials.py` are written `smoothstep(0.55, 0.0, v)` meaning "1
+    where v is low". The previous implementation divided by
+    `max(e1 - e0, 1e-9)`, which for a descending pair is 1e-9 — so the ramp
+    collapsed to a HARD STEP with the sense INVERTED: `smoothstep(0.55, 0, v)`
+    returned 1 wherever v exceeded 0.55.
+
+    That is two defects at once, and both are visible. Every affected mask was
+    binary, so it aliased into hard-edged blotches instead of blending — and
+    every one of them was applied to the wrong half of its own noise field, so
+    the moss grew where the traffic was and the damp hollows were on the high
+    ground. Forty-four call sites in core/materials.py were reading backwards; no
+    other module uses a descending pair.
+    """
+    lo, hi = float(e0), float(e1)
+    if hi < lo:
+        t = np.clip((np.asarray(x, np.float32) - hi) / max(lo - hi, 1e-9), 0.0, 1.0)
+        t = 1.0 - t
+    else:
+        t = np.clip((np.asarray(x, np.float32) - lo) / max(hi - lo, 1e-9), 0.0, 1.0)
     return t * t * (3.0 - 2.0 * t)
 
 

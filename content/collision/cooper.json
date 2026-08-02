@@ -1,0 +1,411 @@
+{
+  "$schema": "../schemas/collision.schema.json",
+  "venue": "cooper",
+  "cells": [
+    "I8",
+    "I9"
+  ],
+  "space": "venue-local",
+  "volumes": [
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        0.05,
+        0.0
+      ],
+      "half": [
+        6.3,
+        0.05,
+        5.3
+      ],
+      "kind": "surface",
+      "tag": "yard",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.5122,
+        2.61,
+        4.8732
+      ],
+      "half": [
+        5.75,
+        2.52,
+        0.11
+      ],
+      "tag": "back_wall",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.5433,
+        2.69,
+        -1.7892
+      ],
+      "half": [
+        0.17,
+        2.6,
+        0.17
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.1914,
+        2.69,
+        4.3768
+      ],
+      "half": [
+        0.17,
+        2.6,
+        0.17
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -2.709,
+        2.69,
+        -1.4913
+      ],
+      "half": [
+        0.17,
+        2.6,
+        0.17
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.357,
+        2.69,
+        4.6747
+      ],
+      "half": [
+        0.17,
+        2.6,
+        0.17
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.1254,
+        2.69,
+        -1.1934
+      ],
+      "half": [
+        0.17,
+        2.6,
+        0.17
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.5226,
+        2.69,
+        4.9726
+      ],
+      "half": [
+        0.17,
+        2.6,
+        0.17
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        2.9598,
+        2.69,
+        -0.8955
+      ],
+      "half": [
+        0.17,
+        2.6,
+        0.17
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        2.3117,
+        2.69,
+        5.2705
+      ],
+      "half": [
+        0.17,
+        2.6,
+        0.17
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        5.7942,
+        2.69,
+        -0.5976
+      ],
+      "half": [
+        0.17,
+        2.6,
+        0.17
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        5.1461,
+        2.69,
+        5.5684
+      ],
+      "half": [
+        0.17,
+        2.6,
+        0.17
+      ],
+      "tag": "post",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.8674,
+        0.74,
+        1.2938
+      ],
+      "half": [
+        0.09,
+        0.65,
+        3.1
+      ],
+      "tag": "side_screen",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "box",
+      "center": [
+        5.4702,
+        0.74,
+        2.4854
+      ],
+      "half": [
+        0.09,
+        0.65,
+        3.1
+      ],
+      "tag": "side_screen",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -4.523,
+        1.0575,
+        -3.8438
+      ],
+      "radius": 0.4,
+      "height": 1.935,
+      "tag": "stave_cone"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -3.455,
+        0.9675,
+        -2.525
+      ],
+      "radius": 0.4,
+      "height": 1.755,
+      "tag": "stave_cone"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -4.8733,
+        1.125,
+        -1.4674
+      ],
+      "radius": 0.4,
+      "height": 2.07,
+      "tag": "stave_cone"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.9138,
+        0.67,
+        -4.2735
+      ],
+      "half": [
+        0.62,
+        0.56,
+        0.62
+      ],
+      "tag": "billets",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -0.8721,
+        0.35,
+        -3.6612
+      ],
+      "radius": 0.36,
+      "height": 0.52,
+      "tag": "cleaving_block"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.7138,
+        0.6,
+        -0.5412
+      ],
+      "half": [
+        0.95,
+        0.35,
+        0.42
+      ],
+      "rotY": -0.5247,
+      "tag": "shaving_horse"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -4.6136,
+        0.65,
+        2.2802
+      ],
+      "half": [
+        1.05,
+        0.4,
+        0.28
+      ],
+      "rotY": 0.0953,
+      "tag": "jointer"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -0.3481,
+        0.7,
+        -0.0366
+      ],
+      "radius": 0.42,
+      "height": 0.9,
+      "tag": "raising_up"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        1.7558,
+        0.64,
+        -1.8768
+      ],
+      "radius": 0.78,
+      "height": 1.1,
+      "tag": "setting_fire"
+    },
+    {
+      "shape": "box",
+      "center": [
+        3.2004,
+        0.61,
+        -2.2277
+      ],
+      "half": [
+        0.55,
+        0.52,
+        0.22
+      ],
+      "rotY": 0.7953,
+      "tag": "windlass"
+    },
+    {
+      "shape": "box",
+      "center": [
+        4.2576,
+        0.89,
+        -2.7199
+      ],
+      "half": [
+        1.05,
+        0.8,
+        0.42
+      ],
+      "rotY": -0.1847,
+      "tag": "cask_stack"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        2.5668,
+        0.53,
+        -3.8528
+      ],
+      "radius": 0.33,
+      "height": 0.88,
+      "tag": "cask"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        1.7137,
+        0.53,
+        -3.3894
+      ],
+      "radius": 0.33,
+      "height": 0.88,
+      "tag": "cask"
+    },
+    {
+      "shape": "box",
+      "center": [
+        3.3951,
+        0.68,
+        4.5297
+      ],
+      "half": [
+        1.0,
+        0.43,
+        0.32
+      ],
+      "tag": "bench",
+      "rotY": -0.1047
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        5.9167,
+        0.39,
+        -4.1543
+      ],
+      "radius": 0.22,
+      "height": 0.6,
+      "tag": "spur_stone"
+    }
+  ]
+}

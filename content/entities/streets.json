@@ -1,26 +1,387 @@
 {
   "venue": "streets",
   "cells": [
-    "C1",
-    "C2",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8",
+    "B9",
+    "C10",
     "C3",
-    "C4",
-    "C5",
     "C6",
-    "B3",
-    "D3",
-    "E3"
+    "C8",
+    "D11",
+    "D2",
+    "D6",
+    "D8",
+    "E10",
+    "E11",
+    "E2",
+    "E6",
+    "E8",
+    "E9",
+    "F1",
+    "F10",
+    "F11",
+    "F2",
+    "F3",
+    "F6",
+    "G10",
+    "G11",
+    "G12",
+    "G3",
+    "G4",
+    "G5",
+    "G6",
+    "G7",
+    "G8",
+    "G9",
+    "H11",
+    "H3",
+    "H4",
+    "H5",
+    "H6",
+    "H8",
+    "H9",
+    "I11",
+    "I3",
+    "I8",
+    "I9",
+    "J10",
+    "J3",
+    "J8",
+    "J9",
+    "K4",
+    "K5",
+    "K6",
+    "K7",
+    "K8",
+    "K9"
   ],
   "entities": [
     {
-      "id": "hm.streets.waymarker.w",
-      "archetype": "prop.waymarker",
+      "id": "hm.streets.lamp.ford_road.17",
+      "archetype": "prop.lantern",
+      "cell": "F10",
+      "transform": {
+        "pos": [
+          -1.7625,
+          4.415,
+          61.3198
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.4,
+          "range": 8.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.lamp.mere_street.00",
+      "archetype": "prop.lantern",
+      "cell": "G6",
+      "transform": {
+        "pos": [
+          2.3324,
+          2.7421,
+          -13.6168
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.4,
+          "range": 8.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.lamp.mere_street.01",
+      "archetype": "prop.lantern",
+      "cell": "F6",
+      "transform": {
+        "pos": [
+          -6.521,
+          2.795,
+          -15.3882
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.4,
+          "range": 8.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.lamp.mere_street.06",
+      "archetype": "prop.lantern",
       "cell": "C6",
       "transform": {
         "pos": [
-          -4.6,
-          0.0,
-          44.0
+          -52.9023,
+          2.795,
+          -7.9306
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.4,
+          "range": 8.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.lamp.mill_lane.01",
+      "archetype": "prop.lantern",
+      "cell": "E3",
+      "transform": {
+        "pos": [
+          -19.2012,
+          0.727,
+          -63.573
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.4,
+          "range": 8.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.lamp.mill_lane.02",
+      "archetype": "prop.lantern",
+      "cell": "E2",
+      "transform": {
+        "pos": [
+          -28.0236,
+          0.727,
+          -70.8454
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.4,
+          "range": 8.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.lamp.the_bailey.01",
+      "archetype": "prop.lantern",
+      "cell": "B3",
+      "transform": {
+        "pos": [
+          -65.7174,
+          1.527,
+          -49.8601
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.4,
+          "range": 8.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.lamp.the_bailey.02",
+      "archetype": "prop.lantern",
+      "cell": "B4",
+      "transform": {
+        "pos": [
+          -70.4851,
+          1.527,
+          -41.532
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.4,
+          "range": 8.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.lamp.the_bailey.04",
+      "archetype": "prop.lantern",
+      "cell": "B5",
+      "transform": {
+        "pos": [
+          -69.9524,
+          1.9147,
+          -22.6931
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.4,
+          "range": 8.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.lamp.the_bailey.06",
+      "archetype": "prop.lantern",
+      "cell": "B6",
+      "transform": {
+        "pos": [
+          -71.561,
+          2.577,
+          -4.9243
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.4,
+          "range": 8.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.lamp.the_bailey.08",
+      "archetype": "prop.lantern",
+      "cell": "B7",
+      "transform": {
+        "pos": [
+          -71.1246,
+          2.577,
+          12.8826
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "light": {
+          "color": "#FFB35C",
+          "intensity": 1.4,
+          "range": 8.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.trough.fork",
+      "archetype": "prop.trough",
+      "cell": "F3",
+      "transform": {
+        "pos": [
+          -3.5414,
+          -1.63,
+          -61.2309
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.streets.waymarker.w",
+      "archetype": "prop.waymarker",
+      "cell": "G12",
+      "transform": {
+        "pos": [
+          6.2782,
+          1.8982,
+          86.2598
         ],
         "rot": [
           0,
@@ -42,91 +403,12 @@
     {
       "id": "hm.streets.waymarker.e",
       "archetype": "prop.waymarker",
-      "cell": "C6",
+      "cell": "F12",
       "transform": {
         "pos": [
-          4.6,
-          0.0,
-          44.0
-        ],
-        "rot": [
-          0,
-          0,
-          0,
-          1
-        ],
-        "scale": 1.0
-      },
-      "components": {
-        "interactable": {
-          "verbs": [
-            "inspect"
-          ],
-          "range": 2.0
-        }
-      }
-    },
-    {
-      "id": "hm.streets.gatelamp.w",
-      "archetype": "prop.lantern",
-      "cell": "C1",
-      "transform": {
-        "pos": [
-          -3.75,
-          3.3,
-          -46.0
-        ],
-        "rot": [
-          0,
-          0,
-          0,
-          1
-        ],
-        "scale": 1.0
-      },
-      "components": {
-        "light": {
-          "color": "#FFB35C",
-          "intensity": 1.6,
-          "range": 7.0
-        }
-      }
-    },
-    {
-      "id": "hm.streets.gatelamp.e",
-      "archetype": "prop.lantern",
-      "cell": "C1",
-      "transform": {
-        "pos": [
-          3.75,
-          3.3,
-          -46.0
-        ],
-        "rot": [
-          0,
-          0,
-          0,
-          1
-        ],
-        "scale": 1.0
-      },
-      "components": {
-        "light": {
-          "color": "#FFB35C",
-          "intensity": 1.6,
-          "range": 7.0
-        }
-      }
-    },
-    {
-      "id": "hm.streets.gate.north",
-      "archetype": "landmark.gate",
-      "cell": "C1",
-      "transform": {
-        "pos": [
-          0.0,
-          0.0,
-          -46.0
+          -4.9119,
+          1.8983,
+          85.7886
         ],
         "rot": [
           0,

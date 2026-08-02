@@ -1,0 +1,64 @@
+{
+  "schema": 2,
+  "measures": "whole frame at a gameplay camera: scene + shadow + AO G-buffer + post",
+  "drawCalls": 1419,
+  "triangles": 2896190,
+  "worstView": "square",
+  "stages": {
+    "scene": {
+      "draws": 498,
+      "tris": 1140305
+    },
+    "shadow": {
+      "draws": 602,
+      "tris": 947070
+    },
+    "ao": {
+      "draws": 258,
+      "tris": 796908
+    },
+    "post": {
+      "draws": 61,
+      "tris": 11907
+    }
+  },
+  "peakDrawCalls": 5066,
+  "batches": 538,
+  "cells": 221,
+  "venuesPlaced": 32,
+  "perVenueDraws": {
+    "inn": 54,
+    "guild": 36,
+    "moot_hall": 36,
+    "shop_row": 43,
+    "chophouse": 37,
+    "church": 48,
+    "confectioner": 30,
+    "bakery": 36,
+    "cooper": 50,
+    "carpenter": 41,
+    "chandler": 51,
+    "bowyer": 43,
+    "waggon_shed": 32,
+    "blacksmith": 30,
+    "dovecote": 29,
+    "quay": 59,
+    "warehouse": 153,
+    "fish_eatery": 41,
+    "stables": 39,
+    "pub": 27,
+    "watermill": 57,
+    "wellhouse": 20,
+    "bathhouse": 35,
+    "tannery": 44,
+    "terrain": 9,
+    "landscape": 603,
+    "streets": 166,
+    "wall": 142,
+    "gatehouse": 14,
+    "market_square": 31,
+    "stalls": 41,
+    "townhouse": 775
+  },
+  "recorded": "2026-08-02"
+}

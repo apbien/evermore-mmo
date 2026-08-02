@@ -1,0 +1,2215 @@
+{
+  "venue": "townhouse",
+  "cells": [
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8",
+    "C10",
+    "C3",
+    "C4",
+    "C5",
+    "C6",
+    "C7",
+    "C8",
+    "C9",
+    "D10",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7",
+    "D8",
+    "D9",
+    "E10",
+    "E11",
+    "E2",
+    "E3",
+    "E8",
+    "E9",
+    "F10",
+    "F11",
+    "F2",
+    "F4",
+    "F5",
+    "F8",
+    "F9",
+    "G10",
+    "G11",
+    "G2",
+    "G3",
+    "G4",
+    "G5",
+    "G6",
+    "G8",
+    "G9",
+    "H10",
+    "H11",
+    "H3",
+    "H4",
+    "H5",
+    "H6",
+    "H7",
+    "H8",
+    "H9",
+    "I10",
+    "I11",
+    "I5",
+    "I6",
+    "I7",
+    "I8",
+    "I9",
+    "J10",
+    "J11",
+    "J5",
+    "J6",
+    "J7",
+    "J8",
+    "J9",
+    "K10",
+    "K11",
+    "K6",
+    "K7",
+    "K8",
+    "K9"
+  ],
+  "entities": [
+    {
+      "id": "hm.townhouse.door.08",
+      "archetype": "door.townhouse",
+      "cell": "F5",
+      "transform": {
+        "pos": [
+          -11.1965,
+          -0.99,
+          -28.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.09",
+      "archetype": "door.townhouse",
+      "cell": "F5",
+      "transform": {
+        "pos": [
+          -3.3681,
+          -0.99,
+          -28.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.10",
+      "archetype": "door.townhouse",
+      "cell": "G5",
+      "transform": {
+        "pos": [
+          12.9242,
+          -0.2615,
+          -19.4443
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.13",
+      "archetype": "door.townhouse",
+      "cell": "I8",
+      "transform": {
+        "pos": [
+          45.5,
+          1.21,
+          16.9431
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.14",
+      "archetype": "door.townhouse",
+      "cell": "K6",
+      "transform": {
+        "pos": [
+          67.7667,
+          0.0786,
+          -12.4
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.14b",
+      "archetype": "door.townhouse",
+      "cell": "K6",
+      "transform": {
+        "pos": [
+          67.7667,
+          0.0786,
+          -8.4
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.14c",
+      "archetype": "door.townhouse",
+      "cell": "K6",
+      "transform": {
+        "pos": [
+          67.7667,
+          0.0786,
+          -4.4
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.14d",
+      "archetype": "door.townhouse",
+      "cell": "K6",
+      "transform": {
+        "pos": [
+          67.7667,
+          0.0786,
+          -0.4
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.14e",
+      "archetype": "door.townhouse",
+      "cell": "K7",
+      "transform": {
+        "pos": [
+          67.7667,
+          0.0786,
+          3.6
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.14f",
+      "archetype": "door.townhouse",
+      "cell": "K7",
+      "transform": {
+        "pos": [
+          67.7667,
+          0.0786,
+          7.6
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.15",
+      "archetype": "door.townhouse",
+      "cell": "I5",
+      "transform": {
+        "pos": [
+          46.6846,
+          0.86,
+          -21.5
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.16",
+      "archetype": "door.cottage",
+      "cell": "J6",
+      "transform": {
+        "pos": [
+          58.1563,
+          0.86,
+          -16.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.18",
+      "archetype": "door.cottage",
+      "cell": "J7",
+      "transform": {
+        "pos": [
+          59.25,
+          1.21,
+          14.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.19",
+      "archetype": "door.workshop",
+      "cell": "H8",
+      "transform": {
+        "pos": [
+          27.8903,
+          1.21,
+          20.7609
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.20",
+      "archetype": "door.townhouse",
+      "cell": "G6",
+      "transform": {
+        "pos": [
+          14.0496,
+          0.86,
+          -12.5689
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.22",
+      "archetype": "door.townhouse",
+      "cell": "G9",
+      "transform": {
+        "pos": [
+          11.0372,
+          1.21,
+          36.7992
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.23",
+      "archetype": "door.townhouse",
+      "cell": "G9",
+      "transform": {
+        "pos": [
+          0.6646,
+          1.2101,
+          32.6846
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.24",
+      "archetype": "door.townhouse",
+      "cell": "F9",
+      "transform": {
+        "pos": [
+          -0.267,
+          1.3213,
+          39.8417
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.25",
+      "archetype": "door.workshop",
+      "cell": "F9",
+      "transform": {
+        "pos": [
+          -1.0697,
+          1.68,
+          46.8643
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.26",
+      "archetype": "door.cottage",
+      "cell": "E9",
+      "transform": {
+        "pos": [
+          -19.3402,
+          1.21,
+          33.1519
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.27",
+      "archetype": "door.cottage",
+      "cell": "D10",
+      "transform": {
+        "pos": [
+          -44.8361,
+          1.68,
+          61.4799
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.28",
+      "archetype": "door.shed",
+      "cell": "E9",
+      "transform": {
+        "pos": [
+          -20.0629,
+          1.68,
+          46.5698
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.29",
+      "archetype": "door.cottage",
+      "cell": "D9",
+      "transform": {
+        "pos": [
+          -32.6,
+          1.2292,
+          32.2636
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.30",
+      "archetype": "door.cottage",
+      "cell": "J10",
+      "transform": {
+        "pos": [
+          62.4406,
+          1.68,
+          52.1902
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.31",
+      "archetype": "door.shed",
+      "cell": "F11",
+      "transform": {
+        "pos": [
+          -15.0589,
+          1.68,
+          69.0191
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.39",
+      "archetype": "door.cottage",
+      "cell": "G10",
+      "transform": {
+        "pos": [
+          8.9058,
+          1.68,
+          55.1004
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.40",
+      "archetype": "door.cottage",
+      "cell": "F10",
+      "transform": {
+        "pos": [
+          -10.9059,
+          1.68,
+          59.7826
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.41",
+      "archetype": "door.cottage",
+      "cell": "J10",
+      "transform": {
+        "pos": [
+          57.3054,
+          1.68,
+          58.7346
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.42",
+      "archetype": "door.cottage",
+      "cell": "I10",
+      "transform": {
+        "pos": [
+          32.4719,
+          1.68,
+          63.8833
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.44",
+      "archetype": "door.townhouse",
+      "cell": "G11",
+      "transform": {
+        "pos": [
+          14.7464,
+          1.68,
+          68.4972
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.45",
+      "archetype": "door.shed",
+      "cell": "E11",
+      "transform": {
+        "pos": [
+          -27.0363,
+          1.68,
+          67.2287
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.46",
+      "archetype": "door.cottage",
+      "cell": "K7",
+      "transform": {
+        "pos": [
+          68.3579,
+          1.21,
+          15.2375
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.47",
+      "archetype": "door.cottage",
+      "cell": "C9",
+      "transform": {
+        "pos": [
+          -59.1299,
+          1.68,
+          47.421
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.48",
+      "archetype": "door.shed",
+      "cell": "C8",
+      "transform": {
+        "pos": [
+          -49.6562,
+          1.21,
+          17.6746
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.49",
+      "archetype": "door.cottage",
+      "cell": "H10",
+      "transform": {
+        "pos": [
+          21.054,
+          1.68,
+          48.2
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.50",
+      "archetype": "door.cottage",
+      "cell": "D8",
+      "transform": {
+        "pos": [
+          -34.413,
+          1.21,
+          16.3415
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.51",
+      "archetype": "door.cottage",
+      "cell": "K9",
+      "transform": {
+        "pos": [
+          66.9542,
+          1.6965,
+          43.8645
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.52",
+      "archetype": "door.shed",
+      "cell": "K11",
+      "transform": {
+        "pos": [
+          67.461,
+          1.68,
+          69.001
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.53",
+      "archetype": "door.shed",
+      "cell": "H10",
+      "transform": {
+        "pos": [
+          28.4925,
+          1.68,
+          48.1459
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.54",
+      "archetype": "door.cottage",
+      "cell": "G4",
+      "transform": {
+        "pos": [
+          7.6667,
+          -0.99,
+          -43.3998
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.55",
+      "archetype": "door.cottage",
+      "cell": "D2",
+      "transform": {
+        "pos": [
+          -40.2443,
+          -1.79,
+          -66.5953
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.56",
+      "archetype": "door.cottage",
+      "cell": "F2",
+      "transform": {
+        "pos": [
+          -10.3307,
+          -1.79,
+          -68.896
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.65",
+      "archetype": "door.cottage",
+      "cell": "H3",
+      "transform": {
+        "pos": [
+          17.1801,
+          -0.99,
+          -57.7451
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.66",
+      "archetype": "door.cottage",
+      "cell": "H11",
+      "transform": {
+        "pos": [
+          23.5232,
+          1.68,
+          67.0399
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.68",
+      "archetype": "door.cottage",
+      "cell": "H4",
+      "transform": {
+        "pos": [
+          23.0572,
+          -0.99,
+          -46.4746
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.69",
+      "archetype": "door.cottage",
+      "cell": "G3",
+      "transform": {
+        "pos": [
+          8.1225,
+          -0.99,
+          -57.4071
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.73",
+      "archetype": "door.cottage",
+      "cell": "G2",
+      "transform": {
+        "pos": [
+          9.5948,
+          -1.79,
+          -66.4177
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.74",
+      "archetype": "door.cottage",
+      "cell": "C5",
+      "transform": {
+        "pos": [
+          -52.6188,
+          -0.1787,
+          -16.5814
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.75",
+      "archetype": "door.cottage",
+      "cell": "C6",
+      "transform": {
+        "pos": [
+          -57.9706,
+          0.06,
+          -6.9329
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.76",
+      "archetype": "door.shed",
+      "cell": "C4",
+      "transform": {
+        "pos": [
+          -60.4842,
+          -0.99,
+          -46.4888
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.79",
+      "archetype": "door.townhouse",
+      "cell": "D3",
+      "transform": {
+        "pos": [
+          -33.0963,
+          -1.79,
+          -63.759
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.81",
+      "archetype": "door.cottage",
+      "cell": "E3",
+      "transform": {
+        "pos": [
+          -23.4941,
+          -1.5454,
+          -63.353
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.82",
+      "archetype": "door.cottage",
+      "cell": "C3",
+      "transform": {
+        "pos": [
+          -55.5662,
+          -0.99,
+          -52.2077
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.83",
+      "archetype": "door.cottage",
+      "cell": "B5",
+      "transform": {
+        "pos": [
+          -68.0751,
+          -0.99,
+          -27.6961
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.84",
+      "archetype": "door.shed",
+      "cell": "B4",
+      "transform": {
+        "pos": [
+          -65.2204,
+          -0.99,
+          -37.9181
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.85",
+      "archetype": "door.cottage",
+      "cell": "D5",
+      "transform": {
+        "pos": [
+          -43.4462,
+          -0.7422,
+          -17.3048
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.86",
+      "archetype": "door.cottage",
+      "cell": "C5",
+      "transform": {
+        "pos": [
+          -63.5772,
+          -0.1819,
+          -16.4093
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.87",
+      "archetype": "door.cottage",
+      "cell": "B8",
+      "transform": {
+        "pos": [
+          -69.9141,
+          1.21,
+          17.6103
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.88",
+      "archetype": "door.cottage",
+      "cell": "C6",
+      "transform": {
+        "pos": [
+          -48.6405,
+          0.06,
+          -7.3751
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.89",
+      "archetype": "door.cottage",
+      "cell": "B6",
+      "transform": {
+        "pos": [
+          -66.1162,
+          0.06,
+          -7.1163
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.92",
+      "archetype": "door.cottage",
+      "cell": "B8",
+      "transform": {
+        "pos": [
+          -67.7316,
+          1.21,
+          27.2008
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    }
+  ]
+}

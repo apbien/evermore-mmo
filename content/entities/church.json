@@ -1,0 +1,208 @@
+{
+  "venue": "church",
+  "cells": [
+    "H5",
+    "H6",
+    "H7",
+    "I5",
+    "I6",
+    "I7",
+    "J5",
+    "J6",
+    "J7"
+  ],
+  "entities": [
+    {
+      "id": "hm.church.altar.01",
+      "archetype": "landmark.summoning_altar",
+      "cell": "I6",
+      "transform": {
+        "pos": [
+          0.0,
+          3.3,
+          1.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect",
+            "attune"
+          ],
+          "range": 2.0
+        },
+        "spawn_point": {
+          "facingDeg": 270
+        },
+        "light": {
+          "color": "#BFD9FF",
+          "intensity": 1.1,
+          "range": 7.0
+        }
+      }
+    },
+    {
+      "id": "hm.church.font.01",
+      "archetype": "prop.font",
+      "cell": "I6",
+      "transform": {
+        "pos": [
+          -6.9,
+          3.58,
+          9.2
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.church.bench.01",
+      "archetype": "prop.bench",
+      "cell": "I6",
+      "transform": {
+        "pos": [
+          -7.6,
+          2.86,
+          4.1
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "sit"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.church.offerings.01",
+      "archetype": "prop.offerings",
+      "cell": "I6",
+      "transform": {
+        "pos": [
+          -3.0,
+          2.45,
+          4.2
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect",
+            "offer"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.church.door.west.01",
+      "archetype": "portal.door",
+      "cell": "I6",
+      "transform": {
+        "pos": [
+          0.0,
+          2.4,
+          12.0
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "pass"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.church.bell.01",
+      "archetype": "prop.bell",
+      "cell": "I5",
+      "transform": {
+        "pos": [
+          -13.8,
+          17.0,
+          8.2
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "ring"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.church.tower.01",
+      "archetype": "landmark.church_tower",
+      "cell": "I5",
+      "transform": {
+        "pos": [
+          -13.8,
+          21.4,
+          8.2
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {}
+    }
+  ]
+}

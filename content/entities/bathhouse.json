@@ -1,0 +1,276 @@
+{
+  "venue": "bathhouse",
+  "cells": [
+    "C8",
+    "C9",
+    "D8",
+    "D9"
+  ],
+  "entities": [
+    {
+      "id": "hm.slot.91.bathhouse.furnace.01",
+      "archetype": "prop.furnace",
+      "cell": "C8",
+      "transform": {
+        "pos": [
+          -5.759,
+          0.82,
+          -5.0457
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        },
+        "light": {
+          "color": "#FF7C33",
+          "intensity": 3.0,
+          "range": 8.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.91.bathhouse.steam.01",
+      "archetype": "prop.vent",
+      "cell": "C8",
+      "transform": {
+        "pos": [
+          -2.363,
+          9.5275,
+          0.2484
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "steam": {
+          "rate": 0.55,
+          "drift": [
+            0.75,
+            0.55,
+            0.4
+          ],
+          "spread": 1.4,
+          "life": 3.2
+        }
+      }
+    },
+    {
+      "id": "hm.slot.91.bathhouse.steam.02",
+      "archetype": "prop.vent",
+      "cell": "C8",
+      "transform": {
+        "pos": [
+          0.3819,
+          9.5275,
+          -0.0401
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "steam": {
+          "rate": 0.55,
+          "drift": [
+            0.75,
+            0.55,
+            0.4
+          ],
+          "spread": 1.4,
+          "life": 3.2
+        }
+      }
+    },
+    {
+      "id": "hm.slot.91.bathhouse.steam.03",
+      "archetype": "prop.vent",
+      "cell": "C8",
+      "transform": {
+        "pos": [
+          2.9438,
+          9.5275,
+          -0.3094
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "steam": {
+          "rate": 0.55,
+          "drift": [
+            0.75,
+            0.55,
+            0.4
+          ],
+          "spread": 1.4,
+          "life": 3.2
+        }
+      }
+    },
+    {
+      "id": "hm.slot.91.bathhouse.flue.01",
+      "archetype": "prop.chimney",
+      "cell": "C8",
+      "transform": {
+        "pos": [
+          -8.0727,
+          9.0,
+          -3.5255
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "smoke": {
+          "rate": 1.6,
+          "drift": [
+            0.9,
+            0,
+            0.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.slot.91.bathhouse.tailrace.01",
+      "archetype": "prop.vent",
+      "cell": "D8",
+      "transform": {
+        "pos": [
+          7.7324,
+          0.72,
+          1.148
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "steam": {
+          "rate": 0.35,
+          "drift": [
+            0.6,
+            0.5,
+            0.3
+          ],
+          "spread": 0.9
+        }
+      }
+    },
+    {
+      "id": "hm.slot.91.bathhouse.bench.01",
+      "archetype": "prop.bench",
+      "cell": "C8",
+      "transform": {
+        "pos": [
+          1.2547,
+          0.45,
+          -6.7179
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "sit"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.91.bathhouse.door.01",
+      "archetype": "door.bathhouse",
+      "cell": "C8",
+      "transform": {
+        "pos": [
+          -1.1946,
+          0.42,
+          -5.6259
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "enter"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.91.bathhouse.sign.01",
+      "archetype": "prop.sign",
+      "cell": "C8",
+      "transform": {
+        "pos": [
+          -1.7291,
+          2.62,
+          -5.4491
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    }
+  ]
+}

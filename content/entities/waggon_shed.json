@@ -1,0 +1,36 @@
+{
+  "venue": "waggon_shed",
+  "cells": [
+    "G4",
+    "G5",
+    "H4",
+    "H5"
+  ],
+  "entities": [
+    {
+      "id": "hm.waggon_shed.shed.01",
+      "archetype": "service.waggon_shed",
+      "cell": "G5",
+      "transform": {
+        "pos": [
+          -0.3069,
+          0.1,
+          -0.6292
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "service": {
+          "kind": "haulage",
+          "bays": 5
+        }
+      }
+    }
+  ]
+}

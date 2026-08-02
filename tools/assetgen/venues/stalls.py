@@ -61,6 +61,7 @@ def _tex(m, su=1.0, sv=None, ou=0.0, ov=0.0):
     lathed pots come out twelve different shades of fired clay without adding a
     material or breaking the locked palette.
     """
+    su = 1.0 if su is None else su
     sv = su if sv is None else sv
     if len(m.uv):
         m.uv = (m.uv * np.array([su, sv], np.float32)
@@ -68,7 +69,7 @@ def _tex(m, su=1.0, sv=None, ou=0.0, ov=0.0):
     return m
 
 
-def _prism(profile, depth, mat, chamfer=0.005, uv_scale=1.0):
+def _prism(profile, depth, mat, chamfer=0.005, uv_scale=None):
     """Extruded 2D profile with a true chamfer on every edge.
 
     `mesh.prism` accepts a chamfer argument and ignores it, so cut-out signage
@@ -82,6 +83,12 @@ def _prism(profile, depth, mat, chamfer=0.005, uv_scale=1.0):
     c = float(chamfer)
     if c <= 1e-6 or n < 3:
         return M.prism(profile, depth, mat, uv_scale=uv_scale)
+
+    # This builder lays its own UVs with `M._planar_uv`, which takes a number,
+    # not the D-046 "ask the library" sentinel. Resolve once here so a stall
+    # sign gets the same metres-per-tile as everything else made of the same
+    # material — the whole point of routing scale through the library.
+    uv_scale = M.resolve_uv(uv_scale, mat)
 
     # -- 1. mitre the in-plane corners ------------------------------------
     cut = []
@@ -125,7 +132,7 @@ def _prism(profile, depth, mat, chamfer=0.005, uv_scale=1.0):
     return b.build(mat)
 
 
-def _globe(r, mat, seg=8, rings=4, sx=1.0, sy=1.0, sz=1.0, uv=1.0, ou=0.0, ov=0.0):
+def _globe(r, mat, seg=8, rings=4, sx=1.0, sy=1.0, sz=1.0, uv=None, ou=0.0, ov=0.0):
     """Low-poly sphere centred on the origin. Fruit, loaves, heads, floats."""
     prof = []
     for i in range(rings + 1):
@@ -138,7 +145,7 @@ def _globe(r, mat, seg=8, rings=4, sx=1.0, sy=1.0, sz=1.0, uv=1.0, ou=0.0, ov=0.
     return _tex(m, uv, uv, ou, ov)
 
 
-def _cone(r, h, mat, seg=7, uv=1.0, ou=0.0, ov=0.0):
+def _cone(r, h, mat, seg=7, uv=None, ou=0.0, ov=0.0):
     """Tapered root vegetable / bundle. Tip at the bottom, base at +h."""
     m = M.lathe([(0.0, 0.0), (r * 0.45, h * 0.28), (r * 0.82, h * 0.62),
                  (r, h * 0.92), (r * 0.93, h)], seg, mat, close_bottom=False)
@@ -755,15 +762,15 @@ def _cat(sid, mat="oak_weathered", crouch=True):
     the kind of residue that buys more life than another 10k triangles."""
     rng = rng_for(sid, "cat")
     out = M.Group()
-    body = _globe(0.115, mat, 8, 4, sx=1.0, sy=0.86, sz=1.0, uv=2.2,
+    body = _globe(0.115, mat, 8, 4, sx=1.0, sy=0.86, sz=1.0,
                   ou=rng.uniform(0, 2))
     body.scale(2.25, 1.0, 1.0)
     body.translate(0, 0.155, 0)
     out.add(body)
-    head = _globe(0.068, mat, 8, 4, uv=3.0, ou=rng.uniform(0, 2))
+    head = _globe(0.068, mat, 8, 4, ou=rng.uniform(0, 2))
     head.translate(-0.255, 0.20 if crouch else 0.26, 0)
     out.add(head)
-    muz = _globe(0.036, mat, 6, 3, sx=1.2, uv=3.0)
+    muz = _globe(0.036, mat, 6, 3, sx=1.2)
     muz.translate(-0.305, 0.182 if crouch else 0.242, 0)
     out.add(muz)
     for sz in (-1, 1):
@@ -792,11 +799,11 @@ def _pigeon(sid, mat="stone"):
     being a diorama."""
     rng = rng_for(sid, "pigeon")
     out = M.Group()
-    body = _globe(0.070, mat, 7, 4, uv=3.5, ou=rng.uniform(0, 2), ov=rng.uniform(0, 2))
+    body = _globe(0.070, mat, 7, 4, ou=rng.uniform(0, 2), ov=rng.uniform(0, 2))
     body.scale(1.7, 1.0, 1.0)
     body.translate(0, 0.085, 0)
     out.add(body)
-    head = _globe(0.033, mat, 6, 3, uv=4.0, ou=rng.uniform(0, 2))
+    head = _globe(0.033, mat, 6, 3, ou=rng.uniform(0, 2))
     head.translate(-0.085, 0.115 + rng.uniform(-0.05, 0.03), 0)
     out.add(head)
     tail = _prism([(0.0, 0.0), (0.10, 0.035), (0.11, -0.012)], 0.05, mat, 0.002)
@@ -828,8 +835,7 @@ def _stall_produce(sid):
 
     def gourd(r):
         def mk(rg):
-            g = _globe(r * rg.uniform(0.85, 1.15), "terracotta", 8, 4, sy=0.80,
-                       uv=0.7, ou=rg.uniform(0, 6), ov=rg.uniform(0, 6))
+            g = _globe(r * rg.uniform(0.85, 1.15), "terracotta", 8, 4, sy=0.80, ou=rg.uniform(0, 6), ov=rg.uniform(0, 6))
             st = M.cylinder(0.012, 0.045, 5, 0.002, "foliage")
             st.rotate_z(rg.uniform(-0.3, 0.3))
             st.translate(0, r * 0.62, 0)
@@ -837,13 +843,11 @@ def _stall_produce(sid):
         return mk
 
     def apple(rg):
-        return _globe(0.042 * rg.uniform(0.85, 1.1), "terracotta", 7, 3, sy=0.9,
-                      uv=1.6, ou=rg.uniform(0, 6), ov=rg.uniform(0, 6)), 0.078
+        return _globe(0.042 * rg.uniform(0.85, 1.1), "terracotta", 7, 3, sy=0.9, ou=rg.uniform(0, 6), ov=rg.uniform(0, 6)), 0.078
 
     def cabbage(rg):
         g = M.Group()
-        g.add(_globe(0.085 * rg.uniform(0.9, 1.1), "foliage", 8, 4, sy=0.86,
-                     uv=1.1, ou=rg.uniform(0, 4)))
+        g.add(_globe(0.085 * rg.uniform(0.9, 1.1), "foliage", 8, 4, sy=0.86, ou=rg.uniform(0, 4)))
         g.add(K.leaf_cluster(f"{sid}.cab{rg.integers(0,999)}", 0.075, 5,
                              "foliage", 0.9).translate(0, 0.02, 0))
         return g, 0.16
@@ -875,7 +879,7 @@ def _stall_produce(sid):
         bx = -w * 0.5 + 0.30 + i * 0.24
         bun = M.Group()
         for k in range(6):
-            c = _cone(0.020, 0.26, "terracotta", 6, 1.4, rng.uniform(0, 5))
+            c = _cone(0.020, 0.26, "terracotta", 6, rng.uniform(0, 5))
             c.rotate_z(rng.uniform(-0.10, 0.10))
             c.translate(rng.uniform(-0.035, 0.035), 0, rng.uniform(-0.03, 0.03))
             bun.add(c)
@@ -893,11 +897,10 @@ def _stall_produce(sid):
     for i in range(6):
         a = rng.uniform(0, 6.28)
         r = rng.uniform(0.15, 0.95)
-        g = _globe(rng.uniform(0.035, 0.055), "terracotta", 7, 3, sy=0.85,
-                   uv=1.5, ou=rng.uniform(0, 6), ov=rng.uniform(0, 6))
+        g = _globe(rng.uniform(0.035, 0.055), "terracotta", 7, 3, sy=0.85, ou=rng.uniform(0, 6), ov=rng.uniform(0, 6))
         g.translate(np.cos(a) * r, 0.038, -d * 0.5 - abs(np.sin(a)) * 0.55 + 0.15)
         out.add(g)
-    squash = _globe(0.09, "terracotta", 8, 4, sy=0.42, uv=0.9, ou=rng.uniform(0, 5))
+    squash = _globe(0.09, "terracotta", 8, 4, sy=0.42, ou=rng.uniform(0, 5))
     squash.rotate_z(0.3)
     squash.translate(0.55, 0.028, -d * 0.5 - 0.42)
     out.add(squash)
@@ -1052,7 +1055,7 @@ def _stall_fish(sid):
     pud.translate(-0.10, 0, -d * 0.5 - 0.36)
     out.add(pud)
     for i in range(4):
-        sc = _globe(rng.uniform(0.022, 0.034), "stone", 6, 3, sy=0.5, uv=3.0,
+        sc = _globe(rng.uniform(0.022, 0.034), "stone", 6, 3, sy=0.5,
                     ou=rng.uniform(0, 4))
         sc.translate(rng.uniform(-0.6, 0.6), 0.012, -d * 0.5 - rng.uniform(0.20, 0.60))
         out.add(sc)
@@ -1101,7 +1104,7 @@ def _stall_bread(sid):
 
     def boule(rg, r=0.085):
         g = M.Group()
-        b = _globe(r * rg.uniform(0.9, 1.1), "oak", 8, 4, sy=0.62, uv=1.9,
+        b = _globe(r * rg.uniform(0.9, 1.1), "oak", 8, 4, sy=0.62,
                    ou=rg.uniform(0, 6), ov=rg.uniform(0, 6))
         g.add(b)
         # Scored crust: three raised slash ridges across the top.
@@ -1160,7 +1163,7 @@ def _stall_bread(sid):
     bask.translate(0.30, COUNTER_H + 0.02, -d * 0.5 + 0.40)
     out.add(bask)
     out.add(_heap(f"{sid}.rolls2", rng,
-                  lambda rg: (_globe(0.038, "oak", 6, 3, sy=0.7, uv=2.6,
+                  lambda rg: (_globe(0.038, "oak", 6, 3, sy=0.7,
                                      ou=rg.uniform(0, 6), ov=rg.uniform(0, 6)), 0.06),
                   7, 0.13, 0.11, COUNTER_H + 0.12).translate(0.30, 0, -d * 0.5 + 0.40))
     # The cloth over half the basket — bakers keep rolls covered.
@@ -1170,7 +1173,7 @@ def _stall_bread(sid):
     cl.translate(0.30, 0, 0)
     out.add(cl)
 
-    rye = _globe(0.13, "oak_weathered", 9, 4, sy=0.30, uv=1.3, ou=rng.uniform(0, 5))
+    rye = _globe(0.13, "oak_weathered", 9, 4, sy=0.30, ou=rng.uniform(0, 5))
     rye.translate(w * 0.5 - 0.36, COUNTER_H + 0.06, -d * 0.5 + 0.36)
     out.add(rye)
 
@@ -1612,7 +1615,7 @@ def _stall_herbs(sid):
         out.add(bx)
         fill = _heap(f"{sid}.fill{i}", rng,
                      lambda rg, m=mat: (_globe(rg.uniform(0.022, 0.034), m, 6, 3,
-                                               sy=0.6, uv=2.4, ou=rg.uniform(0, 4)),
+                                               sy=0.6, ou=rg.uniform(0, 4)),
                                         0.035),
                      9, 0.10, 0.09, COUNTER_H + 0.10, layers=2)
         fill.translate(cx, 0, -d * 0.5 + 0.30)
@@ -1740,7 +1743,7 @@ def _stall_roast(sid):
         sy = bz - 0.13 + i * 0.13
         out.add(_link((bx - 0.34, 0.87, sy), (bx + 0.30, 0.87, sy), 0.007, "iron", 4))
         for k in range(4):
-            ch = _globe(0.030, "terracotta", 6, 3, sx=1.5, uv=1.4,
+            ch = _globe(0.030, "terracotta", 6, 3, sx=1.5,
                         ou=rng.uniform(0, 4), ov=rng.uniform(0, 4))
             ch.translate(bx - 0.26 + k * 0.15, 0.895, sy)
             out.add(ch)
@@ -1757,7 +1760,7 @@ def _stall_roast(sid):
             a = np.pi * t
             p = np.array([hx + np.sin(a) * 0.075, rky - 0.06 - t * 0.30 - np.sin(a) * 0.05,
                           -d * 0.5 + 0.36])
-            s = _globe(0.032, "terracotta", 6, 3, sx=1.0, sy=1.35, uv=1.6,
+            s = _globe(0.032, "terracotta", 6, 3, sx=1.0, sy=1.35,
                        ou=rng.uniform(0, 4), ov=rng.uniform(0, 4))
             s.rotate_z(a * 0.4)
             s.translate(*p)
@@ -1865,6 +1868,14 @@ def build(ctx: VenueContext, only=None):
         group.rotate_y(yaw)
         group.translate(x, 0, z)
         ctx.emit(group)
+
+        # One volume per stall: counter, frame and goods as a single solid
+        # body. The awning is carried above it at AWNING_CLEAR, over a 1.75 m
+        # player's head, so it is deliberately not authored — an awning that
+        # blocks movement is how a market square becomes a maze.
+        ctx.collider("box", center=(x, 1.05, z),
+                     half=(info["w"] * 0.5, 1.05, info["d"] * 0.5),
+                     rot_y=yaw, tag=f"stall_{key}")
 
         # The customer stands in front of the counter; that is where the
         # interaction volume belongs, not at the stall's centroid.

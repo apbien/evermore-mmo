@@ -1,0 +1,344 @@
+{
+  "$schema": "../schemas/collision.schema.json",
+  "venue": "waggon_shed",
+  "cells": [
+    "G4",
+    "G5",
+    "H4",
+    "H5"
+  ],
+  "space": "venue-local",
+  "volumes": [
+    {
+      "shape": "box",
+      "center": [
+        -0.0,
+        0.05,
+        0.0
+      ],
+      "half": [
+        7.6,
+        0.05,
+        4.8
+      ],
+      "kind": "surface",
+      "tag": "yard",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.1617,
+        2.4,
+        -0.6002
+      ],
+      "half": [
+        0.16,
+        2.3,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        4.2684,
+        2.4,
+        -6.5323
+      ],
+      "half": [
+        0.16,
+        2.3,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        4.7529,
+        2.4,
+        0.5746
+      ],
+      "half": [
+        0.16,
+        2.3,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.8597,
+        2.4,
+        -5.3574
+      ],
+      "half": [
+        0.16,
+        2.3,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        2.3441,
+        2.4,
+        1.7494
+      ],
+      "half": [
+        0.16,
+        2.3,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.5491,
+        2.4,
+        -4.1826
+      ],
+      "half": [
+        0.16,
+        2.3,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.0646,
+        2.4,
+        2.9243
+      ],
+      "half": [
+        0.16,
+        2.3,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        -2.9579,
+        2.4,
+        -3.0078
+      ],
+      "half": [
+        0.16,
+        2.3,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        -2.4734,
+        2.4,
+        4.0991
+      ],
+      "half": [
+        0.16,
+        2.3,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.3666,
+        2.4,
+        -1.8329
+      ],
+      "half": [
+        0.16,
+        2.3,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        -4.8822,
+        2.4,
+        5.274
+      ],
+      "half": [
+        0.16,
+        2.3,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        -7.7754,
+        2.4,
+        -0.6581
+      ],
+      "half": [
+        0.16,
+        2.3,
+        0.16
+      ],
+      "tag": "post",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.7096,
+        2.4,
+        -3.5053
+      ],
+      "half": [
+        6.75,
+        2.3,
+        0.11
+      ],
+      "tag": "back_wall",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        5.7151,
+        2.4,
+        -3.5662
+      ],
+      "half": [
+        0.11,
+        2.3,
+        3.3
+      ],
+      "tag": "side_wall",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.3288,
+        2.4,
+        2.3079
+      ],
+      "half": [
+        0.11,
+        2.3,
+        3.3
+      ],
+      "tag": "side_wall",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        4.4449,
+        0.85,
+        -3.1136
+      ],
+      "half": [
+        0.9,
+        0.75,
+        1.8
+      ],
+      "tag": "waggon",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.9485,
+        0.38,
+        -2.1186
+      ],
+      "half": [
+        0.5,
+        0.28,
+        1.05
+      ],
+      "tag": "sledge",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "box",
+      "center": [
+        -2.7814,
+        0.85,
+        0.4109
+      ],
+      "half": [
+        0.9,
+        0.75,
+        1.8
+      ],
+      "tag": "waggon",
+      "rotY": -2.6878
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -5.0465,
+        0.26,
+        0.6256
+      ],
+      "radius": 0.58,
+      "height": 0.32,
+      "kind": "surface",
+      "tag": "wheel_stack"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        7.2208,
+        0.61,
+        0.2054
+      ],
+      "radius": 0.09,
+      "height": 1.02,
+      "tag": "rail_post"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        4.7042,
+        0.61,
+        1.4328
+      ],
+      "radius": 0.09,
+      "height": 1.02,
+      "tag": "rail_post"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -4.3758,
+        0.41,
+        6.084
+      ],
+      "radius": 0.22,
+      "height": 0.62,
+      "tag": "spur_stone"
+    }
+  ]
+}

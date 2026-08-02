@@ -1,0 +1,773 @@
+{
+  "$schema": "../schemas/collision.schema.json",
+  "venue": "church",
+  "cells": [
+    "H5",
+    "H6",
+    "H7",
+    "I5",
+    "I6",
+    "I7",
+    "J5",
+    "J6",
+    "J7"
+  ],
+  "space": "venue-local",
+  "volumes": [
+    {
+      "shape": "hull",
+      "points": [
+        [
+          -13.1,
+          -15.0
+        ],
+        [
+          13.1,
+          -15.0
+        ],
+        [
+          13.1,
+          12.0
+        ],
+        [
+          -13.1,
+          12.0
+        ]
+      ],
+      "minY": -0.35,
+      "maxY": 2.41,
+      "kind": "surface",
+      "tag": "church.podium"
+    },
+    {
+      "shape": "hull",
+      "points": [
+        [
+          -13.1,
+          12.0
+        ],
+        [
+          -7.5,
+          12.0
+        ],
+        [
+          -7.5,
+          15.2
+        ],
+        [
+          -13.1,
+          15.2
+        ]
+      ],
+      "minY": -0.35,
+      "maxY": 2.41,
+      "kind": "surface",
+      "tag": "church.podium"
+    },
+    {
+      "shape": "hull",
+      "points": [
+        [
+          7.5,
+          12.0
+        ],
+        [
+          13.1,
+          12.0
+        ],
+        [
+          13.1,
+          15.2
+        ],
+        [
+          7.5,
+          15.2
+        ]
+      ],
+      "minY": -0.35,
+      "maxY": 2.41,
+      "kind": "surface",
+      "tag": "church.podium"
+    },
+    {
+      "shape": "hull",
+      "points": [
+        [
+          -18.8,
+          3.2
+        ],
+        [
+          -13.1,
+          3.2
+        ],
+        [
+          -13.1,
+          13.2
+        ],
+        [
+          -18.8,
+          13.2
+        ]
+      ],
+      "minY": -0.35,
+      "maxY": 2.41,
+      "kind": "surface",
+      "tag": "church.podium"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        2.68,
+        -14.775
+      ],
+      "half": [
+        13.1,
+        0.28,
+        0.225
+      ],
+      "tag": "church.parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -12.875,
+        2.68,
+        -5.9
+      ],
+      "half": [
+        0.225,
+        0.28,
+        9.1
+      ],
+      "tag": "church.parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        12.875,
+        2.68,
+        -6.1
+      ],
+      "half": [
+        0.225,
+        0.28,
+        8.9
+      ],
+      "tag": "church.parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        12.875,
+        2.68,
+        10.7
+      ],
+      "half": [
+        0.225,
+        0.28,
+        4.5
+      ],
+      "tag": "church.parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -10.3,
+        2.68,
+        14.975
+      ],
+      "half": [
+        2.8,
+        0.28,
+        0.225
+      ],
+      "tag": "church.parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        10.3,
+        2.68,
+        14.975
+      ],
+      "half": [
+        2.8,
+        0.28,
+        0.225
+      ],
+      "tag": "church.parapet"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        1.12,
+        12.43
+      ],
+      "half": [
+        7.5,
+        1.12,
+        0.43
+      ],
+      "kind": "surface",
+      "tag": "church.perron"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        1.04,
+        13.23
+      ],
+      "half": [
+        7.5,
+        1.04,
+        0.43
+      ],
+      "kind": "surface",
+      "tag": "church.perron"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        0.96,
+        14.03
+      ],
+      "half": [
+        7.5,
+        0.96,
+        0.43
+      ],
+      "kind": "surface",
+      "tag": "church.perron"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        0.88,
+        14.83
+      ],
+      "half": [
+        7.5,
+        0.88,
+        0.43
+      ],
+      "kind": "surface",
+      "tag": "church.perron"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        0.8,
+        15.63
+      ],
+      "half": [
+        7.5,
+        0.8,
+        0.43
+      ],
+      "kind": "surface",
+      "tag": "church.perron"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        0.72,
+        16.43
+      ],
+      "half": [
+        7.5,
+        0.72,
+        0.43
+      ],
+      "kind": "surface",
+      "tag": "church.perron"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        0.64,
+        17.23
+      ],
+      "half": [
+        7.5,
+        0.64,
+        0.43
+      ],
+      "kind": "surface",
+      "tag": "church.perron"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        0.56,
+        18.03
+      ],
+      "half": [
+        7.5,
+        0.56,
+        0.43
+      ],
+      "kind": "surface",
+      "tag": "church.perron"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        0.48,
+        18.83
+      ],
+      "half": [
+        7.5,
+        0.48,
+        0.43
+      ],
+      "kind": "surface",
+      "tag": "church.perron"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        0.4,
+        19.63
+      ],
+      "half": [
+        7.5,
+        0.4,
+        0.43
+      ],
+      "kind": "surface",
+      "tag": "church.perron"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -7.78,
+        2.0,
+        16.0
+      ],
+      "half": [
+        0.3,
+        1.4,
+        4.0
+      ],
+      "tag": "church.cheek"
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.78,
+        2.0,
+        16.0
+      ],
+      "half": [
+        0.3,
+        1.4,
+        4.0
+      ],
+      "tag": "church.cheek"
+    },
+    {
+      "shape": "hull",
+      "points": [
+        [
+          -9.3,
+          -11.3
+        ],
+        [
+          9.3,
+          -11.3
+        ],
+        [
+          9.3,
+          11.1
+        ],
+        [
+          -9.3,
+          11.1
+        ]
+      ],
+      "minY": 1.8,
+      "maxY": 2.42,
+      "kind": "surface",
+      "tag": "church.floor"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        2.55,
+        1.0
+      ],
+      "half": [
+        3.6,
+        0.15,
+        3.6
+      ],
+      "kind": "surface",
+      "tag": "church.dais"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        2.7,
+        1.0
+      ],
+      "half": [
+        3.2,
+        0.3,
+        3.2
+      ],
+      "kind": "surface",
+      "tag": "church.dais"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        2.85,
+        1.0
+      ],
+      "half": [
+        2.8,
+        0.45,
+        2.8
+      ],
+      "kind": "surface",
+      "tag": "church.dais"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -9.65,
+        5.4,
+        -2.9
+      ],
+      "half": [
+        0.35,
+        3.0,
+        8.6
+      ],
+      "tag": "church.wall"
+    },
+    {
+      "shape": "box",
+      "center": [
+        9.65,
+        5.4,
+        -2.9
+      ],
+      "half": [
+        0.35,
+        3.0,
+        8.6
+      ],
+      "tag": "church.wall"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        5.4,
+        -11.65
+      ],
+      "half": [
+        10.0,
+        3.0,
+        0.35
+      ],
+      "tag": "church.wall"
+    },
+    {
+      "shape": "box",
+      "center": [
+        9.65,
+        5.4,
+        8.4
+      ],
+      "half": [
+        0.35,
+        3.0,
+        3.4
+      ],
+      "tag": "church.wall"
+    },
+    {
+      "shape": "box",
+      "center": [
+        9.65,
+        5.4,
+        -0.9
+      ],
+      "half": [
+        0.35,
+        3.0,
+        1.4
+      ],
+      "tag": "church.wall"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.6,
+        5.4,
+        11.55
+      ],
+      "half": [
+        3.4,
+        3.0,
+        0.45
+      ],
+      "tag": "church.wall"
+    },
+    {
+      "shape": "box",
+      "center": [
+        6.6,
+        5.4,
+        11.55
+      ],
+      "half": [
+        3.4,
+        3.0,
+        0.45
+      ],
+      "tag": "church.wall"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -5.4,
+        2.4,
+        6.75
+      ],
+      "radius": 0.638,
+      "height": 3.0,
+      "tag": "church.pier"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -5.4,
+        2.4,
+        2.25
+      ],
+      "radius": 0.638,
+      "height": 3.0,
+      "tag": "church.pier"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -5.4,
+        2.4,
+        -2.25
+      ],
+      "radius": 0.638,
+      "height": 3.0,
+      "tag": "church.pier"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -5.4,
+        2.4,
+        -6.75
+      ],
+      "radius": 0.638,
+      "height": 3.0,
+      "tag": "church.pier"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.4,
+        3.9,
+        11.0
+      ],
+      "half": [
+        0.44,
+        1.5,
+        0.55
+      ],
+      "tag": "church.respond"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.4,
+        3.9,
+        -11.0
+      ],
+      "half": [
+        0.44,
+        1.5,
+        0.55
+      ],
+      "tag": "church.respond"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        5.4,
+        2.4,
+        6.75
+      ],
+      "radius": 0.638,
+      "height": 3.0,
+      "tag": "church.pier"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        5.4,
+        2.4,
+        2.25
+      ],
+      "radius": 0.638,
+      "height": 3.0,
+      "tag": "church.pier"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        5.4,
+        2.4,
+        -2.25
+      ],
+      "radius": 0.638,
+      "height": 3.0,
+      "tag": "church.pier"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        5.4,
+        2.4,
+        -6.75
+      ],
+      "radius": 0.638,
+      "height": 3.0,
+      "tag": "church.pier"
+    },
+    {
+      "shape": "box",
+      "center": [
+        5.4,
+        3.9,
+        11.0
+      ],
+      "half": [
+        0.44,
+        1.5,
+        0.55
+      ],
+      "tag": "church.respond"
+    },
+    {
+      "shape": "box",
+      "center": [
+        5.4,
+        3.9,
+        -11.0
+      ],
+      "half": [
+        0.44,
+        1.5,
+        0.55
+      ],
+      "tag": "church.respond"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -13.8,
+        10.4,
+        8.2
+      ],
+      "half": [
+        3.8,
+        8.0,
+        3.8
+      ],
+      "tag": "church.tower"
+    },
+    {
+      "shape": "box",
+      "center": [
+        11.25,
+        4.0,
+        0.88
+      ],
+      "half": [
+        1.45,
+        1.6,
+        0.28
+      ],
+      "tag": "church.porch"
+    },
+    {
+      "shape": "box",
+      "center": [
+        11.25,
+        4.0,
+        4.48
+      ],
+      "half": [
+        1.45,
+        1.6,
+        0.28
+      ],
+      "tag": "church.porch"
+    },
+    {
+      "shape": "hull",
+      "points": [
+        [
+          10.0,
+          0.6
+        ],
+        [
+          12.7,
+          0.6
+        ],
+        [
+          12.7,
+          4.75
+        ],
+        [
+          10.0,
+          4.75
+        ]
+      ],
+      "minY": 1.9,
+      "maxY": 2.42,
+      "kind": "surface",
+      "tag": "church.porch.floor"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        3.95,
+        -2.3
+      ],
+      "half": [
+        1.35,
+        0.65,
+        0.7
+      ],
+      "tag": "church.altar"
+    }
+  ]
+}

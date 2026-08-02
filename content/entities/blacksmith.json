@@ -1,19 +1,77 @@
 {
   "venue": "blacksmith",
   "cells": [
-    "B5",
-    "B6"
+    "D10",
+    "D9",
+    "E10",
+    "E9"
   ],
   "entities": [
     {
-      "id": "hm.blacksmith.forge.01",
-      "archetype": "crafting_station.forge",
-      "cell": "B5",
+      "id": "hm.slot.43.blacksmith.door.01",
+      "archetype": "door.blacksmith",
+      "cell": "E9",
       "transform": {
         "pos": [
-          0.0,
-          0.9,
-          0.0
+          8.6287,
+          0.24,
+          -3.5053
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "enter"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.43.blacksmith.chimney.02",
+      "archetype": "prop.chimney",
+      "cell": "D9",
+      "transform": {
+        "pos": [
+          -1.0069,
+          7.99,
+          -7.856
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "smoke": {
+          "rate": 0.4,
+          "drift": [
+            0.8,
+            0,
+            0.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.slot.43.blacksmith.forge.01",
+      "archetype": "crafting_station.forge",
+      "cell": "D10",
+      "transform": {
+        "pos": [
+          -3.3208,
+          1.19,
+          -2.1482
         ],
         "rot": [
           0,
@@ -36,8 +94,8 @@
         },
         "light": {
           "color": "#FF8C42",
-          "intensity": 4.0,
-          "range": 9.0,
+          "intensity": 5.0,
+          "range": 13.0,
           "flickerHz": [
             8,
             12
@@ -46,14 +104,14 @@
       }
     },
     {
-      "id": "hm.blacksmith.chimney.01",
+      "id": "hm.slot.43.blacksmith.chimney.01",
       "archetype": "prop.chimney",
-      "cell": "B5",
+      "cell": "D10",
       "transform": {
         "pos": [
-          -1.5,
-          8.15,
-          2.25
+          -4.1002,
+          9.98,
+          -2.5982
         ],
         "rot": [
           0,
@@ -65,7 +123,7 @@
       },
       "components": {
         "smoke": {
-          "rate": 1.0,
+          "rate": 1.1,
           "drift": [
             0.8,
             0,
@@ -75,14 +133,14 @@
       }
     },
     {
-      "id": "hm.blacksmith.anvil.01",
+      "id": "hm.slot.43.blacksmith.anvil.01",
       "archetype": "crafting_station.anvil",
-      "cell": "B5",
+      "cell": "D10",
       "transform": {
         "pos": [
-          0.0,
-          0.76,
-          0.0
+          -3.1664,
+          1.02,
+          -0.6157
         ],
         "rot": [
           0,
@@ -102,14 +160,91 @@
         "crafting_station": {
           "profession": "blacksmith",
           "tier": 1
+        }
+      }
+    },
+    {
+      "id": "hm.slot.43.blacksmith.tools.01",
+      "archetype": "prop.tool_rack",
+      "cell": "D10",
+      "transform": {
+        "pos": [
+          -4.6078,
+          1.66,
+          -4.2191
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.43.blacksmith.quench.01",
+      "archetype": "prop.quench",
+      "cell": "D10",
+      "transform": {
+        "pos": [
+          -4.6958,
+          1.04,
+          0.2334
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.43.blacksmith.grindstone.01",
+      "archetype": "crafting_station.grindstone",
+      "cell": "E10",
+      "transform": {
+        "pos": [
+          -4.0941,
+          1.04,
+          4.3912
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
         },
-        "collider": {
-          "shape": "box",
-          "half": [
-            0.35,
-            0.42,
-            0.18
-          ]
+        "crafting_station": {
+          "profession": "blacksmith",
+          "tier": 1
         }
       }
     }

@@ -1,0 +1,1856 @@
+{
+  "id": "hearthmere.terrain",
+  "version": 2,
+  "comment": [
+    "AUTHORITATIVE TERRAIN. This file is the single source of truth for the",
+    "shape of the ground in Hearthmere (BUILD_DIRECTIVE section 6 rule 3).",
+    "It is DATA ONLY. The evaluator lives in two places that must agree",
+    "bit-for-bit: tools/assetgen/core/terrain.py and client/src/terrain.js.",
+    "Parity is proven by tools/render/terrain_parity.mjs, which samples a fixed",
+    "lattice through both and asserts agreement to 1e-6.",
+    "",
+    "Evaluation order (both ports implement exactly this):",
+    "  1. base   = fall.zSpine(z) + fall.xSpine(x)",
+    "  2. base  += roughness field, amplitude modulated by radius from origin",
+    "  3. water shapes, in array order:  h = lerp(h, bedLevel, weight)",
+    "  4. pads,         in array order:  h = lerp(h, level,    weight)",
+    "  5. ramps,        in array order:  h = lerp(h, gradient, weight)",
+    "Pads and ramps come last so a building pad is GENUINELY flat: inside the",
+    "rectangle the weight is exactly 1 and the height is exactly `level`.",
+    "A building on a slope with a level floor plate is a floating building,",
+    "which is the defect this file exists to eliminate.",
+    "",
+    "Coordinates are world metres, glTF convention: Y up, -Z north, +X east.",
+    "World origin (0,0,0) is the market square fountain, and height(0,0) is",
+    "exactly 0.0 because the market_square pad pins it there."
+  ],
+  "extent": {
+    "comment": "Chebyshev half-extent of the generated ground. Beyond `far` there is nothing; the sky dome closes the frame.",
+    "far": 288.0,
+    "town": 96.0,
+    "wall": 80.0
+  },
+  "lod": {
+    "comment": [
+      "Concentric square rings, cell size doubling outward. Each ring's outer",
+      "half-extent must be an integer multiple of TWICE its own cell size so",
+      "the fine edge stitches to the coarse edge without a T-junction crack:",
+      "every other fine vertex coincides with a coarse vertex and the ones",
+      "between are set to the average of their two neighbours, which puts them",
+      "exactly on the coarse edge segment."
+    ],
+    "rings": [
+      {
+        "outer": 40.0,
+        "cell": 0.5,
+        "note": "market square, church precinct, the streets the player actually walks. 0.5 m puts three samples across a 1.6 m terrace scarp, which is the minimum that keeps a scarp from reading as a staircase."
+      },
+      {
+        "outer": 112.0,
+        "cell": 1.0,
+        "note": "the rest of the walled town, the wall line, the quay and the harbour basin, AND the Emberflow at z=-90. The river has to be in a 1 m ring: at 2 m the waterline resolves into visible sawtooth teeth, which was the worst defect in the first terrain render."
+      },
+      {
+        "outer": 176.0,
+        "cell": 2.0,
+        "note": "approach terrain: water meadow, orchard, the south road climbing away"
+      },
+      {
+        "outer": 288.0,
+        "cell": 4.0,
+        "note": "distance ring, silhouette only"
+      }
+    ]
+  },
+  "fall": {
+    "comment": [
+      "BUILD_DIRECTIVE section 4: the ground falls about 4 m from south to",
+      "north toward the water. Measured across the grid, zSpine(+96) - zSpine(-96)",
+      "= 2.12 - (-2.05) = 4.17 m.",
+      "Both spines are monotone cubic Hermite (Fritsch-Carlson PCHIP) through",
+      "these control points, clamped outside the range. PCHIP is used rather",
+      "than Catmull-Rom because it cannot overshoot: a spline that dips below",
+      "its own control points would put water in the market square.",
+      "xSpine is a CROSS FALL added to zSpine \u00e2\u20ac\u201d the valley sides rising away",
+      "from the town east and west. It is 0 at x=0 so the Ford Road axis is",
+      "governed by zSpine alone."
+    ],
+    "zSpine": [
+      [
+        -320.0,
+        9.0
+      ],
+      [
+        -280.0,
+        5.2
+      ],
+      [
+        -240.0,
+        2.4
+      ],
+      [
+        -210.0,
+        0.4
+      ],
+      [
+        -180.0,
+        -1.1
+      ],
+      [
+        -150.0,
+        -2.1
+      ],
+      [
+        -124.0,
+        -2.55
+      ],
+      [
+        -104.0,
+        -2.42
+      ],
+      [
+        -96.0,
+        -2.05
+      ],
+      [
+        -72.0,
+        -1.62
+      ],
+      [
+        -48.0,
+        -1.12
+      ],
+      [
+        -24.0,
+        -0.52
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        24.0,
+        0.55
+      ],
+      [
+        48.0,
+        1.12
+      ],
+      [
+        72.0,
+        1.6
+      ],
+      [
+        96.0,
+        2.12
+      ],
+      [
+        124.0,
+        3.3
+      ],
+      [
+        150.0,
+        5.0
+      ],
+      [
+        200.0,
+        8.6
+      ],
+      [
+        260.0,
+        13.2
+      ],
+      [
+        320.0,
+        18.0
+      ]
+    ],
+    "xSpine": [
+      [
+        -320.0,
+        9.0
+      ],
+      [
+        -260.0,
+        6.0
+      ],
+      [
+        -200.0,
+        4.2
+      ],
+      [
+        -150.0,
+        2.3
+      ],
+      [
+        -120.0,
+        1.5
+      ],
+      [
+        -96.0,
+        0.95
+      ],
+      [
+        -64.0,
+        0.42
+      ],
+      [
+        -32.0,
+        0.09
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        32.0,
+        0.08
+      ],
+      [
+        64.0,
+        0.38
+      ],
+      [
+        96.0,
+        0.86
+      ],
+      [
+        120.0,
+        1.35
+      ],
+      [
+        150.0,
+        2.05
+      ],
+      [
+        200.0,
+        3.6
+      ],
+      [
+        260.0,
+        5.6
+      ],
+      [
+        320.0,
+        8.0
+      ]
+    ]
+  },
+  "roughness": {
+    "comment": [
+      "Deterministic value-noise fbm sampled at world position. Amplitude is",
+      "low inside the town (the ground there is made ground, graded by three",
+      "centuries of people) and high out in the meadow and the distance ring.",
+      "The hash is exact 32-bit integer arithmetic so Python and JavaScript",
+      "produce identical doubles \u00e2\u20ac\u201d see the parity check."
+    ],
+    "seed": 20260731,
+    "octaves": 5,
+    "baseFrequency": 0.0125,
+    "lacunarity": 2.0,
+    "gain": 0.48,
+    "amplitudeTown": 0.17,
+    "amplitudeField": 3.4,
+    "townRadius": 78.0,
+    "fieldRadius": 175.0
+  },
+  "water": {
+    "comment": [
+      "The Emberflow runs east-west across the north and widens into the Mere",
+      "in the north-east. Water is level: ONE elevation for the whole system,",
+      "because the mere is a lake and the river is its outlet. `level` is the",
+      "only water surface in Hearthmere and D-024 keeps it that way.",
+      "Each shape sets the ground to `bedLevel` where its weight is 1 and",
+      "blends to the surrounding land across its bank/shelf. Setting an",
+      "ABSOLUTE bed rather than subtracting a depth is what guarantees the bed",
+      "is always below the water surface no matter what the land was doing.",
+      "",
+      "D-024: THE WATER MOVES TO THE LAYOUT. Both bodies were re-cut so the",
+      "town plan's waterfront is on water:",
+      "  - the Emberflow crosses Ford Road at z = -90, 14 m outside the north",
+      "    gate and inside the 192 m grid, so the bridge is in the arrival",
+      "    frame. It used to cross at z = -105.",
+      "  - the Mere's south-western shore comes in to the quay face, so a",
+      "    moored boat lies against the wharf instead of 33-42 m inland.",
+      "",
+      "A polygon shape may carry a `shoreline`: that is the AUTHORED waterline,",
+      "the curve the water's edge is required to land on. `polygon` is then",
+      "SOLVED from it by `tools/plan/ground.py` and must not be hand-edited \u00e2\u20ac\u201d",
+      "the two differ because the shelf blend puts the h = level contour some",
+      "metres outside the polygon, by an amount that depends on how high the",
+      "land beside it happens to be. Typing the polygon directly is how the",
+      "waterfront ended up 40 m from the water the first time."
+    ],
+    "level": -3.1,
+    "channels": [
+      {
+        "id": "hm.water.emberflow",
+        "name": "The Emberflow",
+        "halfWidth": 5.5,
+        "bank": 9.0,
+        "bedLevel": -5.6,
+        "comment": "Crosses Ford Road (x = -4) at z = -90. Waterline sits ~10.6 m either side of the centreline, so the river is ~21 m wide at the crossing: three segmental arches and two cutwaters, which is what LANDMARKS['hm.bridge'] describes. The south bank is held at z ~= -79 by the gate-flat terrace, 3.5 m outside the wall.",
+        "path": [
+          [
+            -320.0,
+            -104.0
+          ],
+          [
+            -240.0,
+            -98.0
+          ],
+          [
+            -180.0,
+            -94.5
+          ],
+          [
+            -140.0,
+            -93.0
+          ],
+          [
+            -110.0,
+            -92.4
+          ],
+          [
+            -80.0,
+            -92.0
+          ],
+          [
+            -49.0,
+            -91.6
+          ],
+          [
+            -30.0,
+            -92.4
+          ],
+          [
+            -16.0,
+            -91.4
+          ],
+          [
+            -4.0,
+            -90.0
+          ],
+          [
+            16.0,
+            -90.8
+          ],
+          [
+            34.0,
+            -93.0
+          ],
+          [
+            52.0,
+            -97.5
+          ],
+          [
+            72.0,
+            -105.0
+          ],
+          [
+            96.0,
+            -114.0
+          ]
+        ],
+        "outlineNoise": {
+          "comment": "The Emberflow: 'a dead-straight parallel-sided canal' in `t-aerial-sw`, and it is, because a polyline carved at a constant half-width IS two parallel lines. Deliberately small \u2014 0.9 m of wander on a 5.5 m half-width takes the channel from 4.6 m to 6.4 m and puts shoals on the inside of the bends, which is what a river does, without moving the waterline far enough to matter under the bridge's authored abutments.",
+          "amplitude": 0.9,
+          "frequency": 0.0195,
+          "detailAmplitude": 0.32,
+          "detailFrequency": 0.072,
+          "seed": 3390881
+        }
+      },
+      {
+        "id": "hm.water.ford",
+        "name": "The old ford",
+        "halfWidth": 5.0,
+        "bank": 6.0,
+        "bedLevel": -3.55,
+        "comment": "Silted and disused. A gravel bar across the channel 16 m east of the bridge with 0.45 m of water over it \u00e2\u20ac\u201d the crossing that named the road, still legible as a pale shallow and a shelving bay in the south bank. Applied AFTER the channel so it fills the deep bed back in.",
+        "path": [
+          [
+            12.0,
+            -85.0
+          ],
+          [
+            13.0,
+            -90.0
+          ],
+          [
+            14.0,
+            -95.0
+          ]
+        ]
+      },
+      {
+        "id": "hm.water.mere",
+        "name": "The Mere",
+        "shelf": 7.0,
+        "bedLevel": -5.2,
+        "comment": "Opens north-east. `shoreline` is the authored waterline: it runs the 3.5 m berm outside the north-east wall, out around the NW end of the wharf, ALONG THE QUAY FACE, and then away south-east on the seaward side of Tan Road. `solveRange` names the inclusive vertex range the solver is allowed to fit \u00e2\u20ac\u201d the two at the river mouth are excluded because the Emberflow's own bank governs the waterline there and no position of a mere vertex can change it.",
+        "solveRange": [
+          2,
+          23
+        ],
+        "solveSkip": [
+          5,
+          6,
+          7
+        ],
+        "shoreline": [
+          [
+            10.0,
+            -81.5
+          ],
+          [
+            16.0,
+            -80.5
+          ],
+          [
+            23.2,
+            -77.7
+          ],
+          [
+            31.2,
+            -74.5
+          ],
+          [
+            39.2,
+            -71.3
+          ],
+          [
+            41.8,
+            -67.7
+          ],
+          [
+            54.9,
+            -79.0
+          ],
+          [
+            73.7,
+            -57.7
+          ],
+          [
+            70.0,
+            -44.5
+          ],
+          [
+            76.0,
+            -37.0
+          ],
+          [
+            80.5,
+            -31.0
+          ],
+          [
+            86.0,
+            -26.5
+          ],
+          [
+            96.0,
+            -24.5
+          ],
+          [
+            112.0,
+            -25.0
+          ],
+          [
+            132.0,
+            -30.0
+          ],
+          [
+            152.0,
+            -44.0
+          ],
+          [
+            168.0,
+            -68.0
+          ],
+          [
+            176.0,
+            -100.0
+          ],
+          [
+            172.0,
+            -134.0
+          ],
+          [
+            152.0,
+            -166.0
+          ],
+          [
+            118.0,
+            -186.0
+          ],
+          [
+            78.0,
+            -190.0
+          ],
+          [
+            42.0,
+            -176.0
+          ],
+          [
+            18.0,
+            -152.0
+          ],
+          [
+            8.0,
+            -124.0
+          ],
+          [
+            10.0,
+            -98.0
+          ]
+        ],
+        "polygon": [
+          [
+            10.0,
+            -81.5
+          ],
+          [
+            16.0,
+            -80.5
+          ],
+          [
+            24.91,
+            -82.031
+          ],
+          [
+            32.638,
+            -78.094
+          ],
+          [
+            44.06,
+            -78.875
+          ],
+          [
+            41.8,
+            -67.7
+          ],
+          [
+            54.9,
+            -79.0
+          ],
+          [
+            73.7,
+            -57.7
+          ],
+          [
+            73.272,
+            -44.864
+          ],
+          [
+            78.512,
+            -38.954
+          ],
+          [
+            82.8,
+            -33.191
+          ],
+          [
+            86.332,
+            -27.291
+          ],
+          [
+            96.167,
+            -27.403
+          ],
+          [
+            111.583,
+            -27.731
+          ],
+          [
+            130.84,
+            -32.443
+          ],
+          [
+            149.847,
+            -46.039
+          ],
+          [
+            164.841,
+            -69.354
+          ],
+          [
+            172.45,
+            -100.215
+          ],
+          [
+            168.475,
+            -132.718
+          ],
+          [
+            149.107,
+            -162.995
+          ],
+          [
+            116.922,
+            -182.676
+          ],
+          [
+            78.441,
+            -186.649
+          ],
+          [
+            44.338,
+            -172.308
+          ],
+          [
+            22.153,
+            -149.285
+          ],
+          [
+            8.0,
+            -124.0
+          ],
+          [
+            10.0,
+            -98.0
+          ]
+        ],
+        "outlineNoise": {
+          "comment": "The Mere stopped being a drawing here. `ad-town-05` \u00a72 on `t-aerial-sw`: 'a mathematically perfect ellipse with a uniform-width beach ring'. Both halves of that are the signed distance field \u2014 an authored outline carved with a constant shelf gives a smooth offset curve, and its beach is the offset of an offset, so it has constant width by construction. Two octaves of value noise displace the FIELD instead of the vertices, so bed, shelf, waterline and beach all move together and the beach stays a beach. 5.5 m at ~90 m wavelength makes bays and headlands; 1.7 m at ~22 m makes the wander that stops a shoreline reading as a curve. Building pads are applied AFTER the water shapes in `height()`, so nothing that stands on the bank moves.",
+          "amplitude": 5.5,
+          "frequency": 0.0112,
+          "detailAmplitude": 1.7,
+          "detailFrequency": 0.046,
+          "seed": 5150011
+        }
+      },
+      {
+        "id": "hm.water.mere_deep",
+        "name": "The Mere \u00e2\u20ac\u201d deep water",
+        "shelf": 20.0,
+        "bedLevel": -7.6,
+        "comment": "The body of the lake. Set well back from the shore so its 20 m shelf never reaches the shoreline shape above it; all it does is stop a 300 m lake being a uniform 2.1 m deep, which reads as a flooded field from the air.",
+        "polygon": [
+          [
+            64.0,
+            -96.0
+          ],
+          [
+            96.0,
+            -80.0
+          ],
+          [
+            128.0,
+            -78.0
+          ],
+          [
+            150.0,
+            -96.0
+          ],
+          [
+            158.0,
+            -126.0
+          ],
+          [
+            150.0,
+            -152.0
+          ],
+          [
+            124.0,
+            -170.0
+          ],
+          [
+            88.0,
+            -172.0
+          ],
+          [
+            58.0,
+            -158.0
+          ],
+          [
+            42.0,
+            -134.0
+          ],
+          [
+            46.0,
+            -112.0
+          ]
+        ],
+        "outlineNoise": {
+          "comment": "The deep water's own outline, at a longer wavelength than the basin's so the two do not move as one piece \u2014 which would reproduce the offset-curve problem one shelf further out.",
+          "amplitude": 8.5,
+          "frequency": 0.0078,
+          "detailAmplitude": 2.2,
+          "detailFrequency": 0.031,
+          "seed": 7710223
+        }
+      },
+      {
+        "id": "hm.water.harbour",
+        "name": "The harbour basin",
+        "shelf": 2.2,
+        "bedLevel": -5.35,
+        "comment": "Dredged alongside the quay. 2.25 m of water at the wharf face \u00e2\u20ac\u201d a laden flat-bottomed lighter draws under a metre, so this is deep enough to lie alongside at any season, which is the whole reason the quay is here and not at the bridge. The tight shelf is deliberate: it is a cut basin with a masonry face, not a beach.",
+        "polygon": [
+          [
+            55.6,
+            -78.5
+          ],
+          [
+            73.2,
+            -58.7
+          ],
+          [
+            80.0,
+            -64.6
+          ],
+          [
+            62.4,
+            -84.4
+          ]
+        ]
+      }
+    ]
+  },
+  "pads": {
+    "comment": [
+      "Flat regions. Inside the rectangle the weight is exactly 1, so the",
+      "height is exactly `level` \u00e2\u20ac\u201d no noise, no fall, no drift. `apron` is the",
+      "width in metres of the smooth transition outside the rectangle.",
+      "",
+      "The first five are TERRACES: the town takes its 4 m fall in five level",
+      "shelves with the drop between them carried by retaining walls and step",
+      "flights, not by a slope under a building. The rest are venue pads that",
+      "sit on top of a terrace and are named so a generator can query them:",
+      "    terrain.pad_level('hm.pad.market_square')",
+      "Terrace aprons are deliberately tight (1.6 m) so the scarp reads as a",
+      "made edge that a wall can stand against, not as a landscaped mound.",
+      "",
+      "A pad with no `level` takes the value of the fall spines at its centre.",
+      "Order matters: later pads win where they overlap."
+    ],
+    "list": [
+      {
+        "id": "hm.pad.terrace_gateflat",
+        "centre": [
+          -28.0,
+          -65.0
+        ],
+        "half": [
+          38.0,
+          13.0
+        ],
+        "level": -1.85,
+        "apron": 1.6,
+        "rotationDeg": 0.0,
+        "note": "lowest terrace, west half: north gate, stables, farrier, mill quarter. D-024 pulled its north edge back from z=-84 to z=-78 and split its east half off into hm.pad.terrace_wharfside, because a terrace is a pad and pads are applied AFTER water: at its old size it filled the Emberflow's south bank and the whole north-east berm back in to -1.85, and the town had a waterfront only on paper."
+      },
+      {
+        "id": "hm.pad.terrace_wharfside",
+        "centre": [
+          25.29,
+          -62.72
+        ],
+        "half": [
+          20.5,
+          10.0
+        ],
+        "level": -1.85,
+        "apron": 1.6,
+        "rotationDeg": -21.8,
+        "note": "lowest terrace, east half: Wharf Lane, the Ferryman's Lamp, the net lofts, the fishers' cottages. ROTATED to the north-east wall, because the wall runs diagonally here and an axis-aligned terrace either leaves natural ground inside the wall or floods the berm outside it. Its north-east edge is the tangent to the wall's bow, 0.8-4.0 m outside the wall face, and the mere's authored shoreline runs 1.8 m outside THAT: a 3-6 m berm the whole way, which is what makes the water read as reaching the town."
+      },
+      {
+        "id": "hm.pad.terrace_lower_n",
+        "centre": [
+          -3.0,
+          -43.0
+        ],
+        "half": [
+          69.0,
+          9.0
+        ],
+        "level": -1.05,
+        "apron": 1.6,
+        "rotationDeg": 0.0,
+        "note": "lower terrace, north half. Its east edge stops at x=+66 rather than +76 so it does not run out over the mere's south-east shore: the shoreline outside the Crane Tower is at x=+70, and a terrace reaching past it held the water 20 m off Tan Road."
+      },
+      {
+        "id": "hm.pad.terrace_lower",
+        "centre": [
+          2.0,
+          -25.0
+        ],
+        "half": [
+          74.0,
+          9.0
+        ],
+        "level": -1.05,
+        "apron": 1.6,
+        "rotationDeg": 0.0,
+        "note": "lower town: north quarter, customs house, warehouses. Same level as terrace_lower_n, so the join between them is invisible. Applied after the gate-flat pads so it wins where they overlap it."
+      },
+      {
+        "id": "hm.pad.terrace_market",
+        "centre": [
+          0.0,
+          0.0
+        ],
+        "half": [
+          76.0,
+          16.0
+        ],
+        "level": 0.0,
+        "apron": 1.6,
+        "rotationDeg": 0.0,
+        "note": "the market terrace. Datum of the whole town."
+      },
+      {
+        "id": "hm.pad.terrace_upper",
+        "centre": [
+          -2.0,
+          30.0
+        ],
+        "half": [
+          74.0,
+          14.0
+        ],
+        "level": 1.15,
+        "apron": 1.6,
+        "rotationDeg": 0.0,
+        "note": "upper town: bakers' row, moot hall, well lane"
+      },
+      {
+        "id": "hm.pad.terrace_smiths",
+        "centre": [
+          2.0,
+          64.0
+        ],
+        "half": [
+          72.0,
+          20.0
+        ],
+        "level": 1.62,
+        "apron": 1.6,
+        "rotationDeg": 0.0,
+        "note": "high south edge: blacksmith, south gate"
+      },
+      {
+        "id": "hm.pad.market_square",
+        "centre": [
+          0.0,
+          0.0
+        ],
+        "half": [
+          19.0,
+          15.0
+        ],
+        "level": 0.0,
+        "apron": 1.0,
+        "rotationDeg": 0.0,
+        "note": "the fountain sits at its centre at exactly y=0"
+      },
+      {
+        "id": "hm.pad.south_gate",
+        "centre": [
+          1.0,
+          80.0
+        ],
+        "half": [
+          13.0,
+          5.0
+        ],
+        "level": 1.9,
+        "apron": 3.5,
+        "rotationDeg": 0.0,
+        "note": "the south gate threshold, 0.28 m above the smiths' terrace on a 3.5 m apron \u00e2\u20ac\u201d an 8% pull, which is where Ford Road starts climbing away to the quest zones. It also puts the gate-to-gate fall at 3.75 m against BUILD_DIRECTIVE section 4's 'about 4 m'; without it the terraces alone give 3.47 m and the check reads short."
+      },
+      {
+        "id": "hm.pad.north_gate",
+        "centre": [
+          -2.4,
+          -76.5
+        ],
+        "half": [
+          9.0,
+          5.0
+        ],
+        "level": -1.85,
+        "apron": 1.2,
+        "rotationDeg": 0.0,
+        "note": "the gate and the bridge's south abutment stand on one flat. Its east edge stops at x=+6.6 so it does not reach into the old ford's shelving bay at x=+7; a pad is applied after the water and would have filled the ford in."
+      },
+      {
+        "id": "hm.pad.bridge_north",
+        "centre": [
+          -4.0,
+          -101.0
+        ],
+        "half": [
+          10.0,
+          6.0
+        ],
+        "level": -2.25,
+        "apron": 2.5,
+        "rotationDeg": 0.0,
+        "note": "The bridge's north abutment, and the causeway carrying Ford Road out to it. It projects into the channel from the north bank and narrows the crossing to ~13 m of open water, which is why the bridge is three short arches and not a viaduct \u00e2\u20ac\u201d a bridge gets built at a narrows, and if the plan has no narrows the ground has to make one. Ford Road between this pad and hm.pad.north_gate is the ONE stretch of carriageway in Hearthmere that is allowed to be over water."
+      },
+      {
+        "id": "hm.pad.quay",
+        "centre": [
+          57.4,
+          -62.25
+        ],
+        "half": [
+          13.0,
+          8.0
+        ],
+        "level": -1.55,
+        "apron": 0.9,
+        "rotationDeg": -48.25,
+        "note": "THE WHARF. A stone-faced, infilled platform 26 x 16 m outside the north-east wall with the Water Gate at the middle of its landward edge, aligned to the quay polygon in tools/plan/plan_data.WHARF. 1.55 m of freeboard over the mere, 2.25 m of water at its face. The apron is tight (0.9 m) because the seaward edge is a masonry quay wall, not a bank."
+      },
+      {
+        "id": "hm.pad.churchyard",
+        "centre": [
+          40.5,
+          -4.0
+        ],
+        "half": [
+          18.5,
+          16.0
+        ],
+        "level": 0.8,
+        "apron": 2.2,
+        "rotationDeg": 0.0,
+        "note": "Kirk Knowe terrace. TOWN_PLAN section 3 'Churchyard terrace' \u2014 the graveyard is the fill and the church stands on it. Without this the perron has to fall the whole 2.40 m in the 8 m between the west door and Kirk Green, a slope of 0.30 against an altar sightline of 0.229, and every tread of the arrival frame's foreground is hidden behind the threshold. See review/reports/church.md section 2."
+      }
+    ],
+    "generated": {
+      "comment": [
+        "Venue pads, WRITTEN BY tools/plan/ground.py from tools/plan/plan_data.SLOTS.",
+        "Do not hand-edit: re-run `python tools/plan/ground.py` instead.",
+        "",
+        "Every one of these used to be authored here by hand against a layout",
+        "that no longer existed. hm.pad.inn was 42 m from the inn, hm.pad.pub",
+        "was on the other side of the town from the pub, and hm.pad.quay was",
+        "in the water. A pad whose name claims a building it is not under is",
+        "worse than no pad, because terrain.pad_level('hm.pad.inn') answers",
+        "confidently and wrongly. D-024.",
+        "",
+        "Level is the terrace (or, outside the terraces, the fall spines) at",
+        "the slot centre, so a venue pad never disagrees with the shelf it",
+        "sits on. Rectangles are the slot footprint plus a working margin, at",
+        "the slot's own rotation."
+      ],
+      "list": [
+        {
+          "id": "hm.pad.inn",
+          "centre": [
+            -34.0,
+            -26.0
+          ],
+          "half": [
+            9.6,
+            8.6
+          ],
+          "level": -1.05,
+          "apron": 1.2,
+          "rotationDeg": 270.0,
+          "note": "slot 01 \u00e2\u20ac\u201d hero, fronts market_square"
+        },
+        {
+          "id": "hm.pad.guild",
+          "centre": [
+            -33.0,
+            0.0
+          ],
+          "half": [
+            9.6,
+            9.6
+          ],
+          "level": 0.0,
+          "apron": 1.2,
+          "rotationDeg": 270.0,
+          "note": "slot 02 \u00e2\u20ac\u201d hero, fronts market_square"
+        },
+        {
+          "id": "hm.pad.moot_hall",
+          "centre": [
+            -16.0,
+            9.0
+          ],
+          "half": [
+            8.1,
+            5.6
+          ],
+          "level": 0.0,
+          "apron": 1.2,
+          "rotationDeg": 300.0,
+          "note": "slot 03 \u00e2\u20ac\u201d secondary, fronts market_square"
+        },
+        {
+          "id": "hm.pad.shop_row",
+          "centre": [
+            -19.0,
+            23.5
+          ],
+          "half": [
+            5.6,
+            7.1
+          ],
+          "level": 1.15,
+          "apron": 1.2,
+          "rotationDeg": 0.0,
+          "note": "slot 04 \u00e2\u20ac\u201d secondary, fronts market_square"
+        },
+        {
+          "id": "hm.pad.chophouse",
+          "centre": [
+            -21.5,
+            -33.0
+          ],
+          "half": [
+            6.6,
+            6.6
+          ],
+          "level": -1.05,
+          "apron": 1.2,
+          "rotationDeg": 180.0,
+          "note": "slot 07 \u00e2\u20ac\u201d secondary, fronts market_square"
+        },
+        {
+          "id": "hm.pad.church",
+          "centre": [
+            44.0,
+            -0.5
+          ],
+          "half": [
+            11.6,
+            13.6
+          ],
+          "level": 0.0,
+          "apron": 1.2,
+          "rotationDeg": 90.0,
+          "note": "slot 11 \u00e2\u20ac\u201d hero, fronts kirk_green"
+        },
+        {
+          "id": "hm.pad.confectioner",
+          "centre": [
+            20.5,
+            12.0
+          ],
+          "half": [
+            4.6,
+            6.6
+          ],
+          "level": 0.0,
+          "apron": 1.2,
+          "rotationDeg": 0.0,
+          "note": "slot 21 \u00e2\u20ac\u201d secondary, fronts kirk_green"
+        },
+        {
+          "id": "hm.pad.bakery",
+          "centre": [
+            27.3,
+            33.4
+          ],
+          "half": [
+            7.1,
+            6.6
+          ],
+          "level": 1.15,
+          "apron": 1.2,
+          "rotationDeg": 354.0,
+          "note": "slot 32 \u00e2\u20ac\u201d secondary, fronts bakers_row"
+        },
+        {
+          "id": "hm.pad.cooper",
+          "centre": [
+            39.2,
+            34.2
+          ],
+          "half": [
+            7.6,
+            6.6
+          ],
+          "level": 1.15,
+          "apron": 1.2,
+          "rotationDeg": 357.0,
+          "note": "slot 33 \u00e2\u20ac\u201d secondary, fronts bakers_row"
+        },
+        {
+          "id": "hm.pad.carpenter",
+          "centre": [
+            53.1,
+            33.9
+          ],
+          "half": [
+            8.6,
+            6.6
+          ],
+          "level": 1.15,
+          "apron": 1.2,
+          "rotationDeg": 3.0,
+          "note": "slot 34 \u00e2\u20ac\u201d secondary, fronts bakers_row"
+        },
+        {
+          "id": "hm.pad.chandler",
+          "centre": [
+            40.2,
+            17.0
+          ],
+          "half": [
+            6.6,
+            6.1
+          ],
+          "level": 1.15,
+          "apron": 1.2,
+          "rotationDeg": 177.0,
+          "note": "slot 35 \u00e2\u20ac\u201d secondary, fronts bakers_row"
+        },
+        {
+          "id": "hm.pad.bowyer",
+          "centre": [
+            48.7,
+            49.4
+          ],
+          "half": [
+            6.1,
+            5.6
+          ],
+          "level": 1.62,
+          "apron": 1.2,
+          "rotationDeg": 11.0,
+          "note": "slot 36 \u00e2\u20ac\u201d secondary, fronts sty_lane"
+        },
+        {
+          "id": "hm.pad.stables",
+          "centre": [
+            14.8,
+            -29.9
+          ],
+          "half": [
+            8.6,
+            5.6
+          ],
+          "level": -1.05,
+          "apron": 1.2,
+          "rotationDeg": 103.0,
+          "note": "slot 38 \u00e2\u20ac\u201d secondary, fronts ford_road"
+        },
+        {
+          "id": "hm.pad.blacksmith",
+          "centre": [
+            -33.0,
+            51.0
+          ],
+          "half": [
+            10.6,
+            8.6
+          ],
+          "level": 1.62,
+          "apron": 1.2,
+          "rotationDeg": 300.0,
+          "note": "slot 43 \u00e2\u20ac\u201d hero, fronts smiths_lane"
+        },
+        {
+          "id": "hm.pad.dovecote",
+          "centre": [
+            65.2,
+            -17.8
+          ],
+          "half": [
+            4.3,
+            4.3
+          ],
+          "level": -1.05,
+          "apron": 1.2,
+          "rotationDeg": 279.0,
+          "note": "slot 57 \u00e2\u20ac\u201d secondary, fronts the_bailey"
+        },
+        {
+          "id": "hm.pad.warehouse",
+          "centre": [
+            35.7,
+            -40.0
+          ],
+          "half": [
+            7.6,
+            5.6
+          ],
+          "level": -1.05,
+          "apron": 1.2,
+          "rotationDeg": 90.0,
+          "note": "slot 62 \u00e2\u20ac\u201d secondary, fronts kirkgate"
+        },
+        {
+          "id": "hm.pad.fish_eatery",
+          "centre": [
+            36.4,
+            -51.6
+          ],
+          "half": [
+            6.6,
+            5.6
+          ],
+          "level": -1.05,
+          "apron": 1.2,
+          "rotationDeg": 349.0,
+          "note": "slot 64 \u00e2\u20ac\u201d secondary, fronts wharf_lane"
+        },
+        {
+          "id": "hm.pad.stables_70",
+          "centre": [
+            -10.2,
+            -47.4
+          ],
+          "half": [
+            9.6,
+            7.6
+          ],
+          "level": -1.05,
+          "apron": 1.2,
+          "rotationDeg": 280.0,
+          "note": "slot 70 \u00e2\u20ac\u201d secondary, fronts ford_road"
+        },
+        {
+          "id": "hm.pad.pub",
+          "centre": [
+            19.0,
+            -70.0
+          ],
+          "half": [
+            7.6,
+            5.35
+          ],
+          "level": -1.85,
+          "apron": 1.2,
+          "rotationDeg": 180.0,
+          "note": "slot 72 \u00e2\u20ac\u201d hero, fronts wharf_lane"
+        },
+        {
+          "id": "hm.pad.watermill",
+          "centre": [
+            -49.0,
+            -79.5
+          ],
+          "half": [
+            8.1,
+            6.6
+          ],
+          "level": -1.55,
+          "apron": 1.2,
+          "rotationDeg": 210.0,
+          "note": "slot 77 \u00e2\u20ac\u201d secondary, fronts mill_lane"
+        },
+        {
+          "id": "hm.pad.wellhouse",
+          "centre": [
+            -37.7,
+            26.5
+          ],
+          "half": [
+            4.4,
+            4.4
+          ],
+          "level": 1.15,
+          "apron": 1.2,
+          "rotationDeg": 6.0,
+          "note": "slot 90 \u00e2\u20ac\u201d secondary, fronts well_lane"
+        },
+        {
+          "id": "hm.pad.bathhouse",
+          "centre": [
+            -51.9,
+            30.3
+          ],
+          "half": [
+            8.6,
+            7.1
+          ],
+          "level": 1.15,
+          "apron": 1.2,
+          "rotationDeg": 3.0,
+          "note": "slot 91 \u00e2\u20ac\u201d secondary, fronts well_lane"
+        },
+        {
+          "id": "hm.pad.tannery",
+          "centre": [
+            86.0,
+            -16.0
+          ],
+          "half": [
+            8.6,
+            6.6
+          ],
+          "level": 0.349,
+          "apron": 1.2,
+          "rotationDeg": 135.0,
+          "note": "slot 93 \u00e2\u20ac\u201d secondary, fronts quay_road"
+        }
+      ]
+    }
+  },
+  "ramps": {
+    "comment": [
+      "Constant-gradient corridors that cut through the terrace scarps so carts",
+      "can get up the hill. The gradient runs along the ramp's local +Z: level",
+      "is `low` at local -halfZ and `high` at local +halfZ, linear, because a",
+      "made road has a constant grade. Because both ends match the terrace they",
+      "meet, the surface is continuous.",
+      "Local coordinates: lx = cos(t)*dx - sin(t)*dz, lz = sin(t)*dx + cos(t)*dz",
+      "with t = headingDeg in radians.",
+      "",
+      "Ford Road does NOT run at x=0. It is the plan's carriageway (see",
+      "tools/plan/plan_data.STREETS['ford_road']): x = +0.6 at the z=-52",
+      "scarp, x = +8.0 at z=-16 and z=+16, x = +5.0 at z=+44. Every ramp is",
+      "centred on the road where it crosses its scarp, and every retaining run",
+      "below is broken for it. D-017 is the rule; D-024 is the correction \u00e2\u20ac\u201d",
+      "the ramps had been cut at x=0 for a straight Ford Road that the plan",
+      "does not have, so the carriageway climbed the market scarp 8 m east of",
+      "its own ramp, straight into a retaining wall."
+    ],
+    "list": [
+      {
+        "id": "hm.ramp.ford_gateflat_lower",
+        "centre": [
+          0.6,
+          -52.0
+        ],
+        "half": [
+          5.0,
+          9.0
+        ],
+        "low": -1.85,
+        "high": -1.05,
+        "apron": 1.0,
+        "headingDeg": 0.0,
+        "note": "4.4% \u00e2\u20ac\u201d Ford Road out of the lower town onto the gate flat"
+      },
+      {
+        "id": "hm.ramp.ford_lower_market",
+        "centre": [
+          8.0,
+          -16.0
+        ],
+        "half": [
+          5.5,
+          9.0
+        ],
+        "low": -1.05,
+        "high": 0.0,
+        "apron": 1.0,
+        "headingDeg": 0.0,
+        "note": "5.8% \u00e2\u20ac\u201d Ford Road into the market square from the north"
+      },
+      {
+        "id": "hm.ramp.ford_market_upper",
+        "centre": [
+          8.0,
+          16.0
+        ],
+        "half": [
+          5.5,
+          9.0
+        ],
+        "low": 0.0,
+        "high": 1.15,
+        "apron": 1.0,
+        "headingDeg": 0.0,
+        "note": "6.4% \u00e2\u20ac\u201d Ford Road out of the market square to the upper town"
+      },
+      {
+        "id": "hm.ramp.ford_upper_smiths",
+        "centre": [
+          5.0,
+          44.0
+        ],
+        "half": [
+          5.0,
+          9.0
+        ],
+        "low": 1.15,
+        "high": 1.62,
+        "apron": 1.0,
+        "headingDeg": 0.0,
+        "note": "2.6%"
+      },
+      {
+        "id": "hm.ramp.smiths_lane_lower",
+        "centre": [
+          -23.0,
+          16.0
+        ],
+        "half": [
+          2.6,
+          9.0
+        ],
+        "low": 0.0,
+        "high": 1.15,
+        "apron": 1.0,
+        "headingDeg": 0.0,
+        "note": "Tenter Lane through the upper-town scarp; 3.5 m wide and unpaved past the midpoint"
+      },
+      {
+        "id": "hm.ramp.smiths_lane",
+        "centre": [
+          -46.0,
+          44.0
+        ],
+        "half": [
+          4.0,
+          9.0
+        ],
+        "low": 1.15,
+        "high": 1.62,
+        "apron": 1.0,
+        "headingDeg": 0.0,
+        "note": "the Bailey up onto the smiths' terrace in the south-west"
+      }
+    ]
+  },
+  "retaining": {
+    "comment": [
+      "Coursed rubble revetments standing at the terrace scarps. `faceDeg` is",
+      "the compass heading the wall face looks toward, i.e. toward the LOW",
+      "ground: direction vector (sin, cos), so 180 faces north (-Z).",
+      "Runs are broken wherever a ramp or a step flight crosses the scarp;",
+      "that is why the x ranges have gaps in them.",
+      "Geometry for these is generated by tools/assetgen/venues/terrain.py."
+    ],
+    "list": [
+      {
+        "id": "hm.wall.upper_n_a",
+        "from": [
+          -38.0,
+          16.0
+        ],
+        "to": [
+          -26.5,
+          16.0
+        ],
+        "top": 1.15,
+        "bottom": 0.0,
+        "thickness": 0.65,
+        "faceDeg": 180.0
+      },
+      {
+        "id": "hm.wall.upper_n_b",
+        "from": [
+          -8.5,
+          16.0
+        ],
+        "to": [
+          2.2,
+          16.0
+        ],
+        "top": 1.15,
+        "bottom": 0.0,
+        "thickness": 0.65,
+        "faceDeg": 180.0
+      },
+      {
+        "id": "hm.wall.upper_n_c",
+        "from": [
+          13.8,
+          16.0
+        ],
+        "to": [
+          40.0,
+          16.0
+        ],
+        "top": 1.15,
+        "bottom": 0.0,
+        "thickness": 0.65,
+        "faceDeg": 180.0
+      },
+      {
+        "id": "hm.wall.market_n_a",
+        "from": [
+          -42.0,
+          -16.0
+        ],
+        "to": [
+          -32.0,
+          -16.0
+        ],
+        "top": 0.0,
+        "bottom": -1.05,
+        "thickness": 0.6,
+        "faceDeg": 180.0
+      },
+      {
+        "id": "hm.wall.market_n_b",
+        "from": [
+          -28.0,
+          -16.0
+        ],
+        "to": [
+          2.2,
+          -16.0
+        ],
+        "top": 0.0,
+        "bottom": -1.05,
+        "thickness": 0.6,
+        "faceDeg": 180.0
+      },
+      {
+        "id": "hm.wall.market_n_c",
+        "from": [
+          13.8,
+          -16.0
+        ],
+        "to": [
+          28.0,
+          -16.0
+        ],
+        "top": 0.0,
+        "bottom": -1.05,
+        "thickness": 0.6,
+        "faceDeg": 180.0
+      },
+      {
+        "id": "hm.wall.market_n_d",
+        "from": [
+          32.0,
+          -16.0
+        ],
+        "to": [
+          42.0,
+          -16.0
+        ],
+        "top": 0.0,
+        "bottom": -1.05,
+        "thickness": 0.6,
+        "faceDeg": 180.0
+      },
+      {
+        "id": "hm.wall.lower_n_a",
+        "from": [
+          -40.0,
+          -52.0
+        ],
+        "to": [
+          -27.75,
+          -52.0
+        ],
+        "top": -1.05,
+        "bottom": -1.85,
+        "thickness": 0.6,
+        "faceDeg": 180.0
+      },
+      {
+        "id": "hm.wall.lower_n_b",
+        "from": [
+          -24.25,
+          -52.0
+        ],
+        "to": [
+          -5.0,
+          -52.0
+        ],
+        "top": -1.05,
+        "bottom": -1.85,
+        "thickness": 0.6,
+        "faceDeg": 180.0
+      },
+      {
+        "id": "hm.wall.lower_n_c",
+        "from": [
+          6.4,
+          -52.0
+        ],
+        "to": [
+          24.25,
+          -52.0
+        ],
+        "top": -1.05,
+        "bottom": -1.85,
+        "thickness": 0.6,
+        "faceDeg": 180.0
+      },
+      {
+        "id": "hm.wall.lower_n_d",
+        "from": [
+          27.75,
+          -52.0
+        ],
+        "to": [
+          40.0,
+          -52.0
+        ],
+        "top": -1.05,
+        "bottom": -1.85,
+        "thickness": 0.6,
+        "faceDeg": 180.0
+      },
+      {
+        "id": "hm.wall.smiths_n_a",
+        "from": [
+          -42.0,
+          44.0
+        ],
+        "to": [
+          -27.75,
+          44.0
+        ],
+        "top": 1.62,
+        "bottom": 1.15,
+        "thickness": 0.55,
+        "faceDeg": 180.0
+      },
+      {
+        "id": "hm.wall.smiths_n_b",
+        "from": [
+          -24.25,
+          44.0
+        ],
+        "to": [
+          -0.5,
+          44.0
+        ],
+        "top": 1.62,
+        "bottom": 1.15,
+        "thickness": 0.55,
+        "faceDeg": 180.0
+      },
+      {
+        "id": "hm.wall.smiths_n_c",
+        "from": [
+          10.5,
+          44.0
+        ],
+        "to": [
+          28.25,
+          44.0
+        ],
+        "top": 1.62,
+        "bottom": 1.15,
+        "thickness": 0.55,
+        "faceDeg": 180.0
+      },
+      {
+        "id": "hm.wall.smiths_n_d",
+        "from": [
+          31.75,
+          44.0
+        ],
+        "to": [
+          40.0,
+          44.0
+        ],
+        "top": 1.62,
+        "bottom": 1.15,
+        "thickness": 0.55,
+        "faceDeg": 180.0
+      },
+      {
+        "id": "hm.wall.quay_face_a",
+        "from": [
+          55.03,
+          -76.93
+        ],
+        "to": [
+          62.7,
+          -68.34
+        ],
+        "top": -1.55,
+        "bottom": -5.35,
+        "thickness": 1.1,
+        "faceDeg": 131.75,
+        "note": "THE QUAY WALL. Coursed ashlar standing 3.8 m from the harbour bed to the wharf deck, 1.55 m of it above water. Its line is the seaward face of the wharf platform (tools/plan/plan_data.WHARF, corners D-C), which is also hm.water.mere's authored shoreline: the wall face IS the waterline. Broken for the quay stair."
+      },
+      {
+        "id": "hm.wall.quay_face_b",
+        "from": [
+          64.71,
+          -66.1
+        ],
+        "to": [
+          71.71,
+          -58.25
+        ],
+        "top": -1.55,
+        "bottom": -5.35,
+        "thickness": 1.1,
+        "faceDeg": 131.75
+      },
+      {
+        "id": "hm.wall.quay_end",
+        "from": [
+          43.5,
+          -67.3
+        ],
+        "to": [
+          53.95,
+          -76.63
+        ],
+        "top": -1.55,
+        "bottom": -4.4,
+        "thickness": 1.0,
+        "faceDeg": 221.75,
+        "note": "the wharf's north-west end wall, where the platform meets the bank"
+      }
+    ]
+  },
+  "steps": {
+    "comment": [
+      "Step flights through the scarps. Rise and going follow ART_BIBLE",
+      "section 3 (0.175 / 0.28); the riser count is chosen so the flight lands",
+      "exactly on both levels, which moves the actual rise by a few mm.",
+      "The top nosing sits at `at`, and the flight descends toward `headingDeg`."
+    ],
+    "list": [
+      {
+        "id": "hm.steps.church",
+        "at": [
+          -17.5,
+          16.0
+        ],
+        "headingDeg": 180.0,
+        "width": 11.0,
+        "top": 1.15,
+        "bottom": 0.0,
+        "note": "the grand flight from the market square up to the upper terrace, beside the Ford Road ramp and clear of its carriageway."
+      },
+      {
+        "id": "hm.steps.market_nw",
+        "at": [
+          -30.0,
+          -16.0
+        ],
+        "headingDeg": 180.0,
+        "width": 4.0,
+        "top": 0.0,
+        "bottom": -1.05
+      },
+      {
+        "id": "hm.steps.market_ne",
+        "at": [
+          30.0,
+          -16.0
+        ],
+        "headingDeg": 180.0,
+        "width": 4.0,
+        "top": 0.0,
+        "bottom": -1.05
+      },
+      {
+        "id": "hm.steps.lower_w",
+        "at": [
+          -26.0,
+          -52.0
+        ],
+        "headingDeg": 180.0,
+        "width": 3.5,
+        "top": -1.05,
+        "bottom": -1.85
+      },
+      {
+        "id": "hm.steps.lower_e",
+        "at": [
+          26.0,
+          -52.0
+        ],
+        "headingDeg": 180.0,
+        "width": 3.5,
+        "top": -1.05,
+        "bottom": -1.85
+      },
+      {
+        "id": "hm.steps.smiths_w",
+        "at": [
+          -26.0,
+          44.0
+        ],
+        "headingDeg": 180.0,
+        "width": 3.5,
+        "top": 1.62,
+        "bottom": 1.15
+      },
+      {
+        "id": "hm.steps.smiths_e",
+        "at": [
+          30.0,
+          44.0
+        ],
+        "headingDeg": 180.0,
+        "width": 3.5,
+        "top": 1.62,
+        "bottom": 1.15
+      },
+      {
+        "id": "hm.steps.quay",
+        "at": [
+          63.7,
+          -67.22
+        ],
+        "headingDeg": 131.75,
+        "width": 3.0,
+        "top": -1.55,
+        "bottom": -3.7,
+        "note": "the quay stair, in the break between the two runs of the quay wall. It descends the face into the harbour: the bottom four treads are under water and are always wet, which is the detail that tells a player the water has depth."
+      }
+    ]
+  },
+  "surfaces": {
+    "comment": [
+      "Ground cover weights. The mesh generator resolves these per triangle to",
+      "pick a material and per vertex to tint the blend, so boundaries are",
+      "ragged rather than a jigsaw of straight edges. Thresholds are in metres",
+      "relative to the water surface, or in slope (dy/dx, so 0.5 = 26 degrees).",
+      "",
+      "`waterlineMud.above` is deliberately tight. At 1.0 m the band swallowed",
+      "the entire gate-flat terrace at -1.85 \u00e2\u20ac\u201d the lowest third of the town",
+      "rendered as tidal silt, because a threshold on elevation alone cannot",
+      "tell a low terrace from a river margin.",
+      "",
+      "`townEarth` is a rounded rectangle following the wall line, not a",
+      "radius. A radial mask draws a perfect circle of trodden earth in the",
+      "middle of a meadow, which is the single most artificial thing a",
+      "terrain splat can do, and it was visible from the first aerial."
+    ],
+    "waterlineMud": {
+      "below": 0.05,
+      "above": 0.42,
+      "fade": 1.2,
+      "wobble": 0.2,
+      "dropOff": 104.0
+    },
+    "gravelSlope": {
+      "from": 0.42,
+      "to": 0.72
+    },
+    "townEarth": {
+      "half": [
+        84.0,
+        82.0
+      ],
+      "corner": 30.0,
+      "fade": 18.0,
+      "patchFrequency": 0.036,
+      "patchFloor": 0.56,
+      "bankSlope": [
+        0.22,
+        0.46
+      ],
+      "note": [
+        "patch* leaves green pockets inside the wall \u00e2\u20ac\u201d yards, kitchen gardens,",
+        "the churchyard, verges. Uniform trodden earth across the whole walled",
+        "area reads as a brown slab from the air.",
+        "bankSlope forces GRASS onto anything steeper than a working surface",
+        "inside the town, which is what makes the terrace scarps legible: a",
+        "green band along every retaining wall. Outside the town the same",
+        "slopes get gravel scree instead, because nobody is mowing them."
+      ]
+    },
+    "townEdgeNoise": {
+      "amplitude": 11.0,
+      "frequency": 0.019,
+      "seed": 3313
+    },
+    "edgeNoise": {
+      "amplitude": 0.62,
+      "frequency": 0.055,
+      "seed": 7717,
+      "detailAmplitude": 0.24,
+      "detailFrequency": 0.17
+    }
+  }
+}

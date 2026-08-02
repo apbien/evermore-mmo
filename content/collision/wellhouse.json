@@ -1,0 +1,111 @@
+{
+  "$schema": "../schemas/collision.schema.json",
+  "venue": "wellhouse",
+  "cells": [
+    "D8"
+  ],
+  "space": "venue-local",
+  "volumes": [
+    {
+      "shape": "box",
+      "center": [
+        0.0,
+        0.1,
+        0.0
+      ],
+      "half": [
+        3.25,
+        0.2,
+        3.25
+      ],
+      "rotY": 0.2094,
+      "kind": "surface",
+      "tag": "apron"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        0.0,
+        0.57,
+        0.0
+      ],
+      "radius": 1.08,
+      "height": 0.54,
+      "tag": "wellhead"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -2.9651,
+        1.7,
+        -1.9256
+      ],
+      "radius": 0.17,
+      "height": 2.6,
+      "tag": "post"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -1.9256,
+        1.7,
+        2.9651
+      ],
+      "radius": 0.17,
+      "height": 2.6,
+      "tag": "post"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        1.9256,
+        1.7,
+        -2.9651
+      ],
+      "radius": 0.17,
+      "height": 2.6,
+      "tag": "post"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        2.9651,
+        1.7,
+        1.9256
+      ],
+      "radius": 0.17,
+      "height": 2.6,
+      "tag": "post"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.1624,
+        0.61,
+        1.2345
+      ],
+      "half": [
+        0.4,
+        0.31,
+        1.18
+      ],
+      "rotY": 0.2094,
+      "tag": "trough"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -0.4581,
+        0.54,
+        -3.8386
+      ],
+      "half": [
+        1.2,
+        0.24,
+        0.24
+      ],
+      "rotY": 0.2094,
+      "tag": "bench"
+    }
+  ]
+}

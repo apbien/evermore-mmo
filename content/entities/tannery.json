@@ -1,0 +1,42 @@
+{
+  "venue": "tannery",
+  "cells": [
+    "K5",
+    "K6",
+    "L5",
+    "L6"
+  ],
+  "entities": [
+    {
+      "id": "hm.tannery.station.01",
+      "archetype": "crafting_station.tanner",
+      "cell": "L6",
+      "transform": {
+        "pos": [
+          0.9,
+          0.65,
+          -0.6
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "use"
+          ],
+          "range": 2.0
+        },
+        "crafting_station": {
+          "profession": "tanner",
+          "tier": 1
+        }
+      }
+    }
+  ]
+}

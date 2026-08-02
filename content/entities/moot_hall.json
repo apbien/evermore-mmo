@@ -1,0 +1,177 @@
+{
+  "venue": "moot_hall",
+  "cells": [
+    "E7",
+    "E8",
+    "F7",
+    "F8"
+  ],
+  "entities": [
+    {
+      "id": "hm.slot.03.moot.lockup.01",
+      "archetype": "door.lockup",
+      "cell": "F7",
+      "transform": {
+        "pos": [
+          0.6116,
+          0.42,
+          5.0008
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.03.moot.measures.01",
+      "archetype": "prop.town_measures",
+      "cell": "F7",
+      "transform": {
+        "pos": [
+          0.0558,
+          1.47,
+          6.1233
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.03.moot.scales.01",
+      "archetype": "prop.town_scales",
+      "cell": "E7",
+      "transform": {
+        "pos": [
+          2.275,
+          1.97,
+          -3.9404
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.03.moot.door.01",
+      "archetype": "door.moot_hall",
+      "cell": "F7",
+      "transform": {
+        "pos": [
+          6.7014,
+          3.66,
+          -2.4472
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "enter"
+          ],
+          "range": 2.0
+        }
+      }
+    },
+    {
+      "id": "hm.slot.03.moot.bell.01",
+      "archetype": "landmark.moot_bell",
+      "cell": "F7",
+      "transform": {
+        "pos": [
+          -2.785,
+          13.15,
+          4.8238
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        },
+        "landmark": {
+          "name": "The Moot Bell",
+          "silhouette": true
+        }
+      }
+    },
+    {
+      "id": "hm.slot.03.moot.post.01",
+      "archetype": "prop.whipping_post",
+      "cell": "F7",
+      "transform": {
+        "pos": [
+          8.7743,
+          1.62,
+          -2.4975
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    }
+  ]
+}

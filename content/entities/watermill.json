@@ -1,0 +1,152 @@
+{
+  "venue": "watermill",
+  "cells": [
+    "C1",
+    "C2",
+    "D1",
+    "D2",
+    "E1",
+    "E2"
+  ],
+  "entities": [
+    {
+      "id": "hm.townhouse.door.77",
+      "archetype": "door.cottage",
+      "cell": "D2",
+      "transform": {
+        "pos": [
+          -44.393,
+          -1.49,
+          -76.386
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.watermill.wheel.01",
+      "archetype": "prop.mill_wheel",
+      "cell": "C1",
+      "transform": {
+        "pos": [
+          -52.2752,
+          -0.6,
+          -85.1727
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        },
+        "animation": {
+          "spin": {
+            "axis": [
+              0.8660254037844387,
+              0,
+              -0.49999999999999994
+            ],
+            "rpm": 6.5,
+            "pivot": [
+              -52.2751537180436,
+              -2.1,
+              -85.17273264224963
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "hm.townhouse.door.78",
+      "archetype": "door.cottage",
+      "cell": "E2",
+      "transform": {
+        "pos": [
+          -20.1695,
+          -0.8698,
+          -70.3489
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "open"
+          ],
+          "range": 2.0
+        },
+        "collider": {
+          "shape": "box",
+          "half": [
+            0.475,
+            1.05,
+            0.06
+          ]
+        }
+      }
+    },
+    {
+      "id": "hm.granary.store.01",
+      "archetype": "container.granary",
+      "cell": "E1",
+      "transform": {
+        "pos": [
+          -22.9,
+          -0.8698,
+          -75.4
+        ],
+        "rot": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": 1.0
+      },
+      "components": {
+        "interactable": {
+          "verbs": [
+            "inspect"
+          ],
+          "range": 2.0
+        }
+      }
+    }
+  ]
+}

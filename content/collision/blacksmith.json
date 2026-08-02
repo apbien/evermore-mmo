@@ -1,0 +1,400 @@
+{
+  "$schema": "../schemas/collision.schema.json",
+  "venue": "blacksmith",
+  "cells": [
+    "D10",
+    "D9",
+    "E10",
+    "E9"
+  ],
+  "space": "venue-local",
+  "volumes": [
+    {
+      "shape": "box",
+      "center": [
+        -0.0,
+        -0.0112,
+        0.0
+      ],
+      "half": [
+        8.8,
+        0.2512,
+        6.8
+      ],
+      "rotY": -2.0944,
+      "kind": "surface",
+      "tag": "smithy_platform"
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.7926,
+        2.94,
+        -1.0349
+      ],
+      "half": [
+        5.9,
+        2.7,
+        0.12
+      ],
+      "tag": "smithy_wall",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.1304,
+        2.94,
+        -3.1579
+      ],
+      "half": [
+        0.12,
+        2.7,
+        5.9
+      ],
+      "tag": "smithy_wall",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        -1.7696,
+        0.32,
+        1.8651
+      ],
+      "half": [
+        6.0,
+        0.1,
+        6.0
+      ],
+      "kind": "surface",
+      "tag": "smithy_floor",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        6.1533,
+        2.94,
+        -0.2579
+      ],
+      "half": [
+        0.19,
+        2.7,
+        0.19
+      ],
+      "tag": "smithy_post",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        -3.8926,
+        2.94,
+        -6.0579
+      ],
+      "half": [
+        0.19,
+        2.7,
+        0.19
+      ],
+      "tag": "smithy_post",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        4.7033,
+        2.94,
+        2.2536
+      ],
+      "half": [
+        0.19,
+        2.7,
+        0.19
+      ],
+      "tag": "smithy_post",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        -5.3426,
+        2.94,
+        -3.5464
+      ],
+      "half": [
+        0.19,
+        2.7,
+        0.19
+      ],
+      "tag": "smithy_post",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        3.2533,
+        2.94,
+        4.7651
+      ],
+      "half": [
+        0.19,
+        2.7,
+        0.19
+      ],
+      "tag": "smithy_post",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        -6.7926,
+        2.94,
+        -1.0349
+      ],
+      "half": [
+        0.19,
+        2.7,
+        0.19
+      ],
+      "tag": "smithy_post",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.8033,
+        2.94,
+        7.2765
+      ],
+      "half": [
+        0.19,
+        2.7,
+        0.19
+      ],
+      "tag": "smithy_post",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        -8.2426,
+        2.94,
+        1.4765
+      ],
+      "half": [
+        0.19,
+        2.7,
+        0.19
+      ],
+      "tag": "smithy_post",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.3533,
+        2.94,
+        9.788
+      ],
+      "half": [
+        0.19,
+        2.7,
+        0.19
+      ],
+      "tag": "smithy_post",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        -9.6926,
+        2.94,
+        3.988
+      ],
+      "half": [
+        0.19,
+        2.7,
+        0.19
+      ],
+      "tag": "smithy_post",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        8.9935,
+        2.34,
+        -4.3772
+      ],
+      "half": [
+        0.3125,
+        2.1,
+        0.2
+      ],
+      "tag": "dwelling",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        7.531,
+        2.34,
+        -1.8441
+      ],
+      "half": [
+        1.3625,
+        2.1,
+        0.2
+      ],
+      "tag": "dwelling",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        -2.3926,
+        2.34,
+        -8.656
+      ],
+      "half": [
+        2.3,
+        2.1,
+        0.2
+      ],
+      "tag": "dwelling",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        3.9536,
+        2.34,
+        -7.6478
+      ],
+      "half": [
+        0.2,
+        2.1,
+        6.0
+      ],
+      "tag": "dwelling",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        1.6536,
+        2.34,
+        -3.6641
+      ],
+      "half": [
+        0.2,
+        2.1,
+        6.0
+      ],
+      "tag": "dwelling",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        -4.1002,
+        0.69,
+        -2.5982
+      ],
+      "half": [
+        1.52,
+        0.45,
+        0.87
+      ],
+      "tag": "forge",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "box",
+      "center": [
+        -4.1002,
+        2.74,
+        -2.5982
+      ],
+      "half": [
+        0.62,
+        2.0,
+        0.62
+      ],
+      "tag": "forge_stack",
+      "rotY": -2.0944
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -3.1664,
+        0.68,
+        -0.6157
+      ],
+      "radius": 0.36,
+      "height": 0.88,
+      "tag": "anvil"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -4.6958,
+        0.7,
+        0.2334
+      ],
+      "radius": 0.44,
+      "height": 0.92,
+      "tag": "quench"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        -4.0941,
+        0.79,
+        4.3912
+      ],
+      "radius": 0.5,
+      "height": 1.1,
+      "tag": "grindstone"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        6.1859,
+        0.81,
+        2.1858
+      ],
+      "radius": 0.13,
+      "height": 1.14,
+      "tag": "hitching_post"
+    },
+    {
+      "shape": "cylinder",
+      "center": [
+        4.6359,
+        0.81,
+        4.8704
+      ],
+      "radius": 0.13,
+      "height": 1.14,
+      "tag": "hitching_post"
+    },
+    {
+      "shape": "box",
+      "center": [
+        0.9219,
+        0.62,
+        -2.2968
+      ],
+      "half": [
+        0.95,
+        0.38,
+        0.38
+      ],
+      "rotY": 2.1944,
+      "tag": "bench"
+    }
+  ]
+}
