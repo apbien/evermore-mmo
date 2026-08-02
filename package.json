@@ -5,10 +5,17 @@
   "type": "module",
   "description": "Evermore - Hearthmere, an MMORPG first town built to AAA standards",
   "scripts": {
-    "shots": "node tools/render/shoot.mjs",
     "serve": "node client/serve.mjs",
+    "build": "python tools/assetgen/build.py --skip-textures",
+    "textures": "python tools/assetgen/build.py --textures-only",
+    "town": "node tools/render/town.mjs --views plan,aerial-ne,aerial-sw,arrival,square,silhouette,approach-n,approach-s,approach-w --out review/shots/town --allow-missing",
+    "shots": "node tools/render/shoot.mjs",
+    "validate": "python tools/validate.py",
     "walkable": "node tools/check_walkable.mjs",
-    "playable": "node tools/check_client.mjs"
+    "playable": "node tools/check_client.mjs",
+    "plan": "python tools/plan/townplan.py --check",
+    "determinism": "python tools/determinism.py",
+    "verify": "npm run validate && npm run walkable && npm run playable && npm run plan"
   },
   "dependencies": { "three": "^0.180.0" },
   "devDependencies": { "playwright": "^1.49.0" }

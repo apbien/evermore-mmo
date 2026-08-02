@@ -62,15 +62,32 @@ If an instruction here conflicts with the Art Bible, **the Art Bible wins.**
 
 ## Commands
 
+**`make` is not available on Windows, which is where this project is built.**
+The `Makefile` still works where make exists, but these are the commands of
+record and the ones the docs and reports cite:
+
 ```bash
-make setup          # install python + node deps
-make assets         # regenerate all assets (deterministic)
-make assets V=inn   # regenerate one venue
-make shots          # render review screenshots for all venues
-make shots V=inn    # render one venue
-make validate       # schema + scale + palette + anachronism checks
-make serve          # run the playable client at :8080
+npm run build              # regenerate all venue meshes (deterministic, ~10-15 min)
+npm run build -- --venue inn   # one venue, seconds
+npm run textures           # regenerate PBR sets (add -- --force-textures after a recipe change)
+npm run town               # whole-town renders -> review/shots/town/
+npm run shots -- --asset assets/meshes/inn.gltf --site 22,-6 --out review/shots/inn --label inn --views gameplay,approach,detail,silhouette
+npm run verify             # validate + walkable + playable + plan, in order
+npm run serve              # the playable client at :8080
 ```
+
+The provers individually — `npm run validate`, `walkable`, `playable`, `plan`,
+`determinism`. Each maps to a `python tools/...` or `node tools/...` invocation
+if you need to pass unusual arguments; read `package.json`.
+
+Renders need a browser: `npx playwright install chromium` once per machine, or
+every render command fails.
+
+`assets/` is untracked (D-067), so a fresh clone has no meshes until you run
+`npm run textures && npm run build`.
+
+Refresh the machine verdict the session-start ritual reads with
+`npm run validate > review/validate.txt`.
 
 ## Definition of done
 
