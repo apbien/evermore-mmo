@@ -1,126 +1,245 @@
 textures:
-  107 PBR sets
+  113 PBR sets
 
 meshes:
-  blacksmith.gltf           18,939 tris   11.0 x   8.5 x   9.0 m  9 mats
-  cottage.gltf              14,359 tris    7.9 x   7.5 x   6.5 m  11 mats
-  guild.gltf                61,912 tris   28.2 x  14.3 x  14.6 m  20 mats
-  inn.gltf                  47,893 tris   14.0 x  16.6 x  12.1 m  13 mats
-  market_square.gltf        34,236 tris   34.0 x   3.3 x  32.4 m  12 mats
-  pub.gltf                  22,092 tris   15.6 x   8.3 x  13.6 m  11 mats
-  shop_row.gltf            124,834 tris   21.8 x  11.6 x   9.7 m  15 mats
-  stalls.gltf              124,089 tris   18.8 x   3.1 x  17.7 m  16 mats
-  streets.gltf              47,674 tris  155.8 x  11.1 x 192.3 m  7 mats
-  terrain.gltf             263,094 tris  576.0 x  30.4 x 576.0 m  7 mats
-  townhouse.gltf           1,731,316 tris  151.7 x  16.3 x 156.7 m  18 mats
-  total 2,490,438 tris authored
+  bakery.gltf              102,307 tris   13.6 x  12.5 x  24.3 m  22 mats
+  bathhouse.gltf            82,731 tris   20.7 x  10.0 x  19.0 m  25 mats
+  blacksmith.gltf           74,323 tris   20.7 x  12.2 x  22.7 m  22 mats
+  bowyer.gltf               55,137 tris   12.1 x   7.5 x  11.6 m  15 mats
+  carpenter.gltf            76,162 tris   15.6 x   8.4 x  13.4 m  14 mats
+  chandler.gltf             72,731 tris   11.5 x   9.5 x  12.2 m  20 mats
+  chophouse.gltf            69,782 tris   13.3 x  11.1 x  16.7 m  20 mats
+  church.gltf              138,322 tris   32.1 x  22.3 x  36.0 m  19 mats
+  confectioner.gltf         53,277 tris    7.3 x  10.4 x  12.2 m  16 mats
+  cooper.gltf               80,793 tris   13.8 x   8.3 x  14.4 m  14 mats
+  cottage.gltf              16,063 tris    7.9 x   7.5 x   6.5 m  8 mats
+  dovecote.gltf             65,343 tris    7.6 x   8.5 x   9.7 m  11 mats
+  fish_eatery.gltf          73,760 tris   13.7 x  10.8 x  18.6 m  14 mats
+  gatehouse.gltf            53,001 tris   14.2 x  19.7 x  27.2 m  9 mats
+  guild.gltf               136,223 tris   17.2 x  22.0 x  17.5 m  19 mats
+  inn.gltf                 151,304 tris   16.1 x  17.1 x  14.8 m  33 mats
+  landscape.gltf           528,202 tris  553.9 x  34.2 x 547.4 m  25 mats
+  market_square.gltf        82,807 tris   34.0 x   6.0 x  33.1 m  17 mats
+  moot_hall.gltf            87,690 tris   17.8 x  17.8 x  17.6 m  18 mats
+  props_sheet.gltf         262,133 tris   26.1 x   3.0 x  24.0 m  57 mats
+  props_situ.gltf           67,221 tris   12.4 x   7.3 x  12.4 m  18 mats
+  pub.gltf                  23,360 tris   15.6 x   8.3 x  13.6 m  9 mats
+  quay.gltf                248,319 tris   33.4 x  17.0 x  43.4 m  20 mats
+  shop_row.gltf             83,882 tris   21.8 x  11.6 x   9.7 m  11 mats
+  stables.gltf              73,813 tris   20.1 x   8.4 x  18.0 m  13 mats
+  stalls.gltf              119,992 tris   18.8 x   3.1 x  17.7 m  11 mats
+  streets.gltf             262,680 tris  162.0 x   8.0 x 192.7 m  15 mats
+  tannery.gltf              56,573 tris   11.2 x   6.0 x  15.3 m  12 mats
+  terrain.gltf             271,446 tris  576.0 x  30.4 x 576.0 m  10 mats
+  townhouse.gltf           1,434,817 tris  151.3 x  15.9 x 150.1 m  18 mats
+  waggon_shed.gltf          69,466 tris   17.8 x   8.0 x  16.2 m  9 mats
+  wall.gltf                132,930 tris  165.3 x  22.2 x 161.9 m  10 mats
+  warehouse.gltf           256,253 tris  137.4 x  15.6 x 151.4 m  17 mats
+  watermill.gltf            94,586 tris   41.7 x  17.8 x  26.4 m  17 mats
+  wellhouse.gltf            32,996 tris    9.7 x   8.9 x   8.4 m  13 mats
+  total 5,490,425 tris authored
 
 entities:
-  blacksmith.json            3
+  bakery.json                6
+  bathhouse.json             9
+  blacksmith.json            8
+  bowyer.json                2
+  carpenter.json             3
+  chandler.json              6
+  chophouse.json             6
+  church.json                7
+  confectioner.json          3
+  cooper.json                3
   cottage.json               1
-  guild.json                 6
-  inn.json                   4
+  dovecote.json              2
+  fish_eatery.json           3
+  gatehouse.json             6
+  guild.json                12
+  inn.json                  10
+  landscape.json             7
   market_square.json         3
+  moot_hall.json             6
+  props_sheet.json           0
+  props_situ.json            0
   pub.json                   5
+  quay.json                 13
   shop_row.json              6
+  stables.json               2
   stalls.json                8
-  streets.json               5
+  streets.json              14
+  tannery.json               1
   terrain.json               0
-  townhouse.json            67
-  total 108
+  townhouse.json            61
+  waggon_shed.json           1
+  wall.json                 24
+  warehouse.json            15
+  watermill.json             4
+  wellhouse.json             2
+  total 259
+  259 entity IDs over 35 files, global uniqueness: 0 duplicated
+
+schemas (content/schemas):
+  town file against town.schema.json: no violation(s)
+  259 entity records over 35 files against entity.schema.json: no violation(s)
+
+decision IDs (docs/DECISIONS.md): 78 distinct IDs, 5 duplicated
 
 town:
-  31 placements, 2,476,079 source tris, 2,426 primitives; unculled draw calls by LOD level: L0 1,136 / L1 743 / L2 465 / L3 369
-  75 GPU-instanced batches carrying 1,453 instances
-  heaviest venues (LOD0 draws): townhouse 826 over 74 cells, streets 94 over 30 cells, stalls 40 over 4 cells, guild 39 over 5 cells, shop_row 36 over 4 cells
-  heaviest cells  (LOD0 draws): G7 95 (market_square+streets+terrain+townhouse), H2 43 (pub+townhouse), D5 41 (guild+inn+townhouse), G6 33 (market_square+stalls+streets+townhouse), D7 30 (guild+townhouse), D10 30 (blacksmith+townhouse)
+  32 placements, 5,145,008 source tris across every LOD, 4,944 primitives; unculled draw calls by LOD level: L0 2,080 / L1 1,597 / L2 1,006 / L3 843
+  unculled triangles by LOD level: L0 4,290,413 / L1 2,618,331 / L2 1,613,048 / L3 1,281,834
+  223 GPU-instanced batches carrying 10,943 instances
+  heaviest venues (LOD0 draws): landscape 560 over 113 cells, townhouse 508 over 70 cells, streets 166 over 32 cells, wall 125 over 21 cells, warehouse 75 over 14 cells
+  heaviest cells  (LOD0 draws): outside-grid 297 (landscape), H7 51 (confectioner+landscape+streets+townhouse), D5 43 (inn+townhouse), K5 43 (dovecote+landscape+streets+wall), H2 43 (landscape+pub+streets+wall+warehouse), E2 42 (landscape+streets+townhouse+wall+watermill)
   15 street widths checked
-  11 collision files, 927 volumes, 1072 street stations checked for a walkable gap
+  35 collision files, 2609 volumes, 1072 street stations checked for a walkable gap
 
 geometry (terrain: core/terrain.py height()):
-  blacksmith                  1 masses  1 placement(s)
+  2,561,620 occupied voxels across the assembled town (what 'carried by something' is tested against)
+  bakery                      4 masses  1 placement(s)
+  bathhouse                   8 masses  1 placement(s)
+  blacksmith                  2 masses  1 placement(s)
+  bowyer                      1 masses  1 placement(s)
+  carpenter                   2 masses  1 placement(s)
+  chandler                    1 masses  1 placement(s)
+  chophouse                   2 masses  1 placement(s)
+  church                      1 masses  1 placement(s)
+  confectioner                1 masses  1 placement(s)
+  cooper                      2 masses  1 placement(s)
   cottage                     1 masses  1 placement(s)
+  dovecote                    2 masses  1 placement(s)
+  fish_eatery                 1 masses  1 placement(s)
+  gatehouse                   1 masses  1 placement(s)
   guild                       1 masses  1 placement(s)
   inn                         1 masses  1 placement(s)
+  landscape                 309 masses  1 placement(s)  +9,140 instances
   market_square               1 masses  1 placement(s)
+  moot_hall                   1 masses  1 placement(s)
+  props_sheet                 8 masses  1 placement(s)
+  props_situ                  1 masses  1 placement(s)
   pub                         1 masses  1 placement(s)
+  quay                        2 masses  1 placement(s)
   shop_row                    1 masses  1 placement(s)
-  stalls                      1 masses  1 placement(s)
-  streets                     3 masses  1 placement(s)
-  terrain                     1 masses  1 placement(s)
-  townhouse                  10 masses  1 placement(s)
-  11 placements tested for sunk / buried / floating mass
-  107 entity positions tested against terrain
+  stables                     1 masses  1 placement(s)
+  stalls                      6 masses  1 placement(s)
+  streets                    15 masses  1 placement(s)
+  tannery                     1 masses  1 placement(s)
+  terrain                     1 masses  1 placement(s)  +1,205 instances
+  townhouse                  35 masses  1 placement(s)
+  waggon_shed                 1 masses  1 placement(s)
+  wall                       12 masses  1 placement(s)  +598 instances
+  warehouse                   7 masses  1 placement(s)
+  watermill                   3 masses  1 placement(s)
+  wellhouse                   1 masses  1 placement(s)
+  35 placements tested for sunk / buried / floating mass
+  258 entity positions tested against terrain
 
 palette (Art Bible §4):
-  107 albedo maps against 32 locked colours; worst: stained 13.8, stained_dark 13.7, grass_dry 8.8, copper 7.5
+  111 albedo maps against 32 locked colours; worst: copper 6.5, bronze 6.1, glass 5.7, leaf_yew 5.4
 
 texel density (Art Bible §5):
-  105 sets against 3 density classes (hero 512 / standard 256 / large 128 px/m), declared and on disk
+  110 sets against 3 density classes (hero 512 / standard 256 / large 128 px/m), declared and on disk
+
+uv density — what the mesh samples (D-050):
+material             area m2  authored   shipped   ratio  worst venue
+tree_far              130094     16.00     17.23   1.08x  landscape=17.23  atlas
+oak_dark               10918      0.77      1.12   1.45x  townhouse=1.12  warn  [uv_detail tools/assetgen/venues/chophouse.py:460]
+leaf_oak                6105      2.00      1.02   0.51x  landscape=1.02  atlas
+leaf_ash                2709      2.00      1.41   0.70x  landscape=1.41  atlas
+leaf_yew                2017      2.00      1.09   0.54x  landscape=1.09  atlas
+ashlar_civic            1508      2.00      1.20   0.60x  guild=1.29  warn
+dirt                    1155      2.00      1.20   0.60x  blacksmith=0.96  warn
+leaf_willow              941      2.00      1.41   0.70x  landscape=1.41  atlas
+glass                    767      2.00      2.29   1.14x  townhouse=2.38  atlas
+mud_wet                  651      2.00      1.29   0.64x  stables=0.99  warn
+leaf_apple               611      2.00      0.87   0.44x  landscape=0.87  atlas
+glass_lit                503      2.00      2.12   1.06x  townhouse=2.13  atlas
+stained_dark             277      2.00      1.31   0.66x  tannery=1.21  warn
+stained                  179      2.00      1.48   0.74x  tannery=1.05  atlas
+oak                      174      1.43      1.01   0.70x  props_sheet=1.01  warn  [uv_detail tools/assetgen/venues/moot_hall.py:298]
+foliage                   63      2.00      1.31   0.66x  landscape=1.26  warn
+canvas_slate              50      2.00      1.02   0.51x  fish_eatery=0.98  warn
+straw                     47      2.00      0.76   0.38x  inn=0.57  FAIL
+wool_crimson              36      1.00      3.10   3.10x  guild=3.78  FAIL
+foliage_flower            33      2.00      1.02   0.51x  landscape=1.00  warn
+parchment                 32      1.00      0.94   0.94x  guild=0.94  atlas
+canvas_amber              18      2.00      0.83   0.41x  chophouse=0.83  FAIL
+cobble_wall               18      2.00      2.89   1.44x  wellhouse=2.89  warn
+weeds                      9      2.00      1.07   0.54x  streets=1.11  warn
+banner                     5      2.00      1.58   0.79x  guild=1.58  atlas
+wax                        3      1.00      0.78   0.78x  moot_hall=0.77  atlas
+
+  3 failure(s), 11 warning(s) over 103 materials.
+
+albedo exposure (Art Bible §4/§5):
+  113 albedo maps, mean luminance 0.476; brightest: plaster 0.65, linen 0.65, alabaster 0.65, water_fall 0.65
+
+mesh memory (Directive §7):
+  234.1 MB of geometry across 35 files (+5.4 MB of glTF JSON); largest: townhouse.bin 63 MB, landscape.bin 25 MB, quay.bin 12 MB
+  quantization contract checked on 35 mesh file(s)
 
 scale (Art Bible §3 named dimensions):
-  15 named dimensions checked (AWNING_CLEAR, CEIL_H, CHAMFER_ARCH, CHAMFER_PROP, CH_PROP, CH_SMALL, COUNTER_H, DOOR_H…)
+  24 named dimensions checked (AWNING_CLEAR, BARREL_H, BENCH_H, CEIL_H, CHAMFER_ARCH, CHAMFER_PROP, CH_PROP, CH_SMALL…)
 
 anachronisms (Art Bible §2):
-  16,849 lines of generator source over 29 files, 13 forbidden classes (suppress a false positive with '# anachronism-ok: reason')
+  49,893 lines of generator source over 59 files, 13 forbidden classes (suppress a false positive with '# anachronism-ok: reason')
 
-  WARN  terrain.gltf: batch 'terrain#all' is 263,094 triangles with no LOD chain
+determinism (ARCHITECTURE §7): 0 process-salted seed(s)
+
+  WARN  landscape.gltf: footprint 553.9x547.4m exceeds 60.0m
+  WARN  landscape.gltf: batch 'landscape#1_1@grass_tuft' is 26,892 triangles with no LOD chain
+  WARN  landscape.gltf: batch 'landscape#n1_0@grass_tuft' is 22,356 triangles with no LOD chain
+  WARN  landscape.gltf: batch 'landscape#n1_n1@grass_tuft' is 27,756 triangles with no LOD chain
+  WARN  landscape.gltf: batch 'landscape#n2_1@grass_tuft' is 44,928 triangles with no LOD chain
+  WARN  landscape.gltf: batch 'landscape#n2_n2@grass_tuft' is 31,752 triangles with no LOD chain
+  WARN  landscape.gltf: batch 'landscape#n2_n2@sedge_tussock' is 21,384 triangles with no LOD chain
+  WARN  landscape.gltf: batch 'landscape#n2_n3@sedge_tussock' is 21,780 triangles with no LOD chain
+  WARN  landscape.gltf: batch 'landscape#n3_n3@sedge_tussock' is 24,288 triangles with no LOD chain
+  WARN  landscape.gltf: batch 'landscape#1_0@tussock_long' is 109,356 triangles with no LOD chain
+  WARN  landscape.gltf: batch 'landscape#0_0@wall_nettles' is 20,628 triangles with no LOD chain
+  WARN  landscape.gltf: batch 'landscape#0_n1@wall_nettles' is 23,220 triangles with no LOD chain
+  WARN  landscape.gltf: batch 'landscape#n1_0@wall_nettles' is 24,408 triangles with no LOD chain
+  WARN  landscape.gltf: batch 'landscape#n1_n1@wall_nettles' is 21,384 triangles with no LOD chain
+  WARN  warehouse.gltf: footprint 137.4x151.4m exceeds 60.0m
+  WARN  content/town/hearthmere.json: venues 'quay' and 'warehouse' share origin (0, 0, 0)
+  WARN  content/town/hearthmere.json: venues 'warehouse' and 'fish_eatery' share origin (0, 0, 0)
+  WARN  content/town/hearthmere.json: venues 'fish_eatery' and 'watermill' share origin (0, 0, 0)
+  WARN  content/town/hearthmere.json: venues 'watermill' and 'terrain' share origin (0, 0, 0)
+  WARN  content/town/hearthmere.json: venues 'terrain' and 'landscape' share origin (0, 0, 0)
+  WARN  content/town/hearthmere.json: venues 'landscape' and 'streets' share origin (0, 0, 0)
   WARN  content/town/hearthmere.json: venues 'streets' and 'wall' share origin (0, 0, 0)
   WARN  content/town/hearthmere.json: venues 'wall' and 'market_square' share origin (0, 0, 0)
   WARN  content/town/hearthmere.json: venues 'market_square' and 'townhouse' share origin (0, 0, 0)
-  WARN  cell G7 costs 95 draw calls at LOD0 (market_square, streets, terrain, townhouse) — over 45, a frame spike for anyone standing in it
-  WARN  townhouse: an isolated mass (1 voxels) floats — nothing under it for 8.74 m at (-68.3, 0.7). Directive §6.1: every mass sits on ground, is carried by something that reaches the ground, or is visibly fixed to a wall.
-  WARN  townhouse: an isolated mass (1 voxels) floats — nothing under it for 4.33 m at (-55.9, -25.8). Directive §6.1: every mass sits on ground, is carried by something that reaches the ground, or is visibly fixed to a wall.
-  WARN  townhouse: an isolated mass (2 voxels) floats — nothing under it for 3.47 m at (59.3, 9.8). Directive §6.1: every mass sits on ground, is carried by something that reaches the ground, or is visibly fixed to a wall.
-  WARN  townhouse: an isolated mass (3 voxels) floats — nothing under it for 2.43 m at (66.0, 70.4). Directive §6.1: every mass sits on ground, is carried by something that reaches the ground, or is visibly fixed to a wall.
-  WARN  townhouse: an isolated mass (1 voxels) floats — nothing under it for 2.43 m at (71.2, 62.7). Directive §6.1: every mass sits on ground, is carried by something that reaches the ground, or is visibly fixed to a wall.
-  WARN  assets/textures/algae_albedo.png: albedo 'algae' drifts from §4 (90th-percentile distance 5.0, nearest family INN_GREEN) — authored from a hex literal rather than a palette constant?
-  WARN  assets/textures/grass_dry_albedo.png: albedo 'grass_dry' drifts from §4 (90th-percentile distance 8.8, nearest family HERB_GREEN) — authored from a hex literal rather than a palette constant?
-  WARN  assets/textures/kit_trim_albedo.png: albedo 'kit_trim' drifts from §4 (90th-percentile distance 5.7, nearest family IRON) — authored from a hex literal rather than a palette constant?
-  WARN  assets/textures/steel_blued_albedo.png: albedo 'steel_blued' drifts from §4 (90th-percentile distance 6.5, nearest family SLATE) — authored from a hex literal rather than a palette constant?
-  WARN  assets/textures/water_albedo.png: albedo 'water' drifts from §4 (90th-percentile distance 5.4, nearest family VERDIGRIS) — authored from a hex literal rather than a palette constant?
-  FAIL  content/town/hearthmere.json: town references venue 'moot_hall' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'chophouse' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'church' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'confectioner' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'bakery' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'cooper' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'carpenter' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'chandler' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'bowyer' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'stables' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'dovecote' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'quay' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'warehouse' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'fish_eatery' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'stables' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'watermill' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'wellhouse' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'bathhouse' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'tannery' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'wall' with no built mesh
-  FAIL  content/town/hearthmere.json: town references venue 'gatehouse' with no built mesh
-  FAIL  content/collision: venue 'bakery' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'bathhouse' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'bowyer' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'carpenter' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'chandler' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'chophouse' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'church' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'confectioner' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'cooper' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'dovecote' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'fish_eatery' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'gatehouse' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'moot_hall' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'quay' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'stables' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'tannery' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'wall' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'warehouse' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'watermill' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  content/collision: venue 'wellhouse' is placed in the town but has no collision file — the client will let the player walk through it
-  FAIL  tools/assetgen/core/materials.py:1901: plastic: coloured plastic.
-  FAIL  tools/assetgen/core/materials.py:3160: wire rope / machine chain: # chain link's bearing face. That single bright note is what stops the whole
+  WARN  §7 budget: the town at LOD0 with nothing culled is 4,290,413 triangles, over the 3,500,000 drawn budget — inside §7 only because of distance culling. tools/render/town.mjs owns the real frame.
+  WARN  §7 budget: the whole town at LOD3 is 843 draw calls, over 70% of the 900 budget with the town not yet complete
+  WARN  cell H7 costs 51 draw calls at LOD0 (confectioner, landscape, streets, townhouse) — over 45, a frame spike for anyone standing in it
+  WARN  gatehouse: geometry reaches 2.59 m below terrain at (4.1, -81.0) — sunk?
+  WARN  moot_hall: geometry reaches 2.03 m below terrain at (-13.1, 1.0) — sunk?
+  WARN  props_situ (not placed in the town file): geometry reaches 3.66 m below terrain at (6.2, -11.5) — sunk?
+  WARN  quay: geometry reaches 4.55 m below terrain at (48.4, -57.8) — sunk?
+  WARN  townhouse: geometry reaches 2.09 m below terrain at (57.4, -15.9) — sunk?
+  WARN  watermill: geometry reaches 2.40 m below terrain at (-52.9, -84.8) — sunk?
+  WARN  wellhouse: geometry reaches 2.80 m below terrain at (-38.4, 26.6) — sunk?
+  WARN  assets/textures/leaf_oak_albedo.png: albedo 'leaf_oak' drifts from §4 (90th-percentile distance 5.4, nearest family HERB_GREEN) — authored from a hex literal rather than a palette constant?
+  WARN  assets/textures/leaf_yew_albedo.png: albedo 'leaf_yew' drifts from §4 (90th-percentile distance 5.4, nearest family HERB_GREEN) — authored from a hex literal rather than a palette constant?
+  WARN  tools/uv_density.py: 'oak_dark' ships at 1.12 m per tile (1.45x authored) over 10918 m2. Over half a stop of texel density.
+  WARN  tools/uv_density.py: 'ashlar_civic' ships at 1.20 m per tile (0.60x authored) over 1508 m2. Over half a stop of texel density.
+  WARN  tools/uv_density.py: 'dirt' ships at 1.20 m per tile (0.60x authored) over 1155 m2. Over half a stop of texel density.
+  WARN  tools/uv_density.py: 'mud_wet' ships at 1.29 m per tile (0.64x authored) over 651 m2. Over half a stop of texel density.
+  WARN  tools/uv_density.py: 'stained_dark' ships at 1.31 m per tile (0.66x authored) over 277 m2. Over half a stop of texel density.
+  WARN  tools/uv_density.py: 'oak' ships at 1.01 m per tile (0.70x authored) over 174 m2. Over half a stop of texel density.
+  WARN  tools/uv_density.py: 'foliage' ships at 1.31 m per tile (0.66x authored) over 63 m2. Over half a stop of texel density.
+  WARN  tools/uv_density.py: 'canvas_slate' ships at 1.02 m per tile (0.51x authored) over 50 m2. Over half a stop of texel density.
+  WARN  tools/uv_density.py: 'foliage_flower' ships at 1.02 m per tile (0.51x authored) over 33 m2. Over half a stop of texel density.
+  WARN  tools/uv_density.py: 'cobble_wall' ships at 2.89 m per tile (1.44x authored) over 18 m2. Over half a stop of texel density.
+  WARN  tools/uv_density.py: 'weeds' ships at 1.07 m per tile (0.54x authored) over 9 m2. Over half a stop of texel density.
+  WARN  §7 mesh memory: 234.1 MB, over 85% of the 240 MB budget
+  FAIL  docs/DECISIONS.md: decision ID D-025 heads 2 sections (lines 791, 1890) — every citation of D-025 anywhere in the repo is ambiguous. Renumber one and update its citations.
+  FAIL  docs/DECISIONS.md: decision ID D-026 heads 2 sections (lines 823, 1956) — every citation of D-026 anywhere in the repo is ambiguous. Renumber one and update its citations.
+  FAIL  docs/DECISIONS.md: decision ID D-038 heads 2 sections (lines 1483, 1624) — every citation of D-038 anywhere in the repo is ambiguous. Renumber one and update its citations.
+  FAIL  docs/DECISIONS.md: decision ID D-040 heads 2 sections (lines 1361, 1546) — every citation of D-040 anywhere in the repo is ambiguous. Renumber one and update its citations.
+  FAIL  docs/DECISIONS.md: decision ID D-050 heads 2 sections (lines 2120, 2501) — every citation of D-050 anywhere in the repo is ambiguous. Renumber one and update its citations.
+  FAIL  tools/uv_density.py: 'straw' ships at 0.76 m per tile over 47 m2 of the town, against 2 m authored — 0.38x. The pattern is landing at 0.4 times life size. Find the hand-laid UV and route it through MATS.uv_scale('straw').
+  FAIL  tools/uv_density.py: 'wool_crimson' ships at 3.10 m per tile over 36 m2 of the town, against 1 m authored — 3.10x. The pattern is landing at 3.1 times life size. Find the hand-laid UV and route it through MATS.uv_scale('wool_crimson').
+  FAIL  tools/uv_density.py: 'canvas_amber' ships at 0.83 m per tile over 18 m2 of the town, against 2 m authored — 0.41x. The pattern is landing at 0.4 times life size. Find the hand-laid UV and route it through MATS.uv_scale('canvas_amber').
 
-43 failures, 15 warnings
+8 failures, 48 warnings
