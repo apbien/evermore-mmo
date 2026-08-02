@@ -2,11 +2,11 @@
 
 This module is the single source of truth for the town's geometry: the wall,
 the water, the street network, the levels, and the numbered schedule of every
-building slot. `docs/TOWN_PLAN.md`, `docs/plan/hearthmere-plan.svg` and
+building slot. `docs/areas/hearthmere/TOWN_PLAN.md`, `docs/areas/hearthmere/plan/hearthmere-plan.svg` and
 `content/town/hearthmere.json` are all generated from it by `townplan.py`, so
 they cannot drift apart.
 
-Coordinate contract (docs/BUILD_DIRECTIVE.md §2, LOCKED):
+Coordinate contract (docs/areas/hearthmere/BUILD_DIRECTIVE.md §2, LOCKED):
     12 x 12 cells of 16 m. Columns A-L west->east, rows 1-12 north->south.
     World origin (0,0,0) is the market square fountain, at the grid centre.
     x in [-96,+96], z in [-96,+96]. Y-up, 1 unit = 1 m, -Z is north.
@@ -506,7 +506,7 @@ SLOTS = [
       "ridge. Great west portal 6.4 m clear x 8.0 m to the arch apex, doors "
       "standing open. Floor at +2.40, altar dais +0.90 above that. Clerestory "
       "over the arcade on both sides; lantern over the altar bay. THE ARRIVAL "
-      "FRAME IS AUTHORED FROM THIS BUILDING — see docs/TOWN_PLAN.md section 7."),
+      "FRAME IS AUTHORED FROM THIS BUILDING — see docs/areas/hearthmere/TOWN_PLAN.md section 7."),
     S(12, "church_tower", "church", +35.8, -14.3, 7.6, 7.6, 270, 1, 18.4, "flat",
       "kirk_green", "hero",
       "Church tower, north-west angle. Part of venue `church`. Parapet 18.4 m, "

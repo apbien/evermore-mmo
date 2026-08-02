@@ -36,7 +36,7 @@ def _load(path):
 
 
 # ---------------------------------------------------------------------------
-# The batching manifest (docs/BUILD_DIRECTIVE.md §7)
+# The batching manifest (docs/areas/hearthmere/BUILD_DIRECTIVE.md §7)
 #
 # `tools/assetgen/core/venue.py` writes a `extras.hm` block into every venue
 # glTF describing how it was batched: the 16 m cell of each primitive, the LOD

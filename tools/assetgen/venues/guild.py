@@ -1,6 +1,6 @@
 """Adventurer's Guild — slot 02, and the hero building of Hearthmere.
 
-Read `docs/plan/schedule.md` slot 02 before changing anything here. It is the
+Read `docs/areas/hearthmere/plan/schedule.md` slot 02 before changing anything here. It is the
 brief and it is specific:
 
     Dressed stone in a plaster town, symmetrical in a town where nothing is,
@@ -61,7 +61,7 @@ cures are kept and the reasons are still true:
 
 ## The quest board
 
-`ad-town-03` did not reach it and `docs/WORLD_BIBLE.md` calls it the single
+`ad-town-03` did not reach it and `docs/areas/hearthmere/WORLD_BIBLE.md` calls it the single
 most important interactable in the town, so it gets hero-class detail: layered
 parchment with a real age spread, wax seals, iron pins, ribbon, and the torn
 corners left behind where somebody took a job. Art Bible §2: no lettering

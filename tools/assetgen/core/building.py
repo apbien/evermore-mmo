@@ -90,7 +90,7 @@ BAY_MAX = 12.0
 class Footprint:
     """A plot in world coordinates, with the local frame the schedule implies.
 
-    docs/TOWN_PLAN.md §6: a plot is `w x d` centred on `centre`, rotated so the
+    docs/areas/hearthmere/TOWN_PLAN.md §6: a plot is `w x d` centred on `centre`, rotated so the
     principal facade points along `faces`, where forward = `(sin θ, 0, -cos θ)`.
     So local **+X runs along the frontage**, local **-Z is out of the front
     door**, and `world = rot_y(-θ) * local + centre` — the same convention as
@@ -440,7 +440,7 @@ def _district_boxes():
     """District cell ranges from content, as world-space AABBs.
 
     Parsed from `districts[].cells` ("D2-H4"), which is the same string the
-    plan document and `docs/TOWN_PLAN.md` publish — so there is one definition
+    plan document and `docs/areas/hearthmere/TOWN_PLAN.md` publish — so there is one definition
     of where Kirk Knowe is and this is not it.
     """
     global _DISTRICT_BOXES

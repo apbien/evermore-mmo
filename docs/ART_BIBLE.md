@@ -4,6 +4,14 @@
 asset disagrees with the Art Bible, the asset is wrong. Changes to this file
 require an explicit decision recorded in `docs/DECISIONS.md`.
 
+**Scope note (D-068).** This bible is game-wide law, with four sections that
+are **Hearthmere-scoped**: §2 (the non-technological constraint), §4 (the
+locked palette and lighting), and §1's "The architectural idiom" and "Variety
+within the idiom". Those bind Haven I absolutely; a future area declares its
+own equivalents in its `docs/areas/<area>/BUILD_DIRECTIVE.md`, adding to the
+shared registries through decision entries — never overriding this file. The
+area pattern lives at `docs/areas/README.md`.
+
 ---
 
 ## 1. Style Target

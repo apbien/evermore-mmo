@@ -1,6 +1,6 @@
 """The tannery — slot 93, Tan Road, OUTSIDE the wall.
 
-`docs/plan/schedule.md`: *"the single most defensible placement in the plan: it
+`docs/areas/hearthmere/plan/schedule.md`: *"the single most defensible placement in the plan: it
 needs running water, it stinks, and it is 90 m from the nearest occupied window
 with the wind blowing away from town."*
 

@@ -7,7 +7,7 @@ conflicts with `BUILD_DIRECTIVE.md` §§2–5 or with `ART_BIBLE.md`, those win.
 
 The plan is **generated data, not prose with numbers in it.**
 `tools/plan/plan_data.py` holds every coordinate; `tools/plan/townplan.py`
-checks them and writes `docs/plan/hearthmere-plan.svg`,
+checks them and writes `docs/areas/hearthmere/plan/hearthmere-plan.svg`,
 `content/town/hearthmere.json`, and the generated tables in this file.
 `tools/plan/lay.py` is what put the plots on their frontages in the first
 place. The tables below sit between `<!-- BEGIN GENERATED -->` markers and are
@@ -379,8 +379,8 @@ a neighbour.
 `core/terrain.py`, never from the number alone, and never assume 0
 (BUILD_DIRECTIVE §6.1). The number is there so that a mismatch is visible.
 
-The same table is written to `docs/plan/schedule.md` and drawn, numbered, on
-`docs/plan/hearthmere-plan.svg`.
+The same table is written to `docs/areas/hearthmere/plan/schedule.md` and drawn, numbered, on
+`docs/areas/hearthmere/plan/hearthmere-plan.svg`.
 
 <!-- BEGIN GENERATED schedule -->
 | # | slot id | kit / venue | centre x,z | w x d | faces | st | eaves | ridge | cells | fronts | role |
@@ -502,7 +502,7 @@ The same table is written to `docs/plan/schedule.md` and drawn, numbered, on
 
 **10 townhouse_c** &mdash; ground -1.05 m. The infill plot: 4.0 m of frontage squeezed between its neighbour and Ford Road's kerb, skewed 10 degrees to take up the angle, and three storeys because that was the only way up. Its east gable takes the full morning sun and carries the only painted plaster panel in town.
 
-**11 church** &mdash; ground +0.00 m. CHURCH OF SUMMONING. Aisled hall church, ridge east-west, 14.6 m to the ridge. Great west portal 6.4 m clear x 8.0 m to the arch apex, doors standing open. Floor at +2.40, altar dais +0.90 above that. Clerestory over the arcade on both sides; lantern over the altar bay. THE ARRIVAL FRAME IS AUTHORED FROM THIS BUILDING — see docs/TOWN_PLAN.md section 7.
+**11 church** &mdash; ground +0.00 m. CHURCH OF SUMMONING. Aisled hall church, ridge east-west, 14.6 m to the ridge. Great west portal 6.4 m clear x 8.0 m to the arch apex, doors standing open. Floor at +2.40, altar dais +0.90 above that. Clerestory over the arcade on both sides; lantern over the altar bay. THE ARRIVAL FRAME IS AUTHORED FROM THIS BUILDING — see docs/areas/hearthmere/TOWN_PLAN.md section 7.
 
 **12 church_tower** &mdash; ground +0.80 m. Church tower, north-west angle. Part of venue `church`. Parapet 18.4 m, lead spirelet to 21.4 m — the tallest thing in Hearthmere by 0.1 m over the guild, which the guild has never mentioned. Sited at the NORTH-west angle so its north and east faces are lit at 09:30 and it reads from the north gate and from the water.
 

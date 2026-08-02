@@ -1,6 +1,6 @@
 """The waggon shed — slot 38, Ford Road.
 
-`docs/plan/schedule.md`: *"Waggon shed: five open bays, waggon poles up, a spare
+`docs/areas/hearthmere/plan/schedule.md`: *"Waggon shed: five open bays, waggon poles up, a spare
 axle on brackets and a broken wheel leaning where it fell. Carriers turn in the
 yard beside it."*
 

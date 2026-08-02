@@ -13,7 +13,7 @@ no layout: every position here is derived from data that was already authored.
 
     buildingSlots[]  94 plots. A back plot is derived per slot from the
                      building's own footprint and the street it fronts, and the
-                     boundary round it is what makes docs/plan/schedule.md
+                     boundary round it is what makes docs/areas/hearthmere/plan/schedule.md
                      legible on the ground.
     openLots[]       the orchard, the churchyard, the two kitchen gardens, the
                      working yards. Authored polygons, planted to their `kind`.
@@ -925,7 +925,7 @@ def _plots(ctx, town, keep, tight, trees, asset_id):
     This is the single biggest change to the aerial read inside the wall. 94
     buildings on undifferentiated ground is a brown blob; 94 buildings each with
     a fenced yard behind it is a town plan, and it is the same plan
-    `docs/plan/schedule.md` already describes in prose.
+    `docs/areas/hearthmere/plan/schedule.md` already describes in prose.
     """
     rng = rng_for(asset_id, "plots")
     KITS = {"cottage", "townhouse", "workshop", "shed", "bakery", "cooper",

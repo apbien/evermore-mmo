@@ -6,7 +6,7 @@
  * (blocked main street, floating masses, dead sightlines) all shipped because
  * nothing ever rendered the venues NEXT TO EACH OTHER. This assembles the whole
  * town from content/town/hearthmere.json and shoots it at the locked 09:30 rig
- * read from that same file. See docs/BUILD_DIRECTIVE.md §8.
+ * read from that same file. See docs/areas/hearthmere/BUILD_DIRECTIVE.md §8.
  *
  *   node tools/render/town.mjs --views plan,aerial-ne,arrival,square
  *   node tools/render/town.mjs --views walk --route "0,-44;0,0;0,40" --frames 8
@@ -635,7 +635,7 @@ if (R.gameplayDrawCalls > 0) {
 if (gateFailures.length) {
   console.error('');
   line('!');
-  console.error('  BUDGET GATE FAILED — docs/BUILD_DIRECTIVE.md §7');
+  console.error('  BUDGET GATE FAILED — docs/areas/hearthmere/BUILD_DIRECTIVE.md §7');
   gateFailures.forEach(f => console.error('   ' + f));
   line('!');
   console.error('  Fix the generator, or if the cost is genuinely required, record why in');

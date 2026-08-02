@@ -10,7 +10,7 @@ So the whole thing is solved from levels, north to south:
 
     leat water surface      -2.00   impounded behind the head sluice
     launder sill            -1.90   where the water leaves the leat
-    wheel axle              -2.10   `docs/plan/schedule.md` slot 77
+    wheel axle              -2.10   `docs/areas/hearthmere/plan/schedule.md` slot 77
     wheel diameter           3.60   so the rim runs -0.30 to -3.90
     mere / river surface    -3.10   `terrain.water_level()`
     tail race invert        -3.30

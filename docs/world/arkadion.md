@@ -50,7 +50,7 @@ Venues: market square, adventurer's guild, inn, pub, blacksmith, shop row
 apothecary and tailor correspond to the Blacksmith, Alchemist and Tailor
 professions in `docs/systems/professions.md`.
 
-Full layout, lore and venue briefs: `docs/WORLD_BIBLE.md`.
+Full layout, lore and venue briefs: `docs/areas/hearthmere/WORLD_BIBLE.md`.
 Visual standards that govern how it is built: `docs/ART_BIBLE.md`.
 
 ## Everlight

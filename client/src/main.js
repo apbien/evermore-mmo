@@ -379,7 +379,7 @@ async function boot() {
   player = new ThirdPersonController(camera, renderer.domElement);
   player.position.set(...(town.playerSpawn?.pos || [0, 0, -44]));
   // NEGATED, and that is the fix, not a typo. `facingDeg` is a COMPASS heading
-  // — docs/TOWN_PLAN.md §6, forward = (sin θ, 0, -cos θ), 90 = east, 270 =
+  // — docs/areas/hearthmere/TOWN_PLAN.md §6, forward = (sin θ, 0, -cos θ), 90 = east, 270 =
   // west — while player.js runs its own yaw with forward = (-sin y, 0, -cos y).
   // Seeding one from the other unnegated spawned the player facing the mirror
   // of the authored heading: at the church altar, `facingDeg 270` (due west,

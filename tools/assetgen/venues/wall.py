@@ -127,7 +127,7 @@ _LOD_PLAN = (
 def _stretches(ring):
     """The wall's history as arc-length ranges.
 
-    Every entry here is a sentence from `docs/WORLD_BIBLE.md` or TOWN_PLAN §5
+    Every entry here is a sentence from `docs/areas/hearthmere/WORLD_BIBLE.md` or TOWN_PLAN §5
     turned into geometry. A wall of one section all the way round is a fence.
     """
     V = ring.s_of_vertex

@@ -2905,3 +2905,48 @@ includes one Low-tier spot render so no venue depends on a tier effect to
 read.
 
 **Status:** designed; client implementation pending.
+
+## D-067 — Generated binaries leave git; session backups cover them
+
+**Context.** Owner direction, 2026-08-02. Git was version control and asset
+store at once: 415 generated files, 410 MB, `townhouse.bin` at 63 MB past
+GitHub's 50 MB warning line (100 MB is a hard block), `.git` at 391 MB and
+growing with every regeneration. Every byte of it is deterministic generator
+output.
+
+**Decision.** `assets/` is untracked and gitignored, joining `review/shots/`.
+Git keeps the sources of truth: generators, `content/`, `docs/`, review
+reports, `review/perf-baseline.json`. A fresh clone runs
+`make setup && make assets` and gets byte-identical output. The generated
+state is covered by timestamped zips in `backups/`, written by
+`tools/backup.ps1` on every session start (SessionStart hook in
+`.claude/settings.json`; skips if the newest zip is under an hour old; keeps
+three). `backups/` sits inside the OneDrive-synced tree, so every zip also
+leaves the machine.
+
+**Cost, stated honestly.** Byte-level diffing of assets across git history is
+gone — determinism is what makes that acceptable: any historical state is
+reproducible from its commit's generators. Old asset blobs remain in git
+history (history is not rewritten), so `.git` only stops growing; it does not
+shrink. The backup zips are ~2 GB each; rotation caps the local cost at
+three.
+
+## D-068 — Docs split: game-wide base, per-area directories
+
+**Context.** Owner direction, 2026-08-02: divide the documentation into base
+foundations and Hearthmere's own set, future-proofed for many havens, routes,
+caves, and dungeons.
+
+**Decision.** `docs/areas/<area>/` holds each area's `BUILD_DIRECTIVE.md`,
+its generated plan document, its `WORLD_BIBLE.md`, and its generated `plan/`.
+Hearthmere's four moved there. Game-wide law stays at `docs/` top level. The
+pattern and its five rules (never fork the base; register in
+`docs/world/arkadion.md`; own entity prefix; scoped area law; one review bar)
+live in `docs/areas/README.md`. The Art Bible gains a scope note naming its
+Hearthmere-scoped sections (§2, §4, the idiom and variety sections).
+
+**Verification.** 29 files' path references updated in the same change;
+`tools/plan/townplan.py --check` passes with 0 problems after the move, and
+the regenerated `content/town/hearthmere.json` carries the new paths.
+Historical records (`docs/DECISIONS.md` entries, `review/reports/`) keep
+their old paths on purpose — they describe the repo as it was.

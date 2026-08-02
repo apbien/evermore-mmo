@@ -1,6 +1,6 @@
 """The mere-fish eating house — slot 64, on the north side of Wharf Lane.
 
-`docs/plan/schedule.md`: *"Six trestles under an awning, a smoking shed behind,
+`docs/areas/hearthmere/plan/schedule.md`: *"Six trestles under an awning, a smoking shed behind,
 and a queue at noon. Faces north onto Wharf Lane, so it is lit."*
 
 The brief for this venue is a smell, and a smell has to be built as something

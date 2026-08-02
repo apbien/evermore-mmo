@@ -1,6 +1,6 @@
 """Blacksmith — slot 43, and the most ACTIVE venue in Hearthmere.
 
-`docs/plan/schedule.md` slot 43:
+`docs/areas/hearthmere/plan/schedule.md` slot 43:
 
     ground +1.62 m. BLACKSMITH. Open-fronted work shed (roofed, unwalled, so
     the work is visible from the lane) with the forge, anvil, quench and

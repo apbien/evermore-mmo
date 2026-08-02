@@ -5,8 +5,8 @@
     python tools/plan/townplan.py             # check, then write all outputs
 
 Writes:
-    docs/plan/hearthmere-plan.svg     1:200 top-down plan
-    docs/plan/schedule.md             the building schedule, as a table
+    docs/areas/hearthmere/plan/hearthmere-plan.svg     1:200 top-down plan
+    docs/areas/hearthmere/plan/schedule.md             the building schedule, as a table
     content/town/hearthmere.json      the v2 town record
 
 Nothing here is decorative. Every check exists because a defect of that exact
@@ -28,9 +28,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import plan_data as P  # noqa: E402
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
-SVG_OUT = os.path.join(REPO, "docs/plan/hearthmere-plan.svg")
-MD_OUT = os.path.join(REPO, "docs/plan/schedule.md")
-DOC_OUT = os.path.join(REPO, "docs/TOWN_PLAN.md")
+SVG_OUT = os.path.join(REPO, "docs/areas/hearthmere/plan/hearthmere-plan.svg")
+MD_OUT = os.path.join(REPO, "docs/areas/hearthmere/plan/schedule.md")
+DOC_OUT = os.path.join(REPO, "docs/areas/hearthmere/TOWN_PLAN.md")
 TOWN_OUT = os.path.join(REPO, "content/town/hearthmere.json")
 TERRAIN_IN = os.path.join(REPO, "content/town/terrain.json")
 
@@ -820,7 +820,7 @@ VENUE_OF_SLOT = P.VENUE_OF_SLOT
 
 
 def fragments(slots):
-    """The generated tables that docs/TOWN_PLAN.md splices in."""
+    """The generated tables that docs/areas/hearthmere/TOWN_PLAN.md splices in."""
     out = {}
 
     L = ["| street | class | width | surface | length | falls | mean grade |",
@@ -888,7 +888,7 @@ def fragments(slots):
 
 
 def splice(frags):
-    """Rewrite the generated blocks inside docs/TOWN_PLAN.md, in place."""
+    """Rewrite the generated blocks inside docs/areas/hearthmere/TOWN_PLAN.md, in place."""
     if not os.path.exists(DOC_OUT):
         return None
     with open(DOC_OUT, encoding="utf-8") as f:
@@ -1148,7 +1148,7 @@ def write_town(slots):
         "version": 2,
         "description": "A lake town grown up around the old ford. The first town. "
                        "v2: 192 m walled town on a 12x12 grid, arrival from the "
-                       "church altar. See docs/TOWN_PLAN.md.",
+                       "church altar. See docs/areas/hearthmere/TOWN_PLAN.md.",
         "grid": {
             "cellSize": P.CELL,
             "cols": P.COLS,
@@ -1196,7 +1196,7 @@ def write_town(slots):
                        "open great west door. Feet at the dais top: the church "
                        "pad, plus a 2.40 m floor over it, plus a 0.90 m dais. "
                        "This frame is the most important composition in the "
-                       "build - see docs/TOWN_PLAN.md section 7.",
+                       "build - see docs/areas/hearthmere/TOWN_PLAN.md section 7.",
             "pos": [43.0, round(P.height(43.0, -0.5) + 2.40 + 0.90, 2), -0.5],
             "facingDeg": 270.0,
         },
@@ -1331,7 +1331,7 @@ def sightline_records(slots):
                     "name": f"{g['name']} frame",
                     "eye": [g["pos"][0], round(P.height(*g["pos"]) + 1.62, 2), g["pos"][1]],
                     "facingDeg": (g["rot"] + 180) % 360,
-                    "comment": "See docs/TOWN_PLAN.md section 7."})
+                    "comment": "See docs/areas/hearthmere/TOWN_PLAN.md section 7."})
     return out
 
 

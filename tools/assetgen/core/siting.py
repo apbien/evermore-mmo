@@ -11,7 +11,7 @@ this one. If you need something siting-shaped, extend this class.
 There are two rotation conventions in the repo and they are mirrors of each
 other. Both are load-bearing and neither can move:
 
-  **The plan convention.** `docs/TOWN_PLAN.md` §6 and `core.building.Footprint`
+  **The plan convention.** `docs/areas/hearthmere/TOWN_PLAN.md` §6 and `core.building.Footprint`
   define a slot's frame as `world = centre + U*a + V*b` with
   `U = (cos t, sin t)`, so the frontage runs along `U`, the front normal is
   `-V = (sin t, -cos t)`, and `rotationDeg` is a compass heading. The
@@ -54,7 +54,7 @@ Everything a venue author writes is in the **design frame**:
     -Z   out of the front door, toward the street the slot fronts
      0   the venue placement origin — `venues[].origin` in the town file
 
-which is the frame `docs/plan/schedule.md` is written in: `w` runs along the
+which is the frame `docs/areas/hearthmere/plan/schedule.md` is written in: `w` runs along the
 frontage and `d` back into the plot, so the footprint is `x in [-w/2, w/2]`,
 `z in [-d/2, d/2]` and the street-side wall face is `z = site.front`. No venue
 has to know about theta at all.

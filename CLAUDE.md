@@ -16,7 +16,8 @@ first when continuing the work.
 | `docs/ARCHITECTURE.md` | Layers, entities, cells, intents, directory contract |
 | `docs/ASSET_PIPELINE.md` | How to generate, export, and validate assets |
 | `docs/REVIEW_PROTOCOL.md` | The art-director bar and iteration loop |
-| `docs/WORLD_BIBLE.md` | Hearthmere's lore, layout, and venue briefs |
+| `docs/areas/hearthmere/WORLD_BIBLE.md` | Hearthmere's lore, layout, and venue briefs |
+| `docs/areas/README.md` | The per-area doc pattern — one directory per haven, route, cave, or dungeon |
 | `docs/DECISIONS.md` | Recorded deviations and why |
 
 If an instruction here conflicts with the Art Bible, **the Art Bible wins.**

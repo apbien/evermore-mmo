@@ -4,7 +4,7 @@
   "displayName": "Hearthmere",
   "zonePrefix": "hm",
   "version": 2,
-  "description": "A lake town grown up around the old ford. The first town. v2: 192 m walled town on a 12x12 grid, arrival from the church altar. See docs/TOWN_PLAN.md.",
+  "description": "A lake town grown up around the old ford. The first town. v2: 192 m walled town on a 12x12 grid, arrival from the church altar. See docs/areas/hearthmere/TOWN_PLAN.md.",
   "grid": {
     "cellSize": 16.0,
     "cols": [
@@ -508,7 +508,7 @@
     ]
   },
   "playerSpawn": {
-    "comment": "ON THE SUMMONING ALTAR, inside the Church of Summoning, facing west (270 deg) down the nave and out through the open great west door. Feet at the dais top: the church pad, plus a 2.40 m floor over it, plus a 0.90 m dais. This frame is the most important composition in the build - see docs/TOWN_PLAN.md section 7.",
+    "comment": "ON THE SUMMONING ALTAR, inside the Church of Summoning, facing west (270 deg) down the nave and out through the open great west door. Feet at the dais top: the church pad, plus a 2.40 m floor over it, plus a 0.90 m dais. This frame is the most important composition in the build - see docs/areas/hearthmere/TOWN_PLAN.md section 7.",
     "pos": [
       43.0,
       3.3,
@@ -1621,7 +1621,7 @@
       "groundY": 0.0,
       "outsideWall": false,
       "fronts": "kirk_green",
-      "note": "CHURCH OF SUMMONING. Aisled hall church, ridge east-west, 14.6 m to the ridge. Great west portal 6.4 m clear x 8.0 m to the arch apex, doors standing open. Floor at +2.40, altar dais +0.90 above that. Clerestory over the arcade on both sides; lantern over the altar bay. THE ARRIVAL FRAME IS AUTHORED FROM THIS BUILDING \u2014 see docs/TOWN_PLAN.md section 7."
+      "note": "CHURCH OF SUMMONING. Aisled hall church, ridge east-west, 14.6 m to the ridge. Great west portal 6.4 m clear x 8.0 m to the arch apex, doors standing open. Floor at +2.40, altar dais +0.90 above that. Clerestory over the arcade on both sides; lantern over the altar bay. THE ARRIVAL FRAME IS AUTHORED FROM THIS BUILDING \u2014 see docs/areas/hearthmere/TOWN_PLAN.md section 7."
     },
     {
       "n": 12,
@@ -6988,7 +6988,7 @@
         -76.0
       ],
       "facingDeg": 180,
-      "comment": "See docs/TOWN_PLAN.md section 7."
+      "comment": "See docs/areas/hearthmere/TOWN_PLAN.md section 7."
     },
     {
       "id": "hm.sightline.gate.south",
@@ -6999,7 +6999,7 @@
         78.5
       ],
       "facingDeg": 0,
-      "comment": "See docs/TOWN_PLAN.md section 7."
+      "comment": "See docs/areas/hearthmere/TOWN_PLAN.md section 7."
     },
     {
       "id": "hm.sightline.gate.west",
@@ -7010,7 +7010,7 @@
         -13.0
       ],
       "facingDeg": 90,
-      "comment": "See docs/TOWN_PLAN.md section 7."
+      "comment": "See docs/areas/hearthmere/TOWN_PLAN.md section 7."
     },
     {
       "id": "hm.sightline.gate.water",
@@ -7021,7 +7021,7 @@
         -57.0
       ],
       "facingDeg": 222,
-      "comment": "See docs/TOWN_PLAN.md section 7."
+      "comment": "See docs/areas/hearthmere/TOWN_PLAN.md section 7."
     }
   ],
   "ambient": {

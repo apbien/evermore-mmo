@@ -1,6 +1,6 @@
 """The Grey Heron Inn — slot 01, and the warmest thing in Hearthmere.
 
-`docs/plan/schedule.md` slot 01:
+`docs/areas/hearthmere/plan/schedule.md` slot 01:
 
     ground -1.05 m. The Grey Heron. Tallest timber structure in town; upper
     floors jettied 0.45 m each. Gable to the square so the sign hangs over the

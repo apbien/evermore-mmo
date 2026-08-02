@@ -20,7 +20,7 @@ explain that one object.
 
 ## Why the butt is where it is
 
-`docs/plan/schedule.md` slot 36: *"a shooting butt against the wall revetment
+`docs/areas/hearthmere/plan/schedule.md` slot 36: *"a shooting butt against the wall revetment
 behind, which is the only straight 30 m in the south quarter."* The plot itself
 is 9 x 8, so what stands here is the near end of that shot — the butt, the mark
 stone the archer stands on, and the line between them running out of the plot

@@ -256,7 +256,7 @@ def main():
               f"{lods:>22s} {info['instances']:5d}  "
               f"{info['entities']:3d} {info['colliders']:4d} {time.time()-t0:6.2f}s")
         if not info["colliders"]:
-            print(f"      NO COLLISION declared — see docs/BUILD_DIRECTIVE.md §6.4")
+            print(f"      NO COLLISION declared — see docs/areas/hearthmere/BUILD_DIRECTIVE.md §6.4")
         for h in info.get("occlusion", []):
             print(f"      OCCLUDED: {h}")
     atlas_report()

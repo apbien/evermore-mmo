@@ -1,6 +1,6 @@
 """The glebe dovecote — slot 57, The Bailey.
 
-`docs/plan/schedule.md`: *"Circular, coursed rubble, conical tiled roof to 7.6 m
+`docs/areas/hearthmere/plan/schedule.md`: *"Circular, coursed rubble, conical tiled roof to 7.6 m
 with a lantern. 240 nest boxes. The only round building in Hearthmere and worth
 the whole quarter for silhouette."*
 

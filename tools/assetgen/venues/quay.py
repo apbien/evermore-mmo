@@ -1,6 +1,6 @@
 """The quay — where Hearthmere touches the water, and the reason it exists.
 
-`docs/BUILD_DIRECTIVE.md` §4 says Hearthmere is a lake town at a ford. Inside
+`docs/areas/hearthmere/BUILD_DIRECTIVE.md` §4 says Hearthmere is a lake town at a ford. Inside
 the walls the only evidence for that claim is this venue, and until it existed
 `review/reports/ad-town-02.md` §1 was correct to call the waterfront "the
 largest single dead area in the build".

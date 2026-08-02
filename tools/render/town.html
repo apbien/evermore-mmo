@@ -28,7 +28,7 @@ import { FrameProbe, BUDGET } from '/client/src/perf.js';
  *
  * tools/render/shoot.mjs renders ONE venue against a flat plane. That is why
  * v1 shipped a town whose main street was sealed by a collider and whose
- * venues had never been seen next to each other (docs/BUILD_DIRECTIVE.md §0).
+ * venues had never been seen next to each other (docs/areas/hearthmere/BUILD_DIRECTIVE.md §0).
  * This viewer assembles the ENTIRE town from content/town/hearthmere.json and
  * renders it at the locked 09:30 rig read from that same file.
  *
@@ -683,7 +683,7 @@ const spawn = TOWN.playerSpawn || { pos: [0, 0, GRID_MIN_Z + 4], facingDeg: 180 
 
 /** COMPASS heading -> direction, the one convention content is authored in.
  *
- *  docs/TOWN_PLAN.md §6 and core/building.py's Footprint both define
+ *  docs/areas/hearthmere/TOWN_PLAN.md §6 and core/building.py's Footprint both define
  *  forward = (sin θ, 0, -cos θ): 0 = north (-Z), 90 = east (+X), 180 = south,
  *  270 = west. Every `rotationDeg` and every `facingDeg` in content/ means
  *  that.

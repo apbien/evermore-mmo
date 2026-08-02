@@ -4,8 +4,8 @@ Hearthmere is **Haven I** in the settlement register of `docs/world/arkadion.md`
 Canon pairs a numerical designation with a historical name; players may use
 either. This document covers the historical settlement in detail.
 
-**The definitive layout is `docs/TOWN_PLAN.md` and the drawing at
-`docs/plan/hearthmere-plan.svg`.** This document is the lore-facing companion to
+**The definitive layout is `docs/areas/hearthmere/TOWN_PLAN.md` and the drawing at
+`docs/areas/hearthmere/plan/hearthmere-plan.svg`.** This document is the lore-facing companion to
 them. Where the two disagree, the Town Plan is right and this is stale.
 
 ## The place
@@ -164,7 +164,7 @@ where to walk, the composition has failed.
 ## Venue briefs
 
 Each builder agent owns one. The brief is the intent; the Art Bible is the law;
-`docs/TOWN_PLAN.md` §6 is the footprint, and that is not negotiable from here.
+`docs/areas/hearthmere/TOWN_PLAN.md` §6 is the footprint, and that is not negotiable from here.
 
 ### Church of Summoning — slots 11, 12, 17 · cells `H5`–`J7`
 
@@ -330,7 +330,7 @@ honey and wax, cheese, and one trader who has not decided what he sells.
 The remaining eighty-odd masses — bakery, cooper, carpenter, chandler, bowyer,
 bathhouse, well-house, dovecote, tithe barn, warehouses, stables, farrier,
 tannery, almshouses, townhouses, cottages, workshops, sheds and privies — are
-scheduled individually in `docs/TOWN_PLAN.md` §6, each with a footprint, a
+scheduled individually in `docs/areas/hearthmere/TOWN_PLAN.md` §6, each with a footprint, a
 rotation, a fronting street and a one-line brief.
 
 ---
